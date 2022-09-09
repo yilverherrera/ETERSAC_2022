@@ -22,11 +22,10 @@ body {
     min-height: 100vh;
 }
 
-img.caio   {
-width: auto;
-height: auto;
-}
-
+img.caio {
+    width: 600px;
+    height: 600px;
+} 
 
 .app {
     display: grid;
@@ -35,10 +34,6 @@ height: auto;
     margin-top: 1rem;
     padding: 1rem;
     min-height: 100vh;
-    
-    .content {
-
-    }
     
     .toggle {
         position: fixed;
@@ -73,3 +68,23 @@ height: auto;
         }
     }
 }
+@media screen and (max-width: 600px) {
+    .content {
+        width: 300px;
+        height: 300px;
+    }
+    img.caio {
+        width: 300px;
+        height: 300px;
+    }
+  }
+  @media screen and (max-width: 900px) and (min-width: 601px) {
+    .content {
+        width: 600px;
+        height: 600px;
+    }
+    img.caio {
+        width: 400px;
+        height: 400px;
+    }
+  }

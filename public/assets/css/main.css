@@ -3449,8 +3449,8 @@ body {
 }
 
 img.caio {
-  width: auto;
-  height: auto;
+  width: 600px;
+  height: 600px;
 }
 
 .app {
@@ -3488,4 +3488,25 @@ img.caio {
   opacity: 0;
   transform: translateX(-40%);
   margin-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .content {
+    width: 300px;
+    height: 300px;
+  }
+  img.caio {
+    width: 300px;
+    height: 300px;
+  }
+}
+@media screen and (max-width: 900px) and (min-width: 601px) {
+  .content {
+    width: 600px;
+    height: 600px;
+  }
+  img.caio {
+    width: 400px;
+    height: 400px;
+  }
 }/*# sourceMappingURL=main.css.map */
