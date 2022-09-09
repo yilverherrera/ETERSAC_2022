@@ -3500,7 +3500,7 @@ img.caio {
     height: 300px;
   }
 }
-@media screen and (max-width: 900px) and (min-width: 601px) {
+@media screen and (max-width: 900px) and (min-width: 600px) {
   .content {
     width: 600px;
     height: 600px;
