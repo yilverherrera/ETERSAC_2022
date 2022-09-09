@@ -1,0 +1,75 @@
+@import 'lib/vars';
+@import 'lib/mixins';
+@import 'lib/reboot';
+@import 'lib/fontawesome/font-awesome';
+@import 'lib/fontface';
+@import 'lib/keyframes';
+
+
+$corporateColor: tomato;
+
+
+* {
+  
+}
+
+html,
+body {
+    font-size: $base * 2;
+    font-family: $font_family_base;
+    line-height: $base * 3;
+    color: $body_color;
+    min-height: 100vh;
+}
+
+img.caio   {
+width: auto;
+height: auto;
+}
+
+
+.app {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    margin-top: 1rem;
+    padding: 1rem;
+    min-height: 100vh;
+    
+    .content {
+
+    }
+    
+    .toggle {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: auto;
+        z-index: 3;
+        .fa {
+            margin-right: $base;
+        }
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 150px;
+        height: 100vh;
+        z-index: 2;
+        background-color: #333;
+        color: #fff;
+        padding: 1rem;
+        transform: translateX(-100%);
+        opacity: 0;
+
+        .sidebar_items {
+            .sidebar_item {
+                opacity: 0;
+                transform: translateX(-40%);
+                margin-bottom: .5rem;
+            }
+        }
+    }
+}
