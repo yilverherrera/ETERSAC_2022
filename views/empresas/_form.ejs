@@ -1,0 +1,19 @@
+<div class="wideRow">
+    <label for="ruc"  class="itemNarrow">Ruc:</label>
+    <input type="text" class="itemWide" id="ruc" name="ruc" value="<%= empresa.ruc %>" placeholder="Ruc" autocomplete="off"/>
+</div>
+
+<div class="wideRow">
+    <label for="razon"  class="itemNarrow">Razón:</label>
+    <input type="text" class="itemWide" id="razon" name="razon" value="<%= empresa.razon %>" placeholder="Razon" autocomplete="off"/>
+</div>
+
+<div class="wideRow">
+    <label for="direccion"  class="itemNarrow">Dirección:</label>
+    <input type="text" class="itemWide" id="direccion" name="direccion" value="<%= empresa.direccion %>" placeholder="direccion" autocomplete="off"/>
+</div>
+
+<br/>
+<a href="/empresas" class="button">Cancel</a>
+
+<input type="submit" value="Save">

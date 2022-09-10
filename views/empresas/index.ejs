@@ -1,0 +1,28 @@
+
+<h1>
+    Empresas:
+</h1>
+
+<table>
+    <% for (var i in empresas) { %>
+        <% var empresa = empresas[i]; %>
+        <tr>
+            <td>
+                <%= empresa.razon %>
+            </td>
+            <td>
+                <a href="/empresas/<%= empresa.id %>" class="button">Ver</a>
+            </td>
+            <td>
+                <a href="/empresas/<%= empresa.id %>/edit" class="button">Editar</a>
+            </td>
+            <td>
+                <a href="/empresas/<%= empresa.id %>?_method=DELETE"
+                   onClick="return confirm('Delete: <%= empresa.razon %>');"
+                   class="button">Borrar</a>
+            </td>
+        </tr>
+    <% } %>
+</table>
+
+<a href="empresas/new" class="button">Create New Quiz</a>
