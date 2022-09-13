@@ -10,7 +10,7 @@ exports.load = async (req, res, next, empresaId) => {
             req.load = {...req.load, empresa};
             next();
         } else {
-            throw new Error('No ahy empresa con id=' + empresaId);
+            throw new Error('No hay empresa con id=' + empresaId);
         }
     } catch (error) {
         next(error);
@@ -64,11 +64,11 @@ exports.create = async (req, res, next) => {
 
     try {
         // Saves only the fields ruc, razon and direccion into the DDBB
-        quiz = await empresa.save({fields: ["ruc", "razon", "direccion"]});
+        empresa = await empresa.save({fields: ["ruc", "razon", "direccion"]});
         res.redirect('/empresas/' + empresa.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('There are errors in the form:');
+            console.log('Hay un error en el formulario:');
             error.errors.forEach(({message}) => console.log(message));
             res.render('empresas/new', {empresa});
         } else {
@@ -102,7 +102,7 @@ exports.update = async (req, res, next) => {
         res.redirect('/empresas/' + empresa.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('There are errors in the form:');
+            console.log('Hay un error en el formulario:');
             error.errors.forEach(({message}) => console.log(message));
             res.render('empresas/edit', {empresa});
         } else {

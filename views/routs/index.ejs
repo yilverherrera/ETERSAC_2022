@@ -1,0 +1,33 @@
+<nav class="main" id="mainNav" role="navigation">
+    <a href="/"><span class="fa fa-home"></span></a>
+  </nav>
+  
+  <section class="main" id="mainSection">
+<h1>
+    Rutas:
+</h1>
+
+<table>
+    <% for (var i in routs) { %>
+        <% var rout = routs[i]; %>
+        <tr>
+            <td>
+                Ruta: <%= rout.nombre %>
+            </td>
+            <td>
+                <a href="/routs/<%= rout.id %>" class="button">Ver</a>
+            </td>
+            <td>
+                <a href="/routs/<%= rout.id %>/edit" class="button">Editar</a>
+            </td>
+            <td>
+                <a href="/routs/<%= rout.id %>?_method=DELETE"
+                   onClick="return confirm('Borrar: <%= rout.nombre %>');"
+                   class="button">Borrar</a>
+            </td>
+        </tr>
+    <% } %>
+</table>
+
+<a href="routs/new" class="button">Crear nueva Ruta</a>
+</section>

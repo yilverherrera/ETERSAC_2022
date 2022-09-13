@@ -1,10 +1,10 @@
 body {
     font-size: large;
-    background: #555;
+    background: #eee;
 }
 
 #mainHeader {
-    font-size: x-large;
+    font-size: large;
 }
 
 #page:after {

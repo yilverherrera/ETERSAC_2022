@@ -1,0 +1,35 @@
+<% include _nav.ejs %>
+<section class="main" id="mainSection">
+    <h1>
+        Ver Grupo:
+    </h1>
+
+    <ul>
+        <li>Nombre: <b>
+                <%= grupo.nombre %>
+            </b></li>
+        <li>Descripción: <b>
+                <%= grupo.descripcion %>
+            </b></li>
+        <li>Pertenece: <b>
+                <%= grupo.isEmpresa %>
+            </b></li>
+            <li>Mostrar en Caja: <b>
+                <%= grupo.showCaja %>
+            </b></li>
+            <li>Mostrar sólo a Autor y/o Admin: <b>
+                <%= grupo.showAutAdm %>
+            </b></li>
+            <li>Mostrar en Todas las Rutas de Empresa: <b>
+                <%= grupo.allRuta %>
+            </b></li>
+            <li>Empresa: <b>
+                <%= grupo.empresaId %>
+            </b></li>
+            <li>Ruta: <b>
+                <%= grupo.routId %>
+            </b></li>
+    </ul>
+
+    <a href="/grupos" class="button">Regresar</a>
+</section>

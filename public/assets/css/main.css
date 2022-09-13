@@ -3025,98 +3025,10 @@
   clip: auto;
 }
 
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-Regular.eot");
-  src: url("../fonts/source-sans/SourceSansPro-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-Regular.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-ExtraLight.eot");
-  src: url("../fonts/source-sans/SourceSansPro-ExtraLight.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-ExtraLight.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-ExtraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-BoldIt.eot");
-  src: url("../fonts/source-sans/SourceSansPro-BoldIt.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-BoldIt.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-BoldIt.ttf") format("truetype");
-  font-weight: bold;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-Bold.eot");
-  src: url("../fonts/source-sans/SourceSansPro-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-Bold.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-Bold.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-BlackIt.eot");
-  src: url("../fonts/source-sans/SourceSansPro-BlackIt.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-BlackIt.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-BlackIt.ttf") format("truetype");
-  font-weight: 900;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-It.eot");
-  src: url("../fonts/source-sans/SourceSansPro-It.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-It.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-It.ttf") format("truetype");
-  font-weight: normal;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-SemiboldIt.eot");
-  src: url("../fonts/source-sans/SourceSansPro-SemiboldIt.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-SemiboldIt.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-SemiboldIt.ttf") format("truetype");
-  font-weight: 600;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-ExtraLightIt.eot");
-  src: url("../fonts/source-sans/SourceSansPro-ExtraLightIt.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-ExtraLightIt.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-ExtraLightIt.ttf") format("truetype");
-  font-weight: 200;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-Light.eot");
-  src: url("../fonts/source-sans/SourceSansPro-Light.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-Light.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-Semibold.eot");
-  src: url("../fonts/source-sans/SourceSansPro-Semibold.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-Semibold.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-Semibold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-LightIt.eot");
-  src: url("../fonts/source-sans/SourceSansPro-LightIt.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-LightIt.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-LightIt.ttf") format("truetype");
-  font-weight: 300;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  src: url("../fonts/source-sans/SourceSansPro-Black.eot");
-  src: url("../fonts/source-sans/SourceSansPro-Black.eot?#iefix") format("embedded-opentype"), url("../fonts/source-sans/SourceSansPro-Black.woff") format("woff"), url("../fonts/source-sans/SourceSansPro-Black.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-}
 body {
-  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Lato", sans-serif;
+  font-size: 16px;
   margin: 0;
-}
-
-img.caio {
-  width: 400px;
-  height: 400px;
 }
 
 #page {
@@ -3128,27 +3040,78 @@ img.caio {
 
 .main {
   flex: 1 100%;
-  border: 1px solid #999;
   padding: 2px;
-  margin: 1px;
-  background: #eee;
+  background: #fff;
 }
 
-#mainHeader, #mainNav, #mainFooter {
+#mainHeader {
+  text-align: right;
+  background: #a4bdc9;
+}
+
+#mainNav,
+#mainFooter {
   text-align: center;
 }
 
 #mainHeader h1 {
   margin: 8px;
+  color: rgb(87, 84, 84);
+  font-family: "Merriweather", serif;
+  font-size: 1rem;
+  font-weight: 100;
 }
 
 #mainNav a {
-  margin: 0px 5px;
+  margin: 1rem 5px;
+  font-size: 1.5rem;
+  color: #000;
 }
 
 #mainSection {
-  padding: 20px;
   text-align: left;
+  background: rgb(232, 237, 238);
+}
+
+.bloque {
+  font-family: "Merriweather", serif;
+  position: relative;
+}
+
+.bloque .bg-image {
+  width: 100%;
+  opacity: 0.1;
+}
+
+.bloque .bg-img-caio {
+  width: 40%;
+  height: auto;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+}
+
+.bloque .textos {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #FFF;
+}
+
+.textos h2 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin-top: 0;
+  border-bottom-width: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: #19191B;
+}
+
+.textos p {
+  font-size: 0.8rem;
 }
 
 select {
@@ -3157,13 +3120,18 @@ select {
   margin: 0px 3px 10px 0px;
 }
 
-input[type=text], input[type=password], input[type=date] {
+input[type=text],
+input[type=password],
+input[type=date] {
   background-color: white;
   height: 15px;
   transition: ease-in-out, background-color 0.4s ease-in-out, height 0.4s ease-in-out;
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=date]:focus, select:focus {
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=date]:focus,
+select:focus {
   background-color: yellow;
   height: 24px;
 }
@@ -3484,30 +3452,38 @@ a.button:hover {
 
 .toggle {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 30px;
+  left: 1px;
   width: auto;
   z-index: 3;
+  color: #000;
 }
 .toggle .fa {
-  margin-right: 16px;
+  margin-right: 4px;
 }
 
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 60px;
   left: 0;
-  width: 150px;
+  width: 130px;
   height: 100vh;
   z-index: 2;
-  background-color: #333;
-  color: #fff;
+  background-color: #a4bdc9;
+  color: #000;
   padding: 1rem;
   transform: translateX(-100%);
   opacity: 0;
+  font-size: 1rem;
+}
+.sidebar .fa {
+  font-size: 1.5rem;
+}
+.sidebar a {
+  color: #000;
 }
 .sidebar .sidebar_items .sidebar_item {
   opacity: 0;
   transform: translateX(-40%);
-  margin-bottom: 0.5rem;
+  margin-bottom: 5px;
 }/*# sourceMappingURL=main.css.map */

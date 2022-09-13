@@ -3,7 +3,13 @@
   </nav>
   
   <section class="main" id="mainSection">
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<h1>
+    Nuevo Propietario:
+</h1>
+
+<form method="post" action="/propietarios">
+
+    <% include _form.ejs %>
+
+</form>
 </section>

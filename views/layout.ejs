@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="/assets/img/icon.png" />
-    <link rel="icon" href="/assets/img/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/main.css" />
     <link href="/assets/css/main.css.map" />
     <link rel='stylesheet' type='text/css' media='only screen and (min-width: 800px) and (min-device-width: 600px)'
@@ -21,54 +20,46 @@
 <body>
     <div class="sidebar">
         <div class="sidebar_items">
-            <div class="sidebar_item"><a href="/">Home</a></div>
-            <div class="sidebar_item"><a href="/empresas">Empresas</a></div>
-            <div class="sidebar_item">Menu item</div>
-            <div class="sidebar_item">Menu item</div>
-            <div class="sidebar_item">Menu item</div>
+            <div class="sidebar_item"><a href="/"><span class="fa fa-home"></span> Inicio</a></div>
+            <div class="sidebar_item"><a href="/empresas"><span class="fa fa-industry"></span> Empresas</a></div>
+            <div class="sidebar_item"><a href="/routs"><span class="fa fa-road"></span> Rutas</a></div>
+            <div class="sidebar_item"><a href="/propietarios"><span class="fa fa-user"></span> Propietarios</a></div>
+            <div class="sidebar_item"><a href="/unidads"><span class="fa fa-bus"></span> Unidades</a></div>
+            <div class="sidebar_item"><a href="/Items/1"><span class="fa fa-money"></span> Ing. Buses</a></div>
+            <div class="sidebar_item"><a href="/Items/2"><span class="fa fa-barcode"></span> Ventas</a></div>
+            <div class="sidebar_item"><a href="/grupos"><span class="fa fa-object-group"></span> Grupos</a></div>
         </div>
     </div>
     <div id="page">
         <header class="main" id="mainHeader">
-            <h1>Empresa de Transp. Edilberto Ramos</h1>
+            <h1><img src="/icon.png" alt="Bus" width="30" height="30"> Empresa de Transp. Edilberto Ramos</h1>
             <div class="toggle">
                 <span class="fa fa-bars"></span>
-                <span>Abrir el menú</span>
+                <span>Menú</span>
             </div>
         </header>
 
-        <nav class="main" id="mainNav" role="navigation">
-            <a href="/empresas">Empresas</a>
+        <%- body %>
 
-        </nav>
-
-        <section class="main" id="mainSection">
-            <%- body %>
-        </section>
-
-        <footer class="main" id="mainFooter">
-            <a href="#">
-                Yilver Herrera</a>
-        </footer>
-        <script src="/app/anime.min.js"></script>
-        <script src="/app/main.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"
-            data-cfasync="false"></script>
-        <script>
-            window.cookieconsent.initialise({
-                "palette": {
-                    "popup": {
-                        "background": "#252e39"
-                    },
-                    "button": {
-                        "background": "#14a7d0"
+            <footer class="main" id="mainFooter">
+                &copy; Yilver Herrera
+            </footer>
+            <script src="/app/anime.min.js"></script>
+            <script src="/app/main.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"
+                data-cfasync="false"></script>
+            <script>
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#252e39"
+                        },
+                        "button": {
+                            "background": "#14a7d0"
+                        }
                     }
-                }
-            });
-        </script>
+                });
+            </script>
 </body>
 
 </html>
-Footer
-© 2022 GitHub, Inc.
-Footer navigation

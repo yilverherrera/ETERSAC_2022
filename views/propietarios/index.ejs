@@ -1,0 +1,33 @@
+<nav class="main" id="mainNav" role="navigation">
+    <a href="/"><span class="fa fa-home"></span></a>
+  </nav>
+  
+  <section class="main" id="mainSection">
+<h1>
+    Propietarios:
+</h1>
+
+<table>
+    <% for (var i in propietarios) { %>
+        <% var propietario = propietarios[i]; %>
+        <tr>
+            <td>
+                <a href="/propietarios/<%= propietario.id %>/unidads"><%= propietario.nombre %></a>
+            </td>
+            <td>
+                <a href="/propietarios/<%= propietario.id %>" class="button">Ver</a>
+            </td>
+            <td>
+                <a href="/propietario/<%= propietario.id %>/edit" class="button">Editar</a>
+            </td>
+            <td>
+                <a href="/propietario/<%= propietario.id %>?_method=DELETE"
+                   onClick="return confirm('Borrar: <%= propietario.nombre %>');"
+                   class="button">Borrar</a>
+            </td>
+        </tr>
+    <% } %>
+</table>
+
+<a href="propietarios/new" class="button">Crear nuevo Propietario</a>
+</section>

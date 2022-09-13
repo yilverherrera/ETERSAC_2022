@@ -1,0 +1,29 @@
+<% include _nav.ejs %>  
+  <section class="main" id="mainSection"><h1>
+    Grupos:
+</h1>
+
+<table>
+    <% for (var i in grupos) { %>
+        <% var grupo = grupos[i]; %>
+        <tr>
+            <td>
+                Nombre: <b><%= grupo.nombre %></b> Descripción: <b><%= grupo.descripcion %></b>
+            </td>
+            <td>
+                <a href="/grupos/<%= grupo.id %>" class="button">Ver</a>
+            </td>
+            <td>
+                <a href="/grupos/<%= grupo.id %>/edit" class="button">Editar</a>
+            </td>
+            <td>
+                <a href="/grupos/<%= grupo.id %>?_method=DELETE"
+                   onClick="return confirm('Borrar: <%= grupo.nombre %>');"
+                   class="button">Borrar</a>
+            </td>
+        </tr>
+    <% } %>
+</table>
+
+<a href="grupos/new" class="button">Crear nuevo Grupo</a>
+</section>

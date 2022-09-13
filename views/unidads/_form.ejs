@@ -1,0 +1,58 @@
+<div class="wideRow">
+    <label for="codigo" class="itemNarrow">Código:</label>
+    <input type="text" class="itemWide" id="codigo" name="codigo" value="<%= unidad.codigo %>" placeholder="Código"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="placa" class="itemNarrow">Placa:</label>
+    <input type="text" class="itemWide" id="placa" name="placa" value="<%= unidad.placa %>" placeholder="Placa"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="marca" class="itemNarrow">Marca:</label>
+    <input type="text" class="itemWide" id="marca" name="marca" value="<%= unidad.marca %>" placeholder="Marca"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="modelo" class="itemNarrow">Modelo:</label>
+    <input type="text" class="itemWide" id="modelo" name="modelo" value="<%= unidad.modelo %>"
+        placeholder="Modelo" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="ano" class="itemNarrow">Año:</label>
+    <input type="text" class="itemWide" id="ano" name="ano" value="<%= unidad.ano %>" placeholder="Año"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="routId" class="itemNarrow">Ruta:</label>
+    <select class="itemWide" id="routId" name="routId">
+        <% for (var i in routs) { %>
+            <% var rout = routs[i]; %>
+                <option value="<%= rout.id %>" <%=rout.id===unidad.routId ? "selected" : "" %>>
+                    <%= rout.nombre %>
+                </option>
+                <% } %>
+    </select>
+</div>
+
+<div class="wideRow">
+    <label for="propietario" class="itemNarrow">Propietario:</label>
+    <select class="itemWide" id="propietariosId" name="propietarioId">
+        <% for (var i in propietarios) { %>
+            <% var propietario = propietarios[i]; %>
+                <option value="<%= propietario.id %>" <%=propietario.id===unidad.propietarioId ? "selected" : "" %>>
+                    <%= propietario.nombre %>
+                </option>
+                <% } %>
+    </select>
+</div>
+
+<br />
+<a href="/unidads" class="button">Cancelar</a>
+
+<input type="submit" value="Guardar">

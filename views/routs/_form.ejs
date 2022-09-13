@@ -1,0 +1,52 @@
+<div class="wideRow">
+    <label for="codigo" class="itemNarrow">Código:</label>
+    <input type="text" class="itemWide" id="codigo" name="codigo" value="<%= rout.codigo %>" placeholder="Código"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="nombre" class="itemNarrow">Nombre:</label>
+    <input type="text" class="itemWide" id="nombre" name="nombre" value="<%= rout.nombre %>" placeholder="Nombre"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="parNorte" class="itemNarrow">Paradero Norte:</label>
+    <input type="text" class="itemWide" id="parNorte" name="parNorte" value="<%= rout.parNorte %>"
+        placeholder="Paradero Norte" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="posNorte" class="itemNarrow">Posición de Paradero Norte:</label>
+    <input type="text" class="itemWide" id="posNorte" name="posNorte" value="<%= rout.posNorte %>"
+        placeholder="Posición de Paradero Norte" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="parSur" class="itemNarrow">Paradero Sur:</label>
+    <input type="text" class="itemWide" id="parSur" name="parSur" value="<%= rout.parSur %>" placeholder="Paradero Sur"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="posSur" class="itemNarrow">Posición de Paradero Sur:</label>
+    <input type="text" class="itemWide" id="posSur" name="posSur" value="<%= rout.posSur %>"
+        placeholder="Posición de Paradero Sur" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="empresa" class="itemNarrow">Empresa:</label>
+    <select class="itemWide" id="empresaId" name="empresaId">
+        <% for (var i in empresas) { %>
+            <% var empresa=empresas[i]; %>
+                <option value="<%= empresa.id %>" <%= empresa.id === rout.empresaId ? "selected" : "" %>>
+                    <%= empresa.razon %>
+                </option>
+                <% } %>
+    </select>
+</div>
+
+<br />
+<a href="/routs" class="button">Cancelar</a>
+
+<input type="submit" value="Guardar">
