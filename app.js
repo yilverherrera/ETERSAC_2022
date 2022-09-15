@@ -4,7 +4,9 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
 var partials = require('express-partials');
+var flash = require('express-flash');
 var methodOverride = require('method-override')
 
 var indexRouter = require('./routes/index');
@@ -20,19 +22,27 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(methodOverride('_method', {methods: ["POST", "GET"]}));
+
+app.use(session({
+  secret: "Etersac 2022",
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(methodOverride('_method', { methods: ["POST", "GET"] }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(partials());
+app.use(flash());
 
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -79,13 +79,15 @@ exports.create = async (req, res, next) => {
     try {
         // Saves only the fields codigo, nombre, parNorte, posNorte, parSur, posSur and empresaId into the DDBB
         rout = await rout.save({ fields: ["codigo", "nombre", "parNorte", "posNorte", "parSur", "posSur", "empresaId"] });
+        req.flash('success', 'Ruta Creada Exitosamente.');
         res.redirect('/routs/' + rout.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({ message }) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('routs/new', { rout });
         } else {
+            req.flash('error', 'Error creando nueva Ruta: ' + error.message);
             next(error);
         }
     }
@@ -118,13 +120,15 @@ exports.update = async (req, res, next) => {
     rout.empresaId = body.empresaId
     try {
         await rout.save({ fields: ["codigo", "nombre", "parNorte", "posNorte", "parSur", "posSur", "empresaId"] });
+        req.flash('success', 'Ruta Actualizada Exitosamente.');
         res.redirect('/routs/' + rout.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({ message }) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('routs/edit', { rout });
         } else {
+            req.flash('error', 'Error Editando nueva Ruta: ' + error.message);
             next(error);
         }
     }
@@ -136,6 +140,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.rout.destroy();
+        req.flash('success', 'Ruta Eliminada Exitosamente.');
         res.redirect('/routs');
     } catch (error) {
         next(error);

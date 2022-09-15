@@ -53,16 +53,13 @@ exports.new = async (req, res, next) => {
         empresaId: "",
         routId: ""
     };
-    const allUnidads = await models.Unidad.findAll();
-
-    const grupoUnidadsIds = await grupo.getUnidads().map(unidad => unidad.id);
-
+    
     const routs = await models.Rout.findAll();
 
     const empresas = await models.Empresa.findAll();
 
     if ((routs.length > 0) && (empresas.length > 0)) {
-        res.render('grupos/new', { grupo, routs, empresas, allUnidads, grupoUnidadsIds });
+        res.render('grupos/new', { grupo, routs, empresas });
     } else {
         res.redirect('/grupos');
         req.flash('error', 'No hay rutas y/o empresas registrados');
@@ -91,13 +88,15 @@ exports.create = async (req, res, next) => {
     try {
         // Saves only the fields nombre, descripcion, isEmpresa, showCaja, showAutAdm, allRuta, empresaId, routId into the DDBB
         grupo = await grupo.save({ fields: ["nombre", "descripcion", "isEmpresa", "showCaja", "showAutAdm", "allRuta", "empresaId", "routId"] });
+        req.flash('success', 'Grupo Creado Exitosamente.');
         res.redirect('/grupos/' + grupo.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({ message }) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('grupos/new', { grupo, routs, empresas });
         } else {
+            req.flash('error', 'Error creando nuevo Grupo: ' + error.message);
             next(error);
         }
     }
@@ -139,13 +138,15 @@ exports.update = async (req, res, next) => {
     try {
         await grupo.save({ fields: ["nombre", "descripcion", "isEmpresa", "showCaja", "showAutAdm", "allRuta", "empresaId", "routId"] });
         await grupo.setUnidads(unidadsIds);
+        req.flash('success', 'Grupo Actualizado Exitosamente.');
         res.redirect('/grupos/' + grupo.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({ message }) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('grupos/edit', { grupo, routs, empresas });
         } else {
+            req.flash('error', 'Error Editando nuevo Grupo: ' + error.message);
             next(error);
         }
     }
@@ -157,6 +158,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.grupo.destroy();
+        req.flash('success', 'Grupo Eliminado Exitosamente.');
         res.redirect('/grupos');
     } catch (error) {
         next(error);

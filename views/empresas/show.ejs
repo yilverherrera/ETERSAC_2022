@@ -1,23 +1,17 @@
-<nav class="main" id="mainNav" role="navigation">
-    <a href="/"><span class="fa fa-home"></span></a>
-</nav>
+<h1>
+    Ver Empresa:
+</h1>
 
-<section class="main" id="mainSection">
-    <h1>
-        Ver Empresa:
-    </h1>
+<ul>
+    <li>Ruc: <b>
+            <%= empresa.ruc %>
+        </b></li>
+    <li>Razón: <b>
+            <%= empresa.razon %>
+        </b></li>
+    <li>Dirección: <b>
+            <%= empresa.direccion %>
+        </b></li>
+</ul>
 
-    <ul>
-        <li>Ruc: <b>
-                <%= empresa.ruc %>
-            </b></li>
-        <li>Razón: <b>
-                <%= empresa.razon %>
-            </b></li>
-        <li>Dirección: <b>
-                <%= empresa.direccion %>
-            </b></li>
-    </ul>
-
-    <a href="/empresas" class="button">Regresar</a>
-</section>
+<a href="/empresas" class="button">Regresar</a>

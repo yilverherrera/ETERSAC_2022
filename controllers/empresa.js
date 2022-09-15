@@ -65,13 +65,15 @@ exports.create = async (req, res, next) => {
     try {
         // Saves only the fields ruc, razon and direccion into the DDBB
         empresa = await empresa.save({fields: ["ruc", "razon", "direccion"]});
+        req.flash('success', 'Empresa Creada Exitosamente.');
         res.redirect('/empresas/' + empresa.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({message}) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('empresas/new', {empresa});
         } else {
+            req.flash('error', 'Error creando nueva Empresa: ' + error.message);
             next(error);
         }
     }
@@ -99,13 +101,15 @@ exports.update = async (req, res, next) => {
 
     try {
         await empresa.save({fields: ["ruc", "razon", "direccion"]});
+        req.flash('success', 'Empresa Actualizada Exitosamente.');
         res.redirect('/empresas/' + empresa.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({message}) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('empresas/edit', {empresa});
         } else {
+            req.flash('error', 'Error Editando nueva Empresa: ' + error.message);
             next(error);
         }
     }
@@ -117,6 +121,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.empresa.destroy();
+        req.flash('success', 'Empresa Eliminada Exitosamente.');
         res.redirect('/empresas');
     } catch (error) {
         next(error);

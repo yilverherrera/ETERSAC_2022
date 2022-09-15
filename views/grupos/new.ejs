@@ -1,12 +1,95 @@
-<% include _nav.ejs %>  
-  <section class="main" id="mainSection">
 <h1>
-    Nuevo Grupo:
+  Nuevo Grupo:
 </h1>
 
 <form method="post" action="/grupos">
 
-    <% include _form.ejs %>
+  <div class="wideRow">
+    <label for="nombre" class="itemNarrow">Nombre:</label>
+    <input type="text" class="itemWide" id="nombre" name="nombre" value="<%= grupo.nombre %>" placeholder="Nombre"
+      autocomplete="off" />
+  </div>
+
+  <div class="wideRow">
+    <label for="descripcion" class="itemNarrow">Descripción:</label>
+    <input type="text" class="itemWide" id="descripcion" name="descripcion" value="<%= grupo.descripcion %>"
+      placeholder="Descripción" autocomplete="off" />
+  </div>
+
+  <div class="wideRow">
+    <label for="isEmpresa" class="itemNarrow">Pertenece:</label>
+    <select class="itemWide" id="isEmpresa" name="isEmpresa">
+      <option value="TRUE" <%='TRUE'===grupo.IsEmpresa ? "selected" : "" %>>
+        Empresa
+      </option>
+      <option value="FALSE" <%='FALSE'===grupo.IsEmpresa ? "selected" : "" %>>
+        Tercero
+      </option>
+    </select>
+  </div>
+
+  <div class="wideRow">
+    <label for="showCaja" class="itemNarrow">Mostrar en Caja:</label>
+    <select class="itemWide" id="showCaja" name="showCaja">
+      <option value="FALSE" <%='FALSE'===grupo.showCaja ? "selected" : "" %>>
+        No
+      </option>
+      <option value="TRUE" <%='TRUE'===grupo.showCaja ? "selected" : "" %>>
+        Sí
+      </option>
+    </select>
+  </div>
+
+  <div class="wideRow">
+    <label for="showAutAdm" class="itemNarrow">Mostrar sólo a Autor y/o Admin:</label>
+    <select class="itemWide" id="showAutAdm" name="showAutAdm">
+      <option value="FALSE" <%='FALSE'===grupo.showAutAdm ? "selected" : "" %>>
+        No
+      </option>
+      <option value="TRUE" <%='TRUE'===grupo.showAutAdm ? "selected" : "" %>>
+        Sí
+      </option>
+    </select>
+  </div>
+
+  <div class="wideRow">
+    <label for="allRuta" class="itemNarrow">Mostrar a todas las Rutas de Empresa:</label>
+    <select class="itemWide" id="allRuta" name="allRuta">
+      <option value="FALSE" <%='FALSE'===grupo.showAutAdm ? "selected" : "" %>>
+        No
+      </option>
+      <option value="TRUE" <%='TRUE'===grupo.showAutAdm ? "selected" : "" %>>
+        Sí
+      </option>
+    </select>
+  </div>
+
+  <div class="wideRow">
+    <label for="empresaId" class="itemNarrow">Empresa:</label>
+    <select class="itemWide" id="empresaId" name="empresaId">
+      <% for (var i in empresas) { %>
+        <% var empresa=empresas[i]; %>
+          <option value="<%= empresa.id %>" <%=empresa.id===grupo.empresaId ? "selected" : "" %>>
+            <%= empresa.razon %>
+          </option>
+          <% } %>
+    </select>
+  </div>
+
+  <div class="wideRow">
+    <label for="routId" class="itemNarrow">Ruta:</label>
+    <select class="itemWide" id="routId" name="routId">
+      <% for (var i in routs) { %>
+        <% var rout=routs[i]; %>
+          <option value="<%= rout.id %>" <%=rout.id===grupo.routId ? "selected" : "" %>>
+            <%= rout.nombre %>
+          </option>
+          <% } %>
+    </select>
+  </div>
+  <br />
+  <a href="/grupos" class="button">Cancelar</a>
+
+  <input type="submit" value="Guardar">
 
 </form>
-</section>

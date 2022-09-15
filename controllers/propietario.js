@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 
+const paginate = require('../helpers/paginate').paginate;
+
 // Autoload el propietario asociado a :propietarioId
 exports.load = async (req, res, next, propietarioId) => {
 
@@ -22,7 +24,25 @@ exports.load = async (req, res, next, propietarioId) => {
 exports.index = async (req, res, next) => {
 
     try {
-        const propietarios = await models.Propietario.findAll();
+        const count = await models.Propietario.count();
+
+        // Pagination:
+
+        const items_per_page = 20;
+
+        // The page to show is given in the query
+        const pageno = parseInt(req.query.pageno) || 1;
+
+        // Create a String with the HTMl used to render the pagination buttons.
+        // This String is added to a local variable of res, which is used into the application layout file.
+        res.locals.paginate_control = paginate(count, items_per_page, pageno, req.url);
+
+        const findOptions = {
+            offset: items_per_page * (pageno - 1),
+            limit: items_per_page
+        };
+
+        const propietarios = await models.Propietario.findAll(findOptions);
         res.render('propietarios/index', {propietarios});
     } catch (error) {
         next(error);
@@ -65,13 +85,15 @@ exports.create = async (req, res, next) => {
     try {
         // Saves only the fields nombre, telefono, ruc into the DDBB
         propietario = await propietario.save({fields: ["nombre", "telefono", "ruc"]});
+        req.flash('success', 'Propietario Creado Exitosamente.');
         res.redirect('/propietarios/' + propietario.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({message}) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('propietarios/new', {propietario});
         } else {
+            req.flash('error', 'Error creando nuevo Propietario: ' + error.message);
             next(error);
         }
     }
@@ -99,13 +121,15 @@ exports.update = async (req, res, next) => {
 
     try {
         await propietario.save({fields: ["nombre", "telefono", "ruc"]});
+        req.flash('success', 'Propietario Actualizado Exitosamente.');
         res.redirect('/propietarios/' + propietario.id);
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            console.log('Hay un error en el formulario:');
-            error.errors.forEach(({message}) => console.log(message));
+            req.flash('error', 'Hay un error en el formulario:');
+            error.errors.forEach(({message}) => req.flash('error', message));
             res.render('propietarios/edit', {propietario});
         } else {
+            req.flash('error', 'Error Editando nuevo Propietario: ' + error.message);
             next(error);
         }
     }
@@ -117,6 +141,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.propietario.destroy();
+        req.flash('success', 'Propietario Eliminado Exitosamente.');
         res.redirect('/propietarios');
     } catch (error) {
         next(error);
