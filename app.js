@@ -35,6 +35,7 @@ var sessionStore = new SequelizeStore({
 app.use(session({
   secret: "Etersac 2022",
   store: sessionStore,
+  resave: false,
   saveUninitialized: true
 }));
 
