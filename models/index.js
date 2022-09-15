@@ -11,6 +11,9 @@ const url = process.env.DATABASE_URL || "sqlite:etersac.sqlite";
 
 const sequelize = new Sequelize(url);
 
+// Import the definition of the Users Table from user.js
+sequelize.import(path.join(__dirname,'user'));
+
 // Session
 sequelize.import(path.join(__dirname,'session'));
 

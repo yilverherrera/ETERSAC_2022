@@ -28,14 +28,24 @@
             <div class="sidebar_item"><a href="/Items/1"><span class="fa fa-money"></span> Ing. Buses</a></div>
             <div class="sidebar_item"><a href="/Items/2"><span class="fa fa-barcode"></span> Ventas</a></div>
             <div class="sidebar_item"><a href="/grupos"><span class="fa fa-object-group"></span> Grupos</a></div>
+            <div class="sidebar_item"><a href="/users"><span class="fa fa-user"></span> Users</a></div>
         </div>
     </div>
     <div id="page">
         <header class="main" id="mainHeader">
+            <div class="right">
+                <% if (!locals.loginUser) { %>
+                    <a href="/login">Login</a>
+                    <% } else { %>
+                        <a href="/users/<%= loginUser.id %>">
+                            <%= loginUser.displayName %>
+                        </a>
+                        <a href="/login?_method=DELETE">Logout</a>
+                        <% } %>
+            </div>
             <h1><img src="/icon.png" alt="Bus" width="30" height="30"> Empresa de Transp. Edilberto Ramos</h1>
             <div class="toggle">
                 <span class="fa fa-bars"></span>
-                <span>Menú</span>
             </div>
         </header>
 
