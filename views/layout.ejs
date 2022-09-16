@@ -28,7 +28,9 @@
             <div class="sidebar_item"><a href="/Items/1"><span class="fa fa-money"></span> Ing. Buses</a></div>
             <div class="sidebar_item"><a href="/Items/2"><span class="fa fa-barcode"></span> Ventas</a></div>
             <div class="sidebar_item"><a href="/grupos"><span class="fa fa-object-group"></span> Grupos</a></div>
+            <% if (locals.loginUser) { %>
             <div class="sidebar_item"><a href="/users"><span class="fa fa-user"></span> Users</a></div>
+            <% } %>
         </div>
     </div>
     <div id="page">

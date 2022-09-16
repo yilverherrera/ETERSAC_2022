@@ -9,6 +9,7 @@
                 <td>
                     <%= empresa.razon %>
                 </td>
+                <% if (locals.loginUser) { %>
                 <td>
                     <a href="/empresas/<%= empresa.id %>" class="button">Ver</a>
                 </td>
@@ -19,8 +20,11 @@
                     <a href="/empresas/<%= empresa.id %>?_method=DELETE"
                         onClick="return confirm('Borrar: <%= empresa.razon %>');" class="button">Borrar</a>
                 </td>
+                <% } %>
             </tr>
             <% } %>
 </table>
 
+<% if (locals.loginUser) { %>
 <a href="empresas/new" class="button">Crear nueva Empresa</a>
+<% } %>
