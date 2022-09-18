@@ -24,11 +24,14 @@
             <div class="sidebar_item"><a href="/empresas"><span class="fa fa-industry"></span> Empresas</a></div>
             <div class="sidebar_item"><a href="/routs"><span class="fa fa-road"></span> Rutas</a></div>
             <div class="sidebar_item"><a href="/propietarios"><span class="fa fa-user"></span> Propietarios</a></div>
+            <div class="sidebar_item"><a href="/despachos"><span class="fa fa-ticket"></span> Despachos</a></div>
             <div class="sidebar_item"><a href="/unidads"><span class="fa fa-bus"></span> Unidades</a></div>
             <div class="sidebar_item"><a href="/Items/1"><span class="fa fa-money"></span> Ing. Buses</a></div>
             <div class="sidebar_item"><a href="/Items/2"><span class="fa fa-barcode"></span> Ventas</a></div>
             <div class="sidebar_item"><a href="/grupos"><span class="fa fa-object-group"></span> Grupos</a></div>
             <% if (locals.loginUser) { %>
+                <div class="sidebar_item"><a href="/cajas"><span class="fa fa-th"></span> Cajas</a></div>
+                <div class="sidebar_item"><a href="/users/<%= locals.loginUser.id %>/cajas"><span class="fa fa-archive"></span> Mis Cajas</a></div>
             <div class="sidebar_item"><a href="/users"><span class="fa fa-user"></span> Users</a></div>
             <% } %>
         </div>

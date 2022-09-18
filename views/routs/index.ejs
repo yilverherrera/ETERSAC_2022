@@ -9,9 +9,11 @@
             <td>
                 Ruta: <%= rout.nombre %>
             </td>
+            <% if (locals.loginUser) { %>
             <td>
                 <a href="/routs/<%= rout.id %>" class="button">Ver</a>
             </td>
+            <% if (locals.loginUser.isAdmin) { %>
             <td>
                 <a href="/routs/<%= rout.id %>/edit" class="button">Editar</a>
             </td>
@@ -20,8 +22,11 @@
                    onClick="return confirm('Borrar: <%= rout.nombre %>');"
                    class="button">Borrar</a>
             </td>
+            <% } %>
+            <% } %>
         </tr>
     <% } %>
 </table>
-
+<% if (locals.loginUser && locals.loginUser.isAdmin) { %>
 <a href="routs/new" class="button">Crear nueva Ruta</a>
+<% } %>

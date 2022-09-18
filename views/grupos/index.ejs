@@ -23,5 +23,6 @@
         </tr>
     <% } %>
 </table>
-
+<% if (locals.loginUser && locals.loginUser.isAdmin) { %>
 <a href="grupos/new" class="button">Crear nuevo Grupo</a>
+<% } %>

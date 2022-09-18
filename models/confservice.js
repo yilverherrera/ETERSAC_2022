@@ -4,11 +4,11 @@ const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
 
-    class Config extends Model {}
+    class Confservice extends Model {}
 
-    Config.init({
+    Confservice.init({
             monto: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.DOUBLE,
                 validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
             },
             detalle: {
@@ -18,15 +18,11 @@ module.exports = (sequelize, DataTypes) => {
             vuelta: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
-            },
-            catItem: {
-                type: DataTypes.INTEGER,
-                validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
             }
         }, {
             sequelize
         }
     );
 
-    return Config;
+    return Confservice;
 };

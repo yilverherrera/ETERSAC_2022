@@ -1,0 +1,35 @@
+<h1>
+    Configure Despacho: <%= despacho.name %>
+</h1>
+
+<form method="post" action="/despachos/<%= despacho.id %>?_method=PUT">
+
+    <div class="wideRow">
+        <label for="name" class="itemNarrow">Name:</label>
+        <input type="text" class="itemWide" id="name" name="name" value="<%= despacho.name %>" placeholder="Despacho name"
+               autocomplete="off"/>
+    </div>
+
+    <br/>
+
+    <% for (var i in allUsers) { %>
+        <% var user = allUsers[i]; %>
+
+        <div>
+                <input type="checkbox"
+                       name="usersIds[]"
+                       value="<%= user.id %>"
+                       <%= despachoUsersIds.includes(user.id) ? "checked" : "" %>
+                >
+                <%= user.username %>
+        </div>
+
+    <% } %>
+
+    <br/>
+
+    <a href="/goback" class="button">Cancel</a>
+
+    <input type="submit" value="Save">
+
+</form>

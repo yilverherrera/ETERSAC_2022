@@ -1,0 +1,29 @@
+<h1>
+    Agregar Caja:
+</h1>
+
+<form method="post" action="/cajas">
+
+    <div class="wideRow">
+        <label for="name" class="itemNarrow">Despacho:</label>
+        
+        <select id="despacho" name="despacho">
+            <% for (var i in despachos) { %>
+                <% var despacho = despachos[i]; %>
+            <option value="<%= despacho.id %>"><%= despacho.name %> Ruta:<%= despacho.pertRouDes.codigo %></option>
+            <% } %>
+        </select>               
+    </div>
+    <div class="wideRow">
+        <label for="name" class="itemNarrow">Fecha:</label>
+        <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= caja.fecha %>" placeholder="Fecha"
+               autocomplete="off"/>
+    </div>
+
+    <br/>
+
+    <a href="/goback" class="button">Cancel</a>
+
+    <input type="submit" value="Save">
+
+</form>

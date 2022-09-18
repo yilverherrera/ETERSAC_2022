@@ -1,0 +1,34 @@
+<h1>
+    <%= title || "Cajas" %>:
+</h1>
+
+<table id="cajasIndex">
+    <% for (var i in cajas) { %>
+        <% var caja = cajas[i]; %>
+        <tr>
+           
+
+            <td>
+              
+                <a href="/cajas/<%= caja.id %>">Despacho: <%= caja.pertDesCaj.name %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
+            </td>
+
+            <td>
+            
+                <% if ((locals.loginUser) && (locals.loginUser.isAdmin)) { %>
+                    <a href="/cajas/<%= caja.id %>" class="button">Ver</a>
+                <% } %>
+                <% if (locals.loginUser.isAdmin) { %>    
+                    <a href="/cajas/<%= caja.id %>/edit" class="button">Editar</a>
+                    <a href="/cajas/<%= caja.id %>?_method=DELETE"
+                       onClick="return confirm('Seguro? Se eliminarán todos los registros de la Caja <%= caja.id %>');"
+                       class="button">Borrar</a>
+                <% } %>
+            </td>
+        </tr>
+    <% } %>
+</table>
+
+<% if (locals.loginUser) { %>
+    <a href="/cajas/new" class="button">Crear Nueva Caja</a>
+<% } %>

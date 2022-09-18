@@ -13,6 +13,7 @@
                 <td>
                     <a href="/empresas/<%= empresa.id %>" class="button">Ver</a>
                 </td>
+                <% if (locals.loginUser.isAdmin) { %>
                 <td>
                     <a href="/empresas/<%= empresa.id %>/edit" class="button">Editar</a>
                 </td>
@@ -21,10 +22,11 @@
                         onClick="return confirm('Borrar: <%= empresa.razon %>');" class="button">Borrar</a>
                 </td>
                 <% } %>
+                <% } %>
             </tr>
             <% } %>
 </table>
 
-<% if (locals.loginUser) { %>
+<% if (locals.loginUser && locals.loginUser.isAdmin) { %>
 <a href="empresas/new" class="button">Crear nueva Empresa</a>
 <% } %>

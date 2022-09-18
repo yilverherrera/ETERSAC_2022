@@ -3,7 +3,7 @@
 module.exports = {
     up(queryInterface, Sequelize) {
         return queryInterface.createTable(
-            'Configs',
+            'Despachos',
             {
                 id: {
                     type: Sequelize.INTEGER,
@@ -12,21 +12,10 @@ module.exports = {
                     autoIncrement: true,
                     unique: true
                 },
-                monto: {
-                    type: Sequelize.INTEGER,
-                    validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
-                },
-                detalle: {
-                    type: Sequelize.BOOLEAN,
-                    defaultValue: false
-                },
-                vuelta: {
-                    type: Sequelize.BOOLEAN,
-                    defaultValue: false
-                },
-                catItem: {
-                    type: Sequelize.INTEGER,
-                    validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
+                name: {
+                    type: Sequelize.STRING,
+                    unique: true,
+                    validate: {notEmpty: {msg: "Name must not be empty."}}
                 },
                 createdAt: {
                     type: Sequelize.DATE,
@@ -38,11 +27,11 @@ module.exports = {
                 }
             },
             {
-                sync: { force: true }
+                sync: {force: true}
             }
         );
     },
     down(queryInterface, Sequelize) {
-        return queryInterface.dropTable('Configs');
+        return queryInterface.dropTable('Despachos');
     }
 };

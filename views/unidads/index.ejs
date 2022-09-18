@@ -17,9 +17,11 @@
                 <td>
                     Placa: <%= unidad.placa %> Código: <%= unidad.codigo %>
                 </td>
+                <% if (locals.loginUser) { %>
                 <td>
                     <a href="/unidads/<%= unidad.id %>" class="button">Ver</a>
                 </td>
+                <% if (locals.loginUser.isAdmin) { %>
                 <td>
                     <a href="/unidads/<%= unidad.id %>/edit" class="button">Editar</a>
                 </td>
@@ -27,11 +29,14 @@
                     <a href="/unidads/<%= unidad.id %>?_method=DELETE"
                         onClick="return confirm('Borrar: <%= unidad.placa %>');" class="button">Borrar</a>
                 </td>
+                <% } %>
+                <% } %>
             </tr>
             <% } %>
 </table>
-
+<% if (locals.loginUser && locals.loginUser.isAdmin) { %>
 <a href="unidads/new" class="button">Crear nueva Unidad</a>
+<% } %>
 <% if (locals.paginate_control) { %>
     <%- paginate_control %>
 <% } %>

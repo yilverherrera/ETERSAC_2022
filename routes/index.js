@@ -8,6 +8,8 @@ const propietarioController = require('../controllers/propietario');
 const grupoController = require('../controllers/grupo');
 const userController = require('../controllers/user');
 const sessionController = require('../controllers/session');
+const cajaController = require('../controllers/caja');
+const despachoController = require('../controllers/despacho');
 
 //-----------------------------------------------------------
 
@@ -92,9 +94,12 @@ router.get(
     '/empresas',
     '/routs',
     '/propietarios',
+    '/despachos',
     '/unidads',
     '/users',
     '/grupos',
+    '/cajas',
+    '/users/:id(\\d+)/cajas',
     '/login'
   ],
   saveBack);
@@ -113,7 +118,8 @@ router.param('unidadId', unidadController.load);
 router.param('propietarioId', propietarioController.load);
 router.param('grupoId', grupoController.load);
 router.param('userId', userController.load);
-
+router.param('cajaId', cajaController.load);
+router.param('despachoId', despachoController.load);
 
 // Routes for the resource /users
 router.get('/users',
@@ -122,10 +128,21 @@ router.get('/users',
 router.get('/users/:userId(\\d+)',
   sessionController.loginRequired,
   userController.show);
-router.get('/users/new',
-  userController.new);
-router.post('/users',
-  userController.create);
+  if (!!process.env.QUIZ_OPEN_REGISTER) {
+    router.get('/users/new',
+        userController.new);
+    router.post('/users',
+        userController.create);
+  } else {
+    router.get('/users/new',
+        sessionController.loginRequired,
+        sessionController.adminRequired,
+        userController.new);
+    router.post('/users',
+        sessionController.loginRequired,
+        sessionController.adminRequired,
+        userController.create);
+  }
 router.get('/users/:userId(\\d+)/edit',
   sessionController.loginRequired,
   userController.isLocalRequired,
@@ -148,18 +165,23 @@ router.get('/empresas/:empresaId(\\d+)',
   empresaController.show);
 router.get('/empresas/new',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   empresaController.new);
 router.post('/empresas',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   empresaController.create);
 router.get('/empresas/:empresaId(\\d+)/edit',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   empresaController.edit);
 router.put('/empresas/:empresaId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   empresaController.update);
 router.delete('/empresas/:empresaId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   empresaController.destroy);
 
 // Routes for the resource /routs
@@ -169,18 +191,23 @@ router.get('/routs/:routId(\\d+)',
   routController.show);
 router.get('/routs/new',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   routController.new);
 router.post('/routs',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   routController.create);
 router.get('/routs/:routId(\\d+)/edit',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   routController.edit);
 router.put('/routs/:routId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   routController.update);
 router.delete('/routs/:routId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   routController.destroy);
 
 // Routes for the resource /Unidads
@@ -188,40 +215,52 @@ router.get('/unidads', unidadController.index);
 router.get('/unidads/:unidadId(\\d+)',
   sessionController.loginRequired,
   unidadController.show);
-router.get('/unidads/new', sessionController.loginRequired,
+router.get('/unidads/new', 
+sessionController.loginRequired,
+sessionController.adminRequired,
   unidadController.new);
 router.post('/unidads',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   unidadController.create);
 router.get('/unidads/:unidadId(\\d+)/edit',
+  sessionController.adminRequired,
   sessionController.loginRequired,
   unidadController.edit);
 router.put('/unidads/:unidadId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   unidadController.update);
 router.delete('/unidads/:unidadId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   unidadController.destroy);
 
 // Routes for the resource /Propietarios
 router.get('/propietarios', propietarioController.index);
 router.get('/propietarios/:propietarioId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   propietarioController.show);
 router.get('/propietarios/new',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   propietarioController.new);
 router.post('/propietarios',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   propietarioController.create);
 router.get('/propietarios/:propietarioId(\\d+)/edit',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   propietarioController.edit);
 router.put('/propietarios/:propietarioId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   propietarioController.update);
 router.delete('/propietarios/:propietarioId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   propietarioController.destroy);
 
 //router.get('/propietarios/:propietarioId(\\d+)/check', propietarioController.check);
@@ -233,19 +272,78 @@ router.get('/grupos/:grupoId(\\d+)',
   grupoController.show);
 router.get('/grupos/new',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   grupoController.new);
 router.post('/grupos',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   grupoController.create);
 router.get('/grupos/:grupoId(\\d+)/edit',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   grupoController.edit);
 router.put('/grupos/:grupoId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   grupoController.update);
 router.delete('/grupos/:grupoId(\\d+)',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   grupoController.destroy);
 
+//Mis Cajas
+router.get('/users/:userId(\\d+)/cajas',
+    sessionController.loginRequired,
+    cajaController.index);
+
+// Routes for the resource cajas
+router.get('/cajas',
+    cajaController.index);
+router.get('/cajas/:cajaId(\\d+)',
+    sessionController.loginRequired, 
+    cajaController.show);    
+router.get('/cajas/new',
+    sessionController.loginRequired,
+    cajaController.limitPerDay,
+    cajaController.new);
+router.post('/cajas',
+    sessionController.loginRequired,
+    cajaController.create);
+router.get('/cajas/:cajaId(\\d+)/edit',
+    sessionController.loginRequired,
+    sessionController.adminRequired,
+    cajaController.edit);
+router.put('/cajas/:cajaId(\\d+)',
+    sessionController.loginRequired,
+    sessionController.adminRequired,
+    cajaController.update);
+router.delete('/cajas/:cajaId(\\d+)',
+    sessionController.loginRequired,
+    sessionController.adminRequired,
+    cajaController.destroy);    
+
+    // Routes for the resource Despacho
+router.get('/despachos',
+despachoController.index);
+router.get('/despachos/new',
+sessionController.loginRequired,
+sessionController.adminRequired,
+despachoController.new);
+router.post('/despachos',
+sessionController.loginRequired,
+sessionController.adminRequired,
+despachoController.create);
+router.get('/despachos/:despachoId(\\d+)/edit',
+sessionController.loginRequired,
+sessionController.adminRequired,
+despachoController.edit);
+router.put('/despachos/:despachoId(\\d+)',
+sessionController.loginRequired,
+sessionController.adminRequired,
+despachoController.update);
+router.delete('/despachos/:despachoId(\\d+)',
+sessionController.loginRequired,
+sessionController.adminRequired,
+despachoController.destroy);
 
 module.exports = router;
