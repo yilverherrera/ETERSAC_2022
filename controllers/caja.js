@@ -158,8 +158,9 @@ exports.create = async (req, res, next) => {
     const { despacho, fecha } = req.body;
     const authorId = req.loginUser && req.loginUser.id || 0;
     const despachoId = despacho;
-    const rout = await models.Rout.findOne({ where: { id: despachoId } });
-    const routId = rout.id;
+    const rout = await models.Despacho.findByPk(despachoId);
+    const routId = rout.routId;
+    
     let caja = models.Caja.build({ fecha, authorId, despachoId, routId });
 
     try {

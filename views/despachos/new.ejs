@@ -5,15 +5,27 @@
 <form method="post" action="/despachos">
 
     <div class="wideRow">
-        <label for="name" class="itemNarrow">Name:</label>
+        <label for="name" class="itemNarrow">Nombre:</label>
         <input type="text" class="itemWide" id="name" name="name" value="<%= despacho.name %>" placeholder="Despacho name"
                autocomplete="off"/>
     </div>
 
+    <div class="wideRow">
+        <label for="routId" class="itemNarrow">Ruta:</label>
+        <select class="itemWide" id="routId" name="routId">
+            <% for (var i in routs) { %>
+                <% var rout = routs[i]; %>
+                    <option value="<%= rout.id %>" <%= rout.id === despacho.routId ? "selected" : "" %>>
+                        <%= rout.nombre %>
+                    </option>
+                    <% } %>
+        </select>
+    </div>
+
     <br/>
 
-    <a href="/goback" class="button">Cancel</a>
+    <a href="/goback" class="button">Cancelar</a>
 
-    <input type="submit" value="Save">
+    <input type="submit" value="Guardar">
 
 </form>
