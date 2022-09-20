@@ -128,21 +128,21 @@ router.get('/users',
 router.get('/users/:userId(\\d+)',
   sessionController.loginRequired,
   userController.show);
-  if (!!process.env.QUIZ_OPEN_REGISTER) {
-    router.get('/users/new',
-        userController.new);
-    router.post('/users',
-        userController.create);
-  } else {
-    router.get('/users/new',
-        sessionController.loginRequired,
-        sessionController.adminRequired,
-        userController.new);
-    router.post('/users',
-        sessionController.loginRequired,
-        sessionController.adminRequired,
-        userController.create);
-  }
+if (!!process.env.QUIZ_OPEN_REGISTER) {
+  router.get('/users/new',
+    userController.new);
+  router.post('/users',
+    userController.create);
+} else {
+  router.get('/users/new',
+    sessionController.loginRequired,
+    sessionController.adminRequired,
+    userController.new);
+  router.post('/users',
+    sessionController.loginRequired,
+    sessionController.adminRequired,
+    userController.create);
+}
 router.get('/users/:userId(\\d+)/edit',
   sessionController.loginRequired,
   userController.isLocalRequired,
@@ -215,9 +215,9 @@ router.get('/unidads', unidadController.index);
 router.get('/unidads/:unidadId(\\d+)',
   sessionController.loginRequired,
   unidadController.show);
-router.get('/unidads/new', 
-sessionController.loginRequired,
-sessionController.adminRequired,
+router.get('/unidads/new',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
   unidadController.new);
 router.post('/unidads',
   sessionController.loginRequired,
@@ -293,57 +293,68 @@ router.delete('/grupos/:grupoId(\\d+)',
 
 //Mis Cajas
 router.get('/users/:userId(\\d+)/cajas',
-    sessionController.loginRequired,
-    cajaController.index);
+  sessionController.loginRequired,
+  userController.isLocalRequired,
+  cajaController.index);
 
 // Routes for the resource cajas
 router.get('/cajas',
-    cajaController.index);
+  cajaController.index);
 router.get('/cajas/:cajaId(\\d+)',
-    sessionController.loginRequired, 
-    cajaController.show);    
+  sessionController.loginRequired,
+  cajaController.show);
 router.get('/cajas/new',
-    sessionController.loginRequired,
-    cajaController.limitPerDay,
-    cajaController.new);
+  sessionController.loginRequired,
+  cajaController.limitPerDay,
+  cajaController.new);
 router.post('/cajas',
-    sessionController.loginRequired,
-    cajaController.create);
+  sessionController.loginRequired,
+  cajaController.create);
 router.get('/cajas/:cajaId(\\d+)/edit',
-    sessionController.loginRequired,
-    sessionController.adminRequired,
-    cajaController.edit);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  cajaController.edit);
 router.put('/cajas/:cajaId(\\d+)',
-    sessionController.loginRequired,
-    sessionController.adminRequired,
-    cajaController.update);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  cajaController.update);
 router.delete('/cajas/:cajaId(\\d+)',
-    sessionController.loginRequired,
-    sessionController.adminRequired,
-    cajaController.destroy);    
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  cajaController.destroy);
 
-    // Routes for the resource Despacho
+//Caja/Servicios    
+router.get('/cajas/:cajaId(\\d+)/servbuses/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cajaController.newServ);
+  router.post('/cajas/:cajaId(\\d+)/servbuses',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cajaController.createServ);  
+
+// Routes for the resource Despacho
 router.get('/despachos',
-despachoController.index);
+  despachoController.index);
 router.get('/despachos/new',
-sessionController.loginRequired,
-sessionController.adminRequired,
-despachoController.new);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  despachoController.new);
 router.post('/despachos',
-sessionController.loginRequired,
-sessionController.adminRequired,
-despachoController.create);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  despachoController.create);
 router.get('/despachos/:despachoId(\\d+)/edit',
-sessionController.loginRequired,
-sessionController.adminRequired,
-despachoController.edit);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  despachoController.edit);
 router.put('/despachos/:despachoId(\\d+)',
-sessionController.loginRequired,
-sessionController.adminRequired,
-despachoController.update);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  despachoController.update);
 router.delete('/despachos/:despachoId(\\d+)',
-sessionController.loginRequired,
-sessionController.adminRequired,
-despachoController.destroy);
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  despachoController.destroy);
 
 module.exports = router;

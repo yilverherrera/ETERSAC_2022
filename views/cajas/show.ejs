@@ -1,39 +1,33 @@
-<div class="right">
-    <small> (by <%= caja.author ? caja.author.displayName : "Anonymous" %>) </small>
-</div>
+
 
 <h1>
-    Mostrar Caja:
+    
 </h1>
 
-<div class="cajaItem">
+<table id="quizzesIndex">
+    <% for (var i in servbuses) { %>
+        <% var servbus=servbuses[i]; %>
+            <tr>
 
-    <div>
-        Saldo Inicial: <b></b>
-        <br/>
-        Ingresos Empresa: <b><%= caja.ingresoIsEmpresa %></b>
-        <br/>
-        <b>Acivos Corrientes</b>
-        </br>
-        Caja Efectivo: <%= caja.caja %>
-        <br/>
-        Depositos, Transferencias: <%= caja.banco %>
-        <br/>
-        Cuentas por Cobrar a Operadores: <%= caja.cpcOperador %>
-        <br/>
-        <br/>
-        Egresos Empresa: <b><%= caja.egresoIsEmpresa %></b>
-        <br/>
-        Gastos al contado operativos, Administrativos:
-        <br/>
-        Cuentas por Pagar a Proveedores <%= caja.cppProveedor %>
-        <br/>
-        Neto Empresa: <b><%= caja.egresoIsEmpresa %></b>
-        <br/>
-        
-        
-    </div>
+                <td>
+                    <%= servbus.monto %>
+                </td>
 
-</div>
+                <td>
 
-<a href="/goback" class="button">Go back</a>
+                    <br />
+
+                    <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id===caja.authorId)) { %>
+                        <a href="/servbuss/<%= servbus.id %>" class="button">Show</a>
+                        <a href="/servbuss/<%= servbus.id %>/edit" class="button">Edit</a>
+                        <a href="/servbuss/<%= servbus.id %>?_method=DELETE"
+                            onClick="return confirm('Delete: <%= servbus.monto %>');" class="button">Delete</a>
+                        <% } %>
+                </td>
+            </tr>
+            <% } %>
+</table>
+
+<% if (locals.loginUser) { %>
+    <a href="/cajas/<%= caja.id %>/servbuses/new" class="button">Crear Nuevo Servicio</a>
+    <% } %>

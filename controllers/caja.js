@@ -64,6 +64,18 @@ exports.adminOrAuthorRequired = (req, res, next) => {
     }
 };
 
+// MW that allows actions only if the user logged in is admin or is the author of the caja.
+exports.AuthorRequired = (req, res, next) => {
+
+    const isAuthor = req.load.caja.authorId === req.loginUser.id;
+
+    if (isAuthor) {
+        next();
+    } else {
+        console.log('Prohibited operation: The logged in user is not the author of the caja, nor an administrator.');
+        res.send(403);
+    }
+};
 
 // GET /cajas
 exports.index = async (req, res, next) => {
@@ -108,11 +120,19 @@ exports.index = async (req, res, next) => {
 
 // GET /cajas/:cajaId
 exports.show = async (req, res, next) => {
+    let findOptions = {
+        where: {},
+        include: []
+    };
 
     const { caja } = req.load;
 
+    findOptions.where.cajaId = caja.id;
+
+    const servbuses = await models.Servbus.findAll(findOptions);
+
     try {
-        res.render('cajas/show', { caja });
+        res.render('cajas/show', { caja, servbuses });
     } catch (error) {
         next(error);
     }
@@ -121,35 +141,35 @@ exports.show = async (req, res, next) => {
 
 // GET /cajas/new
 exports.new = async (req, res, next) => {
-        let findOptions = {
-            where: {},
-            include: []
-        };
+    let findOptions = {
+        where: {},
+        include: []
+    };
+    findOptions.include.push({
+        model: models.Rout,
+        as: 'pertRouDes'
+    });
+    if (req.loginUser) {
         findOptions.include.push({
-            model: models.Rout,
-            as: 'pertRouDes'
+            model: models.User,
+            as: "users",
+            where: { id: req.loginUser.id }
         });
-        if (req.loginUser) {
-            findOptions.include.push({
-                model: models.User,
-                as: "users",
-                where: { id: req.loginUser.id }
-            });
-        }
-        const despachos = await models.Despacho.findAll(findOptions);
-        const caja = {
-            fecha: ""
-        };
-        if (despachos.length>0) {
-            res.render('cajas/new', {
-                caja,
-                despachos
-            });
-        } else {
-            res.redirect('/users/' + req.loginUser.id + '/cajas');
-            req.flash('error', 'No estás asignado a un Despacho');
-        }
-   
+    }
+    const despachos = await models.Despacho.findAll(findOptions);
+    const caja = {
+        fecha: ""
+    };
+    if (despachos.length > 0) {
+        res.render('cajas/new', {
+            caja,
+            despachos
+        });
+    } else {
+        res.redirect('/users/' + req.loginUser.id + '/cajas');
+        req.flash('error', 'No estás asignado a un Despacho');
+    }
+
 };
 
 // POST /cajas/create
@@ -160,13 +180,13 @@ exports.create = async (req, res, next) => {
     const despachoId = despacho;
     const rout = await models.Despacho.findByPk(despachoId);
     const routId = rout.routId;
-    
+
     let caja = models.Caja.build({ fecha, authorId, despachoId, routId });
 
     try {
         // Saves only the fields question and answer into the DDBB
         caja = await caja.save({ fields: ["fecha", "authorId", "despachoId", "routId"] });
-        req.flash('success', 'Caja creada Satisfactoriamente.');
+        req.flash('success', 'Caja creada Exitosamente.');
         res.redirect('/users/' + authorId + '/cajas');
 
     } catch (error) {
@@ -216,7 +236,7 @@ exports.update = async (req, res, next) => {
 
     try {
         await caja.save({ fields: ["fecha", "despachoId"] });
-        req.flash('success', 'Caja editada Satisfactoriamente.');
+        req.flash('success', 'Caja editada Exitosamente.');
 
         res.redirect('/cajas');
 
@@ -235,14 +255,73 @@ exports.update = async (req, res, next) => {
 
 // DELETE /cajas/:cajaId
 exports.destroy = async (req, res, next) => {
-    
+
     try {
         await req.load.caja.destroy();
-        req.flash('success', 'Caja borrada Satisfactoriamente.');
+        req.flash('success', 'Caja borrada Exitosamente.');
         res.redirect('/cajas');
     } catch (error) {
         req.flash('error', 'Error borrando la caja: ' + error.message);
         next(error);
+    }
+};
+
+// GET /cajas/:cajaId/servbuses/new
+exports.newServ = async (req, res, next) => {
+
+    const { caja } = req.load;
+
+    const unidads = await models.Unidad.findAll();
+
+    const services = await models.Service.findAll();
+
+    const servbus = {
+        monto: "0",
+        fecha: "",
+        efectivo: "0",
+        banco: "",
+        cpc: "",
+        anticipo: "",
+        dctoFalla: "",
+        dctoSiniestro: "",
+        dctoAutoridad: "",
+        cajaId: caja.id,
+        unidadId: "",
+        serviceId: ""
+    };
+
+    res.render('servbuses/new.ejs', { servbus, services, unidads });
+
+};
+
+// POST /cajas/:cajaId/servbuses/create
+exports.createServ = async (req, res, next) => {
+    const unidads = await models.Unidad.findAll();
+
+    const services = await models.Service.findAll();
+
+    const { caja } = req.load;
+    const cajaId = caja.id;
+
+    const { monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSiniestro, dctoAutoridad, unidadId, serviceId } = req.body;
+
+    let servbus = models.Servbus.build({ monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSiniestro, dctoAutoridad, cajaId, unidadId, serviceId });
+
+    try {
+        // Saves only the fields question and answer into the DDBB
+        servbus = await servbus.save({ fields: ["monto", "fecha", "efectivo", "banco", "cpc", "anticipo", "dctoFalla", "dctoSiniestro", "dctoAutoridad", "cajaId", "unidadId", "serviceId"] });
+        req.flash('success', 'Servicio Creado Exitosamente.');
+        res.redirect('/cajas/' + cajaId);
+
+    } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
+            req.flash('error', 'Hay errores en el formulario');
+            error.errors.forEach(({ message }) => req.flash('error', message));
+            res.render('servbuses/new.ejs', { servbus, services, unidads });
+        } else {
+            req.flash('error', 'Error creando el nuevo Servicio: ' + error.message);
+            next(error)
+        }
     }
 };
 

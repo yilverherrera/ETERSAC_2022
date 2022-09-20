@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Confproducto.init({
             monto: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.DOUBLE,
                 validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
             },
             detalle: {

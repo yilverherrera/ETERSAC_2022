@@ -18,19 +18,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         isEmpresa: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            defaultValueValue: false
         },
         showCaja: {//Mostrar grupo en Caja
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            defaultValueValue: false
         },
         showAutAdm: {//Mostrar sólo a Autor y/o Admin
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            defaultValueValue: false
         },
         allRuta: {//False: Muestra solo a los despacho que pertenecen a la misma ruta del grupo. y true a todas las rutas de la empresa que pertenece el rupo
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            defaultValueValue: false
         }
     }, {
         sequelize

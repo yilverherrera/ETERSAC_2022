@@ -1,0 +1,82 @@
+<div class="wideRow">
+    <label for="unidad" class="itemNarrow">PD:</label>
+    <select class="itemWide" id="unidadId" name="unidadId">
+        <% for (var i in unidads) { %>
+            <% var unidad=unidads[i]; %>
+                <option value="<%= unidad.id %>" <%= unidad.id === servbus.unidadId ? "selected" : "" %>>
+                    <%= unidad.codigo %>-<%= unidad.placa %>
+                </option>
+                <% } %>
+    </select>
+</div>
+
+<div class="wideRow">
+    <label for="service" class="itemNarrow">Servicio:</label>
+    <select class="itemWide" id="serviceId" name="serviceId">
+        <% for (var i in services) { %>
+            <% var service=services[i]; %>
+                <option value="<%= service.id %>" <%= service.id === servbus.serviceId ? "selected" : "" %>>
+                    <%= service.nombre %>
+                </option>
+                <% } %>
+    </select>
+</div>
+
+<div class="wideRow">
+    <label for="monto" class="itemNarrow">Monto:</label>
+    <input type="text" class="itemWide" id="monto" name="monto" value="<%= servbus.monto %>" placeholder="Monto a Pagar"
+        autocomplete="off" readonly />
+</div>
+
+<div class="wideRow">
+    <label for="fecha" class="itemNarrow">Fecha:</label>
+    <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= servbus.fecha %>" placeholder="Fecha a Aplicar"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="efectivo" class="itemNarrow">Efectivo:</label>
+    <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
+        placeholder="Efectivo" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="banco" class="itemNarrow">Banco:</label>
+    <input type="text" class="itemWide" id="banco" name="banco" value="<%= servbus.banco %>"
+        placeholder="Depósito, pdv, transferecia" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="cpc" class="itemNarrow">Cpc:</label>
+    <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= servbus.cpc %>" placeholder="Cuenta por Cobrar"
+        autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="anticipo" class="itemNarrow">Anticipo:</label>
+    <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
+        placeholder="Aplicar Anticipo" autocomplete="off" readonly />
+</div>
+
+<div class="wideRow">
+    <label for="dctoFalla" class="itemNarrow">Dcto por Falla:</label>
+    <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
+        placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="dctoSinietro" class="itemNarrow">Dcto por Siniestro:</label>
+    <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= servbus.dctoSinietro %>"
+        placeholder="Dcto considerado por Sinietro" autocomplete="off" />
+</div>
+
+<div class="wideRow">
+    <label for="dctoAutoridad" class="itemNarrow">Dcto por Autoridad:</label>
+    <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoSinietro %>"
+        placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
+</div>
+
+<br />
+<a href="/goback" class="button">Cancelar</a>
+
+<input type="submit" value="Guardar">

@@ -1,5 +1,3 @@
-node_modules
-.DS_Store
-.idea
-empresa.sqlite
-.env
+node_modules/
+etersac.sqlite/
+.env/

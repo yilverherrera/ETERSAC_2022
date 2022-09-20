@@ -50,6 +50,9 @@ const Confservice = sequelize.import(path.join(__dirname,'confservice'));
 // Import the definition of the Confproducto Table from confproducto.js
 const Confproducto = sequelize.import(path.join(__dirname,'confproducto'));
 
+// Import the definition of the Confproducto Table from confproducto.js
+const Servbus = sequelize.import(path.join(__dirname,'servbus'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -101,6 +104,18 @@ Confproducto.belongsTo(Producto, {as: 'pertProCpro', foreignKey: 'productoId'});
 // Relation 1-to-N between Grupo and Confproducto:
 Grupo.hasMany(Confproducto, {as: 'confproductos', foreignKey: 'grupoId'});
 Confproducto.belongsTo(Grupo, {as: 'pertGruCpro', foreignKey: 'grupoId'});
+
+// Relation 1-to-N between Caja and Servbus:
+Caja.hasMany(Servbus, {as: 'servbuses', foreignKey: 'cajaId'});
+Servbus.belongsTo(Caja, {as: 'pertCajSer', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Unidad and Servbus:
+Unidad.hasMany(Servbus, {as: 'servbuses', foreignKey: 'unidadId'});
+Servbus.belongsTo(Unidad, {as: 'pertUniSer', foreignKey: 'unidadId'});
+
+// Relation 1-to-N between Service and Servbus:
+Service.hasMany(Servbus, {as: 'servbuses', foreignKey: 'serviceId'});
+Servbus.belongsTo(Service, {as: 'pertSerSer', foreignKey: 'serviceId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

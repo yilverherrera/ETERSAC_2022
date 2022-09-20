@@ -8,116 +8,116 @@ module.exports = (sequelize, DataTypes) => {
     Caja.init({
         //INGRESOS
             busInEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },
             busInCpc: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },
             busInBan: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },  
             busInAnt: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },  
             vtaInEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },                      
             vtaInCpc: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },  
             vtaInCon: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },   
             vtaInBan: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },    
             vtaInAnt: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             //EGRESOS 
             
             busEgEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },     
             busEgBan: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },     
             gasAdmEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },           
             busCpp: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },           
             gasPpSal: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },      
             impIgv: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },           
             vtaEgCon: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             gasPpCom: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },
             //NETO
             neto: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },  
             //PAGOS
             pagCppEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             pagSalEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },   
             cpcPresEfec: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             antTerEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             antVtaEfec: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             devTerEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },  
             pagPresEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             }, 
             salIni: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },   
             retEfe: {
-                type: DataTypes.INTEGER,
-                default: 0
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },            
             fecha: {
                 type: DataTypes.DATE,
