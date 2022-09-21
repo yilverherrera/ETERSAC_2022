@@ -122,17 +122,29 @@ exports.index = async (req, res, next) => {
 exports.show = async (req, res, next) => {
     let findOptions = {
         where: {},
-        include: []
+        include: [],
+        order: [['serviceId', 'ASC']]
     };
 
     const { caja } = req.load;
 
     findOptions.where.cajaId = caja.id;
 
-    const servbuses = await models.Servbus.findAll(findOptions);
+    findOptions.include.push({
+        model: models.Unidad,
+        as: 'pertUniSer'
+    });
+
+    findOptions.include.push({
+        model: models.Service,
+        as: 'pertSerSer'
+    });
+
+    const servibuses = await models.Servbus.findAll(findOptions);
+    const services = await models.Service.findAll();
 
     try {
-        res.render('cajas/show', { caja, servbuses });
+        res.render('cajas/show', { caja, servibuses, services });
     } catch (error) {
         next(error);
     }
@@ -275,8 +287,10 @@ exports.newServ = async (req, res, next) => {
 
     const services = await models.Service.findAll();
 
+    const servDefault = services[0].monto;
+
     const servbus = {
-        monto: "0",
+        monto: servDefault,
         fecha: "",
         efectivo: "0",
         banco: "",

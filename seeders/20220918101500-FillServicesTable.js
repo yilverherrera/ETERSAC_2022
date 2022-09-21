@@ -6,22 +6,22 @@ module.exports = {
         return queryInterface.bulkInsert('Services', [
             {
                 nombre: 'liquidación',
-                monto: 0,
+                monto: 170,
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
                 nombre: 'cochera',
-                monto: 0,
+                monto: 5,
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
                 nombre: 'cotización',
-                monto: 0,
+                monto: 50,
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
                 nombre: 'salida',
-                monto: 0,
+                monto: 5,
                 createdAt: new Date(), updatedAt: new Date()
             }
         ]);
