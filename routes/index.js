@@ -10,6 +10,7 @@ const userController = require('../controllers/user');
 const sessionController = require('../controllers/session');
 const cajaController = require('../controllers/caja');
 const despachoController = require('../controllers/despacho');
+const serviceController = require('../controllers/service');
 
 //-----------------------------------------------------------
 
@@ -120,6 +121,7 @@ router.param('grupoId', grupoController.load);
 router.param('userId', userController.load);
 router.param('cajaId', cajaController.load);
 router.param('despachoId', despachoController.load);
+router.param('serviceId', serviceController.load);
 
 // Routes for the resource /users
 router.get('/users',
@@ -328,6 +330,14 @@ router.get('/cajas/:cajaId(\\d+)/servbuses/new',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   cajaController.newServ);
+router.get('/cajas/:cajaId(\\d+)/servbuses/:unidadId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cajaController.newServUni);  
+router.get('/cajas/:cajaId(\\d+)/servbuses/:unidadId(\\d+)/:serviceId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cajaController.newServUnis);    
   router.post('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
   cajaController.AuthorRequired,

@@ -10,7 +10,7 @@
 
             <td>
               
-                <a href="/cajas/<%= caja.id %>">Despacho: <%= caja.pertDesCaj.name %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
+                <a href="/cajas/<%= caja.id %>">Despacho: <%= caja.pertDesCaj.name %> Fecha: <%= caja.fecha.toLocaleDateString(); %></a>
             </td>
 
             <td>

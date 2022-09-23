@@ -7,7 +7,7 @@ const moment = require('moment');
 const paginate = require('../helpers/paginate').paginate;
 
 
-// Autoload el quiz asociado a :cajaId
+// Autoload el caja asociado a :cajaId
 exports.load = async (req, res, next, cajaId) => {
     try {
         const caja = await models.Caja.findByPk(cajaId);
@@ -21,6 +21,7 @@ exports.load = async (req, res, next, cajaId) => {
         next(error);
     }
 };
+
 
 
 // MW - Un usuario sólo puede crear 1 caja al dia.
@@ -287,11 +288,9 @@ exports.newServ = async (req, res, next) => {
 
     const services = await models.Service.findAll();
 
-    const servDefault = services[0].monto;
-
     const servbus = {
-        monto: servDefault,
-        fecha: "",
+        monto: 0,
+        fecha: caja.fecha,
         efectivo: "0",
         banco: "",
         cpc: "",
@@ -300,13 +299,76 @@ exports.newServ = async (req, res, next) => {
         dctoSiniestro: "",
         dctoAutoridad: "",
         cajaId: caja.id,
-        unidadId: "",
+        unidadId: 0,
+        serviceId: 0
+    };
+
+    res.render('servbuses/new.ejs', { servbus, services, unidads });
+
+};
+
+// GET /cajas/:cajaId/servbuses/:unidadId/newuni
+exports.newServUni = async (req, res, next) => {
+
+    const { caja } = req.load;
+
+    const { unidad } = req.load;
+
+    const unidads = await models.Unidad.findAll();
+
+    const services = await models.Service.findAll();
+
+    const servbus = {
+        monto: 0,
+        fecha: caja.fecha,
+        efectivo: "0",
+        banco: "",
+        cpc: "",
+        anticipo: "",
+        dctoFalla: "",
+        dctoSiniestro: "",
+        dctoAutoridad: "",
+        cajaId: caja.id,
+        unidadId: unidad.id,
         serviceId: ""
     };
 
     res.render('servbuses/new.ejs', { servbus, services, unidads });
 
 };
+
+// GET /cajas/:cajaId/servbuses/:unidadId/:serviceId/newunis
+exports.newServUnis = async (req, res, next) => {
+
+    const { caja } = req.load;
+
+    const { unidad } = req.load;
+
+    const { service } = req.load;
+
+    const unidads = await models.Unidad.findAll();
+
+    const services = await models.Service.findAll();
+
+    const servbus = {
+        monto: service.monto,
+        fecha: caja.fecha,
+        efectivo: "0",
+        banco: "",
+        cpc: "",
+        anticipo: "",
+        dctoFalla: "",
+        dctoSiniestro: "",
+        dctoAutoridad: "",
+        cajaId: caja.id,
+        unidadId: unidad.id,
+        serviceId: service.id
+    };
+
+    res.render('servbuses/new.ejs', { servbus, services, unidads });
+
+};
+
 
 // POST /cajas/:cajaId/servbuses/create
 exports.createServ = async (req, res, next) => {

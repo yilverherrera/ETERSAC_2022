@@ -7,14 +7,7 @@ let sidebarOpened = false;
 let animationIn = null;
 let animationOut = null;
 
-let toggle2 = document.querySelector('.toggle2 span');
-let miBox = document.querySelector('.miBox');
-let miBoxOpened = false;
-let animationIn2 = null;
-let animationOut2 = null;
-
 let animationIn_end_promise;
-let animationIn_end_promise2;
 
 /**
  * Con special transforms...
@@ -108,6 +101,12 @@ main.addEventListener('click', function () {
 });
 
 
+if (document.querySelector('.toggle2')) {
+let toggle2 = document.querySelector('.toggle2 span');
+let miBox = document.querySelector('.miBox');
+let miBoxOpened = false;
+let animationIn2 = null;
+let animationOut2 = null;
 /**
  * Con special transforms...
  */
@@ -173,5 +172,10 @@ main.addEventListener('click', function () {
          miboxAnimationOut();
      }
  });
- 
- 
+}
+
+if (document.getElementById('unidadId')) {
+$(document).ready(function() {
+    $('#unidadId').select2();
+});
+}

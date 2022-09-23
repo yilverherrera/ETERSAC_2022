@@ -1,6 +1,7 @@
 <div class="wideRow">
     <label for="unidad" class="itemNarrow">PD:</label>
-    <select class="itemWide" id="unidadId" name="unidadId">
+    <select class="itemWide" id="unidadId" name="unidadId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/'+this.value">
+	<option value="0" <%= 0 === servbus.unidadId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in unidads) { %>
             <% var unidad=unidads[i]; %>
                 <option value="<%= unidad.id %>" <%= unidad.id === servbus.unidadId ? "selected" : "" %>>
@@ -9,10 +10,11 @@
                 <% } %>
     </select>
 </div>
-
+<% if (servbus.unidadId>0) { %>
 <div class="wideRow">
     <label for="service" class="itemNarrow">Servicio:</label>
-    <select class="itemWide" id="serviceId" name="serviceId">
+    <select class="itemWide" id="serviceId" name="serviceId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/<%= servbus.unidadId %>/'+this.value">
+	<option value="0" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
             <% var service=services[i]; %>
                 <option value="<%= service.id %>" <%= service.id === servbus.serviceId ? "selected" : "" %>>
@@ -30,7 +32,7 @@
 
 <div class="wideRow">
     <label for="fecha" class="itemNarrow">Fecha:</label>
-    <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= servbus.fecha %>" placeholder="Fecha a Aplicar"
+    <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= servbus.fecha.toISOString().split('T')[0] %>" placeholder="Fecha a Aplicar"
         autocomplete="off" />
 </div>
 
@@ -77,6 +79,7 @@
 </div>
 
 <br />
+<input type="submit" value="Guardar">
+<% } %>
 <a href="/goback" class="button">Cancelar</a>
 
-<input type="submit" value="Guardar">
