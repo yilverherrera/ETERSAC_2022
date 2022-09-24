@@ -1,3 +1,4 @@
+<div class="form">
 <div class="wideRow">
     <label for="unidad" class="itemNarrow">PD:</label>
     <select class="itemWide" id="unidadId" name="unidadId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/'+this.value">
@@ -12,7 +13,7 @@
 </div>
 <% if (servbus.unidadId>0) { %>
 <div class="wideRow">
-    <label for="service" class="itemNarrow">Servicio:</label>
+    <label for="serviceId" class="itemNarrow">Servicio:</label>
     <select class="itemWide" id="serviceId" name="serviceId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/<%= servbus.unidadId %>/'+this.value">
 	<option value="0" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
@@ -59,7 +60,7 @@
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
         placeholder="Aplicar Anticipo" autocomplete="off" readonly />
 </div>
-
+<% if (servbus.serviceId===1) { %>
 <div class="wideRow">
     <label for="dctoFalla" class="itemNarrow">Dcto por Falla:</label>
     <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
@@ -78,8 +79,36 @@
         placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
 </div>
 
-<br />
-<input type="submit" value="Guardar">
+<div class="wideRow">
+    <label for="operadorId" class="itemNarrow">Operador:</label>
+    <select class="itemWide" id="operadorId" name="operadorId">
+	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
+        <% for (var i in operadors) { %>
+            <% var operador=operadors[i]; %>
+                <option value="<%= operador.id %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
+                    <%= operador.nombre %> <%= operador.apellido %>
+                </option>
+                <% } %>
+    </select>
+</div>
+
+<div class="wideRow">
+    <label for="vueltaId" class="itemNarrow">Operador:</label>
+    <select class="itemWide" id="vueltaId" name="vueltaId">
+	<option value="0" <%= 0 === servbus.vueltaId ? "selected" : "" %>>Seleccione</option>
+        <% for (var i in catvueltas) { %>
+            <% var catvuelta=catvueltas[i]; %>
+                <option value="<%= catvuelta.id %>" <%= catvuelta.id === servbus.vueltaId ? "selected" : "" %>>
+                    <%= catvuelta.vueltas %>
+                </option>
+                <% } %>
+    </select>
+</div>
+<% } %>
+<% if (servbus.serviceId>0) { %>
+<input type="submit" value="Guardar" onclick="return validarSer()">
+<% } %>
 <% } %>
 <a href="/goback" class="button">Cancelar</a>
+</div>
 

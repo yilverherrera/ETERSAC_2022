@@ -3046,6 +3046,20 @@ body {
   background: #fff;
 }
 
+.form {
+  display: flex;
+  flex-flow: row wrap;
+}
+.form div {
+  width: 50%;
+}
+.form select,
+.form input[type=text],
+.form input[type=password],
+.form input[type=date] {
+  max-width: 100%;
+}
+
 #mainHeader {
   text-align: right;
   background: #a4bdc9;
@@ -3061,8 +3075,6 @@ body {
 
 #mainHeader h1 {
   margin: 8px;
-  color: rgb(87, 84, 84);
-  font-family: "Merriweather", serif;
   font-size: 1rem;
   font-weight: 100;
 }
@@ -3125,39 +3137,41 @@ input[type=password],
 input[type=date] {
   display: block;
   width: 100%;
+  max-width: 300px;
   font-size: inherit;
-  padding: 0.5rem;
+  padding: 0.25rem;
   outline: 0;
+  border: solid 1px #00B7FF;
 }
 
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=date]:focus,
 select:focus {
-  background-color: yellow;
-  height: 24px;
+  background-color: #a4bdc9;
 }
 
 a {
   color: #00B7FF;
+  text-decoration: none;
 }
 
 a.button {
   display: inline-block;
-  font-size: inherit;
-  padding: 0.25rem;
+  font-size: 0.75rem;
+  padding: 0.125rem;
   margin-top: 0.5rem;
-  border: 0;
-  color: white;
-  background-color: rgb(223, 56, 83);
-  color: black;
+  border: solid 1px #00B7FF;
+  background-color: white;
+  color: #333;
   transform: scale(1);
   transition: all 350ms ease 200ms;
+  max-height: 1rem;
 }
 a.button:hover {
-  background-color: rgb(176, 30, 55);
+  background-color: #00B7FF;
   color: white;
-  transform: scale(1.4);
+  transform: scale(1.2);
   transition: all 350ms ease 200ms;
 }
 

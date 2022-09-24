@@ -53,6 +53,12 @@ const Confproducto = sequelize.import(path.join(__dirname,'confproducto'));
 // Import the definition of the Confproducto Table from confproducto.js
 const Servbus = sequelize.import(path.join(__dirname,'servbus'));
 
+// Import the definition of the Operador Table from operador.js
+const Operador = sequelize.import(path.join(__dirname,'operador'));
+
+// Import the definition of the Catvuelta Table from Catvuelta.js
+const Catvuelta = sequelize.import(path.join(__dirname,'catvuelta'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});

@@ -1,6 +1,6 @@
 const {Model} = require('sequelize');
 
-// Definition of the Empresa model:
+// Definition of the Service model:
 
 module.exports = (sequelize, DataTypes) => {
 

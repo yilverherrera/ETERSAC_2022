@@ -300,7 +300,8 @@ exports.newServ = async (req, res, next) => {
         dctoAutoridad: "",
         cajaId: caja.id,
         unidadId: 0,
-        serviceId: 0
+        serviceId: 0,
+        operadorId: 0
     };
 
     res.render('servbuses/new.ejs', { servbus, services, unidads });
@@ -330,7 +331,8 @@ exports.newServUni = async (req, res, next) => {
         dctoAutoridad: "",
         cajaId: caja.id,
         unidadId: unidad.id,
-        serviceId: ""
+        serviceId: 0,
+        operadorId: 0
     };
 
     res.render('servbuses/new.ejs', { servbus, services, unidads });
@@ -350,6 +352,10 @@ exports.newServUnis = async (req, res, next) => {
 
     const services = await models.Service.findAll();
 
+    const operadors = await models.Operador.findAll();
+
+    const catvueltas = await models.Catvuelta.findAll();
+
     const servbus = {
         monto: service.monto,
         fecha: caja.fecha,
@@ -362,10 +368,11 @@ exports.newServUnis = async (req, res, next) => {
         dctoAutoridad: "",
         cajaId: caja.id,
         unidadId: unidad.id,
-        serviceId: service.id
+        serviceId: service.id,
+        operadorId: 0
     };
 
-    res.render('servbuses/new.ejs', { servbus, services, unidads });
+    res.render('servbuses/new.ejs', { servbus, services, unidads, operadors, catvueltas });
 
 };
 
