@@ -255,3 +255,11 @@ function validarSer() {
         return true;
     }
 }
+
+if (document.getElementById('monto')) {
+function vueltCancelar(vuelta) {
+    let monto = document.getElementById('monto');
+    let monto2 = document.getElementById('monto2');
+    monto.value = monto2.value * vuelta;
+}
+}

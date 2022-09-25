@@ -29,6 +29,7 @@
     <label for="monto" class="itemNarrow">Monto:</label>
     <input type="text" class="itemWide" id="monto" name="monto" value="<%= servbus.monto %>" placeholder="Monto a Pagar"
         autocomplete="off" readonly />
+        <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto %>" />
 </div>
 
 <div class="wideRow">
@@ -92,18 +93,22 @@
     </select>
 </div>
 
-<div class="wideRow">
-    <label for="vueltaId" class="itemNarrow">Operador:</label>
-    <select class="itemWide" id="vueltaId" name="vueltaId">
-	<option value="0" <%= 0 === servbus.vueltaId ? "selected" : "" %>>Seleccione</option>
-        <% for (var i in catvueltas) { %>
-            <% var catvuelta=catvueltas[i]; %>
-                <option value="<%= catvuelta.id %>" <%= catvuelta.id === servbus.vueltaId ? "selected" : "" %>>
-                    <%= catvuelta.vueltas %>
-                </option>
-                <% } %>
-    </select>
-</div>
+<br/>
+<div>Vueltas a Cancelar:</div>
+<div></div>
+<% for (var i in allCatvuelts) { %>
+    <% var catvuelt = allCatvuelts[i]; %>
+
+    <div>
+            <input type="radio"
+                   name="vueltasIds[]"
+                   onchange="vueltCancelar('<%= catvuelt.valor %>')"
+                   value="<%= catvuelt.id %>"
+                   <%= servbusVueltasIds.includes(catvuelt.id) ? "checked" : "" %>
+                   >
+            <%= catvuelt.vuelta %>
+    </div>
+<% } %>
 <% } %>
 <% if (servbus.serviceId>0) { %>
 <input type="submit" value="Guardar" onclick="return validarSer()">

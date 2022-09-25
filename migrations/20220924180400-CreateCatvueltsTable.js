@@ -3,7 +3,7 @@
 module.exports = {
     up(queryInterface, Sequelize) {
         return queryInterface.createTable(
-            'Catvueltas',
+            'Catvuelts',
             {
                 id: {
                     type: Sequelize.INTEGER,
@@ -16,6 +16,10 @@ module.exports = {
                     type: Sequelize.STRING,
                     unique: true,
                     validate: { notEmpty: { msg: "Vuelta no debe estar vacío." } }
+                },
+                valor: {
+                    type: Sequelize.FLOAT,
+                    validate: { notEmpty: { msg: "Valor no debe estar vacío." } }
                 },
                 createdAt: {
                     type: Sequelize.DATE,
@@ -32,6 +36,6 @@ module.exports = {
         );
     },
     down(queryInterface, Sequelize) {
-        return queryInterface.dropTable('Catvueltas');
+        return queryInterface.dropTable('Catvuelts');
     }
 };

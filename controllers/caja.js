@@ -354,7 +354,9 @@ exports.newServUnis = async (req, res, next) => {
 
     const operadors = await models.Operador.findAll();
 
-    const catvueltas = await models.Catvuelta.findAll();
+    const allCatvuelts = await models.Catvuelt.findAll();
+
+    const servbusVueltasIds = [];
 
     const servbus = {
         monto: service.monto,
@@ -372,7 +374,7 @@ exports.newServUnis = async (req, res, next) => {
         operadorId: 0
     };
 
-    res.render('servbuses/new.ejs', { servbus, services, unidads, operadors, catvueltas });
+    res.render('servbuses/new.ejs', { servbus, services, unidads, operadors, allCatvuelts, servbusVueltasIds });
 
 };
 

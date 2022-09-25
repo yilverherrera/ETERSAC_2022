@@ -1,21 +1,25 @@
 const {Model} = require('sequelize');
 
-// Definition of the Catvuelta model:
+// Definition of the Catvuelt model:
 
 module.exports = (sequelize, DataTypes) => {
 
-    class Catvuelta extends Model {}
+    class Catvuelt extends Model {}
 
-    Catvuelta.init({
+    Catvuelt.init({
             vuelta: {
                 type: DataTypes.STRING,
                 unique: true,
                 validate: {notEmpty: {msg: "Vuelta no puede estar vacío"}}
+            },
+            valor: {
+                type: DataTypes.FLOAT,
+                validate: {notEmpty: {msg: "Valor no puede estar vacío"}}
             }
         }, {
             sequelize
         }
     );
 
-    return Catvuelta;
+    return Catvuelt;
 };
