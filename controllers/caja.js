@@ -32,8 +32,11 @@ exports.limitPerDay = async (req, res, next) => {
     let countOptions = {
         where: {
             authorId: req.loginUser.id,
-            createdAt: { [Op.gte]: moment().subtract(1, 'days').toDate() }
-        }
+           createdAt: {
+        [Op.lt]: new Date(),
+        [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+      }
+	}
     };
 
     try {
@@ -219,7 +222,7 @@ exports.edit = async (req, res, next) => {
 
     const { caja } = req.load;
 
-    despachoIds = [];
+    let despachoIds = [];
 
     despachoIds.push(caja.despachoId);
 
@@ -342,6 +345,7 @@ exports.newServUni = async (req, res, next) => {
 // GET /cajas/:cajaId/servbuses/:unidadId/:serviceId/newunis
 exports.newServUnis = async (req, res, next) => {
 
+    
     const { caja } = req.load;
 
     const { unidad } = req.load;
@@ -356,8 +360,23 @@ exports.newServUnis = async (req, res, next) => {
 
     const allCatvuelts = await models.Catvuelt.findAll();
 
-    const servbusVueltasIds = [];
+    findOptions = {
+        where: { },
+        include: [ ]
+    };
 
+    findOptions.where.fecha = caja.fecha.toISOString().split('T')[0];
+    findOptions.where.unidadId = unidad.id;
+    findOptions.include.push({
+        model: models.Servbus,
+        as: 'pertSerbVue',
+        include: [{
+            model: models.Caja,
+            as: "pertCajSer"
+        }]
+    });
+    const servbusVueltasIds = await models.Vuelt.findAll(findOptions);
+	
     const servbus = {
         monto: service.monto,
         fecha: caja.fecha,
@@ -388,13 +407,16 @@ exports.createServ = async (req, res, next) => {
     const { caja } = req.load;
     const cajaId = caja.id;
 
-    const { monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSiniestro, dctoAutoridad, unidadId, serviceId } = req.body;
-
-    let servbus = models.Servbus.build({ monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSiniestro, dctoAutoridad, cajaId, unidadId, serviceId });
+    const { monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSiniestro, dctoAutoridad, unidadId, serviceId, operadorId, catvueltId } = req.body;
+ 
+    let servbus = models.Servbus.build({ monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSiniestro, dctoAutoridad, cajaId, unidadId, serviceId, operadorId });
 
     try {
         // Saves only the fields question and answer into the DDBB
-        servbus = await servbus.save({ fields: ["monto", "fecha", "efectivo", "banco", "cpc", "anticipo", "dctoFalla", "dctoSiniestro", "dctoAutoridad", "cajaId", "unidadId", "serviceId"] });
+        servbus = await servbus.save({ fields: ["monto", "fecha", "efectivo", "banco", "cpc", "anticipo", "dctoFalla", "dctoSiniestro", "dctoAutoridad", "cajaId", "unidadId", "serviceId", "operadorId"] });
+        const servbusId = servbus.id;  
+        let vuelt = models.Vuelt.build({ fecha, servbusId, unidadId,  catvueltId });  
+        vuelt = await vuelt.save({ fields: ["fecha", "servbusId", "unidadId", "catvueltId"] });
         req.flash('success', 'Servicio Creado Exitosamente.');
         res.redirect('/cajas/' + cajaId);
 

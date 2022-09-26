@@ -19,7 +19,7 @@
         <% for (var i in services) { %>
             <% var service=services[i]; %>
                 <option value="<%= service.id %>" <%= service.id === servbus.serviceId ? "selected" : "" %>>
-                    <%= service.nombre %>
+                    <%= service.nombre.toUpperCase() %>
                 </option>
                 <% } %>
     </select>
@@ -87,7 +87,7 @@
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
                 <option value="<%= operador.id %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
-                    <%= operador.nombre %> <%= operador.apellido %>
+                    <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %>
                 </option>
                 <% } %>
     </select>
@@ -101,12 +101,28 @@
 
     <div>
             <input type="radio"
-                   name="vueltasIds[]"
+                   id="catvueltId"
+                   name="catvueltId"
                    onchange="vueltCancelar('<%= catvuelt.valor %>')"
                    value="<%= catvuelt.id %>"
-                   <%= servbusVueltasIds.includes(catvuelt.id) ? "checked" : "" %>
                    >
             <%= catvuelt.vuelta %>
+    </div>
+<% } %>
+<br/>
+<div>Recorrido:</div>
+<div></div>
+<% for (var i in allCatvuelts) { %>
+    <% var catvuelt = allCatvuelts[i]; %>
+    <% let servbusVueltasIdss=servbusVueltasIds.filter(servbusVueltasId=> servbusVueltasId.catvueltId === catvuelt.id ); %>
+    <div>
+            <input type="checkbox"
+                   name="vueltasrecIds[]"
+                   value="<%= catvuelt.id %>"
+                   disabled="true"
+                   <%= servbusVueltasIdss.length>0 ? "checked" : "" %>
+                   >
+            <%= servbusVueltasIdss.length>0 ? servbusVueltasIdss[0].pertSerbVue.monto : ""%>
     </div>
 <% } %>
 <% } %>
