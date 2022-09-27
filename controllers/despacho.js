@@ -35,7 +35,7 @@ exports.index = async (req, res, next) => {
 exports.new = async (req, res, next) => {
 
     const routs = await models.Rout.findAll();
-    const despacho = {name: ""};
+    const despacho = {name: "", color: "#ff0000"};
 
     res.render('despachos/new', {despacho, routs});
 };
@@ -43,9 +43,9 @@ exports.new = async (req, res, next) => {
 // POST /despachos/create
 exports.create = async (req, res, next) => {
 
-    const {name, routId} = req.body;
+    const {name, color, routId} = req.body;
     
-    let despacho = models.Despacho.build({ name, routId });
+    let despacho = models.Despacho.build({ name, color, routId });
 
     try {
         // Saves only the fields name into the DDBB
@@ -83,12 +83,12 @@ exports.update = async (req, res, next) => {
 
     const {despacho} = req.load;
 
-    const {name, usersIds = []} = req.body;
+    const {name, color, usersIds = []} = req.body;
     
     despacho.name = name.trim();
     
     try {
-        await despacho.save({fields: ["name"]});
+        await despacho.save({fields: ["name", "color"]});
         await despacho.setUsers(usersIds);
         
         res.redirect('/despachos');

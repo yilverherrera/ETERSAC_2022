@@ -11,6 +11,12 @@
     </div>
 
     <div class="wideRow">
+        <label for="name" class="itemNarrow">Color:</label>
+        <input type="color" class="itemWide" id="color" name="color" value="<%= despacho.color %>" 
+               />
+    </div>
+
+    <div class="wideRow">
         <label for="routId" class="itemNarrow">Ruta:</label>
         <select class="itemWide" id="routId" name="routId">
             <% for (var i in routs) { %>

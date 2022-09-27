@@ -116,15 +116,17 @@
 <% for (var i in allCatvuelts) { %>
     <% var catvuelt = allCatvuelts[i]; %>
     <% let servbusVueltasIdss=servbusVueltasIds.filter(servbusVueltasId=> servbusVueltasId.catvueltId === catvuelt.id ); %>
+    
     <div>
 	<% if (servbusVueltasIdss.length>0) { %>
+        <% let c = servbusVueltasIdss[0].pertSerbVue.pertCajSer.pertDesCaj.color; %>
             <input type="checkbox"
                    name="vueltasrecIds[]"
                    value="<%= catvuelt.id %>"
                    disabled="true"
                    <%= servbusVueltasIdss.length>0 ? "checked" : "" %>
                    >
-            <%= "(Vlta:"+catvuelt.valor+") Efec:"+servbusVueltasIdss[0].pertSerbVue.efectivo+" Cpc:"+servbusVueltasIdss[0].pertSerbVue.cpc+" Desp."+servbusVueltasIdss[0].pertSerbVue.pertCajSer.pertDesCaj.name.charAt(0).toUpperCase()+servbusVueltasIdss[0].pertSerbVue.pertCajSer.pertDesCaj.name.slice(1) %>
+           <span style="background-color:<%= c %>;"> <%= "(Vlta:"+catvuelt.valor+")" %></span> <%= "Efec:"+servbusVueltasIdss[0].pertSerbVue.efectivo+" Cpc:"+servbusVueltasIdss[0].pertSerbVue.cpc %>
 	<% } else {%>
 		   <input type="radio"
                    id="catvueltId"

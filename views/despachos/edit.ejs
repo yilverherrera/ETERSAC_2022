@@ -5,9 +5,15 @@
 <form method="post" action="/despachos/<%= despacho.id %>?_method=PUT">
 
     <div class="wideRow">
-        <label for="name" class="itemNarrow">Name:</label>
+        <label for="name" class="itemNarrow">Nombre:</label>
         <input type="text" class="itemWide" id="name" name="name" value="<%= despacho.name %>" placeholder="Despacho name"
                autocomplete="off"/>
+    </div>
+
+    <div class="wideRow">
+        <label for="name" class="itemNarrow">Color:</label>
+        <input type="color" class="itemWide" id="color" name="color" value="<%= despacho.color %>" 
+               />
     </div>
 
     <br/>

@@ -15,7 +15,12 @@ module.exports = {
                 name: {
                     type: Sequelize.STRING,
                     unique: true,
-                    validate: {notEmpty: {msg: "Name must not be empty."}}
+                    validate: {notEmpty: {msg: "Nombre no puede estar vacío."}}
+                },
+                color: {
+                    type: Sequelize.STRING,
+                    unique: true,
+                    validate: {notEmpty: {msg: "Color no puede estar vacío."}}
                 },
                 createdAt: {
                     type: Sequelize.DATE,
