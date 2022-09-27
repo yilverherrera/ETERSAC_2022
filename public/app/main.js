@@ -195,8 +195,38 @@ function validarSer() {
     let banco = document.getElementById('banco').value;
     let cpc = document.getElementById('cpc').value;
     let anticipo = document.getElementById('anticipo').value;
-
     let dcto = 0;
+    var selected = false;
+    var selected2 = false;
+    var radios2 = document.getElementsByName('catvueltId2');
+    var radios = document.getElementsByName('catvueltId');
+
+    for (var radio2 of radios2)
+    {
+        if (radio2.type === 'radio' && radio2.checked)
+        {
+            selected2 = true;
+        }
+    }
+ 
+    if (!selected2) {
+        alert('Seleccione la(s) Vuelta(s) a Cancelar');
+	return false;
+    }  
+    
+    for (var radio of radios)
+    {
+        if (radio.type === 'radio' && radio.checked)
+        {
+            selected = true;
+        }
+    }
+ 
+    if (!selected) {
+        alert('Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)');
+	return false;
+    }
+     
     if (unidad == 0) {
         alert('Seleccione un PD');
         return false;
@@ -214,12 +244,15 @@ function validarSer() {
     }
     if (banco === "") {
         banco = 0;
+	document.getElementById('banco').value = 0;
     }
     if (cpc === "") {
         cpc = 0;
+	document.getElementById('cpc').value = 0;
     }
     if (anticipo === "") {
         anticipo = 0;
+        document.getElementById('anticipo').value = 0;
     }
     if (servicio === '1') {
         let dctoFalla = document.getElementById('dctoFalla').value;

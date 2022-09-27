@@ -110,6 +110,11 @@ exports.index = async (req, res, next) => {
         as: 'pertDesCaj'
     });
 
+    findOptions.include.push({
+        model: models.User,
+        as: 'author'
+    });
+
     try {
         const cajas = await models.Caja.findAll(findOptions);
         res.render('cajas/index.ejs', {
@@ -372,7 +377,11 @@ exports.newServUnis = async (req, res, next) => {
         as: 'pertSerbVue',
         include: [{
             model: models.Caja,
-            as: "pertCajSer"
+            as: "pertCajSer",
+		 include: [{
+            		model: models.Despacho,
+            		as: "pertDesCaj"
+        	}]
         }]
     });
     const servbusVueltasIds = await models.Vuelt.findAll(findOptions);

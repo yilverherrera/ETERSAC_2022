@@ -10,12 +10,12 @@
 
             <td>
               
-                <a href="/cajas/<%= caja.id %>">Despacho: <%= caja.pertDesCaj.name %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
+                <a href="/cajas/<%= caja.id %>">Despacho: <%= caja.pertDesCaj.name %> Autor: <%= caja.author.username %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
             </td>
 
             <td>
             
-                <% if ((locals.loginUser) && (locals.loginUser.isAdmin)) { %>
+                <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
                     <a href="/cajas/<%= caja.id %>" class="button">Ver</a>
                 <% } %>
                 <% if (locals.loginUser.isAdmin) { %>    
