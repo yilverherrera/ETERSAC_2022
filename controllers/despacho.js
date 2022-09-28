@@ -86,6 +86,7 @@ exports.update = async (req, res, next) => {
     const {name, color, usersIds = []} = req.body;
     
     despacho.name = name.trim();
+    despacho.color = color;
     
     try {
         await despacho.save({fields: ["name", "color"]});

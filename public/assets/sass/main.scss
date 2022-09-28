@@ -43,7 +43,7 @@ input[type=date] {
 
 #mainHeader {
   text-align: right;
-  background: #a4bdc9;
+  background: $colorCorporate;
 
   a {
     color: #000;
@@ -131,6 +131,7 @@ input[type=date] {
   font-size: inherit;
   padding: $module * 0.5;
   outline: 0;
+  color: gray;
   border: solid 1px $colorCorporateHover;
 }
 
@@ -149,11 +150,13 @@ a {
 a.button {
   display: inline-block;
   font-size: $module * 1.5;
-  padding: $module/4;
+  padding: $module * 0.7;
+  margin-left: $module;
   margin-top: $module;
   border: solid 1px $colorCorporateHover;
-  background-color: white;
-  color: #333;
+  border-radius: 10%;
+  background-color:  rgb(232, 237, 238);
+  color: gray;
   transform: scale(1);
   transition: all 350ms ease 200ms;
   max-height: $module * 2;
@@ -213,11 +216,13 @@ a.button {
 .wideRow .itemNarrow {
   flex: 0 auto;
   margin: 0px 5px;
+  color: gray;
 }
 
 .wideRow .itemWide {
   flex: 1 auto;
   margin: 2px 5px;
+  color: gray;
 }
 
 .loginicon {

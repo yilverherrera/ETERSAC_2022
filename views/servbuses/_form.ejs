@@ -1,6 +1,6 @@
 <div class="form">
 <div class="wideRow">
-    <label for="unidad" class="itemNarrow">PD:</label>
+    <label for="unidad" class="itemNarrow"><span class="fa fa-bus"></span> PD:</label>
     <select class="itemWide" id="unidadId" name="unidadId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/'+this.value">
 	<option value="0" <%= 0 === servbus.unidadId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in unidads) { %>
@@ -13,7 +13,7 @@
 </div>
 <% if (servbus.unidadId>0) { %>
 <div class="wideRow">
-    <label for="serviceId" class="itemNarrow">Servicio:</label>
+    <label for="serviceId" class="itemNarrow"><span class="fa fa-scribd"></span> Servicio:</label>
     <select class="itemWide" id="serviceId" name="serviceId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/<%= servbus.unidadId %>/'+this.value">
 	<option value="0" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
@@ -26,62 +26,62 @@
 </div>
 
 <div class="wideRow">
-    <label for="monto" class="itemNarrow">Monto:</label>
-    <input type="text" class="itemWide" id="monto" name="monto" value="<%= servbus.monto %>" placeholder="Monto a Pagar"
+    <label for="monto" class="itemNarrow"><span class="fa fa-money"></span> Monto:</label>
+    <input type="text" class="itemWide" id="monto" name="monto" value="0" placeholder="Monto a Pagar"
         autocomplete="off" readonly />
         <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto %>" />
 </div>
 
 <div class="wideRow">
-    <label for="fecha" class="itemNarrow">Fecha:</label>
+    <label for="fecha" class="itemNarrow"><span class="fa fa-calendar"></span> Fecha:</label>
     <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= servbus.fecha.toISOString().split('T')[0] %>" placeholder="Fecha a Aplicar"
         autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="efectivo" class="itemNarrow">Efectivo:</label>
+    <label for="efectivo" class="itemNarrow"><span class="fa fa-usd"></span> Efectivo:</label>
     <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
         placeholder="Efectivo" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="banco" class="itemNarrow">Banco:</label>
+    <label for="banco" class="itemNarrow"><span class="fa fa-university"></span> Banco:</label>
     <input type="text" class="itemWide" id="banco" name="banco" value="<%= servbus.banco %>"
         placeholder="Depósito, pdv, transferecia" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="cpc" class="itemNarrow">Cpc:</label>
+    <label for="cpc" class="itemNarrow"><span class="fa fa-legal"></span> Cpc:</label>
     <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= servbus.cpc %>" placeholder="Cuenta por Cobrar"
         autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="anticipo" class="itemNarrow">Anticipo:</label>
+    <label for="anticipo" class="itemNarrow"><span class="fa fa-google-wallet"></span> Anticipo:</label>
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
         placeholder="Aplicar Anticipo" autocomplete="off" readonly />
 </div>
 <% if (servbus.serviceId===1) { %>
 <div class="wideRow">
-    <label for="dctoFalla" class="itemNarrow">Dcto por Falla:</label>
+    <label for="dctoFalla" class="itemNarrow"><span class="fa fa-cogs"></span> Dcto por Falla:</label>
     <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
         placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="dctoSinietro" class="itemNarrow">Dcto por Siniestro:</label>
+    <label for="dctoSinietro" class="itemNarrow"><span class="fa fa-ambulance"></span> Dcto por Siniestro:</label>
     <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= servbus.dctoSinietro %>"
         placeholder="Dcto considerado por Sinietro" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="dctoAutoridad" class="itemNarrow">Dcto por Autoridad:</label>
+    <label for="dctoAutoridad" class="itemNarrow"><span class="fa fa-id-card"></span> Dcto por Autoridad:</label>
     <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoSinietro %>"
         placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="operadorId" class="itemNarrow">Operador:</label>
+    <label for="operadorId" class="itemNarrow"><span class="fa fa-male"></span> Operador:</label>
     <select class="itemWide" id="operadorId" name="operadorId">
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
@@ -106,7 +106,7 @@
                    onchange="vueltCancelar('<%= catvuelt.valor %>')"
                    value="<%= catvuelt.id %>"
                    >
-            <%= catvuelt.vuelta %>
+            <%= catvuelt.valor %>
     </div>
 <% } %>
 <br/>
@@ -126,14 +126,32 @@
                    disabled="true"
                    <%= servbusVueltasIdss.length>0 ? "checked" : "" %>
                    >
-           <span style="background-color:<%= c %>;"> <%= "(Vlta:"+catvuelt.valor+")" %></span> <%= "Efec:"+servbusVueltasIdss[0].pertSerbVue.efectivo+" Cpc:"+servbusVueltasIdss[0].pertSerbVue.cpc %>
+           <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= servbusVueltasIdss[0].pertSerbVue.efectivo %>&nbsp;&nbsp;&nbsp;      
+           <% if (servbusVueltasIdss[0].pertSerbVue.cpc>0) { %> 
+            <span class="fa fa-legal"></span> 
+            <%= servbusVueltasIdss[0].pertSerbVue.cpc %>
+            <input type="checkbox"
+                   name="cpcIds[]"
+                   onchange="cobrarCpc('<%= servbusVueltasIdss[0].pertSerbVue.cpc %>', this)"
+                   value="<%= servbusVueltasIdss[0].pertSerbVue.id %>"
+                   >
+            &nbsp;&nbsp;&nbsp;  
+            <% } %>
+            <% if (servbusVueltasIdss[0].pertSerbVue.dctoFalla>0) { %> 
+            <span class="fa fa-cogs"></span>
+            <%= servbusVueltasIdss[0].pertSerbVue.dctoFalla %>&nbsp;&nbsp;&nbsp;  
+            <% } %>
+            <% if (servbusVueltasIdss[0].pertSerbVue.dctoSinietro>0) { %> 
+            <span class="fa fa-ambulance"></span>
+            <%= servbusVueltasIdss[0].pertSerbVue.dctoSinietro %>&nbsp;&nbsp;&nbsp;  
+            <% } %>
 	<% } else {%>
 		   <input type="radio"
                    id="catvueltId"
                    name="catvueltId"
                    value="<%= catvuelt.id %>"
                    >
-            <%= "(Vlta:"+catvuelt.valor+") " %>
+            <%= catvuelt.valor %>
 	<% } %>
     </div>
 <% } %>

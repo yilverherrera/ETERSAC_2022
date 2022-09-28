@@ -3160,11 +3160,13 @@ a {
 a.button {
   display: inline-block;
   font-size: 0.75rem;
-  padding: 0.125rem;
+  padding: 0.35rem;
+  margin-left: 0.5rem;
   margin-top: 0.5rem;
   border: solid 1px #00B7FF;
-  background-color: white;
-  color: #333;
+  border-radius: 10%;
+  background-color: rgb(232, 237, 238);
+  color: gray;
   transform: scale(1);
   transition: all 350ms ease 200ms;
   max-height: 1rem;
@@ -3222,6 +3224,7 @@ a.button:hover {
 .wideRow .itemNarrow {
   flex: 0 auto;
   margin: 0px 5px;
+  color: gray;
 }
 
 .wideRow .itemWide {
