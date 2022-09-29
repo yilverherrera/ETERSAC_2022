@@ -81,13 +81,17 @@
 </div>
 
 <div class="wideRow">
-    <label for="operadorId" class="itemNarrow"><span class="fa fa-male"></span> Operador:</label>
+    <label for="operadorId" class="itemNarrow"><span class="fa fa-male"></span> Operador:&nbsp;&nbsp;&nbsp;<span class="fa fa-legal"></span><input type="checkbox"
+        id="cpcOper"
+        name="cpcOper"
+        onchange="cobrarOper()"
+        > </label>
     <select class="itemWide" id="operadorId" name="operadorId">
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
                 <option value="<%= operador.id %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
-                    <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %>
+                    <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %> Deuda fecha: <%= operador.fecha %> cpc: <%= operador.cpc %>
                 </option>
                 <% } %>
     </select>

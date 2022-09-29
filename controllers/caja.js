@@ -350,6 +350,15 @@ exports.newServUni = async (req, res, next) => {
 // GET /cajas/:cajaId/servbuses/:unidadId/:serviceId/newunis
 exports.newServUnis = async (req, res, next) => {
 
+    findOptions = {
+        where: {},
+        include: []
+    };
+
+    findOptionsOpe = {
+        where: {},
+        include: []
+    };
 
     const { caja } = req.load;
 
@@ -357,18 +366,45 @@ exports.newServUnis = async (req, res, next) => {
 
     const { service } = req.load;
 
+    findOptionsOpe.include.push({
+        model: models.Servbus,
+        as: 'servbuses',
+        where: {
+            cpc: {
+              [Op.gt]: 0 
+            }
+          },
+          required: false
+    });
+
     const unidads = await models.Unidad.findAll();
 
     const services = await models.Service.findAll();
 
-    const operadors = await models.Operador.findAll();
+    const operadores = await models.Operador.findAll(findOptionsOpe);
+
+    const hoy = caja.fecha.toISOString().split('T')[0];
+
+    const operadors = operadores.map((operar) => {
+        const ope = operar.servbuses.length;
+        let ctapc = 0;
+        let fechapc = "";
+        if ((ope>0)&&(operar.servbuses[0].fecha!==hoy)) {
+            ctapc = operar.servbuses[0].cpc;
+            fechapc = operar.servbuses[0].fecha;
+            }
+        return {
+            id: operar.id,
+            nombre: operar.nombre,
+            apellido: operar.apellido,
+            fecha: fechapc, 
+            cpc: ctapc
+        }
+    });
+
+    console.log(JSON.stringify(operadors));
 
     const allCatvuelts = await models.Catvuelt.findAll();
-
-    findOptions = {
-        where: {},
-        include: []
-    };
 
     findOptions.where.fecha = caja.fecha.toISOString().split('T')[0];
     findOptions.where.unidadId = unidad.id;

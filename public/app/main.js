@@ -293,6 +293,15 @@ if (document.getElementById('monto')) {
 function vueltCancelar(vuelta) {
     let monto = document.getElementById('monto');
     let monto2 = document.getElementById('monto2');
+    var radioscpc = document.getElementsByName('cpcIds[]');
+
+    for (var radiocpc of radioscpc)
+    {
+        if (radiocpc.type === 'checkbox' && radiocpc.checked)
+        {
+            radiocpc.checked = false;
+        }
+    }
     monto.value = monto2.value * vuelta;
 }
 function cobrarCpc(cpc, check) {

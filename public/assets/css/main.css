@@ -3026,10 +3026,10 @@
 }
 
 body {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #333;
+  font-size: 0.85rem;
+  line-height: 1rem;
+  font-family: "Merriweather", serif;
+  color: gray;
   margin: 0;
 }
 
@@ -3082,7 +3082,6 @@ body {
 #mainNav a {
   margin: 1rem 5px;
   font-size: 1.5rem;
-  color: #000;
 }
 
 #mainSection {
@@ -3091,7 +3090,6 @@ body {
 }
 
 .bloque {
-  font-family: "Merriweather", serif;
   position: relative;
 }
 
@@ -3131,6 +3129,17 @@ body {
   font-size: 0.8rem;
 }
 
+input[type=submit] {
+  background-color: #00B7FF;
+  color: #fff;
+  border-radius: 10%;
+  border-color: #fff;
+}
+
+input[type=submit]:focus {
+  background: #004966;
+}
+
 select,
 input[type=color],
 input[type=text],
@@ -3153,7 +3162,7 @@ select:focus {
 }
 
 a {
-  color: #00B7FF;
+  color: #333;
   text-decoration: none;
 }
 
@@ -3166,7 +3175,6 @@ a.button {
   border: solid 1px #00B7FF;
   border-radius: 10%;
   background-color: rgb(232, 237, 238);
-  color: gray;
   transform: scale(1);
   transition: all 350ms ease 200ms;
   max-height: 1rem;
@@ -3224,7 +3232,6 @@ a.button:hover {
 .wideRow .itemNarrow {
   flex: 0 auto;
   margin: 0px 5px;
-  color: gray;
 }
 
 .wideRow .itemWide {
@@ -3245,13 +3252,13 @@ a.button:hover {
 }
 
 #cajaIndex tr {
-  background-color: #e5e5e5;
+  background-color: #fff;
   border: 1px dotted #636363;
   border-radius: 5px;
 }
 
 #cajaIndex tr:nth-child(even) {
-  background-color: #cfcfcf;
+  background-color: rgb(232, 237, 238);
 }
 
 #cajaIndex td {
