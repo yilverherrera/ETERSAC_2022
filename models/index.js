@@ -62,6 +62,9 @@ const Catvuelt = sequelize.import(path.join(__dirname,'catvuelt'));
 // Import the definition of the Vuelt Table from Vuelt.js
 const Vuelt = sequelize.import(path.join(__dirname,'vuelt'));
 
+// Import the definition of the Cobroservbus Table from cobroservbus.js
+const Cobroservbus = sequelize.import(path.join(__dirname,'cobroservbus'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -141,6 +144,14 @@ Vuelt.belongsTo(Unidad, {as: 'pertUniVue', foreignKey: 'unidadId'});
 // Relation 1-to-N between Catvuelt and Vuelt:
 Catvuelt.hasMany(Vuelt, {as: 'vuelts', foreignKey: 'catvueltId'});
 Vuelt.belongsTo(Catvuelt, {as: 'pertCatvVue', foreignKey: 'catvueltId'});
+
+// Relation 1-to-N between Servbus and Cobroservbus:
+Servbus.hasMany(Cobroservbus, {as: 'cobroservbusdeu', foreignKey: 'servbusdeudaId'});
+Cobroservbus.belongsTo(Servbus, {as: 'pertServDeuCob', foreignKey: 'servbusdeudaId'});
+
+// Relation 1-to-N between Servbus and Cobroservbus:
+Servbus.hasMany(Cobroservbus, {as: 'cobroservbuscob', foreignKey: 'servbuscobroId'});
+Cobroservbus.belongsTo(Servbus, {as: 'pertServCobCob', foreignKey: 'servbuscobroId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

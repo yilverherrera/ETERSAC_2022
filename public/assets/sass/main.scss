@@ -1,4 +1,7 @@
-@import 'lib/fontawesome/font-awesome';
+@import 'lib/fontawesome/fontawesome';
+@import 'lib/fontawesome/solid';
+@import 'lib/fontawesome/brands';
+@import 'lib/fontawesome/regular';
 $colorBase: gray;
 $colorCorporate: #a4bdc9;
 $colorCorporateHover: #00B7FF;
@@ -153,7 +156,7 @@ select:focus {
 }
 
 a {
-  color: #333;
+  color: gray;
   text-decoration: none;
 }
 

@@ -360,6 +360,7 @@ exports.newServUnis = async (req, res, next) => {
         include: []
     };
 
+
     const { caja } = req.load;
 
     const { unidad } = req.load;
@@ -371,10 +372,10 @@ exports.newServUnis = async (req, res, next) => {
         as: 'servbuses',
         where: {
             cpc: {
-              [Op.gt]: 0 
+                [Op.gt]: 0
             }
-          },
-          required: false
+        },
+        required: false
     });
 
     const unidads = await models.Unidad.findAll();
@@ -389,15 +390,15 @@ exports.newServUnis = async (req, res, next) => {
         const ope = operar.servbuses.length;
         let ctapc = 0;
         let fechapc = "";
-        if ((ope>0)&&(operar.servbuses[0].fecha!==hoy)) {
+        if ((ope > 0) && (operar.servbuses[0].fecha !== hoy)) {
             ctapc = operar.servbuses[0].cpc;
             fechapc = operar.servbuses[0].fecha;
-            }
+        }
         return {
             id: operar.id,
             nombre: operar.nombre,
             apellido: operar.apellido,
-            fecha: fechapc, 
+            fecha: fechapc,
             cpc: ctapc
         }
     });
@@ -420,7 +421,45 @@ exports.newServUnis = async (req, res, next) => {
             }]
         }]
     });
-    const servbusVueltasIds = await models.Vuelt.findAll(findOptions);
+    const VueltasIds = await models.Vuelt.findAll(findOptions);
+    let cpc = 0;
+    let serId = 0;
+    let sum = 0;
+    const cobros = await models.Cobroservbus.findAll({
+        where: {
+            fecha: {
+                [Op.gte]: caja.fecha
+            }
+        }
+    });
+    console.log(JSON.stringify(cobros));
+    let cobrar = {};
+    const servbusVueltasIds = VueltasIds.map((serbusVta) => {
+        cpc = serbusVta.pertSerbVue.cpc;
+        serId = serbusVta.pertSerbVue.id;
+        if (cpc > 0) {
+            cobrar = cobros.filter(cobra => cobra.servbusdeudaId === serId);
+
+            if (cobrar.length > 0) {
+                cobrar.forEach(cobro => { sum = sum + cobro.monto });
+                cpc = cpc - sum;
+            }
+        }
+        return {
+            id: serbusVta.id,
+            catvueltId: serbusVta.catvueltId,
+            servbusId: serbusVta.pertSerbVue.id,
+            efectivo: serbusVta.pertSerbVue.efectivo,
+            cpc: cpc,
+            dctoFalla: serbusVta.pertSerbVue.dctoFalla,
+            dctoSinietro: serbusVta.pertSerbVue.dctoSinietro,
+            dctoAutoridad: serbusVta.pertSerbVue.dctoAutoridad,
+            color: serbusVta.pertSerbVue.pertCajSer.pertDesCaj.color
+        }
+
+    });
+
+    console.log(JSON.stringify(servbusVueltasIds));
 
     const servbus = {
         monto: service.monto,
@@ -454,9 +493,9 @@ exports.createServ = async (req, res, next) => {
 
     let { monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSinietro, dctoAutoridad, unidadId, serviceId, operadorId, catvueltId, cpcIds = [] } = req.body;
 
-    if (dctoFalla=="") { dctoFalla = 0; }
-    if (dctoSinietro=="") { dctoSinietro = 0; }
-    if (dctoAutoridad=="") { dctoAutoridad = 0; }
+    if (dctoFalla == "") { dctoFalla = 0; }
+    if (dctoSinietro == "") { dctoSinietro = 0; }
+    if (dctoAutoridad == "") { dctoAutoridad = 0; }
 
     let servbus = models.Servbus.build({ monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSinietro, dctoAutoridad, cajaId, unidadId, serviceId, operadorId });
 
@@ -466,13 +505,16 @@ exports.createServ = async (req, res, next) => {
         const servbusId = servbus.id;
         let vuelt = models.Vuelt.build({ fecha, servbusId, unidadId, catvueltId });
         vuelt = await vuelt.save({ fields: ["fecha", "servbusId", "unidadId", "catvueltId"] });
-
-        cpcIds.forEach(async (serbusId) => {
-            const servbusesId = await models.Servbus.findByPk(serbusId);
-            servbusesId.cpc = 0;
-            await servbusesId.save({ fields: ["cpc"] });
-        });
-
+        if (cpcIds.length > 0) {
+            const servbuscobroId = servbusId;
+            cpcIds.forEach(async (serbusId) => {
+                const servbusesId = await models.Servbus.findByPk(serbusId);
+                const monto = servbusesId.cpc;
+                const servbusdeudaId = servbusesId.id;
+                let cobroservbus = models.Cobroservbus.build({ monto, fecha, servbusdeudaId, servbuscobroId });
+                cobroservbus = await cobroservbus.save({ fields: ["monto", "fecha", "servbusdeudaId", "servbuscobroId"] });
+            });
+        }
         req.flash('success', 'Servicio Creado Exitosamente.');
         res.redirect('/cajas/' + cajaId);
 

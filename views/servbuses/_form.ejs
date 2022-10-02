@@ -13,7 +13,7 @@
 </div>
 <% if (servbus.unidadId>0) { %>
 <div class="wideRow">
-    <label for="serviceId" class="itemNarrow"><span class="fa fa-scribd"></span> Servicio:</label>
+    <label for="serviceId" class="itemNarrow"><span class="fa-brands fa-shopify"></span> Servicio:</label>
     <select class="itemWide" id="serviceId" name="serviceId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/<%= servbus.unidadId %>/'+this.value">
 	<option value="0" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
@@ -26,7 +26,7 @@
 </div>
 
 <div class="wideRow">
-    <label for="monto" class="itemNarrow"><span class="fa fa-money"></span> Monto:</label>
+    <label for="monto" class="itemNarrow"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:</label>
     <input type="text" class="itemWide" id="monto" name="monto" value="0" placeholder="Monto a Pagar"
         autocomplete="off" readonly />
         <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto %>" />
@@ -39,7 +39,7 @@
 </div>
 
 <div class="wideRow">
-    <label for="efectivo" class="itemNarrow"><span class="fa fa-usd"></span> Efectivo:</label>
+    <label for="efectivo" class="itemNarrow"><span class="fa-solid fa-sack-dollar"></span> Efectivo:</label>
     <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
         placeholder="Efectivo" autocomplete="off" />
 </div>
@@ -51,13 +51,13 @@
 </div>
 
 <div class="wideRow">
-    <label for="cpc" class="itemNarrow"><span class="fa fa-legal"></span> Cpc:</label>
+    <label for="cpc" class="itemNarrow"><span class="fa-solid fa-hand-holding-dollar"></span> Cpc:</label>
     <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= servbus.cpc %>" placeholder="Cuenta por Cobrar"
         autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="anticipo" class="itemNarrow"><span class="fa fa-google-wallet"></span> Anticipo:</label>
+    <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-business-time"></span> Anticipo:</label>
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
         placeholder="Aplicar Anticipo" autocomplete="off" readonly />
 </div>
@@ -81,7 +81,7 @@
 </div>
 
 <div class="wideRow">
-    <label for="operadorId" class="itemNarrow"><span class="fa fa-male"></span> Operador:&nbsp;&nbsp;&nbsp;<span class="fa fa-legal"></span><input type="checkbox"
+    <label for="operadorId" class="itemNarrow"><span class="fa fa-male"></span> Operador:&nbsp;&nbsp;&nbsp;<span class="fa-solid fa-hand-holding-dollar"></span><input type="checkbox"
         id="cpcOper"
         name="cpcOper"
         onchange="cobrarOper()"
@@ -119,36 +119,40 @@
 <% let acc=0; %>
 <% for (var i in allCatvuelts) { %>
     <% var catvuelt = allCatvuelts[i]; %>
-    <% let servbusVueltasIdss=servbusVueltasIds.filter(servbusVueltasId=> servbusVueltasId.catvueltId === catvuelt.id ); %>
+    <% let VueltasIds=servbusVueltasIds.filter(servbusVueltasId=> servbusVueltasId.catvueltId === catvuelt.id ); %>
     
     <div>
-	<% if (servbusVueltasIdss.length>0) { %>
-        <% let c = servbusVueltasIdss[0].pertSerbVue.pertCajSer.pertDesCaj.color; %>
+	<% if (VueltasIds.length>0) { %>
+        <% let c = VueltasIds[0].color; %>
             <input type="checkbox"
                    name="vueltasrecIds[]"
                    value="<%= catvuelt.id %>"
                    disabled="true"
-                   <%= servbusVueltasIdss.length>0 ? "checked" : "" %>
+                   <%= VueltasIds.length>0 ? "checked" : "" %>
                    >
-           <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= servbusVueltasIdss[0].pertSerbVue.efectivo %>&nbsp;&nbsp;&nbsp;      
-           <% if (servbusVueltasIdss[0].pertSerbVue.cpc>0) { %> 
-            <span class="fa fa-legal"></span> 
-            <%= servbusVueltasIdss[0].pertSerbVue.cpc %>
+           <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= VueltasIds[0].efectivo %>&nbsp;&nbsp;&nbsp;      
+           <% if (VueltasIds[0].cpc>0) { %> 
+            <span class="fa-solid fa-hand-holding-dollar"></span> 
+            <%= VueltasIds[0].cpc %>
             <input type="checkbox"
                    name="cpcIds[]"
-                   onchange="cobrarCpc('<%= servbusVueltasIdss[0].pertSerbVue.cpc %>', this)"
-                   value="<%= servbusVueltasIdss[0].pertSerbVue.id %>"
+                   onchange="cobrarCpc('<%= VueltasIds[0].cpc %>', this)"
+                   value="<%= VueltasIds[0].servbusId %>"
                    >
             &nbsp;&nbsp;&nbsp;  
             <% } %>
-            <% if (servbusVueltasIdss[0].pertSerbVue.dctoFalla>0) { %> 
+            <% if (VueltasIds[0].dctoFalla>0) { %> 
             <span class="fa fa-cogs"></span>
-            <%= servbusVueltasIdss[0].pertSerbVue.dctoFalla %>&nbsp;&nbsp;&nbsp;  
+            <%= VueltasIds[0].dctoFalla %>&nbsp;&nbsp;&nbsp;  
             <% } %>
-            <% if (servbusVueltasIdss[0].pertSerbVue.dctoSinietro>0) { %> 
+            <% if (VueltasIds[0].dctoSinietro>0) { %> 
             <span class="fa fa-ambulance"></span>
-            <%= servbusVueltasIdss[0].pertSerbVue.dctoSinietro %>&nbsp;&nbsp;&nbsp;  
+            <%= VueltasIds[0].dctoSinietro %>&nbsp;&nbsp;&nbsp;  
             <% } %>
+            <% if (VueltasIds[0].dctoAutoridad>0) { %> 
+                <span class="fa fa-id-card"></span>
+                <%= VueltasIds[0].dctoAutoridad %>&nbsp;&nbsp;&nbsp;  
+                <% } %>
 	<% } else {%>
 		   <input type="radio"
                    id="catvueltId"
