@@ -1,6 +1,6 @@
 <div class="form">
 <div class="wideRow">
-    <label for="unidad" class="itemNarrow"><span class="fa fa-bus"></span> PD:</label>
+    <label for="unidad" class="itemNarrow"><span class="fa-solid fa-bus"></span> PD:</label>
     <select class="itemWide" id="unidadId" name="unidadId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/'+this.value">
 	<option value="0" <%= 0 === servbus.unidadId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in unidads) { %>
@@ -33,7 +33,7 @@
 </div>
 
 <div class="wideRow">
-    <label for="fecha" class="itemNarrow"><span class="fa fa-calendar"></span> Fecha:</label>
+    <label for="fecha" class="itemNarrow"><span class="fa-solid fa-calendar"></span> Fecha:</label>
     <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= servbus.fecha.toISOString().split('T')[0] %>" placeholder="Fecha a Aplicar"
         autocomplete="off" />
 </div>
@@ -45,7 +45,7 @@
 </div>
 
 <div class="wideRow">
-    <label for="banco" class="itemNarrow"><span class="fa fa-university"></span> Banco:</label>
+    <label for="banco" class="itemNarrow"><span class="fa-solid fa-university"></span> Banco:</label>
     <input type="text" class="itemWide" id="banco" name="banco" value="<%= servbus.banco %>"
         placeholder="Depósito, pdv, transferecia" autocomplete="off" />
 </div>
@@ -63,34 +63,34 @@
 </div>
 <% if (servbus.serviceId===1) { %>
 <div class="wideRow">
-    <label for="dctoFalla" class="itemNarrow"><span class="fa fa-cogs"></span> Dcto por Falla:</label>
+    <label for="dctoFalla" class="itemNarrow"><span class="fa-solid fa-screwdriver-wrench"></span> Dcto por Falla:</label>
     <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
         placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="dctoSinietro" class="itemNarrow"><span class="fa fa-ambulance"></span> Dcto por Siniestro:</label>
+    <label for="dctoSinietro" class="itemNarrow"><span class="fa-solid fa-ambulance"></span> Dcto por Siniestro:</label>
     <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= servbus.dctoSinietro %>"
         placeholder="Dcto considerado por Sinietro" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="dctoAutoridad" class="itemNarrow"><span class="fa fa-id-card"></span> Dcto por Autoridad:</label>
+    <label for="dctoAutoridad" class="itemNarrow"><span class="fa-solid fa-id-card"></span> Dcto por Autoridad:</label>
     <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoSinietro %>"
         placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
 </div>
 
 <div class="wideRow">
-    <label for="operadorId" class="itemNarrow"><span class="fa fa-male"></span> Operador:&nbsp;&nbsp;&nbsp;<span class="fa-solid fa-hand-holding-dollar"></span><input type="checkbox"
+    <label for="operadorId" class="itemNarrow"><span class="fa-solid fa-male"></span> Operador:&nbsp;&nbsp;&nbsp;<span class="fa-solid fa-hand-holding-dollar"></span><input type="checkbox"
         id="cpcOper"
         name="cpcOper"
-        onchange="cobrarOper()"
-        > </label>
+        onchange="cobrarOper(this)"
+        > <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; background-color: rgb(232, 237, 238);" placeholder="Abono"> </label>
     <select class="itemWide" id="operadorId" name="operadorId">
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
-                <option value="<%= operador.id %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
+                <option value="<%= operador.id+'T'+operador.servbId %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
                     <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %> Deuda fecha: <%= operador.fecha %> cpc: <%= operador.cpc %>
                 </option>
                 <% } %>
@@ -142,15 +142,15 @@
             &nbsp;&nbsp;&nbsp;  
             <% } %>
             <% if (VueltasIds[0].dctoFalla>0) { %> 
-            <span class="fa fa-cogs"></span>
+            <span class="fa-solid fa-screwdriver-wrench"></span>
             <%= VueltasIds[0].dctoFalla %>&nbsp;&nbsp;&nbsp;  
             <% } %>
             <% if (VueltasIds[0].dctoSinietro>0) { %> 
-            <span class="fa fa-ambulance"></span>
+            <span class="fa-solid fa-ambulance"></span>
             <%= VueltasIds[0].dctoSinietro %>&nbsp;&nbsp;&nbsp;  
             <% } %>
             <% if (VueltasIds[0].dctoAutoridad>0) { %> 
-                <span class="fa fa-id-card"></span>
+                <span class="fa-solid fa-id-card"></span>
                 <%= VueltasIds[0].dctoAutoridad %>&nbsp;&nbsp;&nbsp;  
                 <% } %>
 	<% } else {%>

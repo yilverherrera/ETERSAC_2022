@@ -294,6 +294,7 @@ function vueltCancelar(vuelta) {
     let monto = document.getElementById('monto');
     let monto2 = document.getElementById('monto2');
     var radioscpc = document.getElementsByName('cpcIds[]');
+    var radiosope = document.getElementsByName('cpcOper');
 
     for (var radiocpc of radioscpc)
     {
@@ -302,8 +303,55 @@ function vueltCancelar(vuelta) {
             radiocpc.checked = false;
         }
     }
+
+    for (var radioope of radiosope)
+    {
+        if (radioope.type === 'checkbox' && radioope.checked)
+        {
+            radioope.checked = false;
+        }
+    }
+
     monto.value = monto2.value * vuelta;
 }
+
+function cobrarOper(check) {
+    let monto = document.getElementById('monto');
+    const cobro = document.getElementById('cobrotxt');
+    const operador = document.getElementById('operadorId');
+    var radios2 = document.getElementsByName('catvueltId2');
+    var selected2 = false;
+
+    if (operador.value === '0') {
+        check.checked = false;
+        return false;
+    }
+
+    if ((isNaN(cobro.value))||(cobro.value==="")) {
+        check.checked = false;
+        return false;
+    }
+    for (var radio2 of radios2)
+    {
+        if (radio2.type === 'radio' && radio2.checked)
+        {
+            selected2 = true;
+        }
+    }
+ 
+    if (!selected2) {
+        alert('Seleccione la(s) Vuelta(s) a Cancelar');
+        check.checked = false;
+	return false;
+    }  
+        
+    if (check.checked) {
+        monto.value = parseFloat(monto.value) + parseFloat(cobro.value);
+    } else {
+        monto.value = parseFloat(monto.value) - parseFloat(cobro.value);
+    }
+}
+
 function cobrarCpc(cpc, check) {
     let monto = document.getElementById('monto');
     var radios2 = document.getElementsByName('catvueltId2');
