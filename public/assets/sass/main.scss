@@ -5,7 +5,7 @@
 $colorBase: darken(gray, 10%);
 $colorCorporate: #a4bdc9;
 $colorCorporateHover: #00B7FF;
-
+$section: rgb(232, 237, 238);
 $module: .5rem;
 
 body {
@@ -76,7 +76,7 @@ input[type=date] {
 
 #mainSection {
   text-align: left;
-  background: rgb(232, 237, 238);
+  background: $section;
 }
 
 .submenu {
@@ -85,9 +85,9 @@ input[type=date] {
   justify-content: center;
 
   a {
-  font-size: $module * 2;
+  font-size: $module * 1.5;
   border-radius: 10%;
-  background-color:rgb(232, 237, 238);
+  background-color:$section;
   padding: 3px;
   margin-right: $module * 2;
   }
@@ -173,7 +173,7 @@ input[type=text]:focus,
 input[type=password]:focus,
 input[type=date]:focus,
 select:focus {
-  background-color: #a4bdc9;
+  background-color: $colorCorporate;
 }
 
 a {
@@ -181,15 +181,12 @@ a {
   text-decoration: none;
 }
 
-a.button {
+a.button, a.link {
   display: inline-block;
-  font-size: $module * 1.5;
-  padding: $module * 0.7;
   margin-left: $module;
   margin-top: $module;
-  border: solid 1px $colorCorporateHover;
   border-radius: 10%;
-  background-color:  rgb(232, 237, 238);
+  background-color:  $section;
   transform: scale(1);
   transition: all 350ms ease 200ms;
   max-height: $module * 2;
@@ -203,7 +200,16 @@ a.button {
   }
 }
 
+a.button { 
+  padding: $module * 0.7;
+  border: 1px solid $colorCorporateHover;
+  font-size: $module * 1.5;
+ }
 
+a.link { 
+  border: 1px dotted $colorCorporateHover;
+  font-size: $module * 1;
+ }
 
 .right {
   float: right;

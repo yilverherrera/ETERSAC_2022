@@ -16,18 +16,8 @@
     <% } %>
    
 <% let totalGral=0; %>
-<% for (var n in services) { %>
-    <% var service=services[n]; %>
-    <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
-    <% let totalEfec=0; %>
-
 <table id="cajaIndex">
-
-    <tr>
-        <td colspan="8">
-        <%= service.nombre.toUpperCase() %>
-        </td>
-    </tr>
+    
     <tr>
         <th>Pd</th>
         <th>Monto</th>
@@ -39,10 +29,18 @@
         <th></th>
     </tr>
 
+<% for (var n in services) { %>
+    <% var service=services[n]; %>
+    <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
+    <% let totalEfec=0; %>
+    <tr>
+        <td colspan="8" style="align-content: center;">
+            <%= service.nombre %>
+        </td>
+    </tr>   
     <% for (var i in servbuses) { %>
         <% var servbus=servbuses[i]; %>
-        <% totalEfec=totalEfec + servbus.efectivo; %>
-
+        <% totalEfec=totalEfec + servbus.efectivo; %>     
     <tr>
         <td>
             <%= servbus.pertUniSer.codigo %>-<%= servbus.pertUniSer.placa %>
@@ -66,9 +64,9 @@
             <%= servbus.dctoAutoridad %>
         </td>
         <td>            
-            <a href="servbuses/<%= servbus.id %>" class="button">Ver</a>
-            <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>/edit" class="button">Editar</a>
-            <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= servbus.monto %>');" class="button">Borrar</a>
+            <a href="servbuses/<%= servbus.id %>" class="link">Ver</a>
+            <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>/edit" class="link">Editar</a>
+            <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= servbus.monto %>');" class="link">Borrar</a>
         
         </td>
     </tr>

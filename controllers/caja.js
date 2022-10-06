@@ -312,16 +312,35 @@ exports.showServ = async(req, res, next) => {
         include: []
     };
 
+    let findOptionsVlta = {
+        where: {},
+        include: []
+    };
+
     findOptions.where.id = servbus.id;
+
+    findOptionsVlta.where.servbusId = servbus.id;
 
     findOptions.include.push({
         model: models.Unidad,
         as: 'pertUniSer'
     });
 
+    findOptions.include.push({
+        model: models.Operador,
+        as: 'pertOpeSer'
+    });
+
+    findOptionsVlta.include.push({
+        model: models.Catvuelt,
+        as: 'pertCatvVue'
+    });
+
     const servibus = await models.Servbus.findOne(findOptions);
 
-    res.render('servbuses/show', { caja, servibus });
+    const vuelt = await models.Vuelt.findOne(findOptionsVlta);
+
+    res.render('servbuses/show', { caja, servibus, vuelt });
 };
 
 // GET /cajas/:cajaId/servbuses/new
@@ -391,17 +410,13 @@ exports.newServUnis = async (req, res, next) => {
         where: {},
         include: []
     };
-
     findOptionsOpe = {
         where: {},
         include: []
     };
 
-
     const { caja } = req.load;
-
     const { unidad } = req.load;
-
     const { service } = req.load;
 
     findOptionsOpe.include.push({
@@ -416,14 +431,10 @@ exports.newServUnis = async (req, res, next) => {
     });
 
     const unidads = await models.Unidad.findAll();
-
     const services = await models.Service.findAll();
-
     const cobrosAll = await models.Cobroservbus.findAll();
-
     const operadores = await models.Operador.findAll(findOptionsOpe);
-
-    console.log(JSON.stringify(operadores));
+    const allCatvuelts = await models.Catvuelt.findAll();
 
     const hoy = caja.fecha.toISOString().split('T')[0];
 
@@ -433,8 +444,9 @@ exports.newServUnis = async (req, res, next) => {
     let fechacaja = "";
     let suma = 0;
     let servbId = 0;
-
     let cobrar = {};
+    
+    //map de operadores, se ordena y se filtra el elemento servbus donde exista deuda. servbusId ASC
     const operadors = operadores.map((operar) => {
         ope = operar.servbuses.length;
         ctapc = 0;
@@ -442,7 +454,6 @@ exports.newServUnis = async (req, res, next) => {
         servbId = 0;
 
         if (ope > 0) {
-
             operar.servbuses.sort(function (a, b) {
                 if (a.id > b.id) {
                     return 1;
@@ -462,10 +473,8 @@ exports.newServUnis = async (req, res, next) => {
                     ctapc = operar.servbuses[i].cpc;
                     fechapc = fechacaja;
                     suma = 0;
-
                     if (ctapc > 0) {
                         cobrar = cobrosAll.filter(cobra => cobra.servbusId === operar.servbuses[i].id);
-
                         if (cobrar.length > 0) {
                             cobrar.forEach(cobro => { suma = suma + cobro.monto });
                             ctapc = ctapc - suma;
@@ -475,6 +484,7 @@ exports.newServUnis = async (req, res, next) => {
                 i++;
             } while (ctapc === 0 &&  i < ope);
         }
+
         return {
             id: operar.id,
             nombre: operar.nombre,
@@ -485,15 +495,11 @@ exports.newServUnis = async (req, res, next) => {
         }
     });
 
-    console.log(JSON.stringify(operadors));
-
-    const allCatvuelts = await models.Catvuelt.findAll();
-
     findOptions.where.fecha = caja.fecha.toISOString().split('T')[0];
     findOptions.where.unidadId = unidad.id;
     findOptions.include.push({
         model: models.Servbus,
-        as: 'pertSerbVue',
+        as: 'pertSerVue',
         include: [{
             model: models.Caja,
             as: "pertCajSer",
@@ -503,28 +509,28 @@ exports.newServUnis = async (req, res, next) => {
             }]
         }]
     });
+
     const VueltasIds = await models.Vuelt.findAll(findOptions);
+
     let cpc = 0;
     let serId = 0;
     const servbusVueltasIds = VueltasIds.map((serbusVta) => {
-        cpc = serbusVta.pertSerbVue.cpc;
-        serId = serbusVta.pertSerbVue.id;
+        cpc = serbusVta.pertSerVue.cpc;
+        serId = serbusVta.pertSerVue.id;
        
         return {
             id: serbusVta.id,
             catvueltId: serbusVta.catvueltId,
-            servbusId: serbusVta.pertSerbVue.id,
-            efectivo: serbusVta.pertSerbVue.efectivo,
+            servbusId: serbusVta.pertSerVue.id,
+            efectivo: serbusVta.pertSerVue.efectivo,
             cpc: cpc,
-            dctoFalla: serbusVta.pertSerbVue.dctoFalla,
-            dctoSinietro: serbusVta.pertSerbVue.dctoSinietro,
-            dctoAutoridad: serbusVta.pertSerbVue.dctoAutoridad,
+            dctoFalla: serbusVta.pertSerVue.dctoFalla,
+            dctoSinietro: serbusVta.pertSerVue.dctoSinietro,
+            dctoAutoridad: serbusVta.pertSerVue.dctoAutoridad,
             color: serbusVta.pertSerbVue.pertCajSer.pertDesCaj.color
         }
 
     });
-
-    console.log(JSON.stringify(servbusVueltasIds));
 
     const servbus = {
         monto: service.monto,
@@ -549,8 +555,8 @@ exports.newServUnis = async (req, res, next) => {
 
 // POST /cajas/:cajaId/servbuses/create
 exports.createServ = async (req, res, next) => {
-    const unidads = await models.Unidad.findAll();
 
+    const unidads = await models.Unidad.findAll();
     const services = await models.Service.findAll();
 
     const { caja } = req.load;
@@ -559,7 +565,6 @@ exports.createServ = async (req, res, next) => {
     let { monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSinietro, dctoAutoridad, unidadId, serviceId, operadorId, catvueltId, cpcOper, cobrotxt, cpcIds = [] } = req.body;
     const servbId = operadorId.split('T')[1];
     operadorId = operadorId.split('T')[0];
-    console.log('Ceck:' + cpcOper + ' Id deudor:' + servbId + ' Operador:' + operadorId);
 
     if (dctoFalla == "") { dctoFalla = 0; }
     if (dctoSinietro == "") { dctoSinietro = 0; }
@@ -610,6 +615,187 @@ exports.createServ = async (req, res, next) => {
         }
     }
 };
+
+// GET /cajas/:cajaId/servbuses/:servbusId/edit
+exports.editServ  = async (req, res, next) => {
+
+    findOptions = {
+        where: {},
+        include: []
+    };
+    findOptionsOpe = {
+        where: {},
+        include: []
+    };
+
+    const { caja } = req.load;
+    let { servbus } = req.load;
+
+    findOptionsOpe.include.push({
+        model: models.Servbus,
+        as: 'servbuses',
+        where: {
+            cpc: {
+                [Op.gt]: 0
+            }
+        },
+        required: false
+    });
+
+    let unidads = await models.Unidad.findAll();
+    let services = await models.Service.findAll();
+    const cobrosAll = await models.Cobroservbus.findAll();
+    const operadores = await models.Operador.findAll(findOptionsOpe);
+    const allCatvuelts = await models.Catvuelt.findAll();
+
+    const hoy = caja.fecha.toISOString().split('T')[0];
+
+    let ope = 0;
+    let ctapc = 0;
+    let fechapc = "";
+    let fechacaja = "";
+    let suma = 0;
+    let servbId = 0;
+    let cobrar = {};
+
+    //map de operadores, se ordena y se filtra el elemento servbus donde exista deuda. servbusId ASC
+    const operadors = operadores.map((operar) => {
+        ope = operar.servbuses.length;
+        ctapc = 0;
+        fechapc = 0;
+        servbId = 0;
+
+        if (ope > 0) {
+            operar.servbuses.sort(function (a, b) {
+                if (a.id > b.id) {
+                    return 1;
+                }
+                if (a.id < b.id) {
+                    return -1;
+                }
+                // a must be equal to b
+                return 0;
+            });
+
+            let i = 0;
+            do {
+                fechacaja = operar.servbuses[i].fecha;
+                if (fechacaja < hoy) {
+                    servbId = operar.servbuses[i].id;
+                    ctapc = operar.servbuses[i].cpc;
+                    fechapc = fechacaja;
+                    suma = 0;
+                    if (ctapc > 0) {
+                        cobrar = cobrosAll.filter(cobra => cobra.servbusId === operar.servbuses[i].id);
+                        if (cobrar.length > 0) {
+                            cobrar.forEach(cobro => { suma = suma + cobro.monto });
+                            ctapc = ctapc - suma;
+                        }
+                    }
+                }
+                i++;
+            } while (ctapc === 0 &&  i < ope);
+        }
+
+        return {
+            id: operar.id,
+            nombre: operar.nombre,
+            apellido: operar.apellido,
+            servbId: servbId,
+            fecha: fechapc,
+            cpc: ctapc
+        }
+    });
+
+    findOptions.where.fecha = caja.fecha.toISOString().split('T')[0];
+    findOptions.where.unidadId = servbus.unidadId;
+    findOptions.include.push({
+        model: models.Servbus,
+        as: 'pertSerVue',
+        include: [{
+            model: models.Caja,
+            as: "pertCajSer",
+            include: [{
+                model: models.Despacho,
+                as: "pertDesCaj"
+            }]
+        }]
+    });
+
+    const VueltasIds = await models.Vuelt.findAll(findOptions);
+
+    const VltaIds = VueltasIds.filter( vuelta => vuelta.servbusId !== servbus.id );
+
+    let cpc = 0;
+    let serId = 0;
+    const servbusVueltasIds = VltaIds.map((serbusVta) => {
+        cpc = serbusVta.pertSerVue.cpc;
+        serId = serbusVta.pertSerVue.id;
+       
+        return {
+            id: serbusVta.id,
+            catvueltId: serbusVta.catvueltId,
+            servbusId: serbusVta.pertSerVue.id,
+            efectivo: serbusVta.pertSerVue.efectivo,
+            cpc: cpc,
+            dctoFalla: serbusVta.pertSerVue.dctoFalla,
+            dctoSinietro: serbusVta.pertSerVue.dctoSinietro,
+            dctoAutoridad: serbusVta.pertSerVue.dctoAutoridad,
+            color: serbusVta.pertSerVue.pertCajSer.pertDesCaj.color
+        }
+
+    });
+
+    const tmpcobro = await models.Tmpcobrobus.findOne({ 
+        where: {
+            servbusId: {
+                [Op.eq]: servbus.id
+            }
+        }
+    });
+
+    let mensaje = "";
+
+    console.log(JSON.stringify(tmpcobro));
+    
+    if (JSON.stringify(tmpcobro) !== 'null') {
+        const serviciobus = await models.Vuelt.findOne({ 
+            where: {
+                servbusId: {
+                    [Op.eq]: tmpcobro.servbuscId
+                }
+            },
+                include: [{
+                    model: models.Catvuelt,
+                    as: "pertCatvVue"
+                }]
+        });
+        mensaje = `Tenga en cuenta que la CPC monto: ${tmpcobro.monto} fué cobrada en la Vuelta ${serviciobus.pertCatvVue.vuelta}`; 
+        unidads = unidads.filter( unid => unid.id === servbus.unidadId );
+        services = services.filter( serv => serv.id === servbus.serviceId );
+    } 
+    servbus = {
+        id: servbus.id,
+        monto: servbus.monto,
+        fecha: caja.fecha,
+        efectivo: servbus.efectivo,
+        banco: servbus.banco,
+        cpc: servbus.cpc,
+        anticipo: servbus.anticipo,
+        dctoFalla: servbus.dctoFalla,
+        dctoSinietro: servbus.dctoSinietro,
+        dctoAutoridad: servbus.dctoAutoridad,
+        cajaId: caja.id,
+        unidadId: servbus.unidadId,
+        serviceId: servbus.serviceId,
+        operadorId: servbus.operadorId,
+        mensaje: mensaje
+    };
+
+    res.render('servbuses/edit.ejs', { servbus, services, unidads, operadors, allCatvuelts, servbusVueltasIds });
+ 
+};
+
 
 //----------------COBROS-----------
 // GET /cajas/:cajaId/cobros

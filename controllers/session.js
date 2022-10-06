@@ -33,7 +33,7 @@ const LinkedinStrategy = LINKEDIN_API_KEY && LINKEDIN_SECRET_KEY && require('pas
 // If the logged user does not make any new request during this time,
 // then the user's session will be closed.
 // The value is in milliseconds.
-// 5 minutes.
+// 10 minutes.
 const maxIdleTime = 10*60*1000;
 
 

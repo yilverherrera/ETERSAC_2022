@@ -42,9 +42,9 @@
         </td>
         <td>
         <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id===caja.authorId)) { %>
-            <a href="/cobros/<%= cobro.id %>" class="button">Ver</a>
-            <a href="/cobros/<%= cobro.id %>/edit" class="button">Editar</a>
-            <a href="/cobros/<%= cobro.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= cobro.monto %>');" class="button">Borrar</a>
+            <a href="/cobros/<%= cobro.id %>" class="link">Ver</a>
+            <a href="/cobros/<%= cobro.id %>/edit" class="link">Editar</a>
+            <a href="/cobros/<%= cobro.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= cobro.monto %>');" class="link">Borrar</a>
         <% } %>
         </td>
     </tr>

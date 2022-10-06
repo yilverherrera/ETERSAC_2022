@@ -1,0 +1,13 @@
+<h1>
+    Editar Servicio:
+</h1>
+
+<form method="post" action="/cajas/<%= servbus.cajaId %>/servbuses/<%= servbus.id %>?_method=PUT">
+
+    <% include _form.ejs %>
+
+<h2><%= servbus.mensaje %></h2>    
+</form>
+
+
+

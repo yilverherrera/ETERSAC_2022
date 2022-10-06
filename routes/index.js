@@ -347,6 +347,10 @@ router.post('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   cajaController.createServ);
+  router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)/edit',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cajaController.editServ);    
 
 //Caja/Cobros
 router.get('/cajas/:cajaId(\\d+)/cobros',

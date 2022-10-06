@@ -10485,7 +10485,7 @@ body {
   justify-content: center;
 }
 .submenu a {
-  font-size: 1rem;
+  font-size: 0.75rem;
   border-radius: 10%;
   background-color: rgb(232, 237, 238);
   padding: 3px;
@@ -10574,24 +10574,32 @@ a {
   text-decoration: none;
 }
 
-a.button {
+a.button, a.link {
   display: inline-block;
-  font-size: 0.75rem;
-  padding: 0.35rem;
   margin-left: 0.5rem;
   margin-top: 0.5rem;
-  border: solid 1px #00B7FF;
   border-radius: 10%;
   background-color: rgb(232, 237, 238);
   transform: scale(1);
   transition: all 350ms ease 200ms;
   max-height: 1rem;
 }
-a.button:hover {
+a.button:hover, a.link:hover {
   background-color: #00B7FF;
   color: white;
   transform: scale(1.2);
   transition: all 350ms ease 200ms;
+}
+
+a.button {
+  padding: 0.35rem;
+  border: 1px solid #00B7FF;
+  font-size: 0.75rem;
+}
+
+a.link {
+  border: 1px dotted #00B7FF;
+  font-size: 0.5rem;
 }
 
 .right {

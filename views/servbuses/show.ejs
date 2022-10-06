@@ -15,6 +15,24 @@
     <li>Efectivo: <b>
             <%= servibus.efectivo %>
         </b></li>
+    <li>Cpc: <b>
+            <%= servibus.cpc %>
+        </b></li>
+    <li>Dcto. por Falla Mecanica: <b>
+            <%= servibus.dctoFalla %>
+        </b></li>
+    <li>Dcto por Siniestro (Choque, Caída de Pasajeros ...): <b>
+            <%= servibus.dctoSinietro %>
+        </b></li>
+    <li>Dcto. por Inconv. con la autoridad (Rev. Tec, SOAT vencido ...): <b>
+            <%= servibus.dctoSinietro %>
+        </b></li>
+    <li>Operador: <b>
+            <%= servibus.pertOpeSer.nombre %> <%= servibus.pertOpeSer.apellido %>
+        </b></li>
+    <li>Vuelta: <b>
+            <%= vuelt.pertCatvVue.vuelta %>
+        </b></li>        
 </ul>
 
 <a href="/goback" class="button">Regresar</a>

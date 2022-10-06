@@ -138,7 +138,7 @@ Servbus.belongsTo(Operador, {as: 'pertOpeSer', foreignKey: 'operadorId'});
 
 // Relation 1-to-N between Servbus and Vuelt:
 Servbus.hasMany(Vuelt, {as: 'vuelts', foreignKey: 'servbusId'});
-Vuelt.belongsTo(Servbus, {as: 'pertSerbVue', foreignKey: 'servbusId'});
+Vuelt.belongsTo(Servbus, {as: 'pertSerVue', foreignKey: 'servbusId'});
 
 // Relation 1-to-N between Unidad and Vuelt:
 Unidad.hasMany(Vuelt, {as: 'vuelts', foreignKey: 'unidadId'});
