@@ -22,6 +22,21 @@ exports.load = async (req, res, next, cajaId) => {
     }
 };
 
+// Autoload el servbus asociado a :servbusId
+exports.loadServ = async (req, res, next, servbusId) => {
+    try {
+        const servbus = await models.Servbus.findByPk(servbusId);
+        if (servbus) {
+            req.load = { ...req.load, servbus };
+            next();
+        } else {
+            throw new Error('There is no servbus with id=' + servbusId);
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 
 // MW - Un usuario sólo puede crear 1 caja al dia.
@@ -34,7 +49,7 @@ exports.limitPerDay = async (req, res, next) => {
             authorId: req.loginUser.id,
             createdAt: {
                 [Op.lt]: new Date(),
-                [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+                [Op.gt]: new Date(new Date() - 48 * 60 * 60 * 1000)
             }
         }
     };
@@ -125,40 +140,6 @@ exports.index = async (req, res, next) => {
         next(error);
     }
 };
-
-
-// GET /cajas/:cajaId
-exports.show = async (req, res, next) => {
-    let findOptions = {
-        where: {},
-        include: [],
-        order: [['serviceId', 'ASC']]
-    };
-
-    const { caja } = req.load;
-
-    findOptions.where.cajaId = caja.id;
-
-    findOptions.include.push({
-        model: models.Unidad,
-        as: 'pertUniSer'
-    });
-
-    findOptions.include.push({
-        model: models.Service,
-        as: 'pertSerSer'
-    });
-
-    const servibuses = await models.Servbus.findAll(findOptions);
-    const services = await models.Service.findAll();
-
-    try {
-        res.render('cajas/show', { caja, servibuses, services });
-    } catch (error) {
-        next(error);
-    }
-};
-
 
 // GET /cajas/new
 exports.new = async (req, res, next) => {
@@ -287,6 +268,62 @@ exports.destroy = async (req, res, next) => {
     }
 };
 
+//----------------SERVICIOS-----------
+// GET /cajas/:cajaId/servbuses
+exports.indexServ = async (req, res, next) => {
+    let findOptions = {
+        where: {},
+        include: [],
+        order: [['serviceId', 'ASC']]
+    };
+
+    const { caja } = req.load;
+
+    findOptions.where.cajaId = caja.id;
+
+    findOptions.include.push({
+        model: models.Unidad,
+        as: 'pertUniSer'
+    });
+
+    findOptions.include.push({
+        model: models.Service,
+        as: 'pertSerSer'
+    });
+
+    const servibuses = await models.Servbus.findAll(findOptions);
+    const services = await models.Service.findAll();
+
+    try {
+        res.render('servbuses/index.ejs', { caja, servibuses, services });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// GET /cajas/:cajaId/servbuses/:servbusId
+exports.showServ = async(req, res, next) => {
+
+    const {caja} = req.load;
+    const {servbus} = req.load;
+
+    let findOptions = {
+        where: {},
+        include: []
+    };
+
+    findOptions.where.id = servbus.id;
+
+    findOptions.include.push({
+        model: models.Unidad,
+        as: 'pertUniSer'
+    });
+
+    const servibus = await models.Servbus.findOne(findOptions);
+
+    res.render('servbuses/show', { caja, servibus });
+};
+
 // GET /cajas/:cajaId/servbuses/new
 exports.newServ = async (req, res, next) => {
 
@@ -384,8 +421,6 @@ exports.newServUnis = async (req, res, next) => {
 
     const cobrosAll = await models.Cobroservbus.findAll();
 
-    const cobros = cobrosAll.filter(cob => cob.fecha >= caja.fecha);
-
     const operadores = await models.Operador.findAll(findOptionsOpe);
 
     console.log(JSON.stringify(operadores));
@@ -426,9 +461,10 @@ exports.newServUnis = async (req, res, next) => {
                     servbId = operar.servbuses[i].id;
                     ctapc = operar.servbuses[i].cpc;
                     fechapc = fechacaja;
+                    suma = 0;
 
                     if (ctapc > 0) {
-                        cobrar = cobrosAll.filter(cobra => cobra.servbusdeudaId === operar.servbuses[i].id);
+                        cobrar = cobrosAll.filter(cobra => cobra.servbusId === operar.servbuses[i].id);
 
                         if (cobrar.length > 0) {
                             cobrar.forEach(cobro => { suma = suma + cobro.monto });
@@ -437,7 +473,7 @@ exports.newServUnis = async (req, res, next) => {
                     }
                 }
                 i++;
-            } while (ctapc === 0 && operar.servbuses.length !== i - 1);
+            } while (ctapc === 0 &&  i < ope);
         }
         return {
             id: operar.id,
@@ -470,18 +506,10 @@ exports.newServUnis = async (req, res, next) => {
     const VueltasIds = await models.Vuelt.findAll(findOptions);
     let cpc = 0;
     let serId = 0;
-    let sum = 0;
     const servbusVueltasIds = VueltasIds.map((serbusVta) => {
         cpc = serbusVta.pertSerbVue.cpc;
         serId = serbusVta.pertSerbVue.id;
-        if (cpc > 0) {
-            cobrar = cobros.filter(cobra => cobra.servbusdeudaId === serId);
-
-            if (cobrar.length > 0) {
-                cobrar.forEach(cobro => { sum = sum + cobro.monto });
-                cpc = cpc - sum;
-            }
-        }
+       
         return {
             id: serbusVta.id,
             catvueltId: serbusVta.catvueltId,
@@ -531,11 +559,16 @@ exports.createServ = async (req, res, next) => {
     let { monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSinietro, dctoAutoridad, unidadId, serviceId, operadorId, catvueltId, cpcOper, cobrotxt, cpcIds = [] } = req.body;
     const servbId = operadorId.split('T')[1];
     operadorId = operadorId.split('T')[0];
-     console.log('Ceck:'+cpcOper+' Id deudor:'+servbId+' Operador:'+operadorId);
+    console.log('Ceck:' + cpcOper + ' Id deudor:' + servbId + ' Operador:' + operadorId);
 
     if (dctoFalla == "") { dctoFalla = 0; }
     if (dctoSinietro == "") { dctoSinietro = 0; }
     if (dctoAutoridad == "") { dctoAutoridad = 0; }
+
+    if ((cpcOper === 'on') && (cobrotxt !== "")) {
+        efectivo = efectivo - cobrotxt;
+        monto = monto - cobrotxt;
+    }
 
     let servbus = models.Servbus.build({ monto, fecha, efectivo, banco, cpc, anticipo, dctoFalla, dctoSinietro, dctoAutoridad, cajaId, unidadId, serviceId, operadorId });
 
@@ -546,24 +579,25 @@ exports.createServ = async (req, res, next) => {
         let vuelt = models.Vuelt.build({ fecha, servbusId, unidadId, catvueltId });
         vuelt = await vuelt.save({ fields: ["fecha", "servbusId", "unidadId", "catvueltId"] });
         if (cpcIds.length > 0) {
-            const servbuscobroId = servbusId;
+            const servbuscId = servbusId;
             cpcIds.forEach(async (serbusId) => {
                 const servbusesId = await models.Servbus.findByPk(serbusId);
                 const monto = servbusesId.cpc;
-                const servbusdeudaId = servbusesId.id;
-                let cobroservbus = models.Cobroservbus.build({ monto, fecha, servbusdeudaId, servbuscobroId });
-                cobroservbus = await cobroservbus.save({ fields: ["monto", "fecha", "servbusdeudaId", "servbuscobroId"] });
+                const servbusId = servbusesId.id;
+                let tmpcobrobus = models.Tmpcobrobus.build({ monto, fecha, servbusId, servbuscId });
+                tmpcobrobus = await tmpcobrobus.save({ fields: ["monto", "fecha", "servbusId", "servbuscId"] });
+                servbusesId.cpc = 0;
+                await servbusesId.save({ fields: ["cpc"] });
             });
         }
-        if ((cpcOper==='on')&&(cobrotxt!=="")) {
+        if ((cpcOper === 'on') && (cobrotxt !== "")) {
             const monto = cobrotxt;
-            const servbusdeudaId = servbId;
-            const servbuscobroId = servbusId;
-            let cobroservbus = models.Cobroservbus.build({ monto, fecha, servbusdeudaId, servbuscobroId });
-            cobroservbus = await cobroservbus.save({ fields: ["monto", "fecha", "servbusdeudaId", "servbuscobroId"] });
+            const servbusId = servbId;
+            let cobroservbus = models.Cobroservbus.build({ monto, fecha, servbusId, cajaId });
+            cobroservbus = await cobroservbus.save({ fields: ["monto", "fecha", "servbusId", "cajaId"] });
         }
         req.flash('success', 'Servicio Creado Exitosamente.');
-        res.redirect('/cajas/' + cajaId);
+        res.redirect('servbuses/index.ejs');
 
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -577,3 +611,49 @@ exports.createServ = async (req, res, next) => {
     }
 };
 
+//----------------COBROS-----------
+// GET /cajas/:cajaId/cobros
+exports.indexCobro = async (req, res, next) => {
+    let findOptions = {
+        where: {},
+        include: []
+    };
+
+    const { caja } = req.load;
+
+    findOptions.include.push({
+        model: models.Servbus,
+        as: 'pertServCob',
+        include: [{
+            model: models.Unidad,
+            as: 'pertUniSer'
+        }]
+    });
+
+    findOptions.include.push({
+        model: models.Caja,
+        as: 'pertCajCob',
+        where: { id: caja.id }
+    });
+
+    
+    const cobranza = await models.Cobroservbus.findAll(findOptions);
+
+    console.log(JSON.stringify(cobranza));
+
+    const cobros = cobranza.map( (cobro) => {
+        
+        return {
+            id: cobro.id,
+            monto: cobro.monto,
+            codigo: cobro.pertServCob.pertUniSer.codigo,
+            placa: cobro.pertServCob.pertUniSer.placa
+        }
+    }); 
+
+    try {
+        res.render('cobros/', { cobros, caja });
+    } catch (error) {
+        next(error);
+    }
+};

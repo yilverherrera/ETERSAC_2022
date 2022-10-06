@@ -21,7 +21,7 @@
 <body>
     <div class="sidebar">
         <div class="sidebar_items">
-            <div class="sidebar_item"><a href="/"><span class="fa-solid fa-house"></span> Inicio</a></div>
+            <div class="sidebar_item"><a href="/"><span class="fa-solid fa-circle-notch"></span> Inicio</a></div>
             <div class="sidebar_item"><a href="/empresas"><span class="fa-solid fa-industry"></span> Empresas</a></div>
             <div class="sidebar_item"><a href="/routs"><span class="fa fa-road"></span> Rutas</a></div>
             <div class="sidebar_item"><a href="/propietarios"><span class="fa fa-user"></span> Propietarios</a></div>
@@ -31,9 +31,9 @@
             <div class="sidebar_item"><a href="/Items/2"><span class="fa fa-barcode"></span> Ventas</a></div>
             <div class="sidebar_item"><a href="/grupos"><span class="fa fa-object-group"></span> Grupos</a></div>
             <% if (locals.loginUser) { %>
-                <div class="sidebar_item"><a href="/cajas"><span class="fa fa-th"></span> Cajas</a></div>
-                <div class="sidebar_item"><a href="/users/<%= locals.loginUser.id %>/cajas"><span class="fa-solid fa-cash-register"></span> Mis Cajas</a></div>
-            <div class="sidebar_item"><a href="/users"><span class="fa fa-user"></span> Users</a></div>
+                <div class="sidebar_item"><a href="/cajas"><span class="fa-solid fa-users-rectangle"></span> Cajas</a></div>
+                <div class="sidebar_item"><a href="/users/<%= locals.loginUser.id %>/cajas"><span class="fa-regular fa-rectangle-list"></span> Mis Cajas</a></div>
+            <div class="sidebar_item"><a href="/users"><span class="fa-regular fa-user"></span> Users</a></div>
             <% } %>
         </div>
     </div>
@@ -57,9 +57,9 @@
         </header>
 
         <nav class="main" id="mainNav" role="navigation">
-            <a href="/" title="Inicio"><span class="fa-solid fa-house"></span></a>
+            <a href="/" title="Inicio"><span class="fa-solid fa-circle-notch"></span></a>
             <% if (locals.loginUser) { %>
-                <a href="/users/<%= locals.loginUser.id %>/cajas" title="Mis Cajas"><span class="fa-solid fa-cash-register"></span></a>
+                <a href="/users/<%= locals.loginUser.id %>/cajas" title="Mis Cajas"><span class="fa-regular fa-rectangle-list"></span></a>
             <% } %>
         </nav>
 

@@ -91,7 +91,7 @@
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
                 <option value="<%= operador.id+'T'+operador.servbId %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
-                    <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %> Deuda fecha: <%= operador.fecha %> cpc: <%= operador.cpc %>
+                    <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %>  <%= operador.cpc > 0 ? 'tiene una deuda del '+operador.fecha+' cpc:'+operador.cpc : "" %>
                 </option>
                 <% } %>
     </select>

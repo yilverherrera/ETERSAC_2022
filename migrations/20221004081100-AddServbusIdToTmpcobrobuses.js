@@ -3,8 +3,8 @@
 module.exports = {
     up: function (queryInterface, Sequelize) {
         return queryInterface.addColumn(
-            'Cobroservbuses',
-            'servbusdeudaId',
+            'Tmpcobrobuses',
+            'servbusId',
             {
                 type: Sequelize.INTEGER,
                 references: {
@@ -18,6 +18,6 @@ module.exports = {
     },
 
     down: function (queryInterface, Sequelize) {
-        return queryInterface.removeColumn('Cobroservbuses', 'servbusdeudaId');
+        return queryInterface.removeColumn('Tmpcobrobuses', 'servbusId');
     }
 };

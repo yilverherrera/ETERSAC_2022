@@ -179,6 +179,13 @@ module.exports = {
                 ruc: "0",
                 createdAt: now,
                 updatedAt: now
+            },
+            {
+                nombre: "Sin Propietario",
+                telefono: "0",
+                ruc: "0",
+                createdAt: now,
+                updatedAt: now
             }
         ]);
 

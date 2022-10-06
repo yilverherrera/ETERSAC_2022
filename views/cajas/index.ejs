@@ -9,12 +9,12 @@
            
 
             <td>
-              
-                <a href="/cajas/<%= caja.id %>">Despacho: <%= caja.pertDesCaj.name %> Autor: <%= caja.author.username %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
+                <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
+                    <a href="/cajas/<%= caja.id %>/servbuses">Despacho: <%= caja.pertDesCaj.name %> Autor: <%= caja.author.username %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
+                <% } %>                    
             </td>
 
             <td>
-            
                 <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
                     <a href="/cajas/<%= caja.id %>" class="button">Ver</a>
                 <% } %>

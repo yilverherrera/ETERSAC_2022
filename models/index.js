@@ -65,6 +65,9 @@ const Vuelt = sequelize.import(path.join(__dirname,'vuelt'));
 // Import the definition of the Cobroservbus Table from cobroservbus.js
 const Cobroservbus = sequelize.import(path.join(__dirname,'cobroservbus'));
 
+// Import the definition of the Tmpcobrobus Table from tmpcobrobus.js
+const Tmpcobrobus = sequelize.import(path.join(__dirname,'tmpcobrobus'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -146,12 +149,20 @@ Catvuelt.hasMany(Vuelt, {as: 'vuelts', foreignKey: 'catvueltId'});
 Vuelt.belongsTo(Catvuelt, {as: 'pertCatvVue', foreignKey: 'catvueltId'});
 
 // Relation 1-to-N between Servbus and Cobroservbus:
-Servbus.hasMany(Cobroservbus, {as: 'cobroservbusdeu', foreignKey: 'servbusdeudaId'});
-Cobroservbus.belongsTo(Servbus, {as: 'pertServDeuCob', foreignKey: 'servbusdeudaId'});
+Servbus.hasMany(Cobroservbus, {as: 'cobroservbus', foreignKey: 'servbusId'});
+Cobroservbus.belongsTo(Servbus, {as: 'pertServCob', foreignKey: 'servbusId'});
 
-// Relation 1-to-N between Servbus and Cobroservbus:
-Servbus.hasMany(Cobroservbus, {as: 'cobroservbuscob', foreignKey: 'servbuscobroId'});
-Cobroservbus.belongsTo(Servbus, {as: 'pertServCobCob', foreignKey: 'servbuscobroId'});
+// Relation 1-to-N between Caja and Cobroservbus:
+Caja.hasMany(Cobroservbus, {as: 'cobroservbusc', foreignKey: 'cajaId'});
+Cobroservbus.belongsTo(Caja, {as: 'pertCajCob', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Servbus and Tmpcobrobus:
+Servbus.hasMany(Tmpcobrobus, {as: 'tmpcobrobus', foreignKey: 'servbusId'});
+Tmpcobrobus.belongsTo(Servbus, {as: 'pertServTmp', foreignKey: 'servbusId'});
+
+// Relation 1-to-N between Servbus and Tmpcobrobus:
+Servbus.hasMany(Tmpcobrobus, {as: 'tmpcobrobusc', foreignKey: 'servbuscId'});
+Tmpcobrobus.belongsTo(Servbus, {as: 'pertServcTmp', foreignKey: 'servbuscId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

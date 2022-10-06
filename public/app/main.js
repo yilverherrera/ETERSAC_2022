@@ -1,4 +1,3 @@
-
 let toggle = document.querySelector('.toggle span');
 let main = document.querySelector('#mainSection');
 let sidebar = document.querySelector('.sidebar');
@@ -112,7 +111,7 @@ if (document.querySelector('.toggle2')) {
      */
     anime.remove([toggle2, miBox]);
     anime.set(miBox, {
-        translateX: '-100%'
+        translateX: '100%'
     });
 
 
@@ -156,7 +155,7 @@ if (document.querySelector('.toggle2')) {
         // move sidebar
         animationOut2.add({
             targets: [miBox],
-            translateX: ['0%', '-100%'],
+            translateX: ['0%', '100%'],
             opacity: [1, 0],
             duration: 650
         }, '-=600');
@@ -200,6 +199,7 @@ function validarSer() {
     var selected2 = false;
     var radios2 = document.getElementsByName('catvueltId2');
     var radios = document.getElementsByName('catvueltId');
+    
 
     for (var radio2 of radios2)
     {
@@ -259,6 +259,9 @@ function validarSer() {
         let dctoSinietro = document.getElementById('dctoSinietro').value;
         let dctoAutoridad = document.getElementById('dctoAutoridad').value;
         const operador = document.getElementById('operadorId').value;
+        var cpcOper = document.getElementsByName('cpcOper');
+        const cobro = document.getElementById('cobrotxt');
+        const deuda = operador.value.split('T')[1];
         if (operador === '0') {
             alert('Seleccione un Operador');
             return false;
@@ -275,6 +278,17 @@ function validarSer() {
         }
         if (dctoAutoridad === "") {
             dctoAutoridad = 0;
+        }
+        if (cpcOper.checked) {
+            if ((cobro === "")||(isNaN(cobro))) {
+                alert ('Debes especificar el monto del abono a la deuda del operador');
+                return false;
+            }
+            if (cobro>cpc) { 
+                alert ('El cobro no puede ser mayor a saldo deudor');
+                return false; 
+            }
+           
         }
         dcto = parseFloat(dctoFalla) + parseFloat(dctoSinietro) + parseFloat(dctoAutoridad);
     }
@@ -319,7 +333,8 @@ function cobrarOper(check) {
     let monto = document.getElementById('monto');
     const cobro = document.getElementById('cobrotxt');
     const operador = document.getElementById('operadorId');
-    var radios2 = document.getElementsByName('catvueltId2');
+    const cpc = operador.value.split('T')[1];
+    var radios2 = document.getElementsByName('catvueltId2');    
     var selected2 = false;
 
     if (operador.value === '0') {
@@ -346,6 +361,11 @@ function cobrarOper(check) {
     }  
         
     if (check.checked) {
+        if (cobro>cpc) { 
+            alert ('El cobro no puede ser mayor a saldo deudor');
+            check.checked = false;
+            return false; 
+        }
         monto.value = parseFloat(monto.value) + parseFloat(cobro.value);
     } else {
         monto.value = parseFloat(monto.value) - parseFloat(cobro.value);

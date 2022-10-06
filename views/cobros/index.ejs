@@ -1,0 +1,64 @@
+<div class="toggle2">
+    <span class="fa fa-bars"></span>
+</div>
+<div class="submenu">
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Ventas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros" class="in">Cobros</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Pagos</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Retiros de Cajas</a>
+    </div>    
+
+<% if (locals.loginUser) { %>
+    <a href="/cajas/<%= caja.id %>/cobros/new" class="button">Crear Nuevo Cobro</a>
+    <% } %>
+<% let totalGral=0; %>
+<% let totalEfec=0; %>
+
+<table id="cajaIndex">
+
+     <tr>
+        <th>Pd</th>
+        <th>Monto</th>
+        <th>Efectivo</th>
+        <th></th>
+    </tr>
+
+    <% for (var i in cobros) { %>
+        <% var cobro=cobros[i]; %>
+        <% totalEfec=totalEfec + cobro.monto; %>
+
+    <tr>
+        <td>
+        <%= cobro.codigo %>-<%= cobro.placa %>
+        </td>
+        <td>
+        <%= cobro.monto %>
+        </td>
+        <td>
+        <%= cobro.monto %>
+        </td>
+        <td>
+        <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id===caja.authorId)) { %>
+            <a href="/cobros/<%= cobro.id %>" class="button">Ver</a>
+            <a href="/cobros/<%= cobro.id %>/edit" class="button">Editar</a>
+            <a href="/cobros/<%= cobro.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= cobro.monto %>');" class="button">Borrar</a>
+        <% } %>
+        </td>
+    </tr>
+    <% totalGral = totalGral + cobro.monto; %>
+    <% } %>
+    <tr>
+        <th></th>
+        <th></th>
+        <th><%= totalEfec %></th>
+        <th></th>
+    </tr>
+</table>
+   
+
+<h1>Total Efectivo: <%= totalGral %></h1>
+
+<% include _main.ejs %>                                                                      

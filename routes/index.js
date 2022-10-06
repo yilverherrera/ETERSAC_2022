@@ -100,6 +100,7 @@ router.get(
     '/users',
     '/grupos',
     '/cajas',
+    '/cajas/:id(\\d+)/servbuses',
     '/users/:id(\\d+)/cajas',
     '/login'
   ],
@@ -120,6 +121,7 @@ router.param('propietarioId', propietarioController.load);
 router.param('grupoId', grupoController.load);
 router.param('userId', userController.load);
 router.param('cajaId', cajaController.load);
+router.param('servbusId', cajaController.loadServ);
 router.param('despachoId', despachoController.load);
 router.param('serviceId', serviceController.load);
 
@@ -302,9 +304,6 @@ router.get('/users/:userId(\\d+)/cajas',
 // Routes for the resource cajas
 router.get('/cajas',
   cajaController.index);
-router.get('/cajas/:cajaId(\\d+)',
-  sessionController.loginRequired,
-  cajaController.show);
 router.get('/cajas/new',
   sessionController.loginRequired,
   cajaController.limitPerDay,
@@ -325,7 +324,13 @@ router.delete('/cajas/:cajaId(\\d+)',
   sessionController.adminRequired,
   cajaController.destroy);
 
-//Caja/Servicios    
+//Caja/Servicios 
+router.get('/cajas/:cajaId(\\d+)/servbuses',
+  sessionController.loginRequired,
+  cajaController.indexServ);   
+  router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.showServ);     
 router.get('/cajas/:cajaId(\\d+)/servbuses/new',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
@@ -333,15 +338,21 @@ router.get('/cajas/:cajaId(\\d+)/servbuses/new',
 router.get('/cajas/:cajaId(\\d+)/servbuses/:unidadId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.newServUni);  
+  cajaController.newServUni);
 router.get('/cajas/:cajaId(\\d+)/servbuses/:unidadId(\\d+)/:serviceId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.newServUnis);    
-  router.post('/cajas/:cajaId(\\d+)/servbuses',
+  cajaController.newServUnis);
+router.post('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.createServ);  
+  cajaController.createServ);
+
+//Caja/Cobros
+router.get('/cajas/:cajaId(\\d+)/cobros',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cajaController.indexCobro);
 
 // Routes for the resource Despacho
 router.get('/despachos',

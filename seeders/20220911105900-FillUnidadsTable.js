@@ -331,7 +331,7 @@ module.exports = {
             },
             {
                 "id": "28",
-                "codigo": "09",
+                "codigo": "08",
                 "placa": "AST836",
                 "marca": "",
                 "modelo": "MERCEDES",
