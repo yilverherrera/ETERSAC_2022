@@ -1,8 +1,8 @@
 <div class="form">
 <div class="wideRow">
-    <label for="unidad" class="itemNarrow"><span class="fa-solid fa-bus"></span> PD:</label>
-    <select class="itemWide" id="unidadId" name="unidadId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/'+this.value">
-	<option value="0" <%= 0 === servbus.unidadId ? "selected" : "" %>>Seleccione</option>
+    <label for="unidad" class="itemNarrow"><span class="fa-solid fa-bus"></span> PD:<abbr title="required" aria-label="required">*</abbr></label>
+  <select class="itemWide" id="unidadId" name="unidadId">
+	<option value="0" disabled="disabled" <%= 0 === servbus.unidadId ? "selected" : "" %> >Seleccione</option>
         <% for (var i in unidads) { %>
             <% var unidad=unidads[i]; %>
                 <option value="<%= unidad.id %>" <%= unidad.id === servbus.unidadId ? "selected" : "" %>>
@@ -11,11 +11,11 @@
                 <% } %>
     </select>
 </div>
-<% if (servbus.unidadId>0) { %>
+
 <div class="wideRow">
-    <label for="serviceId" class="itemNarrow"><span class="fa-brands fa-shopify"></span> Servicio:</label>
-    <select class="itemWide" id="serviceId" name="serviceId" onchange="window.location.href='/cajas/<%= servbus.cajaId %>/servbuses/<%= servbus.unidadId %>/'+this.value">
-	<option value="0" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
+    <label for="serviceId" class="itemNarrow"><span class="fa-brands fa-shopify"></span> Servicio:<abbr title="required" aria-label="required">*</abbr></label>
+    <select class="itemWide" id="serviceId" name="serviceId" onchange="envia(<%= servbus.cajaId %>, this)">
+	<option value="0" disabled="disabled" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
             <% var service=services[i]; %>
                 <option value="<%= service.id %>" <%= service.id === servbus.serviceId ? "selected" : "" %>>
@@ -24,22 +24,25 @@
                 <% } %>
     </select>
 </div>
-
+<% if (servbus.unidadId>0) { %>
 <div class="wideRow">
-    <label for="monto" class="itemNarrow"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:</label>
-    <input type="text" class="itemWide" id="monto" name="monto" value="0" placeholder="Monto a Pagar"
+    <label for="monto" class="itemNarrow"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr><input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto2 %>" title="Cuenta Normal" onchange="cuenta('<%= servbus.monto2 %>')" checked ><%= servbus.monto2.split('T')[0] %> <%= servbus.descMont %>
+<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto3 %>" title="Cuenta Domingo" onchange="cuenta('<%= servbus.monto3 %>')"><%= servbus.monto3.split('T')[0] %> <%= servbus.descMont2 %>
+<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto4 %>" title="Cuenta Tres Vueltas" onchange="cuenta('<%= servbus.monto4 %>')"><%= servbus.monto4.split('T')[0] %> <%= servbus.descMont3 %></label>
+    <input type="text" class="itemWide" id="monto" name="monto" value="<%= servbus.monto %>" placeholder="Monto a Pagar"
         autocomplete="off" readonly />
-        <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto %>" />
+        <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto2 %>" />
+<input type="hidden" id="monto3" name="monto4" value="<%= servbus.monto3 %>" />
+<input type="hidden" id="monto3" name="monto4" value="<%= servbus.monto4 %>" />
 </div>
 
 <div class="wideRow">
-    <label for="fecha" class="itemNarrow"><span class="fa-solid fa-calendar"></span> Fecha:</label>
-    <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= servbus.fecha.toISOString().split('T')[0] %>" placeholder="Fecha a Aplicar"
-        autocomplete="off" />
+    <label for="fecha" class="itemNarrow"><span class="fa-solid fa-calendar"></span> Fecha:<abbr title="required" aria-label="required">*</abbr></label>
+  <input type="text" id="fecha" name="fecha" class="itemWide date" placeholder="Seleccione el/los dia(s)" value="<%= servbus.fecha.toISOString().split("T")[0] %>" autocomplete="off"  onchange="cotizar(this)"  readonly />
 </div>
 
 <div class="wideRow">
-    <label for="efectivo" class="itemNarrow"><span class="fa-solid fa-sack-dollar"></span> Efectivo:</label>
+    <label for="efectivo" class="itemNarrow"><span class="fa-solid fa-sack-dollar"></span> Efectivo:<abbr title="required" aria-label="required">*</abbr></label>
     <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
         placeholder="Efectivo" autocomplete="off" />
 </div>
@@ -90,7 +93,7 @@
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
-                <option value="<%= operador.id+'T'+operador.servbId %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
+                <option value="<%= operador.id+'T'+operador.servbId+'T'+operador.cpc %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>
                     <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %>  <%= operador.cpc > 0 ? 'tiene una deuda del '+operador.fecha+' cpc:'+operador.cpc : "" %>
                 </option>
                 <% } %>
@@ -138,6 +141,7 @@
                    name="cpcIds[]"
                    onchange="cobrarCpc('<%= VueltasIds[0].cpc %>', this)"
                    value="<%= VueltasIds[0].servbusId %>"
+                   <%=  VueltasIds[0].servbuscId === servbus.id ? "checked" : "" %>
                    >
             &nbsp;&nbsp;&nbsp;  
             <% } %>

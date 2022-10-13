@@ -1,5 +1,5 @@
 <div class="toggle2">
-    <span class="fa fa-bars"></span>
+    <span class="fa-solid fa-sack-dollar"></span>
 </div>
 <div class="submenu">
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
@@ -20,12 +20,13 @@
     
     <tr>
         <th>Pd</th>
+        <th>Vlta</th>
         <th>Monto</th>
-        <th>Efectivo</th>
+        <th>Efect</th>
         <th>Cpc</th>
         <th>Falla</th>
-        <th>Siniestro</th>
-        <th>Autoridad</th>
+        <th>Sntro</th>
+        <th>Aut</th>
         <th></th>
     </tr>
 
@@ -34,17 +35,26 @@
     <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
     <% let totalEfec=0; %>
     <tr>
-        <td colspan="8" style="align-content: center;">
-            <%= service.nombre %>
-        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><%= service.nombre %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      <td></td>
     </tr>   
     <% for (var i in servbuses) { %>
         <% var servbus=servbuses[i]; %>
         <% totalEfec=totalEfec + servbus.efectivo; %>     
     <tr>
         <td>
-            <%= servbus.pertUniSer.codigo %>-<%= servbus.pertUniSer.placa %>
+            <%= servbus.codigo %>-<%= servbus.placa %>
         </td>
+        <td>
+            <%= servbus.vuelta %>
+        </td>              
         <td>
             <%= servbus.monto %>
         </td>
@@ -66,22 +76,27 @@
         <td>            
             <a href="servbuses/<%= servbus.id %>" class="link">Ver</a>
             <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>/edit" class="link">Editar</a>
-            <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= servbus.monto %>');" class="link">Borrar</a>
+            <a href="/cajas/<%= caja.id %>/servbuses/<%= servbus.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= service.nombre %> Placa:<%= servbus.placa %> Efectivo:<%= servbus.efectivo %>');" class="link">Borrar</a>
         
         </td>
     </tr>
 
     <% } %>
     <tr>
+      <th></th>
         <th></th>
         <th></th>
         <th><%= totalEfec %></th>
         <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
+       <% totalGral=totalGral + totalEfec; %>
+      <% } %>
 </table>
-    <% totalGral=totalGral + totalEfec; %>
-<% } %>
 
-<h1>Total Efectivo: <%= totalGral %></h1>
+<h2>Total Efectivo Servicios: <%= totalGral %></h2>
 
 <% include _main.ejs %>                                                                      

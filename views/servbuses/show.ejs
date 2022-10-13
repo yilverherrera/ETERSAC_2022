@@ -7,7 +7,7 @@
         <%= servibus.id %>
     </b></li>
     <li>Pd: <b>
-            <%= servibus.pertUniSer.codigo %>
+            <%= servibus.pertUniSer.codigo %>-<%= servibus.pertUniSer.placa %>
         </b></li>
     <li>Monto: <b>
             <%= servibus.monto %>
@@ -31,7 +31,7 @@
             <%= servibus.pertOpeSer.nombre %> <%= servibus.pertOpeSer.apellido %>
         </b></li>
     <li>Vuelta: <b>
-            <%= vuelt.pertCatvVue.vuelta %>
+              <%=  vuelt !== null ? vuelt.pertCatvVue.vuelta : "" %>
         </b></li>        
 </ul>
 

@@ -11,6 +11,7 @@ const sessionController = require('../controllers/session');
 const cajaController = require('../controllers/caja');
 const despachoController = require('../controllers/despacho');
 const serviceController = require('../controllers/service');
+const servbusController = require('../controllers/servbus');
 
 //-----------------------------------------------------------
 
@@ -121,7 +122,7 @@ router.param('propietarioId', propietarioController.load);
 router.param('grupoId', grupoController.load);
 router.param('userId', userController.load);
 router.param('cajaId', cajaController.load);
-router.param('servbusId', cajaController.loadServ);
+router.param('servbusId', servbusController.load);
 router.param('despachoId', despachoController.load);
 router.param('serviceId', serviceController.load);
 
@@ -295,13 +296,15 @@ router.delete('/grupos/:grupoId(\\d+)',
   sessionController.adminRequired,
   grupoController.destroy);
 
+// Routes for the resource Cajas
+
 //Mis Cajas
 router.get('/users/:userId(\\d+)/cajas',
   sessionController.loginRequired,
   userController.isLocalRequired,
   cajaController.index);
 
-// Routes for the resource cajas
+
 router.get('/cajas',
   cajaController.index);
 router.get('/cajas/new',
@@ -324,35 +327,40 @@ router.delete('/cajas/:cajaId(\\d+)',
   sessionController.adminRequired,
   cajaController.destroy);
 
-//Caja/Servicios 
+// Routes for the resource Servbuses
 router.get('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
-  cajaController.indexServ);   
+  servbusController.index);   
   router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
   sessionController.loginRequired,
-  cajaController.showServ);     
+  servbusController.show);     
 router.get('/cajas/:cajaId(\\d+)/servbuses/new',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.newServ);
-router.get('/cajas/:cajaId(\\d+)/servbuses/:unidadId(\\d+)',
+  servbusController.new);
+router.get('/cajas/:cajaId(\\d+)/buses/:unidadId(\\d+)/:serviceId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.newServUni);
-router.get('/cajas/:cajaId(\\d+)/servbuses/:unidadId(\\d+)/:serviceId(\\d+)',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  cajaController.newServUnis);
+  servbusController.newServ);
 router.post('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.createServ);
+  servbusController.create);
   router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)/edit',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
-  cajaController.editServ);    
+  servbusController.edit);  
+router.put('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,           
+  servbusController.update); 
+router.delete('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired, 
+  servbusController.childlessRequired,             
+  servbusController.destroy);
 
-//Caja/Cobros
+// Routes for the resource servbuses Cobros
 router.get('/cajas/:cajaId(\\d+)/cobros',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
