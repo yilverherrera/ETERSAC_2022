@@ -1,0 +1,53 @@
+<h1>Configuración de Servicios:</h1>
+
+<table>
+<tr>
+            <th>
+                Monto
+            </th>
+            <th>
+                Detalle
+            </th>
+            <th>
+                Vuelta
+            </th>
+            <th>
+                Servicio
+            </th>
+            <th>
+                Grupo
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+    <% for (var i in confservices) { %>
+        <% var confservice = confservices[i]; %>
+        <tr>
+            <td>
+                <%= confservice.monto %>
+            </td>
+            <td>
+                <%= confservice.detalle %>
+            </td>
+            <td>
+                <%= confservice.vuelta %>
+            </td>
+            <td>
+                <%= confservice.pertSerCser.nombre %>
+            </td>
+            <td>
+                <%= confservice.pertGruCser.nombre %>
+            </td>
+            <% if (locals.loginUser && locals.loginUser.isAdmin) { %>
+            <td>
+                <a href="/confservices/<%= confservice.id %>/edit" class="button">Editar</a>
+            </td>
+            <td>
+                
+            </td>
+            <% } %>
+        </tr>
+    <% } %>
+</table>

@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
             fecha: {
                 type: DataTypes.DATEONLY,
                 validate: {notEmpty: {msg: "Fecha no puede estar vacío"}}
+            },
+            vltCanceladas: {
+                type: DataTypes.FLOAT
+            },
+            montoUnitario: {
+                type: DataTypes.FLOAT
             }
         }, {
             sequelize

@@ -12,6 +12,7 @@ const cajaController = require('../controllers/caja');
 const despachoController = require('../controllers/despacho');
 const serviceController = require('../controllers/service');
 const servbusController = require('../controllers/servbus');
+const confserviceController = require('../controllers/confservice');
 
 //-----------------------------------------------------------
 
@@ -125,6 +126,8 @@ router.param('cajaId', cajaController.load);
 router.param('servbusId', servbusController.load);
 router.param('despachoId', despachoController.load);
 router.param('serviceId', serviceController.load);
+router.param('confserviceId', confserviceController.load);
+
 
 // Routes for the resource /users
 router.get('/users',
@@ -389,5 +392,23 @@ router.delete('/despachos/:despachoId(\\d+)',
   sessionController.loginRequired,
   sessionController.adminRequired,
   despachoController.destroy);
+
+// Routes Confservice
+router.get('/confservices',
+  confserviceController.index);
+router.get('/confservices/new',
+  sessionController.loginRequired,
+  confserviceController.new);
+router.post('/confservices',
+  sessionController.loginRequired,
+  confserviceController.create);
+router.get('/confservices/:confserviceId(\\d+)/edit',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  confserviceController.edit);
+router.put('/confservices/:confserviceId(\\d+)',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  confserviceController.update);
 
 module.exports = router;

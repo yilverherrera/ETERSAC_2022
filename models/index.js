@@ -113,7 +113,7 @@ Grupo.hasMany(Confservice, {as: 'confservices', foreignKey: 'grupoId'});
 Confservice.belongsTo(Grupo, {as: 'pertGruCser', foreignKey: 'grupoId'});
 
 // Relation 1-to-N between Producto and Confproducto:
-Producto.hasMany(Confservice, {as: 'confproductos', foreignKey: 'productoId'});
+Producto.hasMany(Confproducto, {as: 'confproductos', foreignKey: 'productoId'});
 Confproducto.belongsTo(Producto, {as: 'pertProCpro', foreignKey: 'productoId'});
 
 // Relation 1-to-N between Grupo and Confproducto:

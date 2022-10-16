@@ -1,0 +1,36 @@
+<div class="form">
+    <div class="wideRow">
+        <label for="monto"  class="itemNarrow">Monto:</label>
+        <input type="text" class="itemWide" id="monto" name="monto" value="<%= confservice.monto %>" placeholder="Monto" autocomplete="off"/>
+    </div>
+    <div class="wideRow">
+        <div>
+            <label for="detalle"  class="itemNarrow">Detalle:</label>
+            <input type="checkbox" class="itemWide" id="detalle" name="detalle" placeholder="Detalle" value="true" <%= true === confservice.detalle ? "checked" : "" %> autocomplete="off"/>
+        </div>
+        <div>
+            <label for="vuelta"  class="itemNarrow">Vuelta:</label>
+            <input type="checkbox" class="itemWide" id="vuelta" name="vuelta" placeholder="Vuelta" value="true" <%= true === confservice.vuelta ? "checked" : "" %>autocomplete="off"/>
+        </div>
+    </div>
+    <div class="wideRow">
+        <label for="serviceId"  class="itemNarrow">Servicio:</label>
+        <select name="serviceId" id="serviceId">
+            <% for (var i in services) { %>
+                <% service = services[i]; %>
+            <option value="<%= service.id %>"><%= service.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+    <div class="wideRow">
+        <label for="grupoId"  class="itemNarrow">Grupo:</label>
+        <select name="grupoId" id="grupoId">
+            <% for (var i in grupos) { %>
+                <% grupo = grupos[i]; %>
+            <option value="<%= grupo.id %>"><%= grupo.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+    <a href="/goback" class="button">Cancelar</a>
+    <input type="submit" value="Guardar">
+</div>

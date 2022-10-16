@@ -20,9 +20,12 @@
     
     <tr>
         <th>Pd</th>
-        <th>Vlta</th>
-        <th>Monto</th>
+        <th>Recorrido</th>
+        <th>Vlta Canc.</th>
+        <th>Monto Uni</th>
+        <th>Monto T.</th>
         <th>Efect</th>
+	<th>Comb</th>
         <th>Cpc</th>
         <th>Falla</th>
         <th>Sntro</th>
@@ -39,6 +42,9 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
+        <td></td>
+	<td></td>
         <td><%= service.nombre %></td>
         <td></td>
         <td></td>
@@ -54,12 +60,21 @@
         </td>
         <td>
             <%= servbus.vuelta %>
-        </td>              
+        </td>   
+        <td>
+            <%= servbus.vltCanceladas %>
+        </td> 
+        <td>
+            <%= servbus.montoUnitario %>
+        </td>            
         <td>
             <%= servbus.monto %>
         </td>
         <td>
             <%= servbus.efectivo %>
+        </td>
+<td>
+            <%= servbus.combustible %>
         </td>
         <td>
             <%= servbus.cpc %>
@@ -86,6 +101,7 @@
       <th></th>
         <th></th>
         <th></th>
+<th></th>
         <th><%= totalEfec %></th>
         <th></th>
       <th></th>

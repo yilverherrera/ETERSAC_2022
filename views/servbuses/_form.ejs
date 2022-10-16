@@ -26,9 +26,9 @@
 </div>
 <% if (servbus.unidadId>0) { %>
 <div class="wideRow">
-    <label for="monto" class="itemNarrow"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr><input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto2 %>" title="Cuenta Normal" onchange="cuenta('<%= servbus.monto2 %>')" checked ><%= servbus.monto2.split('T')[0] %> <%= servbus.descMont %>
-<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto3 %>" title="Cuenta Domingo" onchange="cuenta('<%= servbus.monto3 %>')"><%= servbus.monto3.split('T')[0] %> <%= servbus.descMont2 %>
-<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto4 %>" title="Cuenta Tres Vueltas" onchange="cuenta('<%= servbus.monto4 %>')"><%= servbus.monto4.split('T')[0] %> <%= servbus.descMont3 %></label>
+    <label for="monto" class="itemNarrow"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr><input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto2 %>" title="<%= servbus.descMont %>" onchange="cuenta('<%= servbus.monto2 %>')" checked ><%= servbus.monto2.split('T')[0] %> <%= servbus.descMont %>
+<input  type="radio" id="chMonto" name="chMonto" value="<%=servbus.monto3 %>" title="<%= servbus.descMont2 %>" onchange="cuenta('<%= servbus.monto3 %>')"><%= servbus.monto3.split('T')[0] %> <%= servbus.descMont2 %>
+<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto4 %>" title="<%= servbus.descMont3 %>" onchange="cuenta('<%= servbus.monto4 %>')" ><%= servbus.monto4.split('T')[0] %> <%= servbus.descMont3 %></label>
     <input type="text" class="itemWide" id="monto" name="monto" value="<%= servbus.monto %>" placeholder="Monto a Pagar"
         autocomplete="off" readonly />
         <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto2 %>" />
@@ -60,11 +60,12 @@
 </div>
 
 <div class="wideRow">
-    <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-business-time"></span> Anticipo:</label>
+    <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Combustible:</label>
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
-        placeholder="Aplicar Anticipo" autocomplete="off" readonly />
+        placeholder="Aplicar Combustible"  autocomplete="off" <%= servbus.serviceId === 1  ? "" : "readonly" %> />
 </div>
-<% if (servbus.serviceId===1) { %>
+<input type="hidden" name="servuelta" value="<%= servbus.servuelta %>">
+<% if (servbus.servuelta === true) { %>
 <div class="wideRow">
     <label for="dctoFalla" class="itemNarrow"><span class="fa-solid fa-screwdriver-wrench"></span> Dcto por Falla:</label>
     <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"

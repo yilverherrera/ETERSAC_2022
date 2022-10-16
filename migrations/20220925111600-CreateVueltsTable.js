@@ -16,6 +16,12 @@ module.exports = {
                     type: Sequelize.DATEONLY,
                     validate: { notEmpty: { msg: "Fecha no debe estar vacío." } }
                 },
+                vltCanceladas: {
+                    type: Sequelize.FLOAT
+                },
+                montoUnitario: {
+                    type: Sequelize.FLOAT
+                },
                 createdAt: {
                     type: Sequelize.DATE,
                     allowNull: false
@@ -28,7 +34,7 @@ module.exports = {
             {
                 sync: { force: true }
             }
-        );
+            );
     },
     down(queryInterface, Sequelize) {
         return queryInterface.dropTable('Vuelts');
