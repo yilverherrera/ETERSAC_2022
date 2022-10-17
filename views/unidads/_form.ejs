@@ -1,35 +1,48 @@
-<div class="wideRow">
-    <label for="codigo" class="itemNarrow">Código:</label>
+<div class="form_one">
+<div class="label">
+    <label for="codigo">Código:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="codigo" name="codigo" value="<%= unidad.codigo %>" placeholder="Código"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="placa" class="itemNarrow">Placa:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="placa" name="placa" value="<%= unidad.placa %>" placeholder="Placa"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="marca" class="itemNarrow">Marca:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="marca" name="marca" value="<%= unidad.marca %>" placeholder="Marca"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="modelo" class="itemNarrow">Modelo:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="modelo" name="modelo" value="<%= unidad.modelo %>"
         placeholder="Modelo" autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="ano" class="itemNarrow">Año:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="ano" name="ano" value="<%= unidad.ano %>" placeholder="Año"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="routId" class="itemNarrow">Ruta:</label>
+    </div>
+    <div class="input">
     <select class="itemWide" id="routId" name="routId">
         <% for (var i in routs) { %>
             <% var rout = routs[i]; %>
@@ -40,8 +53,10 @@
     </select>
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="propietario" class="itemNarrow">Propietario:</label>
+    </div>
+    <div class="input">
     <select class="itemWide" id="propietariosId" name="propietarioId">
         <% for (var i in propietarios) { %>
             <% var propietario = propietarios[i]; %>
@@ -52,7 +67,6 @@
     </select>
 </div>
 
-<br />
-<a href="/goback" class="button">Cancelar</a>
+<button href="/goback" class="button_primary">Cancelar</button>
 
-<input type="submit" value="Guardar">
+<input class="button_secundario" type="submit" value="Guardar">

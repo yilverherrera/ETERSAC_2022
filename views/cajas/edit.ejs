@@ -3,10 +3,11 @@
 </h1>
 
 <form method="post" action="/cajas/<%= caja.id %>?_method=PUT">
-
-    <div class="wideRow">
+<div class="form_one">
+    <div class="label">
         <label for="name" class="itemNarrow">Despacho:</label>
-        
+        </div>
+        <div class="input">
         <select id="despacho" name="despacho">
             <% for (var i in despachos) { %>
                 <% var despacho = despachos[i]; %>
@@ -14,16 +15,18 @@
             <% } %>
         </select>                
     </div>
-    <div class="wideRow">
+    <div class="label">
         <label for="name" class="itemNarrow">Fecha:</label>
+        </div>
+        <div class="input">
         <input type="date" class="itemWide" id="fecha" name="fecha" value="<%= caja.fecha.toISOString().split('T')[0]; %>" placeholder="Fecha"
                autocomplete="off"/>
     </div>
 
     <br/>
 
-    <a href="/goback" class="button">Cancel</a>
+    <button class="button_secundario" href="/goback">Cancel</button>
 
-    <input type="submit" value="Save">
-
+    <input class="button_primary" type="submit" value="Save">
+</div>
 </form>

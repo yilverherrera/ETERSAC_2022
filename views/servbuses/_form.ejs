@@ -1,7 +1,14 @@
-<div class="form">
-<div class="wideRow">
-    <label for="unidad" class="itemNarrow"><span class="fa-solid fa-bus"></span> PD:<abbr title="required" aria-label="required">*</abbr></label>
-  <select class="itemWide" id="unidadId" name="unidadId">
+<div class="form_two">
+<div class="frmtwo_child">
+    <label for="unidad"><span class="fa-solid fa-bus"></span> PD:<abbr title="required" aria-label="required">*</abbr></label>
+    </div>
+
+    <div class="frmtwo_child">
+    <label for="serviceId"><span class="fa-brands fa-shopify"></span> Servicio:<abbr title="required" aria-label="required">*</abbr></label>
+    </div>
+
+    <div class="frmtwo_child">
+  <select  id="unidadId" name="unidadId">
 	<option value="0" disabled="disabled" <%= 0 === servbus.unidadId ? "selected" : "" %> >Seleccione</option>
         <% for (var i in unidads) { %>
             <% var unidad=unidads[i]; %>
@@ -12,9 +19,9 @@
     </select>
 </div>
 
-<div class="wideRow">
-    <label for="serviceId" class="itemNarrow"><span class="fa-brands fa-shopify"></span> Servicio:<abbr title="required" aria-label="required">*</abbr></label>
-    <select class="itemWide" id="serviceId" name="serviceId" onchange="envia(<%= servbus.cajaId %>, this)">
+
+    <div class="frmtwo_child">
+    <select id="serviceId" name="serviceId" onchange="envia(<%= servbus.cajaId %>, this)">
 	<option value="0" disabled="disabled" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
             <% var service=services[i]; %>
@@ -25,10 +32,19 @@
     </select>
 </div>
 <% if (servbus.unidadId>0) { %>
-<div class="wideRow">
-    <label for="monto" class="itemNarrow"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr><input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto2 %>" title="<%= servbus.descMont %>" onchange="cuenta('<%= servbus.monto2 %>')" checked ><%= servbus.monto2.split('T')[0] %> <%= servbus.descMont %>
-<input  type="radio" id="chMonto" name="chMonto" value="<%=servbus.monto3 %>" title="<%= servbus.descMont2 %>" onchange="cuenta('<%= servbus.monto3 %>')"><%= servbus.monto3.split('T')[0] %> <%= servbus.descMont2 %>
-<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto4 %>" title="<%= servbus.descMont3 %>" onchange="cuenta('<%= servbus.monto4 %>')" ><%= servbus.monto4.split('T')[0] %> <%= servbus.descMont3 %></label>
+<div class="frmtwo_child">
+    <label for="monto"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr>
+    <input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto2 %>" title="<%= servbus.descMont %>" onchange="cuenta('<%= servbus.monto2 %>')" checked ><%= servbus.descMont %>
+<input  type="radio" id="chMonto" name="chMonto" value="<%=servbus.monto3 %>" title="<%= servbus.descMont2 %>" onchange="cuenta('<%= servbus.monto3 %>')"><%= servbus.descMont2 %>
+
+<input  type="radio" id="chMonto" name="chMonto" value="<%= servbus.monto4 %>" title="<%= servbus.descMont3 %>" onchange="cuenta('<%= servbus.monto4 %>')" ><%= servbus.descMont3 %></label>
+</div>
+
+<div class="frmtwo_child">
+    <label for="fecha" class="itemNarrow"><span class="fa-solid fa-calendar"></span> Fecha:<abbr title="required" aria-label="required">*</abbr></label>
+    </div>
+
+<div class="frmtwo_child">
     <input type="text" class="itemWide" id="monto" name="monto" value="<%= servbus.monto %>" placeholder="Monto a Pagar"
         autocomplete="off" readonly />
         <input type="hidden" id="monto2" name="monto2" value="<%= servbus.monto2 %>" />
@@ -36,60 +52,84 @@
 <input type="hidden" id="monto3" name="monto4" value="<%= servbus.monto4 %>" />
 </div>
 
-<div class="wideRow">
-    <label for="fecha" class="itemNarrow"><span class="fa-solid fa-calendar"></span> Fecha:<abbr title="required" aria-label="required">*</abbr></label>
-  <input type="text" id="fecha" name="fecha" class="itemWide date" placeholder="Seleccione el/los dia(s)" value="<%= servbus.fecha.toISOString().split("T")[0] %>" autocomplete="off"  onchange="cotizar(this)"  readonly />
+    <div class="frmtwo_child">
+  <input type="text" id="fecha" name="fecha" class="date" placeholder="Seleccione el/los dia(s)" value="<%= servbus.fecha.toISOString().split("T")[0] %>" autocomplete="off"  onchange="cotizar(this)"  readonly />
 </div>
 
-<div class="wideRow">
-    <label for="efectivo" class="itemNarrow"><span class="fa-solid fa-sack-dollar"></span> Efectivo:<abbr title="required" aria-label="required">*</abbr></label>
+<div class="frmtwo_child">
+    <label for="efectivo"><span class="fa-solid fa-sack-dollar"></span> Efectivo:<abbr title="required" aria-label="required">*</abbr></label>
+    </div>
+
+    <div class="frmtwo_child">
+    <label for="banco"><span class="fa-solid fa-university"></span> Banco:</label></div>
+
+    <div class="frmtwo_child">
     <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
         placeholder="Efectivo" autocomplete="off" />
 </div>
 
-<div class="wideRow">
-    <label for="banco" class="itemNarrow"><span class="fa-solid fa-university"></span> Banco:</label>
+
+    <div class="frmtwo_child">
     <input type="text" class="itemWide" id="banco" name="banco" value="<%= servbus.banco %>"
         placeholder="Depósito, pdv, transferecia" autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="frmtwo_child">
     <label for="cpc" class="itemNarrow"><span class="fa-solid fa-hand-holding-dollar"></span> Cpc:</label>
+    </div>
+
+    <div class="frmtwo_child">
+    <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Combustible:</label>
+    </div>
+
+    <div class="frmtwo_child">
     <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= servbus.cpc %>" placeholder="Cuenta por Cobrar"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
-    <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Combustible:</label>
+    <div class="frmtwo_child">
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
         placeholder="Aplicar Combustible"  autocomplete="off" <%= servbus.serviceId === 1  ? "" : "readonly" %> />
 </div>
 <input type="hidden" name="servuelta" value="<%= servbus.servuelta %>">
 <% if (servbus.servuelta === true) { %>
-<div class="wideRow">
+
+<div class="frmtwo_child">
     <label for="dctoFalla" class="itemNarrow"><span class="fa-solid fa-screwdriver-wrench"></span> Dcto por Falla:</label>
+    </div>
+
+    <div class="frmtwo_child">
+    <label for="dctoSinietro" class="itemNarrow"><span class="fa-solid fa-ambulance"></span> Dcto por Siniestro:</label>
+    </div>
+
+    <div class="frmtwo_child">
     <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
         placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
 </div>
 
-<div class="wideRow">
-    <label for="dctoSinietro" class="itemNarrow"><span class="fa-solid fa-ambulance"></span> Dcto por Siniestro:</label>
+    <div class="frmtwo_child">
     <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= servbus.dctoSinietro %>"
         placeholder="Dcto considerado por Sinietro" autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="frmtwo_child">
     <label for="dctoAutoridad" class="itemNarrow"><span class="fa-solid fa-id-card"></span> Dcto por Autoridad:</label>
-    <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoSinietro %>"
-        placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
-</div>
+    </div>
 
-<div class="wideRow">
+    <div class="frmtwo_child">
     <label for="operadorId" class="itemNarrow"><span class="fa-solid fa-male"></span> Operador:&nbsp;&nbsp;&nbsp;<span class="fa-solid fa-hand-holding-dollar"></span><input type="checkbox"
         id="cpcOper"
         name="cpcOper"
         onchange="cobrarOper(this)"
         > <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; background-color: rgb(232, 237, 238);" placeholder="Abono"> </label>
+        </div>
+
+    <div class="frmtwo_child">
+    <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoSinietro %>"
+        placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
+</div>
+
+        <div class="frmtwo_child">
     <select class="itemWide" id="operadorId" name="operadorId">
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
@@ -101,13 +141,13 @@
     </select>
 </div>
 
-<br/>
-<div>Vueltas a Cancelar:</div>
-<div></div>
+<div class="frmtwo_child">Vueltas a Cancelar:</div>
+<div class="frmtwo_child">Recorrido:</div>
+<div class="frmtwo_child">
 <% for (var i in allCatvuelts) { %>
     <% var catvuelt = allCatvuelts[i]; %>
 
-    <div>
+    
             <input type="radio"
                    id="catvueltId2"
                    name="catvueltId2"
@@ -115,17 +155,16 @@
                    value="<%= catvuelt.id %>"
                    >
             <%= catvuelt.valor %>
-    </div>
+    
 <% } %>
-<br/>
-<div>Recorrido:</div>
-<div></div>
+</div>
+<div class="frmtwo_child">
 <% let acc=0; %>
 <% for (var i in allCatvuelts) { %>
     <% var catvuelt = allCatvuelts[i]; %>
     <% let VueltasIds=servbusVueltasIds.filter(servbusVueltasId=> servbusVueltasId.catvueltId === catvuelt.id ); %>
     
-    <div>
+    
 	<% if (VueltasIds.length>0) { %>
         <% let c = VueltasIds[0].color; %>
             <input type="checkbox"
@@ -166,13 +205,15 @@
                    >
             <%= catvuelt.valor %>
 	<% } %>
-    </div>
+
+   
 <% } %>
 <% } %>
+ </div>
 <% if (servbus.serviceId>0) { %>
-<input type="submit" value="Guardar" onclick="return validarSer()">
+<input type="submit" value="Guardar" class="button_primary" onclick="return validarSer()">
 <% } %>
 <% } %>
-<a href="/goback" class="button">Cancelar</a>
+<button href="/goback" class="button_secundario">Cancelar</button>
 </div>
 

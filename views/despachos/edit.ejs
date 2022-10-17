@@ -3,21 +3,25 @@
 </h1>
 
 <form method="post" action="/despachos/<%= despacho.id %>?_method=PUT">
-
-    <div class="wideRow">
+<div class="form_one">
+    <div class="label">
         <label for="name" class="itemNarrow">Nombre:</label>
+        </div>
+        <div class="input">
         <input type="text" class="itemWide" id="name" name="name" value="<%= despacho.name %>" placeholder="Despacho name"
                autocomplete="off"/>
     </div>
 
-    <div class="wideRow">
+    <div class="label">
         <label for="name" class="itemNarrow">Color:</label>
+        </div>
+        <div class="input">
         <input type="color" class="itemWide" id="color" name="color" value="<%= despacho.color %>" 
                />
     </div>
 
     <br/>
-
+ <div class="input">
     <% for (var i in allUsers) { %>
         <% var user = allUsers[i]; %>
 
@@ -31,11 +35,11 @@
         </div>
 
     <% } %>
+</div>
+   
 
-    <br/>
+    <button href="/goback" class="button_secundario">Cancel</button>
 
-    <a href="/goback" class="button">Cancel</a>
-
-    <input type="submit" value="Save">
-
+    <input class="button_primary" type="submit" value="Save">
+</div>
 </form>

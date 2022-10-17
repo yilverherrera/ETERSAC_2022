@@ -1,41 +1,56 @@
-<div class="wideRow">
-    <label for="codigo" class="itemNarrow">Código:</label>
-    <input type="text" class="itemWide" id="codigo" name="codigo" value="<%= rout.codigo %>" placeholder="Código"
+<div class="form_one">
+<div class="label">
+    <label for="codigo">Código:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="codigo" name="codigo" value="<%= rout.codigo %>" placeholder="Código"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="nombre" class="itemNarrow">Nombre:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="nombre" name="nombre" value="<%= rout.nombre %>" placeholder="Nombre"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="parNorte" class="itemNarrow">Paradero Norte:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="parNorte" name="parNorte" value="<%= rout.parNorte %>"
         placeholder="Paradero Norte" autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="posNorte" class="itemNarrow">Posición de Paradero Norte:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="posNorte" name="posNorte" value="<%= rout.posNorte %>"
         placeholder="Posición de Paradero Norte" autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="parSur" class="itemNarrow">Paradero Sur:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="parSur" name="parSur" value="<%= rout.parSur %>" placeholder="Paradero Sur"
         autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="posSur" class="itemNarrow">Posición de Paradero Sur:</label>
+    </div>
+    <div class="input">
     <input type="text" class="itemWide" id="posSur" name="posSur" value="<%= rout.posSur %>"
         placeholder="Posición de Paradero Sur" autocomplete="off" />
 </div>
 
-<div class="wideRow">
+<div class="label">
     <label for="empresa" class="itemNarrow">Empresa:</label>
+    </div>
+    <div class="input">
     <select class="itemWide" id="empresaId" name="empresaId">
         <% for (var i in empresas) { %>
             <% var empresa=empresas[i]; %>
@@ -47,6 +62,7 @@
 </div>
 
 <br />
-<a href="/goback" class="button">Cancelar</a>
+<button href="/goback" class="button_secundario">Cancelar</button>
 
-<input type="submit" value="Guardar">
+<input class="button_primary" type="submit" value="Guardar">
+</div>

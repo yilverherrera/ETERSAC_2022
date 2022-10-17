@@ -1,19 +1,26 @@
-<div class="wideRow">
-    <label for="ruc"  class="itemNarrow">Ruc:</label>
-    <input type="text" class="itemWide" id="ruc" name="ruc" value="<%= empresa.ruc %>" placeholder="Ruc" autocomplete="off"/>
+<div class="form_one">
+<div class="label">
+    <label for="ruc">Ruc:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="ruc" name="ruc" value="<%= empresa.ruc %>" placeholder="Ruc" autocomplete="off"/>
+</div>
+<div class="label">
+    <label for="razon">Razón:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="razon" name="razon" value="<%= empresa.razon %>" placeholder="Razon" autocomplete="off"/>
 </div>
 
-<div class="wideRow">
-    <label for="razon"  class="itemNarrow">Razón:</label>
-    <input type="text" class="itemWide" id="razon" name="razon" value="<%= empresa.razon %>" placeholder="Razon" autocomplete="off"/>
-</div>
-
-<div class="wideRow">
+<div class="label">
     <label for="direccion"  class="itemNarrow">Dirección:</label>
-    <input type="text" class="itemWide" id="direccion" name="direccion" value="<%= empresa.direccion %>" placeholder="direccion" autocomplete="off"/>
+    </div>
+    <div class="input">
+    <input type="text" class="itemWide" id="direccion" name="direccion" value="<%= empresa.direccion %>" placeholder="Direccion" autocomplete="off"/>
 </div>
 
-<br/>
-<a href="/goback" class="button">Cancelar</a>
 
-<input type="submit" value="Guardar">
+<button class="button_secundario" href="/goback" class="button">Cancelar</button>
+
+<input class="button_primary" type="submit" value="Guardar">
+</div>

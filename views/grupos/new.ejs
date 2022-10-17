@@ -3,22 +3,28 @@
 </h1>
 
 <form method="post" action="/grupos">
-
-  <div class="wideRow">
-    <label for="nombre" class="itemNarrow">Nombre:</label>
-    <input type="text" class="itemWide" id="nombre" name="nombre" value="<%= grupo.nombre %>" placeholder="Nombre"
+<div class="form_one">
+  <div class="label">
+    <label for="nombre">Nombre:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="nombre" name="nombre" value="<%= grupo.nombre %>" placeholder="Nombre"
       autocomplete="off" />
   </div>
 
-  <div class="wideRow">
-    <label for="descripcion" class="itemNarrow">Descripción:</label>
-    <input type="text" class="itemWide" id="descripcion" name="descripcion" value="<%= grupo.descripcion %>"
+  <div class="label">
+    <label for="descripcion">Descripción:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="descripcion" name="descripcion" value="<%= grupo.descripcion %>"
       placeholder="Descripción" autocomplete="off" />
   </div>
 
-  <div class="wideRow">
-    <label for="isEmpresa" class="itemNarrow">Pertenece:</label>
-    <select class="itemWide" id="isEmpresa" name="isEmpresa">
+  <div class="label">
+    <label for="isEmpresa">Pertenece:</label>
+    </div>
+    <div class="input">
+    <select id="isEmpresa" name="isEmpresa">
       <option value="TRUE" <%='TRUE'===grupo.IsEmpresa ? "selected" : "" %>>
         Empresa
       </option>
@@ -28,8 +34,10 @@
     </select>
   </div>
 
-  <div class="wideRow">
-    <label for="showCaja" class="itemNarrow">Mostrar en Caja:</label>
+  <div class="label">
+    <label for="showCaja">Mostrar en Caja:</label>
+    </div>
+    <div class="input">
     <select class="itemWide" id="showCaja" name="showCaja">
       <option value="FALSE" <%='FALSE'===grupo.showCaja ? "selected" : "" %>>
         No
@@ -40,9 +48,11 @@
     </select>
   </div>
 
-  <div class="wideRow">
-    <label for="showAutAdm" class="itemNarrow">Mostrar sólo a Autor y/o Admin:</label>
-    <select class="itemWide" id="showAutAdm" name="showAutAdm">
+  <div class="label">
+    <label for="showAutAdm">Mostrar sólo a Autor y/o Admin:</label>
+    </div>
+    <div class="input">
+    <select id="showAutAdm" name="showAutAdm">
       <option value="FALSE" <%='FALSE'===grupo.showAutAdm ? "selected" : "" %>>
         No
       </option>
@@ -52,9 +62,11 @@
     </select>
   </div>
 
-  <div class="wideRow">
-    <label for="allRuta" class="itemNarrow">Mostrar a todas las Rutas de Empresa:</label>
-    <select class="itemWide" id="allRuta" name="allRuta">
+  <div class="label">
+    <label for="allRuta">Mostrar a todas las Rutas de Empresa:</label>
+    </div>
+    <div class="input">
+    <select id="allRuta" name="allRuta">
       <option value="FALSE" <%='FALSE'===grupo.allRuta ? "selected" : "" %>>
         No
       </option>
@@ -64,9 +76,11 @@
     </select>
   </div>
 
-  <div class="wideRow">
+  <div class="label">
     <label for="empresaId" class="itemNarrow">Empresa:</label>
-    <select class="itemWide" id="empresaId" name="empresaId">
+    </div>
+    <div class="input">
+    <select id="empresaId" name="empresaId">
       <% for (var i in empresas) { %>
         <% var empresa=empresas[i]; %>
           <option value="<%= empresa.id %>" <%=empresa.id===grupo.empresaId ? "selected" : "" %>>
@@ -76,9 +90,11 @@
     </select>
   </div>
 
-  <div class="wideRow">
-    <label for="routId" class="itemNarrow">Ruta:</label>
-    <select class="itemWide" id="routId" name="routId">
+  <div class="label">
+    <label for="routId">Ruta:</label>
+    </div>
+    <div class="input">
+    <select id="routId" name="routId">
       <% for (var i in routs) { %>
         <% var rout=routs[i]; %>
           <option value="<%= rout.id %>" <%=rout.id===grupo.routId ? "selected" : "" %>>
@@ -88,8 +104,8 @@
     </select>
   </div>
   <br />
-  <a href="/goback" class="button">Cancelar</a>
+  <button href="/goback" class="button_secundario">Cancelar</button>
 
-  <input type="submit" value="Guardar">
-
+  <input class="button_primary" type="submit" value="Guardar">
+</div>
 </form>

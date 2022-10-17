@@ -3,21 +3,27 @@
 </h1>
 
 <form method="post" action="/despachos">
-
-    <div class="wideRow">
+<div class="form_one">
+    <div class="label">
         <label for="name" class="itemNarrow">Nombre:</label>
+        </div>
+        <div class="input">
         <input type="text" class="itemWide" id="name" name="name" value="<%= despacho.name %>" placeholder="Despacho name"
                autocomplete="off"/>
     </div>
 
-    <div class="wideRow">
+    <div class="label">
         <label for="name" class="itemNarrow">Color:</label>
+        </div>
+        <div class="input">
         <input type="color" class="itemWide" id="color" name="color" value="<%= despacho.color %>" 
                />
     </div>
 
-    <div class="wideRow">
+    <div class="label">
         <label for="routId" class="itemNarrow">Ruta:</label>
+        </div>
+        <div class="input">
         <select class="itemWide" id="routId" name="routId">
             <% for (var i in routs) { %>
                 <% var rout = routs[i]; %>
@@ -30,8 +36,8 @@
 
     <br/>
 
-    <a href="/goback" class="button">Cancelar</a>
+    <button class="button_secundario" href="/goback">Cancelar</button>
 
-    <input type="submit" value="Guardar">
-
+    <input class="button_primary" type="submit" value="Guardar">
+</div>
 </form>

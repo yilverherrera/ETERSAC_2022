@@ -3,21 +3,32 @@
 </h1>
 
 <form method="post" action="/grupos/<%= grupo.id %>?_method=PUT">
-    <div class="wideRow">
-        <label for="nombre" class="itemNarrow">Nombre:</label>
-        <input type="text" class="itemWide" id="nombre" name="nombre" value="<%= grupo.nombre %>" placeholder="Nombre"
+<div class="form_two">
+    <div class="frmtwo_child">
+        <label for="nombre">Nombre:</label>
+        </div>
+        <div class="frmtwo_child">
+        <label for="descripcion">Descripción:</label>
+        </div>
+        <div class="frmtwo_child">
+        <input type="text" id="nombre" name="nombre" value="<%= grupo.nombre %>" placeholder="Nombre"
             autocomplete="off" />
     </div>
 
-    <div class="wideRow">
-        <label for="descripcion" class="itemNarrow">Descripción:</label>
-        <input type="text" class="itemWide" id="descripcion" name="descripcion" value="<%= grupo.descripcion %>"
+    
+        <div class="frmtwo_child">
+        <input type="text" id="descripcion" name="descripcion" value="<%= grupo.descripcion %>"
             placeholder="Descripción" autocomplete="off" />
     </div>
 
-    <div class="wideRow">
-        <label for="isEmpresa" class="itemNarrow">Pertenece:</label>
-        <select class="itemWide" id="isEmpresa" name="isEmpresa">
+    <div class="frmtwo_child">
+        <label for="isEmpresa">Pertenece:</label>
+        </div>
+        <div class="frmtwo_child">
+        <label for="showCaja">Mostrar en Caja:</label>
+        </div>
+        <div class="frmtwo_child">
+        <select id="isEmpresa" name="isEmpresa">
             <option value="TRUE" <%='TRUE'===grupo.IsEmpresa ? "selected" : "" %>>
                 Empresa
             </option>
@@ -27,9 +38,9 @@
         </select>
     </div>
 
-    <div class="wideRow">
-        <label for="showCaja" class="itemNarrow">Mostrar en Caja:</label>
-        <select class="itemWide" id="showCaja" name="showCaja">
+    
+        <div class="frmtwo_child">
+        <select id="showCaja" name="showCaja">
             <option value="FALSE" <%='FALSE'===grupo.showCaja ? "selected" : "" %>>
                 No
             </option>
@@ -39,9 +50,14 @@
         </select>
     </div>
 
-    <div class="wideRow">
-        <label for="showAutAdm" class="itemNarrow">Mostrar sólo a Autor y/o Admin:</label>
-        <select class="itemWide" id="showAutAdm" name="showAutAdm">
+    <div class="frmtwo_child">
+        <label for="showAutAdm">Mostrar sólo a Autor y/o Admin:</label>
+        </div>
+        <div class="frmtwo_child">
+        <label for="allRuta">Mostrar a todas las Rutas de Empresa:</label>
+        </div>
+        <div class="frmtwo_child">
+        <select id="showAutAdm" name="showAutAdm">
             <option value="FALSE" <%='FALSE'===grupo.showAutAdm ? "selected" : "" %>>
                 No
             </option>
@@ -51,9 +67,9 @@
         </select>
     </div>
 
-    <div class="wideRow">
-        <label for="allRuta" class="itemNarrow">Mostrar a todas las Rutas de Empresa:</label>
-        <select class="itemWide" id="allRuta" name="allRuta">
+    
+        <div class="frmtwo_child">
+        <select id="allRuta" name="allRuta">
             <option value="FALSE" <%='FALSE'===grupo.allRuta ? "selected" : "" %>>
                 No
             </option>
@@ -63,9 +79,14 @@
         </select>
     </div>
 
-    <div class="wideRow">
-        <label for="empresaId" class="itemNarrow">Empresa:</label>
-        <select class="itemWide" id="empresaId" name="empresaId">
+    <div class="frmtwo_child">
+        <label for="empresaId">Empresa:</label>
+        </div>
+        <div class="frmtwo_child">
+        <label for="routId" >Ruta:</label>
+        </div>
+        <div class="frmtwo_child">
+        <select id="empresaId" name="empresaId">
             <% for (var i in empresas) { %>
                 <% var empresa=empresas[i]; %>
                     <option value="<%= empresa.id %>" <%=empresa.id===grupo.empresaId ? "selected" : "" %>>
@@ -75,9 +96,9 @@
         </select>
     </div>
 
-    <div class="wideRow">
-        <label for="routId" class="itemNarrow">Ruta:</label>
-        <select class="itemWide" id="routId" name="routId">
+    
+        <div class="frmtwo_child">
+        <select id="routId" name="routId">
             <% for (var i in routs) { %>
                 <% var rout=routs[i]; %>
                     <option value="<%= rout.id %>" <%=rout.id===grupo.routId ? "selected" : "" %>>
@@ -86,6 +107,7 @@
                     <% } %>
         </select>
     </div>
+
     <br />
     <table>
         <% for (var i in allUnidads) { %>
@@ -105,7 +127,10 @@
                         <% } %>
     </table>
     <br />
-    <a href="/goback" class="button">Cancelar</a>
+    <div>
+    <button href="/goback" class="button_secundario">Cancelar</button>
 
-    <input type="submit" value="Guardar">
+    <input class="button_primary" type="submit" value="Guardar">
+    </div>
+    </div>
 </form>

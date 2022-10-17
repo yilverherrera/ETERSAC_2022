@@ -1,20 +1,30 @@
-<div class="form">
-    <div class="wideRow">
-        <label for="monto"  class="itemNarrow">Monto:</label>
-        <input type="text" class="itemWide" id="monto" name="monto" value="<%= confservice.monto %>" placeholder="Monto" autocomplete="off"/>
+<div class="form_one">
+    <div class="label">
+        <label for="monto">Monto:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="monto" name="monto" value="<%= confservice.monto %>" placeholder="Monto" autocomplete="off"/>
     </div>
-    <div class="wideRow">
-        <div>
+    <div class="label">
             <label for="detalle"  class="itemNarrow">Detalle:</label>
-            <input type="checkbox" class="itemWide" id="detalle" name="detalle" placeholder="Detalle" value="true" <%= true === confservice.detalle ? "checked" : "" %> autocomplete="off"/>
+            </div>
+            <div class="input">
+            <div>
+            <input type="checkbox" id="detalle" name="detalle" placeholder="Detalle" value="true" <%= true === confservice.detalle ? "checked" : "" %> autocomplete="off"/>
+            </div>
         </div>
-        <div>
-            <label for="vuelta"  class="itemNarrow">Vuelta:</label>
-            <input type="checkbox" class="itemWide" id="vuelta" name="vuelta" placeholder="Vuelta" value="true" <%= true === confservice.vuelta ? "checked" : "" %>autocomplete="off"/>
+        <div class="label">
+            <label for="vuelta">Vuelta:</label>
+            </div>
+            <div class="input">
+            <div>
+            <input type="checkbox" id="vuelta" name="vuelta" placeholder="Vuelta" value="true" <%= true === confservice.vuelta ? "checked" : "" %>autocomplete="off"/>
+            </div>
         </div>
-    </div>
-    <div class="wideRow">
-        <label for="serviceId"  class="itemNarrow">Servicio:</label>
+    <div class="label">
+        <label for="serviceId">Servicio:</label>
+        </div>
+        <div class="input">
         <select name="serviceId" id="serviceId">
             <% for (var i in services) { %>
                 <% service = services[i]; %>
@@ -22,8 +32,10 @@
             <% } %>
         </select>
     </div>
-    <div class="wideRow">
-        <label for="grupoId"  class="itemNarrow">Grupo:</label>
+    <div class="label">
+        <label for="grupoId">Grupo:</label>
+        </div>
+        <div class="input">
         <select name="grupoId" id="grupoId">
             <% for (var i in grupos) { %>
                 <% grupo = grupos[i]; %>
@@ -31,6 +43,6 @@
             <% } %>
         </select>
     </div>
-    <a href="/goback" class="button">Cancelar</a>
-    <input type="submit" value="Guardar">
+    <button class=button_secundario href="/goback">Cancelar</button>
+    <input class="button_primary" type="submit" value="Guardar">
 </div>

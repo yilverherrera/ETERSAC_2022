@@ -1,19 +1,27 @@
-<div class="wideRow">
-    <label for="nombre"  class="itemNarrow">Nombre:</label>
-    <input type="text" class="itemWide" id="nombre" name="nombre" value="<%= propietario.nombre %>" placeholder="Nombre" autocomplete="off"/>
+<div class="form_one">
+<div class="label">
+    <label for="nombre">Nombre:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="nombre" name="nombre" value="<%= propietario.nombre %>" placeholder="Nombre" autocomplete="off"/>
 </div>
 
-<div class="wideRow">
-    <label for="telefono"  class="itemNarrow">Teléfono:</label>
-    <input type="text" class="itemWide" id="telefono" name="telefono" value="<%= propietario.telefono %>" placeholder="Teléfono" autocomplete="off"/>
+<div class="label">
+    <label for="telefono">Teléfono:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="telefono" name="telefono" value="<%= propietario.telefono %>" placeholder="Teléfono" autocomplete="off"/>
 </div>
 
-<div class="wideRow">
-    <label for="ruc"  class="itemNarrow">DNI/RUC:</label>
-    <input type="text" class="itemWide" id="ruc" name="ruc" value="<%= propietario.ruc %>" placeholder="DNI/RUC" autocomplete="off"/>
+<div class="label">
+    <label for="ruc">DNI/RUC:</label>
+    </div>
+    <div class="input">
+    <input type="text" id="ruc" name="ruc" value="<%= propietario.ruc %>" placeholder="DNI/RUC" autocomplete="off"/>
 </div>
 
 <br/>
-<a href="/goback" class="button">Cancelar</a>
+<button href="/goback" class="button_secundario">Cancelar</button>
 
-<input type="submit" value="Guardar">
+<input class="button_primary" type="submit" value="Guardar">
+</div>

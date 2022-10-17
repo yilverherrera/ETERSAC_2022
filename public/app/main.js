@@ -180,12 +180,15 @@ if (document.querySelector(".toggle2")) {
     }
   });
 }
-
 if (document.getElementById("unidadId")) {
 
   $(document).ready(function () {
 
-    $("#unidadId").select2();
+    $("#unidadId").select2(
+      {
+  height: '60px'
+  
+});
   });
   
   $(document).on("select2:open", () => {
@@ -215,7 +218,6 @@ if (document.getElementById("operadorId")) {
     $("#operadorId").select2();
   });
 }
-
 
 function validarSer() {
   const unidad = document.getElementById("unidadId").value;
