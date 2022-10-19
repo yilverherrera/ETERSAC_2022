@@ -577,7 +577,7 @@ exports.create = async (req, res, next) => {
         cpcIds.forEach(async (serbusId) => {
           const servbusesId = await models.Servbus.findByPk(serbusId);
           let monto = servbusesId.cpc;
-          const servbusId = servbusesId.id;
+          servbusId = servbusesId.id;
           let tmpcobrobus = models.Tmpcobrobus.build({
             monto,
             fecha,
@@ -675,16 +675,14 @@ exports.edit = async (req, res, next) => {
   });
   //---------------------------------------------------------------
 
- //---------Búsqueda de la unida y el grupo al cual pertenece la Unidad seleccionada por el usuario
+ //---------Búsqueda de grupo al cual pertenece la Unidad seleccionada por el usuario
   // para establecer el monto a pagar
-  const unidad = await models.Unidad.findByPk(servbus.id);
-
-  const grupUnidad = await unidad.getGrupos().map( (grupo) => {
+  const unidd = await models.Unidad.findByPk(servbus.unidadId);
+  const grupUnidad = await unidd.getGrupos().map( (grupo) => {
     return {
       grupoId: grupo.id
     }
   });
-  //-------------------------------------------------------
 
  //------ Búsqueda de la Configuración del Servicio (Precio, Monto a Pagar...)  seleccionado en el body por el usuario,
  // de acuerdo al grupo al que pertenece ----------------------------------------------------------
@@ -701,9 +699,22 @@ exports.edit = async (req, res, next) => {
   });
    if (confservice) {
      monto = confservice.monto;
-     servuelta: confservice.vuelta;
+     servuelta = confservice.vuelta;
    }
  }
+ //-----------------------------------------------------------
+
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log(servuelta);
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
+ console.log('-------------------------------------------');
  //------------------------------------------------------------------------
  
  //Búsqueda de operadores, se incluye sus cpc mayor a cero------------- 

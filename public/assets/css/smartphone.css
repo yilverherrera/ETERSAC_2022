@@ -1,16 +1,9 @@
-body {
-    font-size: large;
-    background: #eee;
-}
-
-#mainHeader {
-    font-size: large;
-}
 
 #page:after {
     content: "Smartphone Layout";
 }
 
-.no-narrow {
-    display: none;
+.form_two, .form_one{
+  margin-left: 10%;
+  margin-right: 10%;
 }

@@ -1,0 +1,77 @@
+<div class="toggle2">
+    <span class="fa-solid fa-sack-dollar"></span>
+</div>
+<div class="submenu">
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Ventas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Pagos</a>
+        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Retiros de Cajas</a>
+    </div>
+
+<% if (locals.loginUser) { %>
+    <a href="/cajas/<%= caja.id %>/vents/new" class="button">Crear Nueva Ventas</a>
+    <% } %>
+   
+<% let totalGral=0; %>
+<div class="container">
+
+<% for (var n in productos) { %>
+    <% var producto=productos[n]; %>
+    <% let vntas=vents.filter(vta=> vta.productoId === producto.id ); %>
+    <% let totalEfec=0; %>
+    <div class="row">
+        <div class="col-12"><b><%= producto.nombre %></b></div>
+    </div>
+           <div class="row">
+        <div class="col-1">Pd</div>
+        <div class="col-1">Recorrido</div>
+        <div class="col-1">Vlta Canc.</div>
+        <div class="col-1">Monto Uni</div>
+        <div class="col-1">Monto T.</div>
+        <div class="col-1">Efect</div>
+        <div class="col-1">Comb</div>
+        <div class="col-1">Cpc</div>
+        <div class="col-1">Falla</div>
+        <div class="col-1">Sntro</div>
+        <div class="col-1">Aut</div>
+        <div class="col-1"></div>
+    </div>
+
+    <% for (var i in vntas) { %>
+        <% var vta=vntas[i]; %>
+        <% totalEfec=totalEfec + vta.efectivo; %>  
+
+    <div class="row">
+        <div class="col-1"><%= vta.codigo %>-<%= vta.placa %></div>
+        <div class="col-1"><%= vta.vuelta %></div>
+        <div class="col-1"><%= vta.vltCanceladas %></div>
+        <div class="col-1"><%= vta.montoUnitario %></div>
+        <div class="col-1"><%= vta.monto %></div>
+        <div class="col-1"><%= vta.efectivo %></div>
+        <div class="col-1"><%= vta.combustible %></div>
+        <div class="col-1"><%= vta.cpc %></div>
+        <div class="col-1"><%= vta.dctoFalla %></div>
+        <div class="col-1"><%= vta.dctoSinietro %></div>
+        <div class="col-1"><%= vta.dctoAutoridad %></div>
+        <div class="col-1">
+         <a href="ventas/<%= vta.id %>"><i class="fa-regular fa-eye"></i></a>
+            <a href="/cajas/<%= caja.id %>/ventas/<%= vta.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
+            <a href="/cajas/<%= caja.id %>/ventas/<%= vta.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= producto.nombre %> Placa:<%= vta.placa %> Efectivo:<%= vta.efectivo %>');"><i class="fa-regular fa-trash-can"></i></a> 
+           </div>
+    </div>
+
+    <% } %>
+    <div class="row">
+        <div class="col-12"><b><%= totalEfec %></b></div>
+    </div>
+    
+       <% totalGral=totalGral + totalEfec; %>
+      <% } %>
+</div>
+
+<h2>Total Efectivo Ventas: <%= totalGral %></h2>
+
+<% include _main.ejs %>                                                                      

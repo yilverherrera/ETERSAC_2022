@@ -19,7 +19,6 @@
     </select>
 </div>
 
-
     <div class="frmtwo_child">
     <select id="serviceId" name="serviceId" onchange="envia(<%= servbus.cajaId %>, this)">
 	<option value="0" disabled="disabled" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
@@ -91,7 +90,7 @@
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
         placeholder="Aplicar Combustible"  autocomplete="off" <%= servbus.serviceId === 1  ? "" : "readonly" %> />
 </div>
-<input type="hidden" name="servuelta" value="<%= servbus.servuelta %>">
+<input type="hidden" name="servuelta" id="servuelta" value="<%= servbus.servuelta %>">
 <% if (servbus.servuelta === true) { %>
 
 <div class="frmtwo_child">
@@ -130,7 +129,7 @@
 </div>
 
         <div class="frmtwo_child">
-    <select class="itemWide" id="operadorId" name="operadorId">
+    <select id="operadorId" name="operadorId">
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
@@ -144,6 +143,7 @@
 <div class="frmtwo_child">Vueltas a Cancelar:</div>
 <div class="frmtwo_child">Recorrido:</div>
 <div class="frmtwo_child">
+<label for="catvueltId2">
 <% for (var i in allCatvuelts) { %>
     <% var catvuelt = allCatvuelts[i]; %>
 
@@ -157,8 +157,10 @@
             <%= catvuelt.valor %>
     
 <% } %>
+</label>
 </div>
 <div class="frmtwo_child">
+<label for="vueltasrecIds[]">
 <% let acc=0; %>
 <% for (var i in allCatvuelts) { %>
     <% var catvuelt = allCatvuelts[i]; %>
@@ -174,28 +176,27 @@
                    <%= VueltasIds.length>0 ? "checked" : "" %>
                    >
            <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= VueltasIds[0].efectivo %>&nbsp;&nbsp;&nbsp;      
-           <% if (VueltasIds[0].cpc>0) { %> 
-            <span class="fa-solid fa-hand-holding-dollar"></span> 
-            <%= VueltasIds[0].cpc %>
+           <% if (VueltasIds[0].cpc>0) { %>
             <input type="checkbox"
                    name="cpcIds[]"
                    onchange="cobrarCpc('<%= VueltasIds[0].cpc %>', this)"
                    value="<%= VueltasIds[0].servbusId %>"
                    <%=  VueltasIds[0].servbuscId === servbus.id ? "checked" : "" %>
                    >
-            &nbsp;&nbsp;&nbsp;  
+            <span class="fa-solid fa-hand-holding-dollar"></span> 
+            <%= VueltasIds[0].cpc %>
             <% } %>
             <% if (VueltasIds[0].dctoFalla>0) { %> 
             <span class="fa-solid fa-screwdriver-wrench"></span>
-            <%= VueltasIds[0].dctoFalla %>&nbsp;&nbsp;&nbsp;  
+            <%= VueltasIds[0].dctoFalla %>
             <% } %>
             <% if (VueltasIds[0].dctoSinietro>0) { %> 
             <span class="fa-solid fa-ambulance"></span>
-            <%= VueltasIds[0].dctoSinietro %>&nbsp;&nbsp;&nbsp;  
+            <%= VueltasIds[0].dctoSinietro %>
             <% } %>
             <% if (VueltasIds[0].dctoAutoridad>0) { %> 
                 <span class="fa-solid fa-id-card"></span>
-                <%= VueltasIds[0].dctoAutoridad %>&nbsp;&nbsp;&nbsp;  
+                <%= VueltasIds[0].dctoAutoridad %> 
                 <% } %>
 	<% } else {%>
 		   <input type="radio"
@@ -208,12 +209,16 @@
 
    
 <% } %>
-<% } %>
+</label>
  </div>
+<% } %>
+</div>
+<% } %>
+<a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
 <% if (servbus.serviceId>0) { %>
 <input type="submit" value="Guardar" class="button_primary" onclick="return validarSer()">
 <% } %>
-<% } %>
-<button href="/goback" class="button_secundario">Cancelar</button>
-</div>
+
+
+
 

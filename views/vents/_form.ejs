@@ -1,0 +1,208 @@
+<div class="form_two">
+
+    <div class="frmtwo_child">
+        <label for="unidad"><span class="fa-solid fa-bus"></span> PD:<abbr title="required" aria-label="required">*</abbr></label>
+    </div>
+
+    <div class="frmtwo_child">
+        <label for="serviceId"><span class="fa-brands fa-shopify"></span> Producto:<abbr title="required" aria-label="required">*</abbr></label>
+    </div>
+
+    <div class="frmtwo_child">
+        <select  id="unidadId" name="unidadId">
+	       <option value="0" disabled="disabled" <%= 0 === vent.unidadId ? "selected" : "" %> >Seleccione</option>
+                <% for (var i in unidads) { %>
+                    <% var unidad=unidads[i]; %>
+                        <option value="<%= unidad.id %>" <%= unidad.id === vent.unidadId ? "selected" : "" %>>
+                            <%= unidad.codigo %>-<%= unidad.placa %>
+                        </option>
+                <% } %>
+        </select>
+    </div>
+
+    <div class="frmtwo_child">
+        <select id="productoId" name="productoId" onchange="enviavta(<%= vent.cajaId %>, this)">
+	       <option value="0" disabled="disabled" <%= 0 === vent.productoId ? "selected" : "" %>>Seleccione</option>
+                <% for (var i in productos) { %>
+                    <% var producto=productos[i]; %>
+                        <option value="<%= producto.id %>" <%= producto.id === vent.productoId ? "selected" : "" %>>
+                            <%= producto.nombre.toUpperCase() %>
+                        </option>
+                <% } %>
+        </select>
+    </div>
+
+    <% if (vent.unidadId>0) { %>
+        <div class="frmtwo_child">
+            <label for="monto"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr>
+                <input  type="radio" id="chMonto" name="chMonto" value="<%= vent.monto2 %>" title="<%= vent.monto2 %>" onchangeven="cuentaven('<%= vent.monto2 %>')" checked ><%= vent.monto2 %>
+                <input  type="radio" id="chMonto" name="chMonto" value="<%=vent.monto3 %>" title="<%= vent.monto3 %>" onchange="cuentaven('<%= vent.monto3 %>')"><%= vent.monto3 %>
+            </label>
+        </div>
+
+        <div class="frmtwo_child">
+            <label for="fecha" class="itemNarrow"><span class="fa-solid fa-calendar"></span> Fecha:<abbr title="required" aria-label="required">*</abbr></label>
+        </div>
+
+        <div class="frmtwo_child">
+            <input type="text" class="itemWide" id="monto" name="monto" value="<%= vent.monto %>" placeholder="Monto a Pagar"
+            autocomplete="off" readonly />
+            <input type="hidden" id="monto2" name="monto2" value="<%= vent.monto2 %>" />
+            <input type="hidden" id="monto3" name="monto3" value="<%= vent.monto3 %>" />
+        </div>
+
+        <div class="frmtwo_child">
+            <input type="text" id="fecha" name="fecha" class="date" placeholder="Seleccione el/los dia(s)" value="<%= vent.fecha.toISOString().split("T")[0] %>" autocomplete="off"  onchange="cotizarvta(this)"  readonly />
+        </div>
+
+        <div class="frmtwo_child">
+            <label for="efectivo"><span class="fa-solid fa-sack-dollar"></span> Efectivo:<abbr title="required" aria-label="required">*</abbr></label>
+        </div>
+
+        <div class="frmtwo_child">
+            <label for="banco"><span class="fa-solid fa-university"></span> Banco:</label>
+        </div>
+
+        <div class="frmtwo_child">
+            <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= vent.efectivo %>"
+            placeholder="Efectivo" autocomplete="off" />
+        </div>
+
+        <div class="frmtwo_child">
+            <input type="text" class="itemWide" id="banco" name="banco" value="<%= vent.banco %>"
+            placeholder="Depósito, pdv, transferecia" autocomplete="off" />
+        </div>
+
+        <div class="frmtwo_child">
+            <label for="cpc" class="itemNarrow"><span class="fa-solid fa-hand-holding-dollar"></span> Cpc:</label>
+        </div>
+
+        <div class="frmtwo_child">
+            <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Anticipo:</label>
+        </div>
+
+        <div class="frmtwo_child">
+            <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= vent.cpc %>" placeholder="Cuenta por Cobrar"
+            autocomplete="off" />
+        </div>
+
+        <div class="frmtwo_child">
+            <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= vent.anticipo %>"
+            placeholder="Aplicar Anticipo"  autocomplete="off" <%= vent.servuelta === true ? "" : "readonly" %> />
+        </div>
+
+        <input type="hidden" name="servuelta" id="servuelta" value="<%= vent.servuelta %>">
+        <% if (vent.servuelta === true) { %>
+
+            <div class="frmtwo_child">
+                <label for="dctoFalla" class="itemNarrow"><span class="fa-solid fa-screwdriver-wrench"></span> Dcto por Falla:</label>
+            </div>
+
+            <div class="frmtwo_child">
+                <label for="dctoSinietro" class="itemNarrow"><span class="fa-solid fa-ambulance"></span> Dcto por Siniestro:</label>
+            </div>
+
+            <div class="frmtwo_child">
+                <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= vent.dctoFalla %>"
+                placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
+            </div>
+
+            <div class="frmtwo_child">
+                <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= vent.dctoSinietro %>"
+                placeholder="Dcto considerado por Sinietro" autocomplete="off" />
+            </div>
+
+            <div class="frmtwo_child">
+                <label for="dctoAutoridad" class="itemNarrow"><span class="fa-solid fa-id-card"></span> Dcto por Autoridad:</label>
+            </div>
+
+            <div class="frmtwo_child">
+                <label for="operadorId" class="itemNarrow">
+                    <span class="fa-solid fa-male"></span>Operador:<span class="fa-solid fa-hand-holding-dollar"></span>
+                    <input type="checkbox" id="cpcOper" name="cpcOper" onchange="cobrarOpervta(this)"> 
+                    <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; background-color: rgb(232, 237, 238);" placeholder="Abono"> 
+                </label>
+            </div>
+
+            <div class="frmtwo_child">
+                <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= vent.dctoSinietro %>"
+                placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
+            </div>
+
+            <div class="frmtwo_child">
+                <select id="operadorId" name="operadorId">
+	               <option value="0" <%= 0 === vent.operadorId ? "selected" : "" %>>Seleccione</option>
+                    <% for (var i in operadors) { %>
+                        <% var operador=operadors[i]; %>
+                        <option value="<%= operador.id+'T'+operador.vtaId+'T'+operador.cpc %>" <%=  operador.id === vent.operadorId ? "selected" : "" %>>
+                            <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %>  <%= operador.cpc > 0 ? 'tiene una deuda del '+operador.fecha+' cpc:'+operador.cpc : "" %>
+                        </option>
+                    <% } %>
+                </select>
+            </div>
+
+
+
+
+
+            <div class="frmtwo_child">Cantidad:</div>
+            <div class="frmtwo_child">Recorrido:</div>
+            <div class="frmtwo_child">
+                <input type="text" id="cant" name="cant" onchange="vtaCancelar(this)" value="<%= vent.cant %>">
+            </div>
+
+            <div class="frmtwo_child">
+                <label for="vueltasrecIds[]">
+                <% let acc=0; %>
+                <% for (var i in allCatvuelts) { %>
+                    <% var catvuelt = allCatvuelts[i]; %>
+                    <% let VueltasIds=venVueltasIds.filter(ventVueltasId=> ventVueltasId.catvueltId === catvuelt.id ); %>
+        
+                    <% if (VueltasIds.length>0) { %>
+
+                        <% let c = VueltasIds[0].color; %>
+                        <input type="checkbox" name="vueltasrecIds[]" value="<%= catvuelt.id %>" disabled="true" <%= VueltasIds.length>0 ? "checked" : "" %>>
+                        <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= VueltasIds[0].efectivo %>
+
+                        <% if (VueltasIds[0].cpc>0) { %>
+                            <input type="checkbox" name="cpcIds[]" onchange="cobrarCpcven('<%= VueltasIds[0].cpc %>', this)" value="<%= VueltasIds[0].ventId %>"
+                            <%=  VueltasIds[0].ventcId === vent.id ? "checked" : "" %>>
+                            <span class="fa-solid fa-hand-holding-dollar"></span> 
+                            <%= VueltasIds[0].cpc %>
+                        <% } %>
+
+                        <% if (VueltasIds[0].dctoFalla>0) { %> 
+                            <span class="fa-solid fa-screwdriver-wrench"></span>
+                            <%= VueltasIds[0].dctoFalla %>
+                        <% } %>
+
+                        <% if (VueltasIds[0].dctoSinietro>0) { %> 
+                            <span class="fa-solid fa-ambulance"></span>
+                            <%= VueltasIds[0].dctoSinietro %>
+                        <% } %>
+
+                        <% if (VueltasIds[0].dctoAutoridad>0) { %> 
+                            <span class="fa-solid fa-id-card"></span>
+                            <%= VueltasIds[0].dctoAutoridad %> 
+                        <% } %>
+
+                    <% } else {%>
+
+                        <input type="radio" id="catvueltId" name="catvueltId" value="<%= catvuelt.id %>">
+                        <%= catvuelt.valor %>
+                    <% } %>
+                <% } %>
+                </label>
+
+            </div>    
+        <% } %>
+    <% } %>
+</div>
+<a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
+<% if (vent.productoId>0) { %>
+<input type="submit" value="Guardar" class="button_primary" onclick="return validarVen()">
+<% } %>
+
+
+
+

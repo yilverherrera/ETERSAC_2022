@@ -100,11 +100,6 @@ toggle.addEventListener("click", function () {
   }
 });
 
-main.addEventListener("click", function () {
-  if (sidebarOpened) {
-    sidebarAnimationOut();
-  }
-});
 
 if (document.querySelector(".toggle2")) {
   let toggle2 = document.querySelector(".toggle2 span");
@@ -195,8 +190,8 @@ if (document.getElementById("unidadId")) {
     document.querySelector(".select2-container--open .select2-search__field").focus()
   });
 
-  const service = document.getElementById("serviceId");
-  if (parseInt(service.value) === 1) { 
+  const servuelta = document.getElementById("servuelta");
+  if (servuelta.value === 'true') { 
     $('#fecha').datepicker({
       multidate: false,
       format: 'yyyy-mm-dd',
@@ -219,16 +214,20 @@ if (document.getElementById("operadorId")) {
   });
 }
 
+
+
+
+
 function validarSer() {
   const unidad = document.getElementById("unidadId").value;
   const servicio = document.getElementById("serviceId").value;
+  const servuelta = document.getElementById("servuelta");
   let monto = document.getElementById("monto").value;
   const fecha = document.getElementById("fecha").value;
   let efectivo = document.getElementById("efectivo").value;
   let banco = document.getElementById("banco").value;
   let cpc = document.getElementById("cpc").value;
   let anticipo = document.getElementById("anticipo").value;
-  const servuelta = document.getElementsByName("servuelta").value
   let dcto = 0;
 
   if (unidad == 0) {
@@ -258,7 +257,7 @@ function validarSer() {
     anticipo = 0;
     document.getElementById("anticipo").value = 0;
   }
-  if (servuelta === true) {
+  if (servuelta.value === 'true') {
     let dctoFalla = document.getElementById("dctoFalla").value;
     let dctoSinietro = document.getElementById("dctoSinietro").value;
     let dctoAutoridad = document.getElementById("dctoAutoridad").value;
@@ -496,7 +495,7 @@ if (document.getElementById("serviceId"))
   function cotizar(cotiza) {
     const service = document.getElementById("serviceId");
     const servuelta = document.getElementsByName("servuelta");
-    if (servuelta.value === false) {
+    if (servuelta.value === 'false') {
       let monto = document.getElementById("monto");
       let monto2 = document.getElementById("monto2");
       let dias = cotiza.value.split(",");
@@ -508,4 +507,184 @@ if (document.getElementById("serviceId"))
   
 }
 
+
+/*----------Ventas------------*/
+function validarVen() {
+  const unidad = document.getElementById("unidadId").value;
+  const producto = document.getElementById("productoId").value;
+  const servuelta = document.getElementById("servuelta");
+  let monto = document.getElementById("monto").value;
+  const fecha = document.getElementById("fecha").value;
+  let efectivo = document.getElementById("efectivo").value;
+  let banco = document.getElementById("banco").value;
+  let cpc = document.getElementById("cpc").value;
+  let anticipo = document.getElementById("anticipo").value;
+  let dcto = 0;
+
+  if (unidad == 0) {
+    alert("Seleccione un PD");
+    return false;
+  }
+  if (producto == 0) {
+    alert("Seleccione un Servicio");
+    return false;
+  }
+  if (isNaN(efectivo) || isNaN(banco) || isNaN(cpc) || isNaN(anticipo)) {
+    alert("No es un número");
+    return false;
+  }
+  if (efectivo === "") {
+    efectivo = 0;
+  }
+  if (banco === "") {
+    banco = 0;
+    document.getElementById("banco").value = 0;
+  }
+  if (cpc === "") {
+    cpc = 0;
+    document.getElementById("cpc").value = 0;
+  }
+  if (anticipo === "") {
+    anticipo = 0;
+    document.getElementById("anticipo").value = 0;
+  }
+  if (servuelta.value === 'true') {
+    let dctoFalla = document.getElementById("dctoFalla").value;
+    let dctoSinietro = document.getElementById("dctoSinietro").value;
+    let dctoAutoridad = document.getElementById("dctoAutoridad").value;
+    const operador = document.getElementById("operadorId");
+    var cpcOper = document.getElementsByName("cpcOper");
+    const cobro = document.getElementById("cobrotxt");
+    var selected = false;
+    var radios = document.getElementsByName("catvueltId");
+
+    for (var radio of radios) {
+      if (radio.type === "radio" && radio.checked) {
+        selected = true;
+      }
+    }
+
+    if (!selected) {
+      alert("Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)");
+      return false;
+    }
+
+    if (operador.value === "0") {
+      alert("Seleccione un Operador");
+      return false;
+    }
+    const deuda = operador.value.split("T")[2];
+    if (isNaN(dctoFalla) || isNaN(dctoSinietro) || isNaN(dctoAutoridad)) {
+      alert("No es un número");
+      return false;
+    }
+    if (dctoFalla === "") {
+      dctoFalla = 0;
+    }
+    if (dctoSinietro === "") {
+      dctoSinietro = 0;
+    }
+    if (dctoAutoridad === "") {
+      dctoAutoridad = 0;
+    }
+    for (var cpcOpe of cpcOper) {
+      if (cpcOpe.checked) {
+        if (cobro.value === "" || isNaN(cobro.value) || cobro.value === "0") {
+          alert("Debes especificar el monto del abono a la deuda del operador");
+          return false;
+        }
+        if (parseFloat(cobro.value) > parseFloat(deuda)) {
+          alert("El cobro no puede ser mayor a saldo deudor");
+          return false;
+        }
+      }
+    }
+    dcto =
+    parseFloat(dctoFalla) +
+    parseFloat(dctoSinietro) +
+    parseFloat(dctoAutoridad);
+  }
+  console.log(dcto);
+  let total =
+  parseFloat(efectivo) +
+  parseFloat(banco) +
+  parseFloat(cpc) +
+  parseFloat(dcto);
+  monto = parseFloat(monto);
+  monto = monto - total;
+  if (monto > 0) {
+    alert(
+      "Debes especificar el saldo en una o varias opciones. Ej. La Monto es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)"
+      );
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
+function enviavta(cajaId, productoId){
+  const unidadId = document.getElementById("unidadId");
+
+  if (unidadId.value === '0') { 
+    alert('Seleccione una Unidad (PD)');
+    document.getElementById("productoId").value = 0;
+    return false;
+  }
+  
+  window.location.href = '/cajas/' + cajaId + '/sale/' + unidadId.value + '/' + productoId.value + '/newven';
+  
+}
+if (document.getElementById("productoId"))
+{
+  function cotizar(cotiza) {
+    const service = document.getElementById("serviceId");
+    const servuelta = document.getElementsByName("servuelta");
+    if (servuelta.value === 'false') {
+      let monto = document.getElementById("monto");
+      let monto2 = document.getElementById("monto2");
+      let dias = cotiza.value.split(",");
+      dias = dias.length;
+
+      monto.value = monto2.value * dias;
+    }
+  }
+  
+}
+
+if (document.getElementById("monto")) {
+  function vtaCancelar(cant) {
+    let monto = document.getElementById("monto");
+    let monto2 = document.getElementById("monto2");
+    var radioscpc = document.getElementsByName("cpcIds[]");
+    var radiosope = document.getElementsByName("cpcOper");
+    var chMontos = document.getElementsByName("chMonto"); 
+    let restamonto = 0;
+    
+    if (document.getElementById("tmpmonto")) {
+      restamonto = document.getElementById("tmpmonto").value;
+    }
+
+    for (var radiocpc of radioscpc) {
+      if (radiocpc.type === "checkbox" && radiocpc.checked) {
+        radiocpc.checked = false;
+      }
+    }
+
+    for (var radioope of radiosope) {
+      if (radioope.type === "checkbox" && radioope.checked) {
+        radioope.checked = false;
+      }
+    }
+    for (var chMonto of chMontos) {
+      if (chMonto.type === "radio" && chMonto.checked) {
+          monto2 = chMonto.value;
+      }
+    }
+
+    monto.value = monto2 * cant.value;
+    monto.value = monto.value - restamonto;
+   
+  }
+}
 

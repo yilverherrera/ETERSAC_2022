@@ -13,7 +13,8 @@ const despachoController = require('../controllers/despacho');
 const serviceController = require('../controllers/service');
 const servbusController = require('../controllers/servbus');
 const confserviceController = require('../controllers/confservice');
-
+const ventController = require('../controllers/vent');
+const productoController = require('../controllers/producto');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -104,6 +105,7 @@ router.get(
     '/cajas',
     '/cajas/:id(\\d+)/servbuses',
     '/users/:id(\\d+)/cajas',
+    '/cajas/:id(\\d+)/vents',
     '/login'
   ],
   saveBack);
@@ -127,6 +129,8 @@ router.param('servbusId', servbusController.load);
 router.param('despachoId', despachoController.load);
 router.param('serviceId', serviceController.load);
 router.param('confserviceId', confserviceController.load);
+router.param('ventId', ventController.load);
+router.param('productoId', productoController.load);
 
 
 // Routes for the resource /users
@@ -410,5 +414,38 @@ router.put('/confservices/:confserviceId(\\d+)',
   sessionController.loginRequired,
   sessionController.adminRequired,
   confserviceController.update);
+
+// Routes for the resource Ventas
+router.get('/cajas/:cajaId(\\d+)/vents',
+  sessionController.loginRequired,
+  ventController.index);   
+  router.get('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
+  sessionController.loginRequired,
+  ventController.show);     
+router.get('/cajas/:cajaId(\\d+)/vents/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  ventController.new);
+router.get('/cajas/:cajaId(\\d+)/sale/:unidadId(\\d+)/:productoId(\\d+)/newven',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  ventController.newVen);
+router.post('/cajas/:cajaId(\\d+)/vents',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  ventController.create);
+  router.get('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)/edit',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  ventController.edit);  
+router.put('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,           
+  ventController.update); 
+router.delete('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  ventController.destroy);
+
 
 module.exports = router;

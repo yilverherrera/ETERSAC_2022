@@ -59,7 +59,7 @@ const Operador = sequelize.import(path.join(__dirname,'operador'));
 // Import the definition of the Catvuelt Table from Catvuelt.js
 const Catvuelt = sequelize.import(path.join(__dirname,'catvuelt'));
 
-// Import the definition of the Vuelt Table from Vuelt.js
+// Import the definition of the Vuelt Table from vuelt.js
 const Vuelt = sequelize.import(path.join(__dirname,'vuelt'));
 
 // Import the definition of the Cobroservbus Table from cobroservbus.js
@@ -67,6 +67,19 @@ const Cobroservbus = sequelize.import(path.join(__dirname,'cobroservbus'));
 
 // Import the definition of the Tmpcobrobus Table from tmpcobrobus.js
 const Tmpcobrobus = sequelize.import(path.join(__dirname,'tmpcobrobus'));
+
+// Import the definition of the Vent Table from vent.js
+const Vent = sequelize.import(path.join(__dirname,'vent'));
+
+// Import the definition of the Vueltpro Table from vueltpro.js
+const Vueltpro = sequelize.import(path.join(__dirname,'vueltpro'));
+
+// Import the definition of the Cobrovent Table from cobrovent.js
+const Cobrovent = sequelize.import(path.join(__dirname,'cobrovent'));
+
+// Import the definition of the Tmpcobrovta Table from tmpcobrovta.js
+const Tmpcobrovta = sequelize.import(path.join(__dirname,'tmpcobrovta'));
+
 
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
@@ -163,6 +176,51 @@ Tmpcobrobus.belongsTo(Servbus, {as: 'pertServTmp', foreignKey: 'servbusId'});
 // Relation 1-to-N between Servbus and Tmpcobrobus:
 Servbus.hasMany(Tmpcobrobus, {as: 'tmpcobrobusc', foreignKey: 'servbuscId'});
 Tmpcobrobus.belongsTo(Servbus, {as: 'pertServcTmp', foreignKey: 'servbuscId'});
+
+// Relation 1-to-N between Unidad and Ventas:
+Unidad.hasMany(Vent, {as: 'ventas', foreignKey: 'unidadId'});
+Vent.belongsTo(Unidad, {as: 'pertUniVen', foreignKey: 'unidadId'});
+
+// Relation 1-to-N between Producto and Ventas:
+Producto.hasMany(Vent, {as: 'ventas', foreignKey: 'productoId'});
+Vent.belongsTo(Producto, {as: 'pertProVen', foreignKey: 'productoId'});
+
+// Relation 1-to-N between Unidad and Ventas:
+Caja.hasMany(Vent, {as: 'ventas', foreignKey: 'cajaId'});
+Vent.belongsTo(Caja, {as: 'pertCajVen', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Servbus and Vuelt:
+Vent.hasMany(Vueltpro, {as: 'vueltpros', foreignKey: 'ventId'});
+Vueltpro.belongsTo(Vent, {as: 'pertVenVue', foreignKey: 'ventId'});
+
+// Relation 1-to-N between Catvuelt and Vuelt:
+Catvuelt.hasMany(Vueltpro, {as: 'vueltpros', foreignKey: 'catvueltId'});
+Vueltpro.belongsTo(Catvuelt, {as: 'pertCatvVup', foreignKey: 'catvueltId'});
+
+// Relation 1-to-N between Unidad and Vueltpro:
+Unidad.hasMany(Vueltpro, {as: 'vueltpros', foreignKey: 'unidadId'});
+Vueltpro.belongsTo(Unidad, {as: 'pertUniVup', foreignKey: 'unidadId'});
+
+// Relation 1-to-N between Operador and Vents:
+Operador.hasMany(Vent, {as: 'ventas', foreignKey: 'operadorId'});
+Vent.belongsTo(Operador, {as: 'pertOpeVen', foreignKey: 'operadorId'});
+
+// Relation 1-to-N between Vent and Cobrovent:
+Vent.hasMany(Cobrovent, {as: 'cobrovent', foreignKey: 'ventId'});
+Cobrovent.belongsTo(Vent, {as: 'pertVenCob', foreignKey: 'ventId'});
+
+// Relation 1-to-N between Caja and Cobrovent
+Caja.hasMany(Cobrovent, {as: 'cobroventc', foreignKey: 'cajaId'});
+Cobrovent.belongsTo(Caja, {as: 'pertCajCobv', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Vent and Tmpcobrovta:
+Vent.hasMany(Tmpcobrovta, {as: 'tmpcobrovta', foreignKey: 'ventId'});
+Tmpcobrovta.belongsTo(Vent, {as: 'pertVtaTmp', foreignKey: 'ventId'});
+
+// Relation 1-to-N between Vent and Tmpcobrovta:
+Vent.hasMany(Tmpcobrovta, {as: 'tmpcobrovtac', foreignKey: 'ventcId'});
+Tmpcobrovta.belongsTo(Vent, {as: 'pertVtacTmp', foreignKey: 'ventcId'});
+
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {
