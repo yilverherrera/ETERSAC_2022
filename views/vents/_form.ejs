@@ -64,62 +64,54 @@
         </div>
 
         <div class="frmtwo_child">
-            <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= vent.efectivo %>"
+            <input type="text" class="sumEfec" id="efectivo" name="efectivo" value="<%= vent.efectivo %>"
             placeholder="Efectivo" autocomplete="off" />
         </div>
 
         <div class="frmtwo_child">
-            <input type="text" class="itemWide" id="banco" name="banco" value="<%= vent.banco %>"
+            <input type="text" class="sumBanco" id="banco" name="banco" value="<%= vent.banco %>"
             placeholder="Depósito, pdv, transferecia" autocomplete="off" />
         </div>
 
         <div class="frmtwo_child">
-            <label for="cpc" class="itemNarrow"><span class="fa-solid fa-hand-holding-dollar"></span> Cpc:</label>
+            <label for="cpc"><span class="fa-solid fa-hand-holding-dollar"></span> Cpc:</label>
         </div>
 
-        <div class="frmtwo_child">
-            <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Anticipo:</label>
-        </div>
+        <div class="frmtwo_child">Cantidad:</div>
 
         <div class="frmtwo_child">
-            <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= vent.cpc %>" placeholder="Cuenta por Cobrar"
+            <input type="text" class="sumCpc" id="cpc" name="cpc" value="<%= vent.cpc %>" placeholder="Cuenta por Cobrar"
             autocomplete="off" />
         </div>
 
-        <div class="frmtwo_child">
-        <select class="showAnt" id="anticipo" name="anticipo">
-            <option value="0">Selecione</option>
-            <% for (var i in anticipos) { %>
-            <% var anticip = anticipos[i]; %>
-            <option value="<%= anticip.saldo %>"></option>
-            <% } %>
-         </select>   
-        </div>
-        
+         
+            <div class="frmtwo_child">
+                <input type="text" id="cant" name="cant" class="calcMonto" value="<%= vent.cant %>">
+            </div>
+
         <input type="hidden" name="servuelta" id="servuelta" value="<%= vent.servuelta %>">
         <% if (vent.servuelta === true) { %>
 
+          
+
             <div class="frmtwo_child">
-                <label for="dctoFalla" class="itemNarrow"><span class="fa-solid fa-screwdriver-wrench"></span> Dcto por Falla:</label>
+                <label for="dctoSinietro"><span class="fa-solid fa-ambulance"></span> Dcto por Siniestro:</label>
             </div>
 
             <div class="frmtwo_child">
-                <label for="dctoSinietro" class="itemNarrow"><span class="fa-solid fa-ambulance"></span> Dcto por Siniestro:</label>
+                <label for="dctoAutoridad"><span class="fa-solid fa-id-card"></span> Dcto por Autoridad:</label>
             </div>
 
             <div class="frmtwo_child">
-                <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= vent.dctoFalla %>"
-                placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
-            </div>
-
-            <div class="frmtwo_child">
-                <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= vent.dctoSinietro %>"
+                <input type="text" class="sumSin" id="dctoSinietro" name="dctoSinietro" value="<%= vent.dctoSinietro %>"
                 placeholder="Dcto considerado por Sinietro" autocomplete="off" />
             </div>
 
             <div class="frmtwo_child">
-                <label for="dctoAutoridad" class="itemNarrow"><span class="fa-solid fa-id-card"></span> Dcto por Autoridad:</label>
+                <input type="text" class="sumAut" id="dctoAutoridad" name="dctoAutoridad" value="<%= vent.dctoSinietro %>"
+                placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
             </div>
+
 
             <div class="frmtwo_child">
                 <label for="operadorId" class="itemNarrow">
@@ -129,11 +121,13 @@
                 </label>
             </div>
 
-            <div class="frmtwo_child">
-                <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= vent.dctoSinietro %>"
-                placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
-            </div>
+            
+<div class="frmtwo_child">
+            <label for="dctoFalla" class="itemNarrow"><span class="fa-solid fa-screwdriver-wrench"></span> Dcto por Falla:</label>
+        </div>
 
+
+            
             <div class="frmtwo_child">
                 <select id="operadorId" name="operadorId">
 	               <option value="0" <%= 0 === vent.operadorId ? "selected" : "" %>>Seleccione</option>
@@ -146,11 +140,22 @@
                 </select>
             </div>
 
-            <div class="frmtwo_child">Cantidad:</div>
-            <div class="frmtwo_child">Recorrido del día al momento de Tanquear:</div>
-            <div class="frmtwo_child">
-                <input type="text" id="cant" name="cant" onchange="vtaCancelar(this)" value="<%= vent.cant %>">
+            
+<div class="frmtwo_child">
+                <input type="text" class="sumFall" id="dctoFalla" name="dctoFalla" value="<%= vent.dctoFalla %>"
+                placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
             </div>
+
+
+
+
+
+            <div class="frmtwo_child">Recorrido del día al momento de Tanquear:</div>
+
+            <div class="frmtwo_child">
+                <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Anticipo: <b><label id="lbsumaAnt">0</label></b></label>
+            </div>
+
 
             <div class="frmtwo_child">
                 <label for="vueltasrecIds[]">
@@ -193,15 +198,27 @@
                         <%= catvuelt.valor %>
                     <% } %>
                 <% } %>
+
+                <label id="restaVta" class="rstaVta"> Resta:<%= vent.monto %></label>
                 </label>
 
-            </div>    
+            </div>
+
+            
+             <div class="frmtwo_child">
+                 <select class="textAnt" id="anticipo" name="anticipo[]" multiple="multiple">
+                    <% for (var i in anticipos) { %>
+                    <% var anticip = anticipos[i]; %>
+                        <option value="<%= anticip.id %>" class="sumAnt" data-my-id="<%= anticip.saldo %>"> Monto:<%= anticip.monto %> Saldo:<%= anticip.saldo %> Fecha:<%= anticip.fecha %> Despacho:<%= anticip.pertCajAnt.pertDesCaj.name %></option>
+                    <% } %>
+                </select>   
+            </div>
         <% } %>
     <% } %>
 </div>
 <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
 <% if (vent.productoId>0) { %>
-<input type="submit" value="Guardar" class="button_primary" onclick="return validarVen()">
+<input type="submit" value="Guardar" class="button_primary createVenta">
 <% } %>
 
 

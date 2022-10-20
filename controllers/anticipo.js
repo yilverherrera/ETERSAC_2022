@@ -57,42 +57,46 @@ exports.show = (req, res, next) => {
 // GET /anticipos/new
 exports.new = async (req, res, next) => {
 
-    const grupos = await models.Grupo.findAll();
-    const services = await models.Service.findAll();
+    const unidads = await models.Unidad.findAll();
+    const {caja} = req.load;
 
-    const confservice =
+    const anticipo =
     {
-        monto: 0,
-        detalle: 0,
-        vuelta: 0,
-        serviceId: 0,
-        grupoId: 0,
+        efectivo: 0,
+        unidadId: 0,
+        cajaId: caja.id  
     };
 
-    res.render('confservices/new', { confservice, services, grupos });
+    res.render('anticipos/new', { anticipo, unidads});
 
 };
 
-// POST /confservices/create
+// POST /anticipos/create
 exports.create = async (req, res, next) => {
 
-    const {monto, detalle, vuelta, serviceId, grupoId} = req.body;
+    const {efectivo, unidadId} = req.body;
+    const unidads = await models.Unidad.findAll();
+    const {caja} = req.load;
+    const fecha = caja.fecha;
+    const monto = efectivo;
+    const cajaId = caja.id;
+    const saldo = efectivo;
     
-    let confservice = models.Confservice.build({ monto, detalle, vuelta, serviceId, grupoId });
+    let anticipo = models.Anticipo.build({ monto, fecha, saldo, unidadId, cajaId });
 
     try {
         // Saves only the fields name into the DDBB
-        confservice = await confservice.save();
-        req.flash('success', 'Configuración del Servicio creada Exitosamente.');
-        res.redirect('/confservices');
+        anticipo = await anticipo.save();
+        req.flash('success', 'Anticipo creado Exitosamente.');
+        res.redirect('/cajas/' + caja.id + '/anticipos');
         
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
             req.flash('error', 'Hay errores en el formulario:');
             error.errors.forEach(({message}) => req.flash('error', message));
-            res.render('confservice/new', {despacho});
+            res.render('anticipo/new', {anticipo, unidads, caja});
         } else {
-            req.flash('error', 'Error creating a new Confservice: ' + error.message);
+            req.flash('error', 'Error creating a new Anticipo: ' + error.message);
             next(error)
         }
     }        

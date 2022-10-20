@@ -1,9 +1,9 @@
 <div class="form_one">
     <div class="label">
-        <label for="monto">Monto:</label>
+        <label for="efectivo">Efectivo:</label>
         </div>
         <div class="input">
-        <input type="text" id="monto" name="monto" value="<%= anticipo.monto %>" placeholder="Monto" autocomplete="off"/>
+        <input type="text" id="efectivo" name="efectivo" value="<%= anticipo.efectivo %>" placeholder="Monto" autocomplete="off"/>
     </div>
     
     <div class="label">
@@ -13,11 +13,11 @@
         <select name="unidadId" id="unidadId">
             <% for (var i in unidads) { %>
                 <% unidad = unidads[i]; %>
-            <option value="<%= unidad.id %>"><%= unidad.codigo %>-<%= unidad.placa %></option>
+            <option value="<%= unidad.id %>" unidad.id === anticipo.unidadId ? "checked" : ""><%= unidad.codigo %>-<%= unidad.placa %></option>
             <% } %>
         </select>
     </div>
    
-    <button class=button_secundario href="/goback">Cancelar</button>
+    <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
     <input class="button_primary" type="submit" value="Guardar">
 </div>

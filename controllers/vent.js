@@ -126,7 +126,7 @@ exports.index = async (req, res, next) => {
         precioVta: vta.precioVta,
         cant: vta.cant,
         efectivo: vta.efectivo,
-        combustible: vta.anticipo,
+        anticipo: vta.anticipo,
         cpc: vta.cpc,
         dctoFalla: vta.dctoFalla,
         dctoSinietro: vta.dctoSinietro,
@@ -316,7 +316,15 @@ exports.newVen = async (req, res, next) => {
     unidadId: {
     [Op.eq]: unidad.id
     }
-  }
+  },
+  include:[{
+    model: models.Caja,
+    as: "pertCajAnt",
+    include:[{
+      model: models.Despacho,
+      as: "pertDesCaj"
+    }]
+  }]
  });
  const allCatvuelts = await models.Catvuelt.findAll();
  const hoy = caja.fecha.toISOString().split("T")[0];
@@ -453,7 +461,7 @@ exports.newVen = async (req, res, next) => {
     monto2: monto,
     monto3: producto.precioVta2,
     fecha: caja.fecha,
-    cant: 0,
+    cant: 1,
     efectivo: "0",
     banco: "",
     cpc: "",
@@ -495,7 +503,7 @@ exports.create = async (req, res, next) => {
     efectivo,
     banco,
     cpc,
-    anticipo,
+    anticipo = 0,
     dctoFalla = 0,
     dctoSinietro = 0,
     dctoAutoridad = 0,
@@ -509,6 +517,15 @@ exports.create = async (req, res, next) => {
     chMonto = 0,
     servuelta = false
   } = req.body;
+
+  if (anticipo.length>0){
+    let sumAnticipo = 0;
+    anticipo.forEach(async (ant) => { 
+    const searAnticipo = await models.Anticipo.findByPk(ant);
+     sumAnticipo = sumAnticipo + parseFloat(searAnticipo.saldo) 
+   });
+    anticipo = sumAnticipo;
+  }
 
   const precioVta = chMonto;
 
@@ -724,19 +741,6 @@ exports.edit = async (req, res, next) => {
  }
  //-----------------------------------------------------------
 
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log(servuelta);
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- //------------------------------------------------------------------------
- 
  //Búsqueda de operadores, se incluye sus cpc mayor a cero------------- 
  findOptionsOpe.include.push({
   model: models.Servbus,

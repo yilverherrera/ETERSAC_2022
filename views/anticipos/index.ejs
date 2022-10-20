@@ -21,7 +21,7 @@
     <div class="row flotante">
         <div class="col-3">Pd</div>
         <div class="col-3">Monto</div>
-        <div class="col-3">Efect</div>
+        <div class="col-3">Efectivo</div>
         <div class="col-3"></div>
     </div>
     <br>
@@ -31,15 +31,15 @@
     <% let totalEfec=0; %>
 <% for (var n in anticipos) { %>
     <% var anticipo=anticipos[n]; %>
-    <% totalEfec = totalEfec + anticipo.efectivo; %>
+    <% totalEfec = totalEfec + anticipo.monto; %>
     <div class="row">
         <div class="col-3"><%= anticipo.pertUniAnt.codigo %>-<%= anticipo.pertUniAnt.placa %></div>
         <div class="col-3"><%= anticipo.monto %></div>
-        <div class="col-3"><%= anticipo.efectivo %></div>
+        <div class="col-3"><%= anticipo.monto %></div>
         <div class="col-3">
          <a href="anticipos/<%= anticipo.id %>"><i class="fa-regular fa-eye"></i></a>
             <a href="/cajas/<%= caja.id %>/anticipos/<%= anticipo.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
-            <a href="/cajas/<%= caja.id %>/anticipos/<%= anticipo.id %>?_method=DELETE" onClick="return confirm('Eliminar?: Placa:<%= anticipo.pertUniAnt.placa %> Efectivo:<%= anticipo.efectivo %>');"><i class="fa-regular fa-trash-can"></i></a> 
+            <a href="/cajas/<%= caja.id %>/anticipos/<%= anticipo.id %>?_method=DELETE" onClick="return confirm('Eliminar?: Placa:<%= anticipo.pertUniAnt.placa %> Efectivo:<%= anticipo.monto %>');"><i class="fa-regular fa-trash-can"></i></a> 
            </div>
     </div>
 
