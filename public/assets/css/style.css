@@ -10,8 +10,10 @@
   --corporativo-color: #18809c;
   --white-color: white;
   --black-color: #313337;
+  --success-color:  #a8f5a3;
   /*------Tipografía-----------*/
   --module: 12px;
+  --resalt: 14px;
   /*---- Espaciado-----*/
   --space: 10px;
   --space2: 20px;
@@ -54,8 +56,12 @@ a:hover{
   color: var(--corporativo-color);
 }
 
-nav a:hover{
+nav a{
   color: var(--white-color);
+}
+
+nav a:hover{
+  color: var(--black-color);
 }
 
 footer{
@@ -252,4 +258,43 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   opacity: 0.5;
 }
 
+.fa-arrow-right-from-bracket{
+  color: var(--white-color);
+  opacity: 1;
+}
+
+.flotante{
+  position: fixed;
+  top: 135px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 3;
+  border: 1px solid #00B7FF;
+  box-shadow: var(--box-shadow);
+  background-color: var(--white-color);
+}
+
+.cbox{
+  margin-left: 0px;
+}
+
+.main li{
+  text-align: left;
+}
+
+.resalt{
+  padding: 2px;
+  border: 1px dotted  var(--black-color);
+  background-color: var(--success-color);
+  font-size: var(--resalt);
+}
+
+.crear{
+  padding: 2px;
+  border: 1px dotted  var(--black-color);
+  background-color: var(--success-color);
+  font-size: var(--resalt);
+  opacity: 0.5;
+}
 /*-----------------------*/

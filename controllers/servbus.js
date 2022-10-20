@@ -557,7 +557,7 @@ exports.create = async (req, res, next) => {
 
     if (servuelta === 'true') {
 
-      const servbusId = servbus.id;
+      let servbusId = servbus.id;
 
       let vuelt = models.Vuelt.build({
         fecha,

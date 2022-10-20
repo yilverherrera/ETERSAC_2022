@@ -87,10 +87,15 @@
         </div>
 
         <div class="frmtwo_child">
-            <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= vent.anticipo %>"
-            placeholder="Aplicar Anticipo"  autocomplete="off" <%= vent.servuelta === true ? "" : "readonly" %> />
+        <select class="showAnt" id="anticipo" name="anticipo">
+            <option value="0">Selecione</option>
+            <% for (var i in anticipos) { %>
+            <% var anticip = anticipos[i]; %>
+            <option value="<%= anticip.saldo %>"></option>
+            <% } %>
+         </select>   
         </div>
-
+        
         <input type="hidden" name="servuelta" id="servuelta" value="<%= vent.servuelta %>">
         <% if (vent.servuelta === true) { %>
 
@@ -141,12 +146,8 @@
                 </select>
             </div>
 
-
-
-
-
             <div class="frmtwo_child">Cantidad:</div>
-            <div class="frmtwo_child">Recorrido:</div>
+            <div class="frmtwo_child">Recorrido del día al momento de Tanquear:</div>
             <div class="frmtwo_child">
                 <input type="text" id="cant" name="cant" onchange="vtaCancelar(this)" value="<%= vent.cant %>">
             </div>

@@ -31,15 +31,15 @@
         <div class="nav_options">
             <ul>
                 <li>
-                   <% if (locals.loginUser) { %>
-            <a href="/users/<%= locals.loginUser.id %>/cajas">Mis Cajas</a>
-            <% } %> 
-                </li>
-                <li>
                     <% if (!locals.lcDespacho) { %>
                     <% } else { %>
                     Despacho:<%= locals.lcDespacho %> <%= locals.lcFecha %>
                     <% } %>
+                </li>
+                <li>
+                   <% if (locals.loginUser) { %>
+            <a href="/users/<%= locals.loginUser.id %>/cajas">Mis Cajas</a>
+            <% } %> 
                 </li>
                 <li>
                     <% if (!locals.loginUser) { %>
@@ -57,12 +57,8 @@
         </div>
 
     </nav>
-
-    <div class="main fadeIn" id="mainSection">
-        <div class="toggle">
-                <span class="fa fa-bars"></span>
-            </div> 
-<% if (messages.info) { %>
+    <div class="flash">
+        <% if (messages.info) { %>
         <article id='flashinfo'>
             <h3>Información de Interés:</h3>
             <ul>
@@ -76,14 +72,11 @@
         <% } %>
         <% if (messages.success) { %>
         <article id='flashsuccess'>
-            <h3>Tareas Completadas Exitosamente:</h3>
-            <ul>
+            <h3>
                 <% for (var i in messages.success) { %>
-                <li>
                     <%= messages.success[i] %>
-                </li>
                 <% } %>
-            </ul>
+            </h3>
         </article>
         <% } %>
         <% if (messages.error) { %>
@@ -98,6 +91,13 @@
             </ul>
         </article>
         <% } %>
+
+    </div>
+
+    <div class="main fadeIn" id="mainSection">
+        <div class="toggle">
+                <span class="fa fa-bars"></span>
+            </div> 
         <%- body %>
     </div>
 

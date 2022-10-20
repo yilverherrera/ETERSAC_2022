@@ -59,6 +59,42 @@ exports.index = async (req, res, next) => {
 
   try {
 
+    const servbusSum = await models.Servbus.findAll({
+    attributes: [[Sequelize.fn('sum', Sequelize.col('efectivo')), 'total']],
+    raw: true,
+    order: Sequelize.literal('total DESC')
+  });
+
+    const cobroBusSum = await models.Cobroservbus.findAll({
+    attributes: [[Sequelize.fn('sum', Sequelize.col('monto')), 'total']],
+    raw: true,
+    order: Sequelize.literal('total DESC')
+  });
+
+    const cobroVtaSum = await models.Cobrovent.findAll({
+    attributes: [[Sequelize.fn('sum', Sequelize.col('monto')), 'total']],
+    raw: true,
+    order: Sequelize.literal('total DESC')
+  });
+
+    const ventSum = await models.Vent.findAll({
+    attributes: [[Sequelize.fn('sum', Sequelize.col('efectivo')), 'total']],
+    raw: true,
+    order: Sequelize.literal('total DESC')
+  });
+
+    const cobroBusSuma = cobroBusSum[0].total !== null ? cobroBusSum[0].total : 0;
+
+    const cobroVtaSuma = cobroVtaSum[0].total !== null ? cobroVtaSum[0].total : 0;
+
+    const cobrosTotal = cobroBusSuma + cobroVtaSuma;
+
+    servbusTotal = servbusSum[0].total !== null ? servbusSum[0].total : 0;
+
+    ventTotal = ventSum[0].total !== null ? ventSum[0].total : 0;
+
+    const total = cobrosTotal  + servbusTotal + ventTotal;
+
     const despacho = await models.Despacho.findByPk(caja.despachoId);
 
     if (despacho) {
@@ -87,6 +123,8 @@ exports.index = async (req, res, next) => {
       return {
         id: vta.id,
         monto: vta.monto,
+        precioVta: vta.precioVta,
+        cant: vta.cant,
         efectivo: vta.efectivo,
         combustible: vta.anticipo,
         cpc: vta.cpc,
@@ -116,7 +154,7 @@ exports.index = async (req, res, next) => {
 
     });
 
-    res.render("vents/index.ejs", { caja, vents, productos });
+    res.render("vents/index.ejs", { caja, vents, productos, servbusTotal, ventTotal, cobrosTotal, total });
 
   } catch (error) {
     next(error);
@@ -124,7 +162,7 @@ exports.index = async (req, res, next) => {
 
 };
 //-------------------------------------SHOW------------------------------------------
-// GET /cajas/:cajaId/vents/:servbusId
+// GET /cajas/:cajaId/vents/:ventId
 exports.show = async (req, res, next) => {
 
   const { caja } = req.load;
@@ -142,7 +180,7 @@ exports.show = async (req, res, next) => {
 
   findOptions.where.id = vent.id;
 
-  findOptionsVltapro.where.ventId = vent.id;
+  findOptionsVlta.where.ventId = vent.id;
 
   findOptions.include.push({
     model: models.Unidad,
@@ -159,9 +197,9 @@ exports.show = async (req, res, next) => {
     as: "pertCatvVup",
   });
 
-  const vents = await models.Servbus.findOne(findOptions);
+  const vents = await models.Vent.findOne(findOptions);
 
-  const vuelt = await models.Vuelt.findOne(findOptionsVlta);
+  const vuelt = await models.Vueltpro.findOne(findOptionsVlta);
 
   res.render("vents/show", { caja, vents, vuelt });
 
@@ -217,10 +255,6 @@ exports.newVen = async (req, res, next) => {
   const { unidad } = req.load;
   const { producto } = req.load;
   let monto = producto.precioVta1;
-  console.log('---------------------------------------------');
-console.log('---------------------------------------------');
-console.log('---------------------------------------------');
-console.log(monto);
   let servuelta = false;
   
   //------Se incluye en la búsqueda de los operadores sus cpc mayores a cero
@@ -274,6 +308,16 @@ console.log(monto);
  const productos = await models.Producto.findAll();
  const cobrosAll = await models.Cobrovent.findAll();
  const operadores = await models.Operador.findAll(findOptionsOpe);
+ const anticipos = await models.Anticipo.findAll({
+  where: {
+    saldo: {
+      [Op.gt]: 0
+    },
+    unidadId: {
+    [Op.eq]: unidad.id
+    }
+  }
+ });
  const allCatvuelts = await models.Catvuelt.findAll();
  const hoy = caja.fecha.toISOString().split("T")[0];
 
@@ -431,6 +475,7 @@ console.log(monto);
     operadors,
     allCatvuelts,
     venVueltasIds,
+    anticipos
   });
 };
 
@@ -583,7 +628,7 @@ exports.create = async (req, res, next) => {
       }
     }
 
-    req.flash("success", "Venta Creado Exitosamente.");
+    req.flash("success", "Venta Creada Exitosamente.");
     res.redirect("/cajas/" + caja.id + "/vents");
   } catch (error) {
     if (error instanceof Sequelize.ValidationError) {

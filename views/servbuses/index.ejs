@@ -2,30 +2,24 @@
     <span class="fa-solid fa-sack-dollar"></span>
 </div>
 <div class="submenu">
-        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in"><b><u>Servicios</u></b></a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
         <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Ope.</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Admón</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Pagos</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Retiros de Cajas</a>
+        <a href="/cajas/<%= caja.id %>/gastopvos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/gastadvos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
     </div>
 
 <% if (locals.loginUser) { %>
-    <a href="/cajas/<%= caja.id %>/servbuses/new" class="button">Crear Nuevo Servicio</a>
+    <a href="/cajas/<%= caja.id %>/servbuses/new" class="crear">Crear Nuevo Servicio</a>
     <% } %>
    
 <% let totalGral=0; %>
 <div class="container">
 
-<% for (var n in services) { %>
-    <% var service=services[n]; %>
-    <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
-    <% let totalEfec=0; %>
-    <div class="row">
-        <div class="col-12"><b><%= service.nombre %></b></div>
-    </div>
-           <div class="row">
+    <div class="row flotante">
         <div class="col-1">Pd</div>
         <div class="col-1">Recorrido</div>
         <div class="col-1">Vlta Canc.</div>
@@ -39,6 +33,19 @@
         <div class="col-1">Aut</div>
         <div class="col-1"></div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+<% for (var n in services) { %>
+    <% var service=services[n]; %>
+    <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
+    <% let totalEfec=0; %>
+    <div class="row">
+        <div class="col-12"><b><%= service.nombre.toUpperCase() %></b></div>
+    </div>
+
 
     <% for (var i in servbuses) { %>
         <% var servbus=servbuses[i]; %>

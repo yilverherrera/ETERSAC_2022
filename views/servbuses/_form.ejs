@@ -175,9 +175,9 @@
                    disabled="true"
                    <%= VueltasIds.length>0 ? "checked" : "" %>
                    >
-           <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= VueltasIds[0].efectivo %>&nbsp;&nbsp;&nbsp;      
+           <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= VueltasIds[0].efectivo %>
            <% if (VueltasIds[0].cpc>0) { %>
-            <input type="checkbox"
+            <input type="checkbox" class="cbox"
                    name="cpcIds[]"
                    onchange="cobrarCpc('<%= VueltasIds[0].cpc %>', this)"
                    value="<%= VueltasIds[0].servbusId %>"

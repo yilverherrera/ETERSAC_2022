@@ -80,6 +80,9 @@ const Cobrovent = sequelize.import(path.join(__dirname,'cobrovent'));
 // Import the definition of the Tmpcobrovta Table from tmpcobrovta.js
 const Tmpcobrovta = sequelize.import(path.join(__dirname,'tmpcobrovta'));
 
+// Import the definition of the Anticipo Table from anticipo.js
+const Anticipo = sequelize.import(path.join(__dirname,'anticipo'));
+
 
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
@@ -220,6 +223,15 @@ Tmpcobrovta.belongsTo(Vent, {as: 'pertVtaTmp', foreignKey: 'ventId'});
 // Relation 1-to-N between Vent and Tmpcobrovta:
 Vent.hasMany(Tmpcobrovta, {as: 'tmpcobrovtac', foreignKey: 'ventcId'});
 Tmpcobrovta.belongsTo(Vent, {as: 'pertVtacTmp', foreignKey: 'ventcId'});
+
+// Relation 1-to-N between Caja and Anticipo
+Caja.hasMany(Anticipo, {as: 'anticipos', foreignKey: 'cajaId'});
+Anticipo.belongsTo(Caja, {as: 'pertCajAnt', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Unidad and Anticipo
+Unidad.hasMany(Anticipo, {as: 'anticipos', foreignKey: 'unidadId'});
+Anticipo.belongsTo(Unidad, {as: 'pertUniAnt', foreignKey: 'unidadId'});
+
 
 
 // Relation N-to-N between Unidad and Grupo:

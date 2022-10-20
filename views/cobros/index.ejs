@@ -4,15 +4,16 @@
 <div class="submenu">
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios">Servicios</a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
-        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros" class="in">Cobros</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Ope.</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Gastos Admón</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Pagos</a>
-        <a href="/cajas/<%= caja.id %>/ventas" title="Ventas">Retiros de Cajas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros"><b><u>Cobros</u></b></a>
+        <a href="/cajas/<%= caja.id %>/gastopvos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/gastadvos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
     </div>    
 
 <% if (locals.loginUser) { %>
-    <a href="/cajas/<%= caja.id %>/cobros/new" class="button">Crear Nuevo Cobro</a>
+    <a href="/cajas/<%= caja.id %>/cobros/new" class="crear">Crear Nuevo Cobro</a>
     <% } %>
 <% let totalGral=0; %>
 <% let totalEfec=0; %>

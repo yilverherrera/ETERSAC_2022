@@ -614,7 +614,7 @@ function validarVen() {
   monto = monto - total;
   if (monto > 0) {
     alert(
-      "Debes especificar el saldo en una o varias opciones. Ej. La Monto es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)"
+      "Debes especificar el saldo en una o varias opciones. Ej. El Monto es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)"
       );
     return false;
   } else {
@@ -684,6 +684,7 @@ if (document.getElementById("monto")) {
 
     monto.value = monto2 * cant.value;
     monto.value = monto.value - restamonto;
+    monto.value = parseFloat(monto.value).toFixed(4);
    
   }
 }

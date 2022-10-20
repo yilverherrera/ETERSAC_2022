@@ -13,7 +13,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'boleto',
+                nombre: 'Boletos',
                 precioUltComp: 3,
                 precioVta1: 5,
                 precioVta2: 5,
@@ -21,7 +21,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'camisa s',
+                nombre: 'Camisas S',
                 precioUltComp: 20,
                 precioVta1: 25,
                 precioVta2: 25,
@@ -29,7 +29,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'camisa m',
+                nombre: 'Camisas M',
                 precioUltComp: 25,
                 precioVta1: 30,
                 precioVta2: 30,
@@ -37,7 +37,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'camisa l',
+                nombre: 'Camisas L',
                 precioUltComp: 30,
                 precioVta1: 35,
                 precioVta2: 35,
@@ -45,7 +45,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'camisa xl',
+                nombre: 'Camisas Xl',
                 precioUltComp: 30,
                 precioVta1: 35,
                 precioVta2: 35,
@@ -53,7 +53,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'camisa xxl',
+                nombre: 'Camisas XXl',
                 precioUltComp: 30,
                 precioVta1: 35,
                 precioVta2: 35,
@@ -61,7 +61,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'camisa xxxl',
+                nombre: 'Camisas XXXL',
                 precioUltComp: 35,
                 precioVta1: 40,
                 precioVta2: 40,
@@ -69,7 +69,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'casaca s',
+                nombre: 'Casacas S',
                 precioUltComp: 40,
                 precioVta1: 50,
                 precioVta2: 50,
@@ -77,7 +77,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'casaca m',
+                nombre: 'Casacas M',
                 precioUltComp: 40,
                 precioVta1: 50,
                 precioVta2: 50,
@@ -85,7 +85,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'casaca l',
+                nombre: 'Casacas L',
                 precioUltComp: 40,
                 precioVta1: 50,
                 precioVta2: 50,
@@ -93,7 +93,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'casaca xl',
+                nombre: 'Casacas XL',
                 precioUltComp: 40,
                 precioVta1: 50,
                 precioVta2: 50,
@@ -101,7 +101,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'casaca xxl',
+                nombre: 'Casacas XXL',
                 precioUltComp: 40,
                 precioVta1: 50,
                 precioVta2: 50,
@@ -109,7 +109,7 @@ module.exports = {
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
-                nombre: 'casaca xxxl',
+                nombre: 'Casacas XXXL',
                 precioUltComp: 40,
                 precioVta1: 50,
                 precioVta2: 50,

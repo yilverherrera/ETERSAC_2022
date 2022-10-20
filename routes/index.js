@@ -15,6 +15,7 @@ const servbusController = require('../controllers/servbus');
 const confserviceController = require('../controllers/confservice');
 const ventController = require('../controllers/vent');
 const productoController = require('../controllers/producto');
+const anticipoController = require('../controllers/anticipo');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -106,6 +107,8 @@ router.get(
     '/cajas/:id(\\d+)/servbuses',
     '/users/:id(\\d+)/cajas',
     '/cajas/:id(\\d+)/vents',
+    '/cajas/:id(\\d+)/anticipos',
+    '/cajas/:id(\\d+)/cobros',
     '/login'
   ],
   saveBack);
@@ -131,6 +134,7 @@ router.param('serviceId', serviceController.load);
 router.param('confserviceId', confserviceController.load);
 router.param('ventId', ventController.load);
 router.param('productoId', productoController.load);
+router.param('anticipoId', anticipoController.load);
 
 
 // Routes for the resource /users
@@ -446,6 +450,35 @@ router.delete('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   ventController.destroy);
+
+// Routes for the resource Anticipos
+router.get('/cajas/:cajaId(\\d+)/anticipos',
+  sessionController.loginRequired,
+  anticipoController.index);   
+  router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
+  sessionController.loginRequired,
+  anticipoController.show);     
+router.get('/cajas/:cajaId(\\d+)/anticipos/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  anticipoController.new);
+router.post('/cajas/:cajaId(\\d+)/anticipos',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  anticipoController.create);
+  router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)/edit',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  anticipoController.edit);  
+router.put('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,           
+  anticipoController.update); 
+router.delete('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  anticipoController.destroy);
+
 
 
 module.exports = router;

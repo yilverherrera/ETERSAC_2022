@@ -1,0 +1,38 @@
+<h1>
+    Ver Venta:
+</h1>
+
+<ul>
+    <li>Id: <b>
+        <%= vents.id %>
+    </b></li>
+    <li>Pd: <b>
+            <%= vents.pertUniVen.codigo %>-<%= vents.pertUniVen.placa %>
+        </b></li>
+    <li>Monto: <b>
+            <%= vents.monto %>
+        </b></li>
+    <li>Efectivo: <b>
+            <%= vents.efectivo %>
+        </b></li>
+    <li>Cpc: <b>
+            <%= vents.cpc %>
+        </b></li>
+    <li>Dcto. por Falla Mecanica: <b>
+            <%= vents.dctoFalla %>
+        </b></li>
+    <li>Dcto por Siniestro (Choque, Caída de Pasajeros ...): <b>
+            <%= vents.dctoSinietro %>
+        </b></li>
+    <li>Dcto. por Inconv. con la autoridad (Rev. Tec, SOAT vencido ...): <b>
+            <%= vents.dctoSinietro %>
+        </b></li>
+    <li>Operador: <b>
+            <%= vents.pertOpeVen.nombre %> <%= vents.pertOpeVen.apellido %>
+        </b></li>
+    <li>Vuelta: <b>
+              <%=  vuelt !== null ? vuelt.pertCatvVup.vuelta : "" %>
+        </b></li>        
+</ul>
+
+<a href="/goback" class="button">Regresar</a>
