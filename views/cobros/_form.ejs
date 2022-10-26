@@ -1,0 +1,27 @@
+<div class="form_one">
+    <div class="label">
+        <label for="efectivo">Efectivo:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="efectivo" name="efectivo" value="<%= cobro.efectivo %>" placeholder="Monto" autocomplete="off"/>
+    </div>
+    
+    <div class="label">
+        <label for="cpcId">Cpc:</label>
+        </div>
+        <div class="input">
+        <select name="cpcId" id="cpcId">
+            <% for (var i in cpcs) { %>
+                <% cpc = cpcs[i]; %>
+            <option value="<%= cpc.id+'T'+1 %>" cpc.id === cobro.cpcId ? "checked" : ""><%= cpc.codigo %>-<%= cpc.placa %> <%= cpc.nombre.toUpperCase() %> <%= cpc.apellido.toUpperCase() %> FECHA:<%= cpc.fecha %> <%= cpc.service %> CPC:<%= cpc.cpc %> ABONADO:<%= cpc.total %></option>
+            <% } %>
+             <% for (var i in cpcv) { %>
+                <% cpc = cpcv[i]; %>
+            <option value="<%= cpc.id+'T'+2 %>" cpc.id === cobro.cpcId ? "checked" : ""><%= cpc.codigo %>-<%= cpc.placa %> <%= cpc.nombre.toUpperCase() %> <%= cpc.apellido.toUpperCase() %> FECHA:<%= cpc.fecha %> <%= cpc.producto %> CPC:<%= cpc.cpc %> ABONADO:<%= cpc.total %></option>
+            <% } %>
+        </select>
+    </div>
+   
+    <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
+    <input class="button_primary" type="submit" value="Guardar">
+</div>

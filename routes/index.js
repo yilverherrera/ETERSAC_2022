@@ -16,6 +16,7 @@ const confserviceController = require('../controllers/confservice');
 const ventController = require('../controllers/vent');
 const productoController = require('../controllers/producto');
 const anticipoController = require('../controllers/anticipo');
+const cobroController = require('../controllers/cobro');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -95,21 +96,21 @@ function saveBack(req, res, next) {
 //   /new, /edit, /login or /:id.
 router.get(
   [
-    '/',
-    '/empresas',
-    '/routs',
-    '/propietarios',
-    '/despachos',
-    '/unidads',
-    '/users',
-    '/grupos',
-    '/cajas',
-    '/cajas/:id(\\d+)/servbuses',
-    '/users/:id(\\d+)/cajas',
-    '/cajas/:id(\\d+)/vents',
-    '/cajas/:id(\\d+)/anticipos',
-    '/cajas/:id(\\d+)/cobros',
-    '/login'
+  '/',
+  '/empresas',
+  '/routs',
+  '/propietarios',
+  '/despachos',
+  '/unidads',
+  '/users',
+  '/grupos',
+  '/cajas',
+  '/cajas/:id(\\d+)/servbuses',
+  '/users/:id(\\d+)/cajas',
+  '/cajas/:id(\\d+)/vents',
+  '/cajas/:id(\\d+)/anticipos',
+  '/cajas/:id(\\d+)/cobros',
+  '/login'
   ],
   saveBack);
 
@@ -135,6 +136,8 @@ router.param('confserviceId', confserviceController.load);
 router.param('ventId', ventController.load);
 router.param('productoId', productoController.load);
 router.param('anticipoId', anticipoController.load);
+router.param('cobroId', cobroController.load);
+router.param('cobrovId', cobroController.loadv);
 
 
 // Routes for the resource /users
@@ -342,7 +345,7 @@ router.delete('/cajas/:cajaId(\\d+)',
 router.get('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
   servbusController.index);   
-  router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
+router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
   sessionController.loginRequired,
   servbusController.show);     
 router.get('/cajas/:cajaId(\\d+)/servbuses/new',
@@ -357,7 +360,7 @@ router.post('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   servbusController.create);
-  router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)/edit',
+router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)/edit',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   servbusController.edit);  
@@ -371,13 +374,7 @@ router.delete('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
   servbusController.childlessRequired,             
   servbusController.destroy);
 
-// Routes for the resource servbuses Cobros
-router.get('/cajas/:cajaId(\\d+)/cobros',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  cajaController.indexCobro);
-
-// Routes for the resource Despacho
+// Routes for the resource DespachoS
 router.get('/despachos',
   despachoController.index);
 router.get('/despachos/new',
@@ -423,7 +420,7 @@ router.put('/confservices/:confserviceId(\\d+)',
 router.get('/cajas/:cajaId(\\d+)/vents',
   sessionController.loginRequired,
   ventController.index);   
-  router.get('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
+router.get('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
   sessionController.loginRequired,
   ventController.show);     
 router.get('/cajas/:cajaId(\\d+)/vents/new',
@@ -438,14 +435,6 @@ router.post('/cajas/:cajaId(\\d+)/vents',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   ventController.create);
-  router.get('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)/edit',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  ventController.edit);  
-router.put('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,           
-  ventController.update); 
 router.delete('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
@@ -455,7 +444,7 @@ router.delete('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
 router.get('/cajas/:cajaId(\\d+)/anticipos',
   sessionController.loginRequired,
   anticipoController.index);   
-  router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
+router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
   sessionController.loginRequired,
   anticipoController.show);     
 router.get('/cajas/:cajaId(\\d+)/anticipos/new',
@@ -466,7 +455,7 @@ router.post('/cajas/:cajaId(\\d+)/anticipos',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   anticipoController.create);
-  router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)/edit',
+router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)/edit',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   anticipoController.edit);  
@@ -479,6 +468,32 @@ router.delete('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
   cajaController.AuthorRequired,          
   anticipoController.destroy);
 
-
+// Routes for the resource Cobros
+router.get('/cajas/:cajaId(\\d+)/cobros',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cobroController.index);
+router.get('/cajas/:cajaId(\\d+)/cobros/:cobroId(\\d+)',
+  sessionController.loginRequired,
+  cobroController.show);     
+router.get('/cajas/:cajaId(\\d+)/cobros/v/:cobrovId(\\d+)',
+  sessionController.loginRequired,
+  cobroController.showv);     
+router.get('/cajas/:cajaId(\\d+)/cobros/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cobroController.new);
+router.post('/cajas/:cajaId(\\d+)/cobros',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  cobroController.create);
+router.delete('/cajas/:cajaId(\\d+)/cobros/:cobroId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  cobroController.destroy);
+router.delete('/cajas/:cajaId(\\d+)/cobros/v/:cobrovId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  cobroController.destroyv);
 
 module.exports = router;

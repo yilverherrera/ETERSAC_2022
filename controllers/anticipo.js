@@ -77,7 +77,7 @@ exports.create = async (req, res, next) => {
     const {efectivo, unidadId} = req.body;
     const unidads = await models.Unidad.findAll();
     const {caja} = req.load;
-    const fecha = caja.fecha;
+    const fecha = caja.fecha.toISOString().split("T")[0];
     const monto = efectivo;
     const cajaId = caja.id;
     const saldo = efectivo;
@@ -163,7 +163,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.anticipo.destroy();
-        req.flash('success', 'Empresa Eliminada Exitosamente.');
+        req.flash('success', 'Anticipo Eliminada Exitosamente.');
         res.redirect('/anticipos');
     } catch (error) {
         next(error);

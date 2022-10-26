@@ -276,7 +276,7 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   z-index: 3;
   border: 1px solid #00B7FF;
   box-shadow: var(--box-shadow);
-  background-color: var(--white-color);
+  background-color: var(--success-color);
 }
 
 .cbox{
@@ -299,7 +299,7 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   border: 1px dotted  var(--black-color);
   background-color: var(--success-color);
   font-size: var(--resalt);
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .textAnt{
@@ -307,7 +307,7 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
 }
 
 .rstaVta{
-  color: var(--corporativo-color);
-  font-size: 24px;
+  color: #e5a82d;
+  font-size: 28px;
 }
 /*-----------------------*/

@@ -116,8 +116,8 @@
             <div class="frmtwo_child">
                 <label for="operadorId" class="itemNarrow">
                     <span class="fa-solid fa-male"></span>Operador:<span class="fa-solid fa-hand-holding-dollar"></span>
-                    <input type="checkbox" id="cpcOper" name="cpcOper" onchange="cobrarOpervta(this)"> 
-                    <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; background-color: rgb(232, 237, 238);" placeholder="Abono"> 
+                    <input type="checkbox" id="cpcOper" name="cpcOper" class="cobrarOperVta"> 
+                    <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; color: black;" placeholder="Abono"> 
                 </label>
             </div>
 
@@ -133,7 +133,7 @@
 	               <option value="0" <%= 0 === vent.operadorId ? "selected" : "" %>>Seleccione</option>
                     <% for (var i in operadors) { %>
                         <% var operador=operadors[i]; %>
-                        <option value="<%= operador.id+'T'+operador.vtaId+'T'+operador.cpc %>" <%=  operador.id === vent.operadorId ? "selected" : "" %>>
+                        <option value="<%= operador.id+'T'+operador.ventId+'T'+operador.cpc %>" <%=  operador.id === vent.operadorId ? "selected" : "" %>>
                             <%= operador.nombre.toUpperCase() %> <%= operador.apellido.toUpperCase() %>  <%= operador.cpc > 0 ? 'tiene una deuda del '+operador.fecha+' cpc:'+operador.cpc : "" %>
                         </option>
                     <% } %>
@@ -153,7 +153,10 @@
             <div class="frmtwo_child">Recorrido del día al momento de Tanquear:</div>
 
             <div class="frmtwo_child">
-                <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Anticipo: <b><label id="lbsumaAnt">0</label></b></label>
+                <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Anticipo: <b><label id="lbsumaAnt">0</label></b>
+                <label id="lbselAnt"></label>
+                <input type="text" class="" name ="anticSel" id="anticSel" style="height: 7px; width: 40px; color: black;" placeholder="Saldo"><i class="fa-regular fa-pen-to-square modAnt"></i> <input type="hidden" id="indexAnticip">
+                </la</label>
             </div>
 
 
@@ -171,8 +174,6 @@
                         <span style="background-color:<%= c %>; border-radius: 50%; padding: 3px"> <%= catvuelt.valor %></span> <span class="fa fa-usd"></span><%= VueltasIds[0].efectivo %>
 
                         <% if (VueltasIds[0].cpc>0) { %>
-                            <input type="checkbox" name="cpcIds[]" onchange="cobrarCpcven('<%= VueltasIds[0].cpc %>', this)" value="<%= VueltasIds[0].ventId %>"
-                            <%=  VueltasIds[0].ventcId === vent.id ? "checked" : "" %>>
                             <span class="fa-solid fa-hand-holding-dollar"></span> 
                             <%= VueltasIds[0].cpc %>
                         <% } %>
@@ -199,7 +200,7 @@
                     <% } %>
                 <% } %>
 
-                <label id="restaVta" class="rstaVta"> Resta:<%= vent.monto %></label>
+                <label id="restaVta" class="rstaVta"><br><b> Resta:<%= vent.monto %></b></label>
                 </label>
 
             </div>
@@ -209,7 +210,7 @@
                  <select class="textAnt" id="anticipo" name="anticipo[]" multiple="multiple">
                     <% for (var i in anticipos) { %>
                     <% var anticip = anticipos[i]; %>
-                        <option value="<%= anticip.id %>" class="sumAnt" data-my-id="<%= anticip.saldo %>"> Monto:<%= anticip.monto %> Saldo:<%= anticip.saldo %> Fecha:<%= anticip.fecha %> Despacho:<%= anticip.pertCajAnt.pertDesCaj.name %></option>
+                        <option value="<%= anticip.id+'T'+anticip.saldo %>" class="sumAnt" data-my-id="<%= anticip.saldo %>" style="background-color:<%= anticip.saldo>0 ? "#a8f5a3" : "#e5a82d" %>"> Monto:<%= anticip.monto %> Saldo:<%= anticip.saldo %> Fecha:<%= anticip.fecha %> Despacho:<%= anticip.despacho %></option>
                     <% } %>
                 </select>   
             </div>
