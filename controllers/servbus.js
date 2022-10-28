@@ -22,7 +22,7 @@ exports.load = async (req, res, next, servbusId) => {
 
 };
 
-// MW - El registro se podrá borrar genera una cpc y ya fué cobrada 
+// MW - El registro no se podrá borrar sí generó una cpc y ya fué cobrada 
 exports.childlessRequired = async (req, res, next) => {
 
   const servbusId = req.load.servbus.id;

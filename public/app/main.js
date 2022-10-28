@@ -175,7 +175,7 @@ if (document.querySelector(".toggle2")) {
     }
   });
 }
-if (document.getElementById("unidadId")) {
+if (document.getElementById("servuelta")) {
 
   $(document).ready(function () {
 
@@ -1226,6 +1226,108 @@ const cobrarOperVtaContr = (check) => {
   }
 }
 
+const items = document.querySelector('.items');
+
+const addProductoContr = () => {
+    
+  const itemContainer = document.createElement('div');
+  itemContainer.className = 'row item';
+
+    itemContainer.innerHTML += createDomElement();
+    items.append(itemContainer);
+    itemContainer
+    .querySelector('.buttonDelete')
+    .addEventListener('click', removeItem);
+ updateTotal();
+
+}
+
+const createDomElement = () => {
+  const producto =document.getElementById('reproductoId');
+  const indiceP = producto.selectedIndex;
+  const opcionSeleccionadaP = producto.options[indiceP];
+  const unidad =document.getElementById('unidadId');
+  const indiceU = unidad.selectedIndex;
+  const opcionSeleccionadaU = unidad.options[indiceU];
+  const cantidad =document.getElementById('cant');
+  const precio = 1;
+  const itemHtml = `
+  <div class="col-2">
+        <p class='unidad' data-id='${opcionSeleccionadaU.value}'> ${opcionSeleccionadaU.text} </p>
+    </div>
+    <div class="col-6">
+        <p class='producto' data-id='${opcionSeleccionadaP.value}'> ${opcionSeleccionadaP.text} </p>
+    </div>
+    <div class="col-2">
+       <p class='precio'> ${precio} </p>
+    </div>
+    <div class="col-4">
+        <input class="cantidad" type="number"
+                    value="${cantidad.value}">
+                    <button class="buttonDelete" type="button">X</button>
+    </div>`;
+  return itemHtml;
+  
+}
+
+const updateTotal = () => {
+  let total = 0;
+  
+  const totalSel = document.querySelector('.total');
+
+  const product = document.querySelector('.product');
+
+  const Items = document.querySelectorAll('.item');
+
+  product.value = "";
+
+  Items.forEach((Item) => {
+     const unidadElement = Item.querySelector(
+      '.unidad'
+    );
+
+     const unidad = Number(
+      unidadElement.getAttribute("data-id")
+    );
+
+      const productoElement = Item.querySelector(
+      '.producto'
+    );
+
+     const producto = Number(
+      productoElement.getAttribute("data-id")
+    );
+
+    const precioElement = Item.querySelector(
+      '.precio'
+    );
+    const precio = Number(
+      precioElement.textContent
+    );
+    
+    const cantidadElement = Item.querySelector(
+      '.cantidad'
+    );
+    const cantidad = Number(
+      cantidadElement.value
+    );
+    total = total + precio * cantidad;
+    product.value = product.value + unidad + ':' + producto  + ':' + precio +':' + cantidad + 'T';
+  });
+  totalSel.innerHTML = `${total.toFixed(2)}S/`;
+}
+
+function removeItem(event) {
+  const buttonClicked = event.target;
+  buttonClicked.closest('.item').remove();
+  updateTotal();
+}
+
+const createBusGastoContr = () => {
+
+}
+
+
 
 
 // ROUTER de eventos
@@ -1233,14 +1335,17 @@ const matchEvent = (ev, sel) => ev.target.matches(sel);
 const myId = (ev) => Number(ev.target.dataset.myId);
 const value = (ev) => ev.target.value;
 const formVenta = document.getElementById('formVenta');
+const formBusGasto = document.getElementById('formBusGasto');
 
 document.addEventListener('click', ev => {
   if (matchEvent(ev, '.sumAnt')) sumAntContr (value(ev));
   else  if (matchEvent(ev, '.modAnt')) modAntContr (ev);
+  else  if (matchEvent(ev, '.addProducto')) addProductoContr (ev);
 })
 
 document.addEventListener('submit', ev => {
   if (matchEvent(ev, '.formVenta')) createVentaContr (ev);
+  else if (matchEvent(ev, '.formBusGasto')) createBusGastoContr (ev);
 })
 
 document.addEventListener('change', ev => {

@@ -19,6 +19,32 @@ exports.load = async (req, res, next, anticipoId) => {
     }
 };
 
+// MW - El registro no se podrá borrar sí ya fué aplicado en otra operación
+exports.childlessRequired = async (req, res, next) => {
+
+  const anticipoId = req.load.anticipo.id;
+
+  try {
+    const anticipo = await models.Aplianticipo.findOne({
+      where: {
+        anticipoId: {
+          [Op.eq]: anticipoId
+        }
+      }
+    });
+    
+    if (!anticipo) {
+      next();
+    } else {
+      throw new Error("Error al intentar eliminar, este anticipo ya fué aplicado en otra operación");
+    }
+  } catch (error) {
+    next(error);
+  }
+
+};
+
+
 // GET /anticipo
 exports.index = async (req, res, next) => {
 
@@ -47,11 +73,12 @@ exports.index = async (req, res, next) => {
 };
 
 // GET /anticipos/:anticiposId
-exports.show = (req, res, next) => {
+exports.show = async (req, res, next) => {
 
     const {anticipo} = req.load;
+    const unidad = await models.Unidad.findByPk(anticipo.unidadId);
 
-    res.render('anticipos/show', {anticipo});
+    res.render('anticipos/show', {anticipo, unidad});
 };
 
 // GET /anticipos/new
@@ -103,60 +130,7 @@ exports.create = async (req, res, next) => {
     
 };
 
-// GET /confservices/:confserviceId/edit
-exports.edit = async (req, res, next) => {
 
-    const {confservice} = req.load;
-
-    const grupos = await models.Grupo.findAll({
-        where: {
-            id: {
-                [Op.eq]: confservice.grupoId
-            }
-        }
-    });
-    const services = await models.Service.findAll({
-        where: {
-            id: {
-                [Op.eq]: confservice.serviceId
-            }
-        }
-    });
-
-    res.render('confservices/edit', {confservice, services, grupos});
-};
-
-// PUT /confservice/:confserviceId
-exports.update = async (req, res, next) => {
-
-    const {confservice} = req.load;
-    
-    const {monto, detalle, vuelta, serviceId, grupoId} = req.body;
-
-    confservice.monto = monto;
-    confservice.detalle = detalle;
-    confservice.vuelta = vuelta;
-    confservice.serviceId = serviceId;
-    confservice.grupoId = grupoId;
-
-    try {
-        await confservice.save({fields: ["monto", "detalle", "vuelta", "serviceId", "grupoId"]});    
-        req.flash('success', 'Configuración del Servicio Actualizada Exitosamente.');
-        res.redirect('/confservices');
-    } catch (error) {
-        if (error instanceof Sequelize.ValidationError) {
-            req.flash('error', 'There are errors in the form:');
-            error.errors.forEach(({message}) => req.flash('error', message));
-            const grupos = await models.Grupo.findAll();
-            const services = await models.Service.findAll();
-            res.render('confservices/edit', {confservice, services, grupos});
-        } else {
-            req.flash('error', 'Error editing the confservice: ' + error.message);
-            next(error);
-        }
-
-    }
-};
 
 // DELETE /anticipos/:anticipoId
 exports.destroy = async (req, res, next) => {
@@ -164,7 +138,7 @@ exports.destroy = async (req, res, next) => {
     try {
         await req.load.anticipo.destroy();
         req.flash('success', 'Anticipo Eliminada Exitosamente.');
-        res.redirect('/anticipos');
+        res.redirect("/cajas/" + caja.id + "/anticipos");
     } catch (error) {
         next(error);
     }

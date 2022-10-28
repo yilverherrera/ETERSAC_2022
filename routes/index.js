@@ -17,6 +17,7 @@ const ventController = require('../controllers/vent');
 const productoController = require('../controllers/producto');
 const anticipoController = require('../controllers/anticipo');
 const cobroController = require('../controllers/cobro');
+const busgastoController = require('../controllers/busgasto');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -110,6 +111,7 @@ router.get(
   '/cajas/:id(\\d+)/vents',
   '/cajas/:id(\\d+)/anticipos',
   '/cajas/:id(\\d+)/cobros',
+  '/cajas/:id(\\d+)/busgasto',
   '/login'
   ],
   saveBack);
@@ -138,6 +140,7 @@ router.param('productoId', productoController.load);
 router.param('anticipoId', anticipoController.load);
 router.param('cobroId', cobroController.load);
 router.param('cobrovId', cobroController.loadv);
+router.param('busgastoId', busgastoController.load);
 
 
 // Routes for the resource /users
@@ -455,17 +458,10 @@ router.post('/cajas/:cajaId(\\d+)/anticipos',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   anticipoController.create);
-router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)/edit',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  anticipoController.edit);  
-router.put('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,           
-  anticipoController.update); 
 router.delete('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.AuthorRequired, 
+  anticipoController.childlessRequired,                      
   anticipoController.destroy);
 
 // Routes for the resource Cobros
@@ -495,5 +491,15 @@ router.delete('/cajas/:cajaId(\\d+)/cobros/v/:cobrovId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   cobroController.destroyv);
+
+//Routes for the resource Busgastos
+router.get('/cajas/:cajaId(\\d+)/busgastos',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  busgastoController.index);
+router.get('/cajas/:cajaId(\\d+)/busgastos/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  busgastoController.new);
 
 module.exports = router;

@@ -86,6 +86,17 @@ const Anticipo = sequelize.import(path.join(__dirname,'anticipo'));
 // Import the definition of the Aplianticipo Table from aplianticipo.js
 const Aplianticipo = sequelize.import(path.join(__dirname,'aplianticipo'));
 
+// Import the definition of the Busgasto Table from busgasto.js
+const Busgasto = sequelize.import(path.join(__dirname,'busgasto'));
+
+// Import the definition of the Detbusgasto Table from detbusgasto.js
+const Detbusgasto = sequelize.import(path.join(__dirname,'detbusgasto'));
+
+// Import the definition of the Proveedor Table from proveedor.js
+const Proveedor = sequelize.import(path.join(__dirname,'proveedor'));
+
+// Import the definition of the Reproducto Table from reproducto.js
+const Reproducto = sequelize.import(path.join(__dirname,'reproducto'));
 
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
@@ -242,6 +253,27 @@ Aplianticipo.belongsTo(Anticipo, {as: 'pertAntApl', foreignKey: 'anticipoId'});
 // Relation 1-to-N between Vent and Aplianticipo
 Vent.hasMany(Aplianticipo, {as: 'aplianticipos', foreignKey: 'ventId'});
 Aplianticipo.belongsTo(Vent, {as: 'pertVenApl', foreignKey: 'ventId'});
+
+// Relation 1-to-N between Proveedor and Busgasto
+Proveedor.hasMany(Busgasto, {as: 'busgastos', foreignKey: 'proveedorId'});
+Busgasto.belongsTo(Proveedor, {as: 'pertProBug', foreignKey: 'proveedorId'});
+
+// Relation 1-to-N between Caja and Busgasto
+Caja.hasMany(Busgasto, {as: 'busgastos', foreignKey: 'cajaId'});
+Busgasto.belongsTo(Caja, {as: 'pertCajBug', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Producto and Detbusgasto
+Reproducto.hasMany(Detbusgasto, {as: 'detbusgastos', foreignKey: 'reproductoId'});
+Detbusgasto.belongsTo(Reproducto, {as: 'pertProDbg', foreignKey: 'reproductoId'});
+
+// Relation 1-to-N between Unidad and Detbusgasto
+Unidad.hasMany(Detbusgasto, {as: 'detbusgastos', foreignKey: 'unidadId'});
+Detbusgasto.belongsTo(Unidad, {as: 'pertUniDbg', foreignKey: 'unidadId'});
+
+// Relation 1-to-N between Busgasto and Detbusgasto
+Busgasto.hasMany(Detbusgasto, {as: 'detbusgastos', foreignKey: 'busgastoId'});
+Detbusgasto.belongsTo(Busgasto, {as: 'pertBugDbg', foreignKey: 'busgastoId'});
+
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

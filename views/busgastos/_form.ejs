@@ -1,0 +1,102 @@
+<div class="form_one">
+    <div class="label">
+        <label for="doc">Doc:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="doc" name="doc" value="<%= busgasto.doc %>" placeholder="# Documento" autocomplete="off"/>
+    </div>
+     <div class="label">
+        <label for="tipoPago">Tipo de Pago:</label>
+        </div>
+        <div class="input">
+        <select name="tipoPago" id="tipoPago">
+        <option value="0" 0 === busgasto.tipoPago ? "checked" : "">Seleccione</option>
+            <option value="contado" "contado" === busgasto.tipoPago ? "checked" : "">Al Contado</option>
+            <option value="credito" "credito" === busgasto.tipoPago ? "checked" : "">Crédito</option>
+        </select>
+    </div>
+
+    <div class="label">
+        <label for="abonado">Efectivo Abonado:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="abonado" name="abonado" value="<%= busgasto.abonado %>" placeholder=" Abonado" autocomplete="off"/>
+    </div>
+
+    <div class="label">
+        <label for="unidadId">Unidad:</label>
+        </div>
+        <div class="input">
+        <select name="unidadId" id="unidadId">
+            <% for (var i in unidads) { %>
+                <% unidad = unidads[i]; %>
+            <option value="<%= unidad.id %>" unidad.id === busgasto.unidadId ? "checked" : ""><%= unidad.codigo %>-<%= unidad.placa %></option>
+            <% } %>
+        </select>
+    </div>
+    
+    <div class="label">
+        <label for="productoId">Producto:</label>
+        </div>
+        <div class="input">
+            <select id="reproductoId" name="reproductoId" />
+  <option value="1">Llantas</option>
+  <option value="2">Zapatas</option>
+  <option value="3">Pistones</option>
+  <option value="4">Luna</option>
+  <option value="5">Anillos</option>
+  <option value="6">Correa</option>
+</select>
+    </div>
+
+      <div class="label">
+        <label for="abonado">Cantidad:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="cant" name="cant" value="<%= busgasto.cant %>" placeholder="Cantidad" autocomplete="off"/><a href="#" class="addProducto">+</a>
+    </div>
+
+
+        <div class="container">
+            <h1 class="text-center">COMPRAS</h1>
+            <hr>
+            <div class="row">
+             <div class="col-2">
+                    
+                        <h3>Pd</h3>
+                    
+                </div>
+                <div class="col-6">
+                    
+                        <h3>Producto</h3>
+                    
+                </div>
+                <div class="col-2">
+                    
+                        <h3>Precio</h3>
+                    
+                </div>
+                <div class="col-2">
+                    
+                        <h3>Cantidad</h3>
+                    
+                </div>
+                </div>
+                <div class="items">
+            </div>
+            <div class="row">
+             <div class="col-12">
+                    
+                        <h3><label class="total"></label></h3>
+                    
+                </div>
+                    
+        
+            </div>        
+
+    
+    <input type="text" class="product" id="product" name="product">
+   
+    <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
+    <input class="button_primary" type="submit" value="Guardar">
+</div>

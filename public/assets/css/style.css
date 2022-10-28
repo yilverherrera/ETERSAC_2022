@@ -277,6 +277,7 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   border: 1px solid #00B7FF;
   box-shadow: var(--box-shadow);
   background-color: var(--success-color);
+  opacity: 0.8;
 }
 
 .cbox{
@@ -309,5 +310,8 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
 .rstaVta{
   color: #e5a82d;
   font-size: 28px;
+}
+.cantidad{
+  width: 40px;
 }
 /*-----------------------*/
