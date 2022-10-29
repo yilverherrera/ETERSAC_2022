@@ -10,6 +10,7 @@ var partials = require('express-partials');
 var flash = require('express-flash');
 var methodOverride = require('method-override');
 var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
+const cors = require('cors');
 require('dotenv').config();
 const passport = require('passport');
 

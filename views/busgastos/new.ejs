@@ -2,7 +2,8 @@
     Nuevo Gasto Operativo:
 </h1>
 
-<form class="formBusGasto" method="post" action="/cajas/<%= busgasto.cajaId %>/busgastos">
+<form class="formBusGasto">
+<input type="hidden" id="cajaId" name="cajaId" value="<%= busgasto.cajaId %>">
 
     <% include _form.ejs %>
 

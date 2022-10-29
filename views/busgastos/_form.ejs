@@ -34,19 +34,37 @@
             <% } %>
         </select>
     </div>
+
+    <div class="label">
+        <label for="proveedorId">Proveedor:</label>
+        </div>
+        <div class="input">
+           <select name="proveedorId" id="proveedorId">
+            <% for (var i in proveedors) { %>
+                <% proveedor = proveedors[i]; %>
+            <option value="<%= proveedor.id %>" proveedor.id === busgasto.proveedorId ? "checked" : ""><%= proveedor.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+
     
     <div class="label">
         <label for="productoId">Producto:</label>
         </div>
         <div class="input">
-            <select id="reproductoId" name="reproductoId" />
-  <option value="1">Llantas</option>
-  <option value="2">Zapatas</option>
-  <option value="3">Pistones</option>
-  <option value="4">Luna</option>
-  <option value="5">Anillos</option>
-  <option value="6">Correa</option>
-</select>
+           <select name="reproductoId" id="reproductoId">
+            <% for (var i in productos) { %>
+                <% producto = productos[i]; %>
+            <option value="<%= producto.id %>"  producto.id === busgasto.reproductoId ? "checked" : ""><%= producto.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label">
+        <label for="precio">Precio:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="precio" name="precio" value="" placeholder="Precio" autocomplete="off"/>
     </div>
 
       <div class="label">
@@ -95,8 +113,7 @@
             </div>        
 
     
-    <input type="text" class="product" id="product" name="product">
-   
+     
     <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
-    <input class="button_primary" type="submit" value="Guardar">
+    <input class="button_primary enviarBus" type="button" value="Guardar">
 </div>

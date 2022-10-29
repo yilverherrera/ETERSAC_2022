@@ -501,5 +501,9 @@ router.get('/cajas/:cajaId(\\d+)/busgastos/new',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   busgastoController.new);
+router.post('/cajas/:cajaId(\\d+)/busgastos',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  busgastoController.create);
 
 module.exports = router;

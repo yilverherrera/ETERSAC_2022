@@ -1,3 +1,4 @@
+//----------------------ANIMATIONS-----------------
 let toggle = document.querySelector(".toggle span");
 let main = document.querySelector("#mainSection");
 let sidebar = document.querySelector(".sidebar");
@@ -175,6 +176,11 @@ if (document.querySelector(".toggle2")) {
     }
   });
 }
+//----------------------------------------------------------------
+
+
+
+const serverUrl = 'http://localhost:3000/';
 if (document.getElementById("servuelta")) {
 
   $(document).ready(function () {
@@ -549,12 +555,12 @@ if (document.getElementById("productoId"))
 
 // CONTROLADORES 
 const calcMontoContr = (sel) => {
-let monto = document.getElementById("monto");
-    let monto2 = document.getElementById("monto2");
-    var radioscpc = document.getElementsByName("cpcIds[]");
-    var radiosope = document.getElementsByName("cpcOper");
-    var chMontos = document.getElementsByName("chMonto"); 
-    const cant = document.getElementById("cant");
+  let monto = document.getElementById("monto");
+  let monto2 = document.getElementById("monto2");
+  var radioscpc = document.getElementsByName("cpcIds[]");
+  var radiosope = document.getElementsByName("cpcOper");
+  var chMontos = document.getElementsByName("chMonto"); 
+  const cant = document.getElementById("cant");
   const efectivo = document.getElementById("efectivo");
   const banco = document.getElementById("banco");
   const cpc = document.getElementById("cpc");
@@ -562,40 +568,40 @@ let monto = document.getElementById("monto");
   const dctoFalla = document.getElementById("dctoFalla");
   const dctoSinietro = document.getElementById("dctoSinietro");
   const dctoAutoridad = document.getElementById("dctoAutoridad");
-    let restamonto = 0;
+  let restamonto = 0;
 
-    if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
+  if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
     alert('Debes especificar la Cantidad');
     cant.value = 1;
     sel = 1;
   }
-    
-    if (document.getElementById("tmpmonto")) {
-      restamonto = document.getElementById("tmpmonto").value;
-    }
 
-    for (var radiocpc of radioscpc) {
-      if (radiocpc.type === "checkbox" && radiocpc.checked) {
-        radiocpc.checked = false;
-      }
-    }
+  if (document.getElementById("tmpmonto")) {
+    restamonto = document.getElementById("tmpmonto").value;
+  }
 
-    for (var radioope of radiosope) {
-      if (radioope.type === "checkbox" && radioope.checked) {
-        radioope.checked = false;
-      }
+  for (var radiocpc of radioscpc) {
+    if (radiocpc.type === "checkbox" && radiocpc.checked) {
+      radiocpc.checked = false;
     }
-    for (var chMonto of chMontos) {
-      if (chMonto.type === "radio" && chMonto.checked) {
-        monto2 = chMonto.value;
-      }
+  }
+
+  for (var radioope of radiosope) {
+    if (radioope.type === "checkbox" && radioope.checked) {
+      radioope.checked = false;
     }
+  }
+  for (var chMonto of chMontos) {
+    if (chMonto.type === "radio" && chMonto.checked) {
+      monto2 = chMonto.value;
+    }
+  }
 
-    monto.value = monto2 * sel;
-    monto.value = monto.value - restamonto;
-    monto.value = parseFloat(monto.value).toFixed(4);
+  monto.value = monto2 * sel;
+  monto.value = monto.value - restamonto;
+  monto.value = parseFloat(monto.value).toFixed(4);
 
-    if (efectivo.value === "" || isNaN(efectivo.value)) {
+  if (efectivo.value === "" || isNaN(efectivo.value)) {
     efectivo.value = 0;
   }
   if (banco.value === "" || isNaN(banco.value)) {
@@ -626,7 +632,7 @@ let monto = document.getElementById("monto");
   monto = parseFloat(monto.value);
   monto = monto - total;
   document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
-    }
+}
 
 
 const createVentaContr = (frm) => {
@@ -767,67 +773,67 @@ const sumAntContr = (sel) => {
     alert('Debes especificar la Cantidad');
   } else {
 
-  let select = false;
-  let max = 0;
-  let index = 0;
-  
-  let sumaAnt = 0;
-  for (var i = 0; i < selectAnt.length; i++) 
-  {
-   var opt = selectAnt[i];
-   if (opt.selected) {
-    sumaAnt = sumaAnt + parseFloat(opt.value.split('T')[1]);
-    if (opt.value.split('T')[0] == sel.split('T')[0]) {
-      max = opt.getAttribute("data-my-id");
-      select = true;  
-      index = i;     
+    let select = false;
+    let max = 0;
+    let index = 0;
+
+    let sumaAnt = 0;
+    for (var i = 0; i < selectAnt.length; i++) 
+    {
+     var opt = selectAnt[i];
+     if (opt.selected) {
+      sumaAnt = sumaAnt + parseFloat(opt.value.split('T')[1]);
+      if (opt.value.split('T')[0] == sel.split('T')[0]) {
+        max = opt.getAttribute("data-my-id");
+        select = true;  
+        index = i;     
+      }
     }
   }
-}
 
-if (select === true) {
-  max = sumaAnt - max;
-  anticSel.value = selectAnt[index].value.split('T')[1];
-  lbselAnt.innerHTML = selectAnt[index].text;
-  indexAnticip.value = selectAnt[index].index;
-}
+  if (select === true) {
+    max = sumaAnt - max;
+    anticSel.value = selectAnt[index].value.split('T')[1];
+    lbselAnt.innerHTML = selectAnt[index].text;
+    indexAnticip.value = selectAnt[index].index;
+  }
 
-if (max < monto.value) {
-  document.getElementById('lbsumaAnt').innerHTML = sumaAnt;
-  if (efectivo.value === "" || isNaN(efectivo.value)) {
-    efectivo.value = 0;
+  if (max < monto.value) {
+    document.getElementById('lbsumaAnt').innerHTML = sumaAnt;
+    if (efectivo.value === "" || isNaN(efectivo.value)) {
+      efectivo.value = 0;
+    }
+    if (banco.value === "" || isNaN(banco.value)) {
+      banco.value = 0;
+    }
+    if (cpc.value === "" || isNaN(cpc.value)) {
+      cpc.value = 0;
+    }
+    if (dctoFalla.value === "" || isNaN(dctoFalla.value)) {
+      dctoFalla.value = 0;
+    }
+    if (dctoSinietro.value === "" || isNaN(dctoSinietro.value)) {
+      dctoSinietro.value = 0;
+    }
+    if (dctoAutoridad.value === "" || isNaN(dctoAutoridad)) {
+      dctoAutoridad.value = 0;
+    }
+    const dcto =
+    parseFloat(dctoFalla.value) +
+    parseFloat(dctoSinietro.value) +
+    parseFloat(dctoAutoridad.value);
+    const total =
+    parseFloat(efectivo.value) +
+    parseFloat(banco.value) +
+    parseFloat(cpc.value) +
+    parseFloat(sumaAnt) +
+    parseFloat(dcto);
+    monto = parseFloat(monto.value);
+    monto = monto - total;
+    document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
+  } else {
+    selectAnt[indexAnticip.value].selected = false;
   }
-  if (banco.value === "" || isNaN(banco.value)) {
-    banco.value = 0;
-  }
-  if (cpc.value === "" || isNaN(cpc.value)) {
-    cpc.value = 0;
-  }
-  if (dctoFalla.value === "" || isNaN(dctoFalla.value)) {
-    dctoFalla.value = 0;
-  }
-  if (dctoSinietro.value === "" || isNaN(dctoSinietro.value)) {
-    dctoSinietro.value = 0;
-  }
-  if (dctoAutoridad.value === "" || isNaN(dctoAutoridad)) {
-    dctoAutoridad.value = 0;
-  }
-  const dcto =
-  parseFloat(dctoFalla.value) +
-  parseFloat(dctoSinietro.value) +
-  parseFloat(dctoAutoridad.value);
-  const total =
-  parseFloat(efectivo.value) +
-  parseFloat(banco.value) +
-  parseFloat(cpc.value) +
-  parseFloat(sumaAnt) +
-  parseFloat(dcto);
-  monto = parseFloat(monto.value);
-  monto = monto - total;
-  document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
-} else {
-  selectAnt[indexAnticip.value].selected = false;
-}
 } 
 };
 
@@ -1113,7 +1119,7 @@ const modAntContr = () => {
 
 
   if (parseFloat(anticSel.value) < parseFloat(selectAnt[indexAnticip.value].value.split('T')[1])) {
-    
+
     const id = selectAnt[indexAnticip.value].value.split('T')[0];
     selectAnt[indexAnticip.value].value = id+'T'+anticSel.value;
     selectAnt[indexAnticip.value].text = selectAnt[indexAnticip.value].text+' Apli:'+anticSel.value;
@@ -1195,11 +1201,11 @@ const cobrarOperVtaContr = (check) => {
   const cpc = operador.value.split("T")[2];
   let selected = false;
 
-   for (var radioope of radiosope) {
-      if (radioope.type === "checkbox" && radioope.checked) {
+  for (var radioope of radiosope) {
+    if (radioope.type === "checkbox" && radioope.checked) {
       selected = true;
-      }
     }
+  }
 
   if (operador.value === "0") {
     selected = false;
@@ -1214,11 +1220,11 @@ const cobrarOperVtaContr = (check) => {
     if (parseFloat(cobro.value) > parseFloat(cpc)) {
       alert("El cobro no puede ser mayor a saldo deudor");
     } else {
-    monto.value = parseFloat(monto.value) + parseFloat(cobro.value);
+      monto.value = parseFloat(monto.value) + parseFloat(cobro.value);
     }
   } else {
     monto.value = parseFloat(monto.value) - parseFloat(cobro.value);
-     for (var radioope of radiosope) {
+    for (var radioope of radiosope) {
       if (radioope.type === "checkbox" && radioope.checked) {
         radioope.checked = false;
       }
@@ -1229,16 +1235,36 @@ const cobrarOperVtaContr = (check) => {
 const items = document.querySelector('.items');
 
 const addProductoContr = () => {
-    
+   const cantidad = document.getElementById('cant');
+  const precio = document.getElementById('precio');
+  const unidad =document.getElementById('unidadId');
+  const producto =document.getElementById('reproductoId');
+
+   if (unidad.value == 0) {
+    alert("Seleccione un PD");
+    return false;
+  }
+  if (producto.value == 0) {
+    alert("Seleccione un Producto");
+    return false;
+  }
+
+  if (cantidad.value === '' || cantidad.value === 0 || isNaN(cantidad.value)) {
+    alert('Agregue la Cantidad');
+  } else if (precio.value === '' || precio.value === 0 || isNaN(precio.value)) {
+    alert('Agregue el Precio');
+  } else {
+
   const itemContainer = document.createElement('div');
   itemContainer.className = 'row item';
 
-    itemContainer.innerHTML += createDomElement();
-    items.append(itemContainer);
-    itemContainer
-    .querySelector('.buttonDelete')
-    .addEventListener('click', removeItem);
- updateTotal();
+  itemContainer.innerHTML += createDomElement();
+  items.append(itemContainer);
+  itemContainer
+  .querySelector('.buttonDelete')
+  .addEventListener('click', removeItem);
+  updateTotal();
+}
 
 }
 
@@ -1249,23 +1275,24 @@ const createDomElement = () => {
   const unidad =document.getElementById('unidadId');
   const indiceU = unidad.selectedIndex;
   const opcionSeleccionadaU = unidad.options[indiceU];
-  const cantidad =document.getElementById('cant');
-  const precio = 1;
+  const cantidad = document.getElementById('cant');
+  const precio = document.getElementById('precio');
+
   const itemHtml = `
   <div class="col-2">
-        <p class='unidad' data-id='${opcionSeleccionadaU.value}'> ${opcionSeleccionadaU.text} </p>
-    </div>
-    <div class="col-6">
-        <p class='producto' data-id='${opcionSeleccionadaP.value}'> ${opcionSeleccionadaP.text} </p>
-    </div>
-    <div class="col-2">
-       <p class='precio'> ${precio} </p>
-    </div>
-    <div class="col-4">
-        <input class="cantidad" type="number"
-                    value="${cantidad.value}">
-                    <button class="buttonDelete" type="button">X</button>
-    </div>`;
+  <p class='unidad' data-id='${opcionSeleccionadaU.value}'> ${opcionSeleccionadaU.text} </p>
+  </div>
+  <div class="col-6">
+  <p class='producto' data-id='${opcionSeleccionadaP.value}'> ${opcionSeleccionadaP.text} </p>
+  </div>
+  <div class="col-2">
+  <p class='precio'> ${precio.value} </p>
+  </div>
+  <div class="col-4">
+  <input class="cantidad" type="number"
+  value="${cantidad.value}">
+  <button class="buttonDelete" type="button">X</button>
+  </div>`;
   return itemHtml;
   
 }
@@ -1275,45 +1302,41 @@ const updateTotal = () => {
   
   const totalSel = document.querySelector('.total');
 
-  const product = document.querySelector('.product');
-
   const Items = document.querySelectorAll('.item');
 
-  product.value = "";
-
   Items.forEach((Item) => {
-     const unidadElement = Item.querySelector(
-      '.unidad'
+   const unidadElement = Item.querySelector(
+    '.unidad'
     );
 
-     const unidad = Number(
-      unidadElement.getAttribute("data-id")
+   const unidad = Number(
+    unidadElement.getAttribute("data-id")
     );
 
-      const productoElement = Item.querySelector(
-      '.producto'
+   const productoElement = Item.querySelector(
+    '.producto'
     );
 
-     const producto = Number(
-      productoElement.getAttribute("data-id")
+   const producto = Number(
+    productoElement.getAttribute("data-id")
     );
 
-    const precioElement = Item.querySelector(
-      '.precio'
+   const precioElement = Item.querySelector(
+    '.precio'
     );
-    const precio = Number(
-      precioElement.textContent
+   const precio = Number(
+    precioElement.textContent
     );
-    
-    const cantidadElement = Item.querySelector(
-      '.cantidad'
+
+   const cantidadElement = Item.querySelector(
+    '.cantidad'
     );
-    const cantidad = Number(
-      cantidadElement.value
+   const cantidad = Number(
+    cantidadElement.value
     );
-    total = total + precio * cantidad;
-    product.value = product.value + unidad + ':' + producto  + ':' + precio +':' + cantidad + 'T';
-  });
+   total = total + precio * cantidad;
+  
+ });
   totalSel.innerHTML = `${total.toFixed(2)}S/`;
 }
 
@@ -1323,8 +1346,113 @@ function removeItem(event) {
   updateTotal();
 }
 
-const createBusGastoContr = () => {
+const createBusGastoContr = (frm) => {
+  const unidad = document.getElementById('unidadId');
+  const proveedor = document.getElementById('proveedorId');
+  const tipoPago = document.getElementById('tipoPago');
+  const doc = document.getElementById('doc');
+  const abonado = document.getElementById('abonado');
+  const cajaId = document.getElementById('cajaId');
+  const Items = document.querySelectorAll('.item');
+  let productos = [];
+  let total = 0;
 
+  if (unidad.value == 0) {
+    alert("Seleccione un PD");
+    return false;
+  }
+
+  if (tipoPago.value == 0) {
+    alert("Seleccione un Tipo de Pago");
+    return false;
+  }
+
+  if (doc.value == '') {
+    alert("Doc no puede estar vacío");
+    return false;
+  }  
+
+  if (abonado.value == '' || isNaN(abonado.value)) {
+    abonado.value = 0;
+  }  
+
+
+  Items.forEach((Item) => {
+   const unidadElement = Item.querySelector(
+    '.unidad'
+    );
+
+   const unidad = Number(
+    unidadElement.getAttribute("data-id")
+    );
+
+   const productoElement = Item.querySelector(
+    '.producto'
+    );
+
+   const producto = Number(
+    productoElement.getAttribute("data-id")
+    );
+
+   const precioElement = Item.querySelector(
+    '.precio'
+    );
+   const precio = Number(
+    precioElement.textContent
+    );
+
+   const cantidadElement = Item.querySelector(
+    '.cantidad'
+    );
+   const cantidad = Number(
+    cantidadElement.value
+    );
+
+   const productoObj = {
+    costoUni: precio,
+    cant: cantidad,
+    reproductoId: producto,
+    unidadId: unidad,
+  };
+
+  productos.push(productoObj);
+  total = total + precio * cantidad;
+});
+
+  if (JSON.stringify(productos) === '[]'){
+    alert("Agregue los productos");
+    return false;
+  }
+
+  const busgastoObj = {
+    monto: total,
+    doc: doc.value,
+    tipoPago: tipoPago.value,
+    abonado: abonado.value,
+    proveedor: proveedor.value,
+    productos: productos,
+  }
+
+postData('http://localhost:3000/cajas/1/busgastos',  busgastoObj);
+
+}
+
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
 }
 
 
@@ -1341,11 +1469,11 @@ document.addEventListener('click', ev => {
   if (matchEvent(ev, '.sumAnt')) sumAntContr (value(ev));
   else  if (matchEvent(ev, '.modAnt')) modAntContr (ev);
   else  if (matchEvent(ev, '.addProducto')) addProductoContr (ev);
+  else if (matchEvent(ev, '.enviarBus')) createBusGastoContr (ev);
 })
 
 document.addEventListener('submit', ev => {
   if (matchEvent(ev, '.formVenta')) createVentaContr (ev);
-  else if (matchEvent(ev, '.formBusGasto')) createBusGastoContr (ev);
 })
 
 document.addEventListener('change', ev => {
