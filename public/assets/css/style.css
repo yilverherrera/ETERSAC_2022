@@ -4,6 +4,7 @@
 @import 'brands.css';
 @import 'regular.css';
 @import 'animations.css';
+@import 'spinner.css';
 
 /*------------Variables------------*/
 :root{
@@ -33,13 +34,13 @@ html,body{
 nav{
   display: flex;
   background-color: var(--corporativo-color);
-  padding: var(--space);
   color: var(--black-color);
   justify-content: space-between;
 }
 
 nav ul{
   display: flex;
+  padding: 0px;
   }
 
 nav li{
@@ -267,18 +268,17 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   opacity: 1;
 }
 
+/*
 .flotante{
   position: fixed;
-  top: 135px;
+  top: 140px;
   left: 0;
   width: 100%;
-  height: 40px;
+  height: 30px;
   z-index: 3;
-  border: 1px solid #00B7FF;
   box-shadow: var(--box-shadow);
-  background-color: var(--success-color);
   opacity: 0.8;
-}
+}*/
 
 .cbox{
   margin-left: 0px;
@@ -290,17 +290,22 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
 
 .resalt{
   padding: 2px;
-  border: 1px dotted  var(--black-color);
+  border-radius: 2px;
+  box-shadow: var(--corporativo-color);
   background-color: var(--success-color);
   font-size: var(--resalt);
 }
 
 .crear{
   padding: 2px;
-  border: 1px dotted  var(--black-color);
-  background-color: var(--success-color);
   font-size: var(--resalt);
   opacity: 0.8;
+ color: var(--corporativo-color);
+}
+
+.crear:hover{
+  background-color: var(--corporativo-color);
+  color: var(--white-color);
 }
 
 .textAnt{
@@ -314,4 +319,28 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
 .cantidad{
   width: 40px;
 }
+
+.mini{
+  height: 15px !important; 
+  width: 40px !important; 
+  color: black !important;
+}
+
+.buttonDelete{
+  padding: 0;
+  background-color: lightcoral;
+}
+
+.buttonAdd{
+  background-color: lightcyan;
+  font-size: 16px;
+}
+
+.logo{
+  color: #e5a82d;
+  font-size: 30px;
+  padding: 0px;
+  margin: 0px;
+}
+
 /*-----------------------*/

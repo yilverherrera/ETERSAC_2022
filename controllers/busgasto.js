@@ -28,41 +28,35 @@ exports.index = async (req, res, next) => {
     include: [],
   };
 
-  let findOptionsVta = {
-    where: {},
-    include: [],
-  };
-
   const { caja } = req.load;
 
-findOptions.include.push({
-  model: models.Proveedor,
-  as: "pertProBug",
+    findOptions.where.cajaId = caja.id;
+
+  findOptions.include.push({
+    model: models.Proveedor,
+    as: "pertProBug",
   });
 
-findOptions.include.push({
-  model: models.Detbusgasto,
-  as: "detbusgastos",
+  findOptions.include.push({
+    model: models.Detbusgasto,
+    as: "detbusgastos",
     include:[{
-      model: models.Producto,
+      model: models.Reproducto,
       as: 'pertProDbg',
+    },
+    {
       model: models.Unidad,
       as: 'pertUniDbg'
     }]
   });
 
 
-  findOptions.where.id = caja.id;
 
-
-const busgastos = await models.Busgasto.findAll(findOptions);
-
-
-
-  //---------------------------------------------------
 
 
   try {
+  const busgastos = await models.Busgasto.findAll(findOptions);
+  console.log(JSON.stringify(busgastos));
     res.render("busgastos/", { busgastos, caja });
   } catch (error) {
     next(error);
@@ -72,68 +66,91 @@ const busgastos = await models.Busgasto.findAll(findOptions);
 // GET /busgastos/new
 exports.new = async (req, res, next) => {
 
-    const unidads = await models.Unidad.findAll();
-    const productos = await models.Reproducto.findAll();
-    const proveedors = await models.Proveedor.findAll();
-    const {caja} = req.load;
+  const unidads = await models.Unidad.findAll();
+  const productos = await models.Reproducto.findAll();
+  const proveedors = await models.Proveedor.findAll();
+  const {caja} = req.load;
 
-    const busgasto =
-    {
-       doc: "",
-       tipoPago: 0,
-        abonado: 0,
-        unidadId: 0,
-        reproductoId: 0,
-        proveedorId: 0,
-        cajaId: caja.id
-    };
+  const busgasto =
+  {
+   doc: "",
+   tipoPago: 0,
+   abonado: 0,
+   unidadId: 0,
+   reproductoId: 0,
+   proveedorId: 0,
+   cajaId: caja.id
+ };
 
-    res.render('busgastos/new', { busgasto, unidads, productos, proveedors});
+ res.render('busgastos/new', { busgasto, unidads, productos, proveedors});
 
 };
 
 // POST /busgastos/create
 exports.create = async (req, res, next) => {
 
-    const bus = req.body;
-console.log('------------------------------------------');
-console.log('------------------------------------------');
-console.log('------------------------------------------');
-console.log('------------------------------------------');
-console.log('------------------------------------------');
-    console.log(JSON.stringify(bus));
-    console.log('------------------------------------------');
-    console.log('------------------------------------------');
-    console.log('------------------------------------------');
-    res.json(bus);
-    
-    
+  const bus = req.body;
+  const { caja } = req.load;
 
+  const monto = bus.monto;
+  const doc = bus.doc;
+  const fecha = caja.fecha.toISOString().split("T")[0];
+  const tipoPago = bus.tipoPago;
+  let abonado = bus.abonado;
+  if (tipoPago === 'contado') { abonado = monto; }
+  const estatus = 0;
+  const proveedorId = bus.proveedor;
+  const cajaId = caja.id;
 
-    /*const unidads = await models.Unidad.findAll();
-    const {caja} = req.load;
-    const fecha = caja.fecha.toISOString().split("T")[0];
-    const monto = efectivo;
-    const cajaId = caja.id;
-    const saldo = efectivo;
+  let busgasto = models.Busgasto.build({ monto, doc, fecha, tipoPago, abonado, estatus, proveedorId, cajaId });
+
+  try {
+        // Saves only the fields name into the DDBB
+        busgasto = await busgasto.save();
+
+        const busgastoId = busgasto.id;
+
+        const detCaja = bus.productos.map(  (prod) => {
+          const total = prod.cant * prod.costoUni;
+          return{
+            fecha: fecha,
+            costoUni: prod.costoUni,
+            cant: prod.cant,
+            total: total,
+            reproductoId: prod.reproductoId,
+            unidadId: prod.unidadId,
+            busgastoId: busgastoId
+          }
+        });
+
+        await models.Detbusgasto.bulkCreate(detCaja);
+
+        res.json({ gasto: 'Creado Exitosamente' });
+        
+      } catch (error) {
+        if (error instanceof Sequelize.ValidationError) {
+          res.json('Hay errores en el formulario:');
+          res.json({ message: error.message });
+        } else {
+           res.json({ message: error.message });
+          next(error)
+        }
+      }        
     
-    let anticipo = models.Anticipo.build({ monto, fecha, saldo, unidadId, cajaId });
+    
+  };
+
+  // DELETE /busgastos/:busgastoId
+exports.destroy = async (req, res, next) => {
+  const { caja } = req.load;
 
     try {
-        // Saves only the fields name into the DDBB
-        anticipo = await anticipo.save();
-        req.flash('success', 'Anticipo creado Exitosamente.');
-        res.redirect('/cajas/' + caja.id + '/anticipos');
-        
+        await req.load.busgasto.destroy();
+        req.flash('success', 'Gasto Operativo Eliminada Exitosamente.');
+        res.redirect("/cajas/" + caja.id + "/busgastos");
     } catch (error) {
-        if (error instanceof Sequelize.ValidationError) {
-            req.flash('error', 'Hay errores en el formulario:');
-            error.errors.forEach(({message}) => req.flash('error', message));
-            res.render('anticipo/new', {anticipo, unidads, caja});
-        } else {
-            req.flash('error', 'Error creating a new Anticipo: ' + error.message);
-            next(error)
-        }
-    } */       
-    
+        next(error);
+    }
 };
+
+

@@ -6,7 +6,7 @@
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
         <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
         <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
-        <a href="/cajas/<%= caja.id %>/gastadvos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
         <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
         <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
         <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
@@ -19,7 +19,18 @@
 <% let totalGral=0; %>
 <div class="container">
 
-    <div class="row flotante">
+  
+  
+
+<% for (var n in services) { %>
+
+    <% var service=services[n]; %>
+    <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
+    <% let totalEfec=0; %>
+    <div class="row">
+        <div class="col-12"><b><%= service.nombre.toUpperCase() %></b></div>
+    </div>
+  <div class="row flotante">
         <div class="col-1">Pd</div>
         <div class="col-1">Recorrido</div>
         <div class="col-1">Vlta Canc.</div>
@@ -33,19 +44,6 @@
         <div class="col-1">Aut</div>
         <div class="col-1"></div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-
-<% for (var n in services) { %>
-    <% var service=services[n]; %>
-    <% let servbuses=servibuses.filter(servibus=> servibus.serviceId === service.id ); %>
-    <% let totalEfec=0; %>
-    <div class="row">
-        <div class="col-12"><b><%= service.nombre.toUpperCase() %></b></div>
-    </div>
-
 
     <% for (var i in servbuses) { %>
         <% var servbus=servbuses[i]; %>
@@ -72,7 +70,18 @@
 
     <% } %>
     <div class="row">
-        <div class="col-12"><b><%= totalEfec %></b></div>
+    <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"><b><%= totalEfec %></b></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
     </div>
     
        <% totalGral=totalGral + totalEfec; %>

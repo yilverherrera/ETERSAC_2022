@@ -177,25 +177,42 @@ if (document.querySelector(".toggle2")) {
   });
 }
 //----------------------------------------------------------------
+//----------------------------------------------------------------
 
 
 
-const serverUrl = 'http://localhost:3000/';
-if (document.getElementById("servuelta")) {
-
+//--Carga se select2 jquery---------------------------------------
+if (document.getElementById("unidadId")) {
   $(document).ready(function () {
-
     $("#unidadId").select2(
     {
       height: '60px'
-
     });
   });
-  
-  $(document).on("select2:open", () => {
-    document.querySelector(".select2-container--open .select2-search__field").focus()
+}
+if (document.getElementById("operadorId")) {
+  $(document).ready(function () {
+    $("#operadorId").select2();
   });
+}
 
+if (document.getElementById("cpcId")) {
+  $(document).ready(function () {
+    $("#cpcId").select2();
+  });
+}
+
+$(document).on("select2:open", () => {
+  document.querySelector(".select2-container--open .select2-search__field").focus()
+});
+
+//-------------------------------------------------------------------------
+//----------------------------------------------------------------
+
+
+
+//--Carga de Datepicker-------------------------------------------------
+if (document.getElementById("servuelta")) {
   const servuelta = document.getElementById("servuelta");
   if (servuelta.value === 'true') { 
     $('#fecha').datepicker({
@@ -211,20 +228,10 @@ if (document.getElementById("servuelta")) {
     todayHighlight: true
   }); 
  }
-
 }
 
-if (document.getElementById("operadorId")) {
-  $(document).ready(function () {
-    $("#operadorId").select2();
-  });
-}
-
-if (document.getElementById("cpcId")) {
-  $(document).ready(function () {
-    $("#cpcId").select2();
-  });
-}
+//-------------------------------------------------------------------------
+//----------------------------------------------------------------
 
 
 
@@ -500,28 +507,16 @@ function envia(cajaId, serviceId){
   window.location.href = '/cajas/' + cajaId + '/buses/' + unidadId.value + '/' + serviceId.value;
   
 }
-if (document.getElementById("serviceId"))
-{
-  function cotizar(cotiza) {
-    const service = document.getElementById("serviceId");
-    const servuelta = document.getElementsByName("servuelta");
-    if (servuelta.value === 'false') {
-      let monto = document.getElementById("monto");
-      let monto2 = document.getElementById("monto2");
-      let dias = cotiza.value.split(",");
-      dias = dias.length;
 
-      monto.value = monto2.value * dias;
-    }
-  }
-  
-}
+
+
+
+
+
+
 
 
 /*----------Ventas------------*/
-function validarVen() {
-
-}
 
 
 function enviavta(cajaId, productoId){
@@ -536,16 +531,21 @@ function enviavta(cajaId, productoId){
   window.location.href = '/cajas/' + cajaId + '/sale/' + unidadId.value + '/' + productoId.value + '/newven';
   
 }
-if (document.getElementById("productoId"))
+if (document.getElementById("serviceId"))
 {
   function cotizar(cotiza) {
-    const service = document.getElementById("serviceId");
-    const servuelta = document.getElementsByName("servuelta");
-    if (servuelta.value === 'false') {
+    const servuelta = document.getElementById("servuelta");
+    if (servuelta.value === 'false') { 
       let monto = document.getElementById("monto");
-      let monto2 = document.getElementById("monto2");
+      var chMontos = document.getElementsByName("chMonto"); 
+      let monto2 = 1;
       let dias = cotiza.value.split(",");
       dias = dias.length;
+      for (var chMonto of chMontos) {
+        if (chMonto.type === "radio" && chMonto.checked) {
+          monto2 = chMonto.value.split('T')[0];
+        }
+      }
 
       monto.value = monto2.value * dias;
     }
@@ -553,7 +553,38 @@ if (document.getElementById("productoId"))
   
 }
 
-// CONTROLADORES 
+// CONTROLADORES
+
+//---------------Servicios----------------------------------------------------
+//---------------------------------------------------------------------------- 
+function sumCot(event) {
+  
+  const servuelta = document.getElementById("servuelta");
+  if (servuelta.value === 'false') { 
+
+    let monto = document.getElementById("monto");
+    var chMontos = document.getElementsByName("chMonto"); 
+    let monto2 = 1;
+    let dias = event.value.split(",");
+    dias = dias.length;
+    for (var chMonto of chMontos) {
+      if (chMonto.type === "radio" && chMonto.checked) {
+        monto2 = chMonto.value.split('T')[0];
+      }
+    }
+
+    monto.value = monto2 * dias;
+  }
+
+}
+  //--------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
+
+
+
+//---------------Ventas----------------------------------------------------
+//----------------------------------------------------------------------------
 const calcMontoContr = (sel) => {
   let monto = document.getElementById("monto");
   let monto2 = document.getElementById("monto2");
@@ -799,7 +830,7 @@ const sumAntContr = (sel) => {
   }
 
   if (max < monto.value) {
-    document.getElementById('lbsumaAnt').innerHTML = sumaAnt;
+    document.getElementById('lbsumaAnt').innerHTML = sumaAnt.toFixed(2);
     if (efectivo.value === "" || isNaN(efectivo.value)) {
       efectivo.value = 0;
     }
@@ -1232,28 +1263,37 @@ const cobrarOperVtaContr = (check) => {
   }
 }
 
+
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+
+
+
+//-----------------------GASTOS OPE--------------------------------
+//--------------------------------------------------------------------
+
 const items = document.querySelector('.items');
 
 const addProductoContr = () => {
-   const cantidad = document.getElementById('cant');
-  const precio = document.getElementById('precio');
-  const unidad =document.getElementById('unidadId');
-  const producto =document.getElementById('reproductoId');
+ const cantidad = document.getElementById('cant');
+ const precio = document.getElementById('precio');
+ const unidad =document.getElementById('unidadId');
+ const producto =document.getElementById('reproductoId');
 
-   if (unidad.value == 0) {
-    alert("Seleccione un PD");
-    return false;
-  }
-  if (producto.value == 0) {
-    alert("Seleccione un Producto");
-    return false;
-  }
+ if (unidad.value == 0) {
+  alert("Seleccione un PD");
+  return false;
+}
+if (producto.value == 0) {
+  alert("Seleccione un Producto");
+  return false;
+}
 
-  if (cantidad.value === '' || cantidad.value === 0 || isNaN(cantidad.value)) {
-    alert('Agregue la Cantidad');
-  } else if (precio.value === '' || precio.value === 0 || isNaN(precio.value)) {
-    alert('Agregue el Precio');
-  } else {
+if (cantidad.value === '' || cantidad.value === 0 || isNaN(cantidad.value)) {
+  alert('Agregue la Cantidad');
+} else if (precio.value === '' || precio.value === 0 || isNaN(precio.value)) {
+  alert('Agregue el Precio');
+} else {
 
   const itemContainer = document.createElement('div');
   itemContainer.className = 'row item';
@@ -1288,11 +1328,13 @@ const createDomElement = () => {
   <div class="col-2">
   <p class='precio'> ${precio.value} </p>
   </div>
-  <div class="col-4">
-  <input class="cantidad" type="number"
-  value="${cantidad.value}">
-  <button class="buttonDelete" type="button">X</button>
-  </div>`;
+  <div class="col-1">
+  <p class="cantidad">${cantidad.value}</p>
+  </div>
+  <div class="col-1">
+<button class="buttonDelete" type="button">x</button>
+</div>
+  `;
   return itemHtml;
   
 }
@@ -1332,10 +1374,10 @@ const updateTotal = () => {
     '.cantidad'
     );
    const cantidad = Number(
-    cantidadElement.value
+    cantidadElement.textContent
     );
    total = total + precio * cantidad;
-  
+
  });
   totalSel.innerHTML = `${total.toFixed(2)}S/`;
 }
@@ -1352,8 +1394,8 @@ const createBusGastoContr = (frm) => {
   const tipoPago = document.getElementById('tipoPago');
   const doc = document.getElementById('doc');
   const abonado = document.getElementById('abonado');
-  const cajaId = document.getElementById('cajaId');
   const Items = document.querySelectorAll('.item');
+
   let productos = [];
   let total = 0;
 
@@ -1405,7 +1447,7 @@ const createBusGastoContr = (frm) => {
     '.cantidad'
     );
    const cantidad = Number(
-    cantidadElement.value
+    cantidadElement.textContent
     );
 
    const productoObj = {
@@ -1433,12 +1475,21 @@ const createBusGastoContr = (frm) => {
     productos: productos,
   }
 
-postData('http://localhost:3000/cajas/1/busgastos',  busgastoObj);
+  postData('http://localhost:3000/cajas/1/busgastos',  busgastoObj);
 
 }
 
 async function postData(url = '', data = {}) {
-  // Default options are marked with *
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  overlaySpinner.classList.add('opened');
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+  
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
@@ -1451,14 +1502,37 @@ async function postData(url = '', data = {}) {
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+  }).then((res) => res.json())
+  .then((data) => printData(data));
 }
+
+function printData(data) {
+  const cajaId = document.getElementById('cajaId');
+  let overlay_content = document.querySelector('.overlay_content');
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  
+  overlaySpinner.classList.remove('opened');
+
+  overlay_content.innerHTML = data.gasto;
+
+  window.location.href = `/cajas/${cajaId.value}/busgastos`;
+
+}
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+
+
+
+
 
 
 
 
 // ROUTER de eventos
+
 const matchEvent = (ev, sel) => ev.target.matches(sel);
 const myId = (ev) => Number(ev.target.dataset.myId);
 const value = (ev) => ev.target.value;
@@ -1476,6 +1550,7 @@ document.addEventListener('submit', ev => {
   if (matchEvent(ev, '.formVenta')) createVentaContr (ev);
 })
 
+
 document.addEventListener('change', ev => {
   if (matchEvent(ev, '.calcMonto')) calcMontoContr (value(ev));
   else if  (matchEvent(ev, '.sumEfec')) sumEfecContr (value(ev));
@@ -1486,5 +1561,6 @@ document.addEventListener('change', ev => {
   else if  (matchEvent(ev, '.sumAut')) sumAutContr (value(ev));
   else if  (matchEvent(ev, '.cobrarOperVta')) cobrarOperVtaContr (ev);
 })
+
 
 

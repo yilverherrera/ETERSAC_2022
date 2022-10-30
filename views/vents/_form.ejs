@@ -117,7 +117,7 @@
                 <label for="operadorId" class="itemNarrow">
                     <span class="fa-solid fa-male"></span>Operador:<span class="fa-solid fa-hand-holding-dollar"></span>
                     <input type="checkbox" id="cpcOper" name="cpcOper" class="cobrarOperVta"> 
-                    <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; color: black;" placeholder="Abono"> 
+                    <input type="text" class="right mini" name ="cobrotxt" id="cobrotxt"  placeholder="Abono"> 
                 </label>
             </div>
 
@@ -155,7 +155,7 @@
             <div class="frmtwo_child">
                 <label for="anticipo" class="itemNarrow"><span class="fa-solid fa-gas-pump"></span> Anticipo: <b><label id="lbsumaAnt">0</label></b>
                 <label id="lbselAnt"></label>
-                <input type="text" class="" name ="anticSel" id="anticSel" style="height: 7px; width: 40px; color: black;" placeholder="Saldo"><i class="fa-regular fa-pen-to-square modAnt"></i> <input type="hidden" id="indexAnticip">
+                <input type="text" class="mini" name ="anticSel" id="anticSel"  placeholder="Saldo"><i class="fa-regular fa-pen-to-square modAnt"></i> <input type="hidden" id="indexAnticip">
                 </la</label>
             </div>
 
@@ -210,7 +210,7 @@
                  <select class="textAnt" id="anticipo" name="anticipo[]" multiple="multiple">
                     <% for (var i in anticipos) { %>
                     <% var anticip = anticipos[i]; %>
-                        <option value="<%= anticip.id+'T'+anticip.saldo %>" class="sumAnt" data-my-id="<%= anticip.saldo %>" style="background-color:<%= anticip.saldo>0 ? "#a8f5a3" : "#e5a82d" %>"> Monto:<%= anticip.monto %> Saldo:<%= anticip.saldo %> Fecha:<%= anticip.fecha %> Despacho:<%= anticip.despacho %></option>
+                        <option value="<%= anticip.id+'T'+anticip.saldo %>" class="sumAnt" data-my-id="<%= anticip.saldo %>" style="background-color:<%= anticip.saldo>0 ? "#a8f5a3" : "#e5a82d" %>"> Monto:<%= anticip.monto %> Saldo:<%= anticip.saldo.toFixed(2) %> Fecha:<%= anticip.fecha %> Despacho:<%= anticip.despacho %></option>
                     <% } %>
                 </select>   
             </div>

@@ -5,8 +5,8 @@
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
         <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
-        <a href="/cajas/<%= caja.id %>/gastopvos" title="Gastos Ope.">Gastos Ope.</a>
-        <a href="/cajas/<%= caja.id %>/gastadvos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
         <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
         <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos"><b><u>Anticipos</u></b></a>
         <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
@@ -18,16 +18,13 @@
    
 <div class="container">
 
-    <div class="row flotante">
+    <div class="row">
         <div class="col-3">Pd</div>
         <div class="col-3">Monto</div>
         <div class="col-3">Efectivo</div>
-        <div class="col-3"></div>
+        <div class="col-3"> </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
+ 
     <% let totalEfec=0; %>
 <% for (var n in anticipos) { %>
     <% var anticipo=anticipos[n]; %>
@@ -44,7 +41,10 @@
 
     <% } %>
     <div class="row">
-        <div class="col-12"><b><%= totalEfec %></b></div>
+    <div class="col-3"></div>
+        <div class="col-3"></div>
+        <div class="col-3"><b><%= totalEfec %></div>
+        <div class="col-3"> </div>
     </div>
     
 

@@ -47,6 +47,26 @@ exports.childlessRequired = async (req, res, next) => {
 
 };
 
+// MW - El la unidad debe pertenecer a un grupo
+exports.asocGroupRequired = async (req, res, next) => {
+
+  let { unidad } = req.load;
+
+  try {
+   unidad  = await unidad.getGrupos();
+   console.log(unidad);
+    
+    if (JSON.stringify(unidad) !== '[]') {
+      next();
+    } else {
+      throw new Error("Error la unidad (Pd) debe pertenecer a un grupo");
+    }
+  } catch (error) {
+    next(error);
+  }
+
+};
+
 //----------------------------------INDEX-----------------------------------------
 // GET /cajas/:cajaId/servbuses
 exports.index = async (req, res, next) => {
@@ -518,46 +538,43 @@ exports.create = async (req, res, next) => {
       monto = monto - cobrotxt;
     }
   }
+    
+  let srbus = fecha.split(',');
+  if (srbus.length > 1) {
+    monto = monto / srbus.length;
+    efectivo = monto;
+    cpc = 0;
+    anticipo = 0;
+    dctoFalla = 0;
+    dctoSinietro = 0;
+    dctoAutoridad = 0;
+  }
   
-  let servbus = models.Servbus.build({
-    monto,
-    fecha,
-    efectivo,
-    banco,
-    cpc,
-    anticipo,
-    dctoFalla,
-    dctoSinietro,
-    dctoAutoridad,
-    cajaId,
-    unidadId,
-    serviceId,
-    operadorId,
+  let servbus = srbus.map((srb) => {
+    return{
+    monto: monto,
+    fecha: srb,
+    efectivo: efectivo,
+    banco: banco,
+    cpc: cpc,
+    anticipo: anticipo,
+    dctoFalla: dctoFalla,
+    dctoSinietro: dctoSinietro,
+    dctoAutoridad: dctoAutoridad,
+    cajaId: cajaId,
+    unidadId: unidadId,
+    serviceId: serviceId,
+    operadorId: operadorId,
+  }
   });
 
   try {
-    // Saves only the fields question and answer into the DDBB
-    servbus = await servbus.save({
-      fields: [
-      "monto",
-      "fecha",
-      "efectivo",
-      "banco",
-      "cpc",
-      "anticipo",
-      "dctoFalla",
-      "dctoSinietro",
-      "dctoAutoridad",
-      "cajaId",
-      "unidadId",
-      "serviceId",
-      "operadorId",
-      ],
-    });
+
+    servbus = await models.Servbus.bulkCreate(servbus);
 
     if (servuelta === 'true') {
 
-      let servbusId = servbus.id;
+      let servbusId = servbus[0].id;
 
       let vuelt = models.Vuelt.build({
         fecha,

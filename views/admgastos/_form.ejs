@@ -1,0 +1,30 @@
+<div class="form_one">
+    <div class="label">
+        <label for="efectivo">Efectivo:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="efectivo" name="efectivo" value="<%= admgasto.efectivo %>" placeholder="Monto" autocomplete="off"/>
+    </div>
+    
+    <div class="label">
+        <label for="categadmId">Gasto Admin:</label>
+        </div>
+        <div class="input">
+        <select name="categadmId" id="categadmId">
+            <% for (var i in categadms) { %>
+                <% categadm = categadms[i]; %>
+            <option value="<%= categadm.id %>" categadm.id === admgasto.categadmId ? "checked" : ""><%= categadm.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label">
+        <label for="observaciones">Observaciones:</label>
+        </div>
+        <div class="input">
+        <input type="text" id="observaciones" name="observaciones" value="<%= admgasto.observaciones %>" placeholder="observaciones" autocomplete="off"/>
+    </div>
+   
+    <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
+    <input class="button_primary" type="submit" value="Guardar">
+</div>

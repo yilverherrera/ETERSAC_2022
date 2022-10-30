@@ -257,7 +257,7 @@ exports.destroy = async (req, res, next) => {
     try {
         await req.load.cobro.destroy();
         req.flash('success', 'Cobro Eliminada Exitosamente.');
-        res.redirect('/cobros');
+        res.redirect("/cajas/" + caja.id + "/cobros");
     } catch (error) {
         next(error);
     }
@@ -265,6 +265,7 @@ exports.destroy = async (req, res, next) => {
 
 // DELETE /cobros/v/:cobrovId
 exports.destroyv = async (req, res, next) => {
+   const { caja } = req.load;
 
     try {
         await req.load.cobro.destroy();

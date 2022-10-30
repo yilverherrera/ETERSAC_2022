@@ -5,8 +5,8 @@
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios">Servicios</a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
         <a href="/cajas/<%= caja.id %>/cobros" title="Cobros"><b><u>Cobros</u></b></a>
-        <a href="/cajas/<%= caja.id %>/gastopvos" title="Gastos Ope.">Gastos Ope.</a>
-        <a href="/cajas/<%= caja.id %>/gastadvos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
         <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
         <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
         <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
@@ -18,17 +18,18 @@
 <% let totalGral=0; %>
 <% let totalEfec=0; %>
 
+
+
+<div class="row">
+
+     <div class="col-12"><b>Cobros de Cpc de Servicios</b></div>
+</div>
 <div class="row">
 
      <div class="col-3">Pd</div>
      <div class="col-3">Monto</div>
      <div class="col-3">Efectivo</div>
      <div class="col-3"></div>
-</div>
-
-<div class="row">
-
-     <div class="col-12">Cobros de Cpc de Servicios</div>
 </div>
 
     <% for (var i in cobrosserv) { %>
@@ -69,7 +70,14 @@
 
     <div class="row">
 
-     <div class="col-12">Cobros de Cpc de Ventas</div>
+     <div class="col-12"><b>Cobros de Cpc de Ventas</b></div>
+</div>
+<div class="row">
+
+     <div class="col-3">Pd</div>
+     <div class="col-3">Monto</div>
+     <div class="col-3">Efectivo</div>
+     <div class="col-3"></div>
 </div>
 
     <% for (var i in cobrosvta) { %>
