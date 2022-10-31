@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             telefono: {
                 type: DataTypes.STRING,
-                validate: {notEmpty: {msg: "Fecha no puede estar vacío"}}
             }
         }, {
             sequelize

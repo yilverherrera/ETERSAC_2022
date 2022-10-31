@@ -19,6 +19,7 @@ const anticipoController = require('../controllers/anticipo');
 const cobroController = require('../controllers/cobro');
 const busgastoController = require('../controllers/busgasto');
 const admgastoController = require('../controllers/admgasto');
+const pagoproveedorController = require('../controllers/pagoproveedor');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -114,6 +115,7 @@ router.get(
   '/cajas/:id(\\d+)/cobros',
   '/cajas/:id(\\d+)/busgastos',
   '/cajas/:id(\\d+)/admgastos',
+  '/cajas/:id(\\d+)/pagoproveedors',
   '/login'
   ],
   saveBack);
@@ -144,6 +146,7 @@ router.param('cobroId', cobroController.load);
 router.param('cobrovId', cobroController.loadv);
 router.param('busgastoId', busgastoController.load);
 router.param('admgastoId', admgastoController.load);
+router.param('pagoproveedorId', pagoproveedorController.load);
 
 
 // Routes for the resource /users
@@ -534,5 +537,26 @@ router.delete('/cajas/:cajaId(\\d+)/admgastos/:admgastoId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   admgastoController.destroy);
+
+//Routes for the resource Pagoproveedors
+router.get('/cajas/:cajaId(\\d+)/pagoproveedors',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  pagoproveedorController.index);
+router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
+  sessionController.loginRequired,
+  pagoproveedorController.show);   
+router.get('/cajas/:cajaId(\\d+)/pagoproveedors/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  pagoproveedorController.new);
+router.post('/cajas/:cajaId(\\d+)/pagoproveedors',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  pagoproveedorController.create);
+router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  pagoproveedorController.destroy);
 
 module.exports = router;

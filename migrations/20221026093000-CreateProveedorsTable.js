@@ -18,7 +18,6 @@ module.exports = {
             },
             telefono: {
                 type: Sequelize.STRING,
-                validate: {notEmpty: {msg: "Fecha no puede estar vacío"}}
             },
                 createdAt: {
                     type: Sequelize.DATE,

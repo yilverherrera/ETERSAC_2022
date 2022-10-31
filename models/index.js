@@ -104,6 +104,9 @@ const Admgasto = sequelize.import(path.join(__dirname,'admgasto'));
 // Import the definition of the Categadm Table from categadm.js
 const Categadm = sequelize.import(path.join(__dirname,'categadm'));
 
+// Import the definition of the Pagoproveedor Table from pagoproveedor.js
+const Pagoproveedor = sequelize.import(path.join(__dirname,'pagoproveedor'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -288,6 +291,17 @@ Admgasto.belongsTo(Categadm, {as: 'pertCatAdm', foreignKey: 'categadmId'});
 Caja.hasMany(Admgasto, {as: 'admgastos', foreignKey: 'cajaId'});
 Admgasto.belongsTo(Caja, {as: 'pertCajAdm', foreignKey: 'cajaId'});
 
+// Relation 1-to-N between Proveedor and Pagoproveedor
+Proveedor.hasMany(Pagoproveedor, {as: 'proveedors', foreignKey: 'proveedorId'});
+Pagoproveedor.belongsTo(Proveedor, {as: 'pertProPag', foreignKey: 'proveedorId'});
+
+// Relation 1-to-N between Busgasto and Pagoproveedor
+Busgasto.hasMany(Pagoproveedor, {as: 'busgastos', foreignKey: 'busgastoId'});
+Pagoproveedor.belongsTo(Busgasto, {as: 'pertBusPag', foreignKey: 'busgastoId'});
+
+// Relation 1-to-N between Caja and Pagoproveedor
+Caja.hasMany(Pagoproveedor, {as: 'cajas', foreignKey: 'cajaId'});
+Pagoproveedor.belongsTo(Caja, {as: 'pertCajPag', foreignKey: 'cajaId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {
