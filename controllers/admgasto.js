@@ -80,7 +80,7 @@ exports.create = async (req, res, next) => {
     const {efectivo, observaciones, categadmId} = req.body;
      const categadms = await models.Categadm.findAll();
     const {caja} = req.load;
-    const fecha = caja.fecha.toISOString().split("T")[0];
+    const fecha = caja.fecha;
     const monto = efectivo;
     const cajaId = caja.id;
     const estatus = 0;

@@ -120,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: 0
             },            
             fecha: {
-                type: DataTypes.DATE,
+                type: DataTypes.DATEONLY,
                 allowNull: false
             }
         }, {

@@ -94,7 +94,7 @@ exports.create = async (req, res, next) => {
 
   const monto = bus.monto;
   const doc = bus.doc;
-  const fecha = caja.fecha.toISOString().split("T")[0];
+  const fecha = caja.fecha;
   const tipoPago = bus.tipoPago;
   let abonado = bus.abonado;
   if (tipoPago === 'contado') { abonado = monto; }

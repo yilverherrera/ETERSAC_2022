@@ -10,7 +10,7 @@
 
           
                 <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
-                    <a href="/cajas/<%= caja.id %>/servbuses" class="resalt">Despacho: <%= caja.pertDesCaj.name %> Autor: <%= caja.author.username %> Fecha: <%= caja.fecha.toISOString().split('T')[0]; %></a>
+                    <a href="/cajas/<%= caja.id %>/servbuses" class="resalt">Despacho: <%= caja.pertDesCaj.name %> Autor: <%= caja.author.username %> Fecha: <%= caja.fecha; %></a>
                 <% } %>   
                                
            

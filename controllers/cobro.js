@@ -192,7 +192,7 @@ exports.create = async (req, res, next) => {
 
   const {efectivo, cpcId} = req.body;
   const {caja} = req.load;
-  const fecha = caja.fecha.toISOString().split("T")[0];
+  const fecha = caja.fecha;
   const monto = efectivo;
   const cajaId = caja.id;
   const servbusId = cpcId.split("T")[0];

@@ -1,3 +1,5 @@
+
+
 //----------------------ANIMATIONS-----------------
 let toggle = document.querySelector(".toggle span");
 let main = document.querySelector("#mainSection");
@@ -1531,6 +1533,8 @@ function printData(data) {
 
 
 
+
+
 // ROUTER de eventos
 
 const matchEvent = (ev, sel) => ev.target.matches(sel);
@@ -1544,6 +1548,7 @@ document.addEventListener('click', ev => {
   else  if (matchEvent(ev, '.modAnt')) modAntContr (ev);
   else  if (matchEvent(ev, '.addProducto')) addProductoContr (ev);
   else if (matchEvent(ev, '.enviarBus')) createBusGastoContr (ev);
+  else if (matchEvent(ev, '.pagarDoc')) pagarDocContr (ev);
 })
 
 document.addEventListener('submit', ev => {
@@ -1560,6 +1565,7 @@ document.addEventListener('change', ev => {
   else if  (matchEvent(ev, '.sumSin')) sumSinContr (value(ev));
   else if  (matchEvent(ev, '.sumAut')) sumAutContr (value(ev));
   else if  (matchEvent(ev, '.cobrarOperVta')) cobrarOperVtaContr (ev);
+  else if  (matchEvent(ev, '.searchProv')) searchProContr (ev);
 })
 
 

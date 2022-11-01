@@ -125,7 +125,7 @@ module.exports = {
                     default: 0
                 },          
                 fecha: {
-                    type: Sequelize.DATE,
+                    type: Sequelize.DATEONLY,
                     allowNull: false
                 },
                 createdAt: {

@@ -20,6 +20,8 @@ const cobroController = require('../controllers/cobro');
 const busgastoController = require('../controllers/busgasto');
 const admgastoController = require('../controllers/admgasto');
 const pagoproveedorController = require('../controllers/pagoproveedor');
+const pagosController = require('../controllers/pagos');
+const proveedorController = require('../controllers/proveedor');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -116,6 +118,7 @@ router.get(
   '/cajas/:id(\\d+)/busgastos',
   '/cajas/:id(\\d+)/admgastos',
   '/cajas/:id(\\d+)/pagoproveedors',
+  '/cajas/:id(\\d+)/pagos',
   '/login'
   ],
   saveBack);
@@ -147,6 +150,8 @@ router.param('cobrovId', cobroController.loadv);
 router.param('busgastoId', busgastoController.load);
 router.param('admgastoId', admgastoController.load);
 router.param('pagoproveedorId', pagoproveedorController.load);
+router.param('proveedorId', proveedorController.load);
+
 
 
 // Routes for the resource /users
@@ -332,10 +337,10 @@ router.get('/cajas',
   cajaController.index);
 router.get('/cajas/new',
   sessionController.loginRequired,
-  cajaController.limitPerDay,
   cajaController.new);
 router.post('/cajas',
   sessionController.loginRequired,
+  cajaController.limitPerDay,
   cajaController.create);
 router.get('/cajas/:cajaId(\\d+)/edit',
   sessionController.loginRequired,
@@ -539,11 +544,10 @@ router.delete('/cajas/:cajaId(\\d+)/admgastos/:admgastoId(\\d+)',
   admgastoController.destroy);
 
 //Routes for the resource Pagoproveedors
-router.get('/cajas/:cajaId(\\d+)/pagoproveedors',
+router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:proveedorId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  pagoproveedorController.index);
-router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
+  pagoproveedorController.index);   
+router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:busgastoId(\\d+)/show',
   sessionController.loginRequired,
   pagoproveedorController.show);   
 router.get('/cajas/:cajaId(\\d+)/pagoproveedors/new',
@@ -554,9 +558,16 @@ router.post('/cajas/:cajaId(\\d+)/pagoproveedors',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   pagoproveedorController.create);
-router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
+router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:busgastoId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   pagoproveedorController.destroy);
+
+//Routes for the resource Pagos
+router.get('/cajas/:cajaId(\\d+)/pagos',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  pagosController.index);
+
 
 module.exports = router;

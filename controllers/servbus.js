@@ -108,7 +108,7 @@ exports.index = async (req, res, next) => {
 
     if (despacho) {
       res.locals.lcDespacho = despacho.name;
-      res.locals.lcFecha = caja.fecha.toISOString().split("T")[0];
+      res.locals.lcFecha = caja.fecha;
     }
 
     const servbuses = await models.Servbus.findAll(findOptions);
@@ -646,7 +646,7 @@ exports.edit = async (req, res, next) => {
   const { caja } = req.load;
   let { servbus } = req.load;
   
-  const hoy = caja.fecha.toISOString().split("T")[0];
+  const hoy = caja.fecha;
   let monto = 0;
   let servuelta = false;
 
@@ -721,17 +721,6 @@ exports.edit = async (req, res, next) => {
  }
  //-----------------------------------------------------------
 
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log(servuelta);
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
- console.log('-------------------------------------------');
  //------------------------------------------------------------------------
  
  //Búsqueda de operadores, se incluye sus cpc mayor a cero------------- 
@@ -813,7 +802,7 @@ exports.edit = async (req, res, next) => {
   //--------------------------------------------------------------------
 
  //--------Consulta de la vueltas recorridas en la fecha por la Unidad
- findOptions.where.fecha = caja.fecha.toISOString().split("T")[0];
+ findOptions.where.fecha = caja.fecha;
  findOptions.where.unidadId = servbus.unidadId;
  findOptions.include.push({
   model: models.Servbus,

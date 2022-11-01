@@ -104,7 +104,7 @@ exports.create = async (req, res, next) => {
     const {efectivo, unidadId} = req.body;
     const unidads = await models.Unidad.findAll();
     const {caja} = req.load;
-    const fecha = caja.fecha.toISOString().split("T")[0];
+    const fecha = caja.fecha;
     const monto = efectivo;
     const cajaId = caja.id;
     const saldo = efectivo;

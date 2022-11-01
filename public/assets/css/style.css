@@ -244,6 +244,28 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   justify-content: left;
 }
 
+.form_thre{
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: var(--space2);
+  border: 1px solid var(--corporativo-color);;
+  background-color: #fff;
+  border-radius: 2px;
+  justify-content: left;
+  box-shadow: var(--box-shadow);
+}
+.form_thre .frmthre_child{
+  display: flex;
+  width: 33.3333333333%;
+  box-sizing: border-box;
+  justify-content: left;
+  padding-top: 5px;
+  padding-right: 2px;
+}
+
+
 .submenu{
   display: flex;
   justify-content: space-between;

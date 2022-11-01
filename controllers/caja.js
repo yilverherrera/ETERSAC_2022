@@ -23,15 +23,18 @@ exports.load = async (req, res, next, cajaId) => {
 
 // MW - Un usuario sólo puede crear 1 caja al dia.
 exports.limitPerDay = async (req, res, next) => {
+  const { despacho, fecha } = req.body;
   const LIMIT_PER_DAY = 1;
 
   let countOptions = {
     where: {
       authorId: req.loginUser.id,
-      createdAt: {
-        [Op.lt]: new Date(),
-        [Op.gt]: new Date(new Date() - 12 * 60 * 60 * 1000),
+      fecha: {
+        [Op.eq]: fecha,
       },
+      despachoId: {
+        [Op.eq]: despacho,
+      }
     },
   };
 

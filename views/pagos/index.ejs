@@ -1,0 +1,91 @@
+<div class="toggle2">
+    <span class="fa-solid fa-sack-dollar"></span>
+</div>
+<div class="submenu">
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
+        <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/pagos" title="Pagos"><b><u>Pagos</u></b></a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
+    </div>
+    <input type="hidden" id="caja" nombre="caja" value="<%= caja.id %>">
+
+<% if (locals.loginUser) { %>
+<div class="form_thre">
+     <div class="frmthre_child">
+        <label for="proveedorId">Proveedor:</label>
+        </div>
+        <div class="frmthre_child">
+        <label for="proveedorId">Proveedor:</label>
+        </div>
+         <div class="frmthre_child">
+        <label for="proveedorId">Proveedor:</label>
+        </div>
+        <div class="frmthre_child">
+           <select name="proveedorId" id="proveedorId" class="searchProv">
+            <% for (var i in proveedors) { %>
+                <% proveedor = proveedors[i]; %>
+            <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+    
+       <div class="frmthre_child">
+           <select name="proveedorId2" id="proveedorId2">
+            <% for (var i in proveedors) { %>
+                <% proveedor = proveedors[i]; %>
+            <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+     <div class="frmthre_child">
+           <select name="proveedorId3" id="proveedorId3">
+            <% for (var i in proveedors) { %>
+                <% proveedor = proveedors[i]; %>
+            <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
+            <% } %>
+        </select>
+    </div>
+    </div>
+    <% } %>
+   
+<div class="container">
+
+    <div class="row">
+        <div class="col-2">Monto</div>
+        <div class="col-2">Efectivo</div>
+        <div class="col-3">Proveedor</div>
+        <div class="col-3">Doc</div>
+        <div class="col-2"> </div>
+    </div>
+ 
+    <% let totalEfec=0; %>
+<% for (var n in pagoproveedors) { %>
+    <% var pagoproveedor=pagoproveedors[n]; %>
+    <% totalEfec = totalEfec + pagoproveedor.efectivo; %>
+    <div class="row">
+        <div class="col-2"><%= pagoproveedor.efectivo %></div>
+        <div class="col-2"><%= pagoproveedor.efectivo %></div>
+        <div class="col-3"><%= pagoproveedor.pertProPag.nombre %></div>
+        <div class="col-3"><%= pagoproveedor.pertBusPag.doc %></div>
+        <div class="col-2">
+         <a href="pagoproveedors/<%= pagoproveedor.id %>"><i class="fa-regular fa-eye"></i></a>
+            <a href="/cajas/<%= caja.id %>/pagoproveedors/<%= pagoproveedor.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= pagoproveedor.pertBusPag.doc %>');"><i class="fa-regular fa-trash-can"></i></a> 
+           </div>
+    </div>
+
+    <% } %>
+    <div class="row">
+    <div class="col-2"></div>
+        <div class="col-2"><b><%= totalEfec %></div>
+     
+    </div>
+    
+
+</div>
+
+<h2>Total Efectivo Pagos: <%= totalEfec %></h2>
+                                                                     

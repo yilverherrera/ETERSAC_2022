@@ -20,45 +20,44 @@ exports.load = async (req, res, next, pagoproveedorId) => {
 };
 
 
-// GET /pagoproveedors
 exports.index = async (req, res, next) => {
-
-    const { caja } = req.load;
+    const {proveedor, caja} = req.load;
 
     try {
-        let findOptions = {
-            where: {},
-            include: []
-        }
+       const billConditions = await models.Busgasto.findAll({
+    where: {
+      proveedorId: {
+        [Op.eq]: proveedor.id,
+      },
+      tipoPago:{
+        [Op.eq]: 'credito',
+      }
+    },
+    group:['Busgasto.id'], 
+    attributes: [[Sequelize.fn('', Sequelize.col('Busgasto.id')), 'id'],[Sequelize.fn('', Sequelize.col('Busgasto.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Busgasto.abonado')), 'abonado'],[Sequelize.fn('', Sequelize.col('Busgasto.doc')), 'doc'],[Sequelize.fn('', Sequelize.col('Busgasto.fecha')), 'fecha'],[Sequelize.fn('SUM', Sequelize.col('busgastos.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('busgastos.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('busgastos.fueradCaja')), 'fueradCaja']], 
+    include: [{model: models.Pagoproveedor, as: 'busgastos', attributes:[]}],
+    raw: true,
+    order: Sequelize.literal('id DESC')
+  }).map((bill) => {
+    const abonado = bill.abonado + bill.efectivo + bill.banco + bill.fueradCaja;
+    const saldo = bill.monto - abonado;
+    return{
+        id: bill.id,
+        monto: bill.monto,
+        doc: bill.doc,
+        fecha: bill.fecha,
+        efectivo: bill.efectivo,
+        banco: bill.banco,
+        fueradCaja: bill.fueradCaja,
+        saldo: saldo,                        
+    }
+  });
 
-        findOptions.include.push({
-            model: models.Proveedor,
-            as: "pertProPag"
-        });
-
-        findOptions.include.push({
-            model: models.Busgasto,
-            as: "pertBusPag",
-            include:[{
-                model: models.Detbusgasto,
-                as: "detbusgastos",
-                include:[{
-                    model: models.Reproducto,
-                    as: "pertProDbg"
-                }]
-            }]
-        })
-
-        findOptions.where.cajaId = caja.id;
-
-        const pagoproveedors = await models.Pagoproveedor.findAll(findOptions);
-
-        res.render('admgastos/index.ejs', {pagoproveedors, caja});
-    } catch (error) {
+  res.render('pagos/pagoproveedors/index.ejs', {billConditions, proveedor, caja});
+    } catch(error){
         next(error);
     }
-
-};
+}
 
 // GET /pagoproveedors/:pagoproveedorId
 exports.show = async (req, res, next) => {

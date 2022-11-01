@@ -1,0 +1,59 @@
+<div class="toggle2">
+    <span class="fa-solid fa-sack-dollar"></span>
+</div>
+<div class="submenu">
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
+        <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/pagos" title="Pagos"><b><u>Pagos</u></b></a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
+    </div>
+<p>Proveedor:<%= proveedor.nombre %></p>
+   
+<div class="container">
+
+    <div class="row">
+        <div class="col-1">Monto</div>
+        <div class="col-2">Doc</div>
+        <div class="col-2">Fecha</div>
+        <div class="col-1">Abon.Efect.</div>
+        <div class="col-1">Abon.Banco</div>
+        <div class="col-1">Abon.F'Caja</div>
+        <div class="col-2">Saldo</div>
+        <div class="col-2"></div>
+    </div>
+ 
+    <% let totalSaldo=0; %>
+<% for (var n in billConditions) { %>
+    <% var billCondition=billConditions[n]; %>
+    <% totalSaldo = totalSaldo + billCondition.saldo; %>
+    <div class="row">
+        <div class="col-1"><%= billCondition.monto %></div>
+        <div class="col-2"><%= billCondition.doc %></div>
+        <div class="col-2"><%= billCondition.fecha %></div>
+        <div class="col-1"><%= billCondition.efectivo %></div>
+        <div class="col-1"><%= billCondition.banco %></div>
+        <div class="col-1"><%= billCondition.fueradCaja %></div>
+        <div class="col-2"><%= billCondition.saldo %></div>
+        <div class="col-2">
+        <span class="fa-solid fa-sack-dollar pagarDoc" data-id="<%= billCondition.id %>"></span>
+         <a href="pagoproveedors/<%= billCondition.id %>"><i class="fa-regular fa-eye"></i></a>
+            <a href="/cajas/<%= caja.id %>/pagoproveedors/<%= billCondition.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= billCondition.doc %>');"><i class="fa-regular fa-trash-can"></i></a> 
+           </div>
+    </div>
+
+    <% } %>
+    <div class="row">
+    <div class="col-2"></div>
+        <div class="col-2"><b><%= totalSaldo %></div>
+     
+    </div>
+    
+
+</div>
+
+<h2>Saldo: <%= totalSaldo %></h2>
+                                                                     
