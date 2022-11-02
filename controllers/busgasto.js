@@ -50,10 +50,6 @@ exports.index = async (req, res, next) => {
     }]
   });
 
-
-
-
-
   try {
   const busgastos = await models.Busgasto.findAll(findOptions);
   console.log(JSON.stringify(busgastos));
@@ -61,6 +57,37 @@ exports.index = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+// GET /busgastos/:busgastoId
+exports.show = async (req, res, next) => {
+    const {busgasto} = req.load;
+    
+    const detalle = await models.Detbusgasto.findAll({
+        where:{
+            busgastoId: {
+                [Op.eq]:busgasto.id,
+            }
+        },
+        include:[{
+            model: models.Reproducto,
+            as: "pertProDbg",
+        },
+        {
+          model: models.Unidad,
+          as: "pertUniDbg",
+        }
+        ]
+    }).map( (det) => {
+        return{
+            producto: det.pertProDbg.nombre,
+            cant: det.cant,
+            costo: det.costoUni,
+            total: det.total,
+            pd: det.pertUniDbg.placa,
+        }
+    });
+    res.json(detalle);
 };
 
 // GET /busgastos/new
@@ -125,17 +152,17 @@ exports.create = async (req, res, next) => {
 
         await models.Detbusgasto.bulkCreate(detCaja);
 
-        res.json({ gasto: 'Creado Exitosamente' });
+        res.json({ message: "Creado Exitosamente", refresh: `busgastos` });
         
-      } catch (error) {
+    } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-          res.json('Hay errores en el formulario:');
-          res.json({ message: error.message });
+            req.json({ message:'Hay errores en el formulario:' });
+            res.json({ message: error.message });
         } else {
-           res.json({ message: error.message });
-          next(error)
+            res.json({ message: error.message });
+            next(error)
         }
-      }        
+    }        
     
     
   };

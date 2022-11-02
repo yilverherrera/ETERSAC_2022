@@ -77,4 +77,6 @@
   max-width: 500px;
   background-color: #eee;
   padding: 1.5rem;
+  border-radius: 2px;
+  box-shadow: var(--box-shadow);
 }

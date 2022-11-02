@@ -86,6 +86,7 @@ exports.index = async (req, res, next) => {
   let findOptions = {
     where: {},
     include: [],
+    order: [['id', 'DESC']],
   };
 
   let title = "Cajas";

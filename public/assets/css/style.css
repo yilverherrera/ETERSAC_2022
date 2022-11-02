@@ -233,6 +233,18 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   box-shadow: var(--box-shadow);
 }
 
+.form_one_over{
+  display: inherit;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: var(--space2);
+  border: 1px solid #18809c;
+  background-color: #fff;
+  border-radius: 2px;
+  justify-content: left;
+  box-shadow: var(--box-shadow);
+}
+
 .label{
   display: flex;
   justify-content: left;

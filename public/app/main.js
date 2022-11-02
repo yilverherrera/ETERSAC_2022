@@ -1,4 +1,4 @@
-
+const serverUrl = 'http://localhost:3000/';
 
 //----------------------ANIMATIONS-----------------
 let toggle = document.querySelector(".toggle span");
@@ -1397,6 +1397,7 @@ const createBusGastoContr = (frm) => {
   const doc = document.getElementById('doc');
   const abonado = document.getElementById('abonado');
   const Items = document.querySelectorAll('.item');
+  const cajaId = document.getElementById("cajaId").value;
 
   let productos = [];
   let total = 0;
@@ -1477,7 +1478,7 @@ const createBusGastoContr = (frm) => {
     productos: productos,
   }
 
-  postData('http://localhost:3000/cajas/1/busgastos',  busgastoObj);
+  postData('http://localhost:3000/cajas/'+ cajaId +'/busgastos',  busgastoObj);
 
 }
 
@@ -1509,26 +1510,35 @@ async function postData(url = '', data = {}) {
 }
 
 function printData(data) {
-  const cajaId = document.getElementById('cajaId');
   let overlay_content = document.querySelector('.overlay_content');
   let overlaySpinner = document.querySelector('.overlay_spinner');
   let overlay = document.querySelector('.overlay');
   
   overlaySpinner.classList.remove('opened');
 
-  overlay_content.innerHTML = data.gasto;
+  overlay_content.innerHTML = `<h2>${data.message}</h2>`;
 
-  window.location.href = `/cajas/${cajaId.value}/busgastos`;
+  overlay_content.innerHTML += `
+  <button class="button_secundario cancelarOverlay refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+  
 
 }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
+const cancelarOverlayContr = (ev) => {
+  let overlay = document.querySelector('.overlay');
+ overlay.classList.remove('opened'); 
+ if (ev.target && ev.target.className.includes('refresh')) {
+    refreshPagosContr(ev.target.getAttribute("data-refresh"));
+  }
+}
 
-
-
-
+const refreshPagosContr = (view) => {
+  const cajaId = document.getElementById("cajaId").value;
+  window.location.href = `http://localhost:3000/cajas/${cajaId}/${view}`;
+}
 
 
 
@@ -1549,6 +1559,11 @@ document.addEventListener('click', ev => {
   else  if (matchEvent(ev, '.addProducto')) addProductoContr (ev);
   else if (matchEvent(ev, '.enviarBus')) createBusGastoContr (ev);
   else if (matchEvent(ev, '.pagarDoc')) pagarDocContr (ev);
+  else if (matchEvent(ev, '.cancelarOverlay')) cancelarOverlayContr (ev);
+  else if (matchEvent(ev, '.guardarPagoProveedor')) guardarPagoProveedorContr (ev);
+  else if (matchEvent(ev, '.backPagos')) backPagosContr (ev);
+  else if (matchEvent(ev, '.showPagos')) showPagosContr (ev);
+  else if (matchEvent(ev, '.showProductos')) showProductosContr (ev);
 })
 
 document.addEventListener('submit', ev => {

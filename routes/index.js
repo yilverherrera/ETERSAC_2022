@@ -509,6 +509,9 @@ router.get('/cajas/:cajaId(\\d+)/busgastos',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   busgastoController.index);
+router.get('/cajas/:cajaId(\\d+)/busgastos/:busgastoId(\\d+)',
+  sessionController.loginRequired,
+  busgastoController.show);   
 router.get('/cajas/:cajaId(\\d+)/busgastos/new',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
@@ -550,10 +553,6 @@ router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:proveedorId(\\d+)',
 router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:busgastoId(\\d+)/show',
   sessionController.loginRequired,
   pagoproveedorController.show);   
-router.get('/cajas/:cajaId(\\d+)/pagoproveedors/new',
-  sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  pagoproveedorController.new);
 router.post('/cajas/:cajaId(\\d+)/pagoproveedors',
   sessionController.loginRequired,
   cajaController.AuthorRequired,

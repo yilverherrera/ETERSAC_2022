@@ -22,23 +22,23 @@ exports.load = async (req, res, next, pagoproveedorId) => {
 
 exports.index = async (req, res, next) => {
     const {proveedor, caja} = req.load;
-
+    
     try {
-       const billConditions = await models.Busgasto.findAll({
-    where: {
-      proveedorId: {
-        [Op.eq]: proveedor.id,
-      },
-      tipoPago:{
-        [Op.eq]: 'credito',
-      }
+     const billConditions = await models.Busgasto.findAll({
+        where: {
+          proveedorId: {
+            [Op.eq]: proveedor.id,
+        },
+        tipoPago:{
+            [Op.eq]: 'credito',
+        }
     },
     group:['Busgasto.id'], 
     attributes: [[Sequelize.fn('', Sequelize.col('Busgasto.id')), 'id'],[Sequelize.fn('', Sequelize.col('Busgasto.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Busgasto.abonado')), 'abonado'],[Sequelize.fn('', Sequelize.col('Busgasto.doc')), 'doc'],[Sequelize.fn('', Sequelize.col('Busgasto.fecha')), 'fecha'],[Sequelize.fn('SUM', Sequelize.col('busgastos.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('busgastos.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('busgastos.fueradCaja')), 'fueradCaja']], 
     include: [{model: models.Pagoproveedor, as: 'busgastos', attributes:[]}],
     raw: true,
     order: Sequelize.literal('id DESC')
-  }).map((bill) => {
+}).map((bill) => {
     const abonado = bill.abonado + bill.efectivo + bill.banco + bill.fueradCaja;
     const saldo = bill.monto - abonado;
     return{
@@ -51,28 +51,43 @@ exports.index = async (req, res, next) => {
         fueradCaja: bill.fueradCaja,
         saldo: saldo,                        
     }
-  });
+});
 
-  res.render('pagos/pagoproveedors/index.ejs', {billConditions, proveedor, caja});
-    } catch(error){
-        next(error);
-    }
+res.render('pagos/pagoproveedors/index.ejs', {billConditions, proveedor, caja});
+} catch(error){
+    next(error);
+}
 }
 
-// GET /pagoproveedors/:pagoproveedorId
+// GET /pagoproveedors/:busgastoId/show
 exports.show = async (req, res, next) => {
-
-    const {pagoproveedor} = req.load;
-    const busgasto = await models.Busgasto.findByPk(pagoproveedor.busgastoId);
-    const detbusgastos = await models.Detbusgasto.findAll({
+    const {busgasto} = req.load;
+    
+    const pagos = await models.Pagoproveedor.findAll({
         where:{
             busgastoId: {
-        [Op.eq]:pagoproveedor.busgastoId
-    }
-    }
-        });
-
-    res.render('pagoproveedors/show', {pagoproveedor, busgasto, detbusgastos});
+                [Op.eq]:busgasto.id,
+            }
+        },
+        include:[{
+            model: models.Caja,
+            as: "pertCajPag",
+            include:[{
+                model: models.User,
+                as: "author",
+            }]
+        }]
+    }).map( (pago) => {
+        return{
+            efectivo: pago.efectivo,
+            banco: pago.banco,
+            fueradCaja: pago.fueradCaja,
+            fecha: pago.fecha,
+            observaciones: pago.observaciones,
+            author: pago.pertCajPag.author.username,
+        }
+    });
+    res.json(pagos);
 };
 
 // GET /pagoproveedors/new
@@ -92,32 +107,44 @@ exports.new = async (req, res, next) => {
 
 };
 
-// POST /admgastos/create
+// POST /pagoproveedors/create
 exports.create = async (req, res, next) => {
 
-    const {efectivo, observaciones, categadmId} = req.body;
-     const categadms = await models.Categadm.findAll();
+    const pago = req.body;
     const {caja} = req.load;
-    const fecha = caja.fecha.toISOString().split("T")[0];
-    const monto = efectivo;
-    const cajaId = caja.id;
-    const estatus = 0;
+
+
+    let abonado = 0;
     
-    let admgasto = models.Admgasto.build({ monto, observaciones, fecha, estatus, categadmId, cajaId });
+
+    const busgasto = await models.Busgasto.findByPk(pago.id);
+    
+    const efectivo = pago.efectivo;
+    const banco = pago.banco;
+    const fueradCaja = pago.fueradCaja;
+    const observaciones = pago.observaciones;
+    const fecha = caja.fecha;
+    const estatus = 0;
+    const proveedorId = busgasto.proveedorId;
+    const busgastoId = pago.id;
+    const cajaId = caja.id;
+    abonado = efectivo + banco + fueradCaja;
+
+    const abonadoTotal = getAbonado(pago.id);
+    
+    
+    let pagoproveedor = models.Pagoproveedor.build({ efectivo, banco, fueradCaja, observaciones, fecha, estatus, proveedorId, busgastoId, cajaId });
 
     try {
-        // Saves only the fields name into the DDBB
-        admgasto = await admgasto.save();
-        req.flash('success', 'Gasto Administrativo creado Exitosamente.');
-        res.redirect('/cajas/' + caja.id + '/admgastos');
+        pagoproveedor = await pagoproveedor.save();
+        res.json({ message:'Pago creado Exitosamente.', refresh: `pagoproveedors/${proveedorId}` });
         
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
-            req.flash('error', 'Hay errores en el formulario:');
-            error.errors.forEach(({message}) => req.flash('error', message));
-            res.render('admgastos/new', {admgasto, categadms});
+            res.json({ message:'Hay errores en el formulario:' });
+            res.json({ message: error.message });
         } else {
-            req.flash('error', 'Error creating a new Gasto Administrativo: ' + error.message);
+            res.json({ message: error.message });
             next(error)
         }
     }        
@@ -128,15 +155,15 @@ exports.create = async (req, res, next) => {
 
 // DELETE /admgastos/:admgastoId
 exports.destroy = async (req, res, next) => {
-     const { caja } = req.load;
+   const { caja } = req.load;
 
-    try {
-        await req.load.admgasto.destroy();
-        req.flash('success', 'Gasto Administrativo Eliminado Exitosamente.');
-        res.redirect("/cajas/" + caja.id + "/admgastos");
-    } catch (error) {
-        next(error);
-    }
+   try {
+    await req.load.admgasto.destroy();
+    req.flash('success', 'Gasto Administrativo Eliminado Exitosamente.');
+    res.redirect("/cajas/" + caja.id + "/admgastos");
+} catch (error) {
+    next(error);
+}
 };
 
 

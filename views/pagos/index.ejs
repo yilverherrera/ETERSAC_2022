@@ -11,21 +11,22 @@
         <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
         <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
     </div>
-    <input type="hidden" id="caja" nombre="caja" value="<%= caja.id %>">
+    <input type="hidden" id="cajaId" nombre="cajaId" value="<%= caja.id %>">
 
 <% if (locals.loginUser) { %>
 <div class="form_thre">
      <div class="frmthre_child">
-        <label for="proveedorId">Proveedor:</label>
+        <label for="proveedorId">Proveedores:</label>
         </div>
         <div class="frmthre_child">
-        <label for="proveedorId">Proveedor:</label>
+        <label for="proveedorId">Nómina:</label>
         </div>
          <div class="frmthre_child">
-        <label for="proveedorId">Proveedor:</label>
+        <label for="proveedorId">Prestamistas:</label>
         </div>
         <div class="frmthre_child">
            <select name="proveedorId" id="proveedorId" class="searchProv">
+           <option value="0" disable="true" selected>Seleccione</option>
             <% for (var i in proveedors) { %>
                 <% proveedor = proveedors[i]; %>
             <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
@@ -49,16 +50,17 @@
             <% } %>
         </select>
     </div>
-    </div>
+</div>
     <% } %>
    
 <div class="container">
 
     <div class="row">
-        <div class="col-2">Monto</div>
         <div class="col-2">Efectivo</div>
-        <div class="col-3">Proveedor</div>
-        <div class="col-3">Doc</div>
+        <div class="col-2">Banco</div>
+        <div class="col-2">Fuera de Caja</div>
+        <div class="col-2">Proveedor</div>
+        <div class="col-2">Doc</div>
         <div class="col-2"> </div>
     </div>
  
@@ -68,9 +70,10 @@
     <% totalEfec = totalEfec + pagoproveedor.efectivo; %>
     <div class="row">
         <div class="col-2"><%= pagoproveedor.efectivo %></div>
-        <div class="col-2"><%= pagoproveedor.efectivo %></div>
-        <div class="col-3"><%= pagoproveedor.pertProPag.nombre %></div>
-        <div class="col-3"><%= pagoproveedor.pertBusPag.doc %></div>
+        <div class="col-2"><%= pagoproveedor.banco %></div>
+        <div class="col-2"><%= pagoproveedor.fueradCaja %></div>
+        <div class="col-2"><%= pagoproveedor.pertProPag.nombre %></div>
+        <div class="col-2"><%= pagoproveedor.pertBusPag.doc %></div>
         <div class="col-2">
          <a href="pagoproveedors/<%= pagoproveedor.id %>"><i class="fa-regular fa-eye"></i></a>
             <a href="/cajas/<%= caja.id %>/pagoproveedors/<%= pagoproveedor.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= pagoproveedor.pertBusPag.doc %>');"><i class="fa-regular fa-trash-can"></i></a> 
@@ -79,9 +82,12 @@
 
     <% } %>
     <div class="row">
-    <div class="col-2"></div>
-        <div class="col-2"><b><%= totalEfec %></div>
-     
+        <div class="col-2"><b><%= totalEfec %></b></div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
     </div>
     
 
