@@ -22,6 +22,7 @@ const admgastoController = require('../controllers/admgasto');
 const pagoproveedorController = require('../controllers/pagoproveedor');
 const pagosController = require('../controllers/pagos');
 const proveedorController = require('../controllers/proveedor');
+const nominaController = require('../controllers/nomina');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -119,6 +120,7 @@ router.get(
   '/cajas/:id(\\d+)/admgastos',
   '/cajas/:id(\\d+)/pagoproveedors',
   '/cajas/:id(\\d+)/pagos',
+  '/nominas',
   '/login'
   ],
   saveBack);
@@ -151,6 +153,7 @@ router.param('busgastoId', busgastoController.load);
 router.param('admgastoId', admgastoController.load);
 router.param('pagoproveedorId', pagoproveedorController.load);
 router.param('proveedorId', proveedorController.load);
+router.param('nominaId', nominaController.load);
 
 
 
@@ -557,7 +560,7 @@ router.post('/cajas/:cajaId(\\d+)/pagoproveedors',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   pagoproveedorController.create);
-router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:busgastoId(\\d+)',
+router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   pagoproveedorController.destroy);
@@ -567,6 +570,24 @@ router.get('/cajas/:cajaId(\\d+)/pagos',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   pagosController.index);
+
+//Routes for the resource Nomina
+router.get('/nominas',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  nominaController.index);
+router.get('/nominas/new',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  nominaController.new);
+router.post('/nominas',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  nominaController.create);
+router.delete('/nominas/:nominaId(\\d+)',
+  sessionController.loginRequired,
+  sessionController.adminRequired,     
+  nominaController.destroy);
 
 
 module.exports = router;

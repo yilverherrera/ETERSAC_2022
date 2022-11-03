@@ -90,7 +90,7 @@ if (sum === 0) { return false; }
     observaciones: observaciones,
   }
 
-postData(`http://localhost:3000/cajas/${cajaId}/pagoproveedors`,  pago);
+postData(`${serverUrl}cajas/${cajaId}/pagoproveedors`,  pago);
 
 }
 

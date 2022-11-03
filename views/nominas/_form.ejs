@@ -1,0 +1,32 @@
+<div class="form_one">
+ 
+
+    <div class="label">
+        <label for="quincenaId">Quincena:</label>
+        </div>
+        <div class="input">
+        <select name="quincenaId" id="quincenaId">
+        <option value="<%= 0 %>" 0 === nomina.quincenaId ? "checked" : "">Seleccione</option>
+            <% for (var i in quincenas) { %>
+                <% quincena = quincenas[i]; %>
+            <option value="<%= quincena.id %>" quincena.id === nomina.quincenaId ? "checked" : "">#<%= quincena.id %> <%= quincena.desde %>-<%= quincena.hasta %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label">
+        <label for="empleadoId">Empleado:</label>
+        </div>
+        <div class="input">
+           <select class="textAnt" name="empleadoId[]" id="empleadoId" multiple="multiple">
+            <% for (var i in empleados) { %>
+                <% empleado = empleados[i]; %>
+            <option value="<%= empleado.id %>" empleado.id === nomina.empleadoId ? "checked" : ""><%= empleado.nombres %></option>
+            <% } %>
+        </select>
+    </div>
+
+ </div>    
+     
+    <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
+    <input class="button_primary crearNomina" type="button" value="Crear">

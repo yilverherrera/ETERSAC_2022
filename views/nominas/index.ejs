@@ -1,0 +1,101 @@
+<h1>
+    Nóminas:
+</h1>
+
+<div class="row">
+
+        <div class="col-1">
+        Salario Diario
+        </div>
+
+        <div class="col-1">
+        Días Faltas
+        </div>
+
+        <div class="col-1">
+        Monto Faltas
+        </div>
+
+        <div class="col-1">
+        Bono
+        </div>
+
+        <div class="col-1">
+        Préstamos
+        </div>
+
+        <div class="col-2">
+        Préstamos Total
+        </div>
+
+        <div class="col-1">
+        Pago Neto
+        </div>
+
+        <div class="col-1">
+        Quincena
+        </div>
+
+        <div class="col-2">
+        Empleado
+        </div>
+
+        <div class="col-1">
+        
+        </div>
+
+        </div>
+
+
+
+    <% for (var i in nominas) { %>
+        <% var nomina = nominas[i]; %>
+        <div class="row">
+
+        <div class="col-1">
+        <%= diaSalario %>
+        </div>
+
+        <div class="col-1">
+        <%= diaFalta %>
+        </div>
+
+        <div class="col-1">
+        <%= montoFalta %>
+        </div>
+
+        <div class="col-1">
+        <%= bono %>
+        </div>
+
+        <div class="col-1">
+        <%= dctoPrestamoIds %>
+        </div>
+
+        <div class="col-2">
+        <%= dctoPrestamoTotal %>
+        </div>
+
+        <div class="col-1">
+        <%= totalPago %>
+        </div>
+
+        <div class="col-1">
+        <%= quincenaId %>
+        </div>
+
+        <div class="col-2">
+        <%= empleadoId %>
+        </div>
+
+        <div class="col-1">
+        
+        </div>
+
+        </div>
+    
+    <% } %>
+
+<% if (locals.loginUser) { %>
+    <a href="/nominas/new" class="crear">Crear Nueva Nómina</a>
+<% } %>

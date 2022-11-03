@@ -4,39 +4,23 @@ const Op = Sequelize.Op;
 
 // GET /pagoproveedors
 module.exports = getAbonado = async (busgastoId) => {
+    let totalAbonado = 0;
 
-    
-    try {
-        let findOptions = {
-            where: {},
-            include: []
-        }
-
-        findOptions.include.push({
-            model: models.Proveedor,
-            as: "pertProPag"
+        const abonado = await models.Pagoproveedor.findAll({
+            where:{
+                busgastoId:{
+                    [Op.eq]:busgastoId,
+                }
+            },
+            group: ['Pagoproveedor.id'],
+            attributes:[[Sequelize.fn('SUM', Sequelize.col('Pagoproveedor.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('Pagoproveedor.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('Pagoproveedor.fueradCaja')), 'fueradCaja']],
+            raw: true,
+            order: Sequelize.literal('id DESC'),
         });
 
-        findOptions.include.push({
-            model: models.Busgasto,
-            as: "pertBusPag",
-            include:[{
-                model: models.Detbusgasto,
-                as: "detbusgastos",
-                include:[{
-                    model: models.Reproducto,
-                    as: "pertProDbg"
-                }]
-            }]
-        })
+        abonado.forEach( (abo) =>  totalAbonado += abo.efectivo + abo.banco + abo.fueradCaja );
 
-        findOptions.where.cajaId = cajaId;
-
-        const pagoproveedors = await models.Pagoproveedor.findAll(findOptions);
-
-        return pagoproveedors;
-    } catch (error) {
-        next(error);
-    }
+        return totalAbonado;
+  
 
 };

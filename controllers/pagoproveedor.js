@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 const Op = Sequelize.Op;
+const getAbonado = require('../data/getAbonado');
 
 
 // Autoload el pagoproveedor asociado a :pagoproveedorId
@@ -24,7 +25,7 @@ exports.index = async (req, res, next) => {
     const {proveedor, caja} = req.load;
     
     try {
-     const billConditions = await models.Busgasto.findAll({
+       const billConditions = await models.Busgasto.findAll({
         where: {
           proveedorId: {
             [Op.eq]: proveedor.id,
@@ -115,6 +116,7 @@ exports.create = async (req, res, next) => {
 
 
     let abonado = 0;
+    let pagoproveedor;
     
 
     const busgasto = await models.Busgasto.findByPk(pago.id);
@@ -128,16 +130,35 @@ exports.create = async (req, res, next) => {
     const proveedorId = busgasto.proveedorId;
     const busgastoId = pago.id;
     const cajaId = caja.id;
-    abonado = efectivo + banco + fueradCaja;
+    const monto = busgasto.monto;
+    abonado = parseFloat(efectivo) + parseFloat(banco) + parseFloat(fueradCaja);
 
-    const abonadoTotal = getAbonado(pago.id);
+    const abonadoTotal = await getAbonado(pago.id);
+    abonado += abonadoTotal;
+
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log(abonado);
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log('-----------------------------');
+    console.log('-----------------------------');
     
-    
-    let pagoproveedor = models.Pagoproveedor.build({ efectivo, banco, fueradCaja, observaciones, fecha, estatus, proveedorId, busgastoId, cajaId });
+    if (abonado <= monto){
+        pagoproveedor = models.Pagoproveedor.build({ efectivo, banco, fueradCaja, observaciones, fecha, estatus, proveedorId, busgastoId, cajaId });
+    }
 
     try {
-        pagoproveedor = await pagoproveedor.save();
-        res.json({ message:'Pago creado Exitosamente.', refresh: `pagoproveedors/${proveedorId}` });
+        if (abonado <= monto){
+            pagoproveedor = await pagoproveedor.save();
+            res.json({ message:'Pago creado Exitosamente.', refresh: `pagoproveedors/${proveedorId}` });
+        } else {
+            res.json({ message:'Error el saldo es menor al abono.', refresh: `pagoproveedors/${proveedorId}` });
+        }
         
     } catch (error) {
         if (error instanceof Sequelize.ValidationError) {
@@ -153,14 +174,15 @@ exports.create = async (req, res, next) => {
 
 
 
-// DELETE /admgastos/:admgastoId
+// DELETE /pagoproveedors/:pagoproveedorId
 exports.destroy = async (req, res, next) => {
-   const { caja } = req.load;
+ const { pagoproveedor } = req.load;
+ const { caja } = req.load;
 
-   try {
-    await req.load.admgasto.destroy();
-    req.flash('success', 'Gasto Administrativo Eliminado Exitosamente.');
-    res.redirect("/cajas/" + caja.id + "/admgastos");
+ try {
+    await req.load.pagoproveedor.destroy();
+    req.flash('success', 'Pago Eliminado Exitosamente.');
+    res.redirect("/cajas/" + caja.id + "/pagos");
 } catch (error) {
     next(error);
 }

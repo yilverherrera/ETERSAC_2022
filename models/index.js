@@ -107,6 +107,21 @@ const Categadm = sequelize.import(path.join(__dirname,'categadm'));
 // Import the definition of the Pagoproveedor Table from pagoproveedor.js
 const Pagoproveedor = sequelize.import(path.join(__dirname,'pagoproveedor'));
 
+// Import the definition of the Nomina Table from nomina.js
+const Nomina = sequelize.import(path.join(__dirname,'nomina'));
+
+// Import the definition of the Quincena Table from quincena.js
+const Quincena = sequelize.import(path.join(__dirname,'quincena'));
+
+// Import the definition of the Empleado Table from empleado.js
+const Empleado = sequelize.import(path.join(__dirname,'empleado'));
+
+// Import the definition of the Prestamoperson Table from prestamoperson.js
+const Prestamoperson = sequelize.import(path.join(__dirname,'prestamoperson'));
+
+// Import the definition of the Pagopresperson Table from pagopresperson.js
+const Pagopresperson = sequelize.import(path.join(__dirname,'pagopresperson'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -302,6 +317,26 @@ Pagoproveedor.belongsTo(Busgasto, {as: 'pertBusPag', foreignKey: 'busgastoId'});
 // Relation 1-to-N between Caja and Pagoproveedor
 Caja.hasMany(Pagoproveedor, {as: 'cajas', foreignKey: 'cajaId'});
 Pagoproveedor.belongsTo(Caja, {as: 'pertCajPag', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Quincena and Nomina
+Quincena.hasMany(Nomina, {as: 'quincenas', foreignKey: 'quincenaId'});
+Nomina.belongsTo(Quincena, {as: 'pertQuiNom', foreignKey: 'quincenaId'});
+
+// Relation 1-to-N between Empleado and Nomina
+Empleado.hasMany(Nomina, {as: 'empleados', foreignKey: 'empleadoId'});
+Nomina.belongsTo(Empleado, {as: 'pertEmpNom', foreignKey: 'empleadoId'});
+
+// Relation 1-to-N between Empleado and Nomina
+Empleado.hasMany(Prestamoperson, {as: 'prestamopersons', foreignKey: 'empleadoId'});
+Prestamoperson.belongsTo(Empleado, {as: 'pertEmpPre', foreignKey: 'empleadoId'});
+
+// Relation 1-to-N between Prestamoperson and Pagopresperson
+Prestamoperson.hasMany(Pagopresperson, {as: 'pagoprespersons', foreignKey: 'prestamopersonId'});
+Pagopresperson.belongsTo(Prestamoperson, {as: 'pertPrePag', foreignKey: 'prestamopersonId'});
+
+// Relation 1-to-N between Nomina and Pagopresperson
+Nomina.hasMany(Pagopresperson, {as: 'pagoprespersons', foreignKey: 'nominaId'});
+Pagopresperson.belongsTo(Nomina, {as: 'pertNomPag', foreignKey: 'nominaId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {
