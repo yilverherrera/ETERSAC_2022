@@ -127,16 +127,22 @@ function printData(data) {
 //-----------------------------------------------------------------------------
 
 const cancelarOverlayContr = (ev) => {
-  let overlay = document.querySelector('.overlay');
- overlay.classList.remove('opened'); 
  if (ev.target && ev.target.className.includes('refresh')) {
-    refreshPagosContr(ev.target.getAttribute("data-refresh"));
+    refreshContr(ev.target.getAttribute("data-refresh"));
   }
 }
 
-const refreshPagosContr = (view) => {
+const refreshContr = (view) => {
+  let overlay = document.querySelector('.overlay');
+  if (document.getElementById("cajaId")){
   const cajaId = document.getElementById("cajaId").value;
   window.location.href = `http://localhost:3000/cajas/${cajaId}/${view}`;
+}else{
+  window.location.href = `http://localhost:3000/${view}`;
+}
+ 
+ overlay.classList.remove('opened'); 
+
 }
 
 
@@ -164,6 +170,8 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.showPagos')) showPagosContr (ev);
   else if (matchEvent(ev, '.showProductos')) showProductosContr (ev);
   else if (matchEvent(ev, '.crearNomina')) crearNominaContr (ev);
+  else if (matchEvent(ev, '.nuevaFalta')) nuevaFaltaContr (ev);
+  else if (matchEvent(ev, '.guardarFalta')) guardarFaltaContr (ev);
 })
 
 document.addEventListener('submit', ev => {
@@ -181,6 +189,7 @@ document.addEventListener('change', ev => {
   else if  (matchEvent(ev, '.sumAut')) sumAutContr (value(ev));
   else if  (matchEvent(ev, '.cobrarOperVta')) cobrarOperVtaContr (ev);
   else if  (matchEvent(ev, '.searchProv')) searchProContr (ev);
+  else if  (matchEvent(ev, '.searchNom')) searchNomContr (ev);
 })
 
 

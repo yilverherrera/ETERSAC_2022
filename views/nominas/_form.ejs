@@ -15,10 +15,10 @@
     </div>
 
     <div class="label">
-        <label for="empleadoId">Empleado:</label>
+        <label for="empleadoIds">Empleados:</label>
         </div>
         <div class="input">
-           <select class="textAnt" name="empleadoId[]" id="empleadoId" multiple="multiple">
+           <select class="textAnt" name="empleadoIds[]" id="empleadoIds" multiple="multiple">
             <% for (var i in empleados) { %>
                 <% empleado = empleados[i]; %>
             <option value="<%= empleado.id %>" empleado.id === nomina.empleadoId ? "checked" : ""><%= empleado.nombres %></option>

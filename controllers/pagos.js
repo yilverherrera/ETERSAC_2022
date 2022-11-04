@@ -15,8 +15,11 @@ exports.index = async (req, res, next) => {
 
         const pagoproveedors = await getPagoProveedors(caja.id);
         const proveedors = await models.Proveedor.findAll();
+        const quincenas = await models.Quincena.findAll({
+            order: [['id','DESC']],
+        });
 
-        res.render('pagos/index.ejs', {pagoproveedors, proveedors, caja});
+        res.render('pagos/index.ejs', {pagoproveedors, proveedors, quincenas, caja});
     } catch (error) {
         next(error);
     }

@@ -1,12 +1,12 @@
 const {Model} = require('sequelize');
 
-// Definition of the Pagopresperson model:
+// Definition of the Pagoprespersona model:
 
 module.exports = (sequelize, DataTypes) => {
 
-    class Pagopresperson extends Model {}
+    class Pagoprespersona extends Model {}
 
-    Pagopresperson.init({
+    Pagoprespersona.init({
             monto: {
                 type:DataTypes.DOUBLE,
                 validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
@@ -20,5 +20,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    return Pagopresperson;
+    return Pagoprespersona;
 };

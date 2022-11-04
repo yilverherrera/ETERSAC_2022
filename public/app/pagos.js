@@ -12,6 +12,8 @@ const searchProContr = () => {
   
 }
 
+//Pagar Doc-----------------------------
+
 const pagarDocContr = (ev) =>  {
 
  let overlay_content = document.querySelector('.overlay_content');

@@ -3,7 +3,7 @@
 module.exports = {
     up(queryInterface, Sequelize) {
         return queryInterface.createTable(
-            'Prestamopersons',
+            'Pagoprespersonas',
             {
                 id: {
                     type: Sequelize.INTEGER,
@@ -16,21 +16,9 @@ module.exports = {
                     type:Sequelize.DOUBLE,
                     validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
                 },
-                cuotaNominaQuincena: {
-                    type: Sequelize.DOUBLE,
-                    validate: {notEmpty: {msg: "Cuota no puede estar vacío"}}
-                },
-                cuotaCant: {
-                    type: Sequelize.INTEGER,
-                    validate: {notEmpty: {msg: "Cant no puede estar vacío"}}
-                },
                 fecha: {
-                    type:Sequelize.DATEONLY,
-                    validate: {notEmpty: {msg: "Fecha no puede estar vacío"}}
-                },
-                observaciones: {
-                    type: Sequelize.STRING,
-                    defaultValue:"",
+                    type: Sequelize.DATEONLY,
+
                 },
                 createdAt: {
                     type: Sequelize.DATE,
@@ -47,6 +35,6 @@ module.exports = {
             );
     },
     down(queryInterface, Sequelize) {
-        return queryInterface.dropTable('Prestamopersons');
+        return queryInterface.dropTable('Pagoprespersonas');
     }
 };

@@ -116,11 +116,11 @@ const Quincena = sequelize.import(path.join(__dirname,'quincena'));
 // Import the definition of the Empleado Table from empleado.js
 const Empleado = sequelize.import(path.join(__dirname,'empleado'));
 
-// Import the definition of the Prestamoperson Table from prestamoperson.js
-const Prestamoperson = sequelize.import(path.join(__dirname,'prestamoperson'));
+// Import the definition of the Prestamopersona Table from prestamopersona.js
+const Prestamopersona = sequelize.import(path.join(__dirname,'prestamopersona'));
 
-// Import the definition of the Pagopresperson Table from pagopresperson.js
-const Pagopresperson = sequelize.import(path.join(__dirname,'pagopresperson'));
+// Import the definition of the Pagoprespersona Table from pagoprespersona.js
+const Pagoprespersona = sequelize.import(path.join(__dirname,'pagoprespersona'));
 
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
@@ -327,16 +327,16 @@ Empleado.hasMany(Nomina, {as: 'empleados', foreignKey: 'empleadoId'});
 Nomina.belongsTo(Empleado, {as: 'pertEmpNom', foreignKey: 'empleadoId'});
 
 // Relation 1-to-N between Empleado and Nomina
-Empleado.hasMany(Prestamoperson, {as: 'prestamopersons', foreignKey: 'empleadoId'});
-Prestamoperson.belongsTo(Empleado, {as: 'pertEmpPre', foreignKey: 'empleadoId'});
+Empleado.hasMany(Prestamopersona, {as: 'prestamopersonas', foreignKey: 'empleadoId'});
+Prestamopersona.belongsTo(Empleado, {as: 'pertEmpPre', foreignKey: 'empleadoId'});
 
 // Relation 1-to-N between Prestamoperson and Pagopresperson
-Prestamoperson.hasMany(Pagopresperson, {as: 'pagoprespersons', foreignKey: 'prestamopersonId'});
-Pagopresperson.belongsTo(Prestamoperson, {as: 'pertPrePag', foreignKey: 'prestamopersonId'});
+Prestamopersona.hasMany(Pagoprespersona, {as: 'pagoprespersonas', foreignKey: 'prestamopersonaId'});
+Pagoprespersona.belongsTo(Prestamopersona, {as: 'pertPrePag', foreignKey: 'prestamopersonaId'});
 
 // Relation 1-to-N between Nomina and Pagopresperson
-Nomina.hasMany(Pagopresperson, {as: 'pagoprespersons', foreignKey: 'nominaId'});
-Pagopresperson.belongsTo(Nomina, {as: 'pertNomPag', foreignKey: 'nominaId'});
+Nomina.hasMany(Pagoprespersona, {as: 'pagoprespersonas', foreignKey: 'nominaId'});
+Pagoprespersona.belongsTo(Nomina, {as: 'pertNomPag', foreignKey: 'nominaId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

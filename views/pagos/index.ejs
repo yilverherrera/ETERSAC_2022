@@ -26,7 +26,7 @@
         </div>
         <div class="frmthre_child">
            <select name="proveedorId" id="proveedorId" class="searchProv">
-           <option value="0" disable="true" selected>Seleccione</option>
+           <option value="0" disabled="true" selected>Seleccione</option>
             <% for (var i in proveedors) { %>
                 <% proveedor = proveedors[i]; %>
             <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
@@ -35,10 +35,11 @@
     </div>
     
        <div class="frmthre_child">
-           <select name="proveedorId2" id="proveedorId2">
-            <% for (var i in proveedors) { %>
-                <% proveedor = proveedors[i]; %>
-            <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
+           <select name="quincenaId" id="quincenaId" class="searchNom">
+           <option value="0" disabled="true" selected>Seleccione</option>
+            <% for (var i in quincenas) { %>
+                <% quincena = quincenas[i]; %>
+            <option value="<%= quincena.id %>">#<%= quincena.id %> Desde:<%= quincena.desde %> Hasta:<%= quincena.hasta %></option>
             <% } %>
         </select>
     </div>

@@ -6,23 +6,21 @@ const Op = Sequelize.Op;
 module.exports = getPrestamoPersons = async (empleadoId) => {
 
     
-    try {
-    
+   
 
-        const prestamoperson = await models.Prestamoperson.findAll({
+        const prestamoperson = await models.Prestamopersona.findAll({
             where: {
                 empleadoId:{
                     [Op.eq]: empleadoId,
                 },
-                group: ['Prestamoperson.id'],
-                attributes: [[Sequelize.fn('', Sequelize.col('Prestamoperson.id')),'id'],[Sequelize.fn('', Sequelize.col('Prestamoperson.monto')),'monto'],[Sequelize.fn('', Sequelize.col('Prestamoperson.cuotaNominaQuincena')),'cuota'],[Sequelize.fn('sum', Sequelize.col('pagoprespersons.monto')),'total'],[Sequelize.fn('count', Sequelize.col('pagoprespersons.id')),'contado']],
+            },
+                group: ['Prestamopersona.id'],
+                attributes: [[Sequelize.fn('', Sequelize.col('Prestamopersona.id')), 'id'],[Sequelize.fn('', Sequelize.col('Prestamopersona.monto')),'monto'],[Sequelize.fn('', Sequelize.col('Prestamopersona.cuotaNominaQuincena')),'cuota'],[Sequelize.fn('sum', Sequelize.col('pagoprespersonas.monto')),'total'],[Sequelize.fn('count', Sequelize.col('pagoprespersonas.id')),'contado']],
+                include: [{model: models.Pagoprespersona, as: 'pagoprespersonas', attributes:[]}],
+                raw: true,
                 order: Sequelize.literal('id DESC'),
-            }
         }).filter( (prest) => prest.monto > prest.total);
 
         return prestamoperson;
-    } catch (error) {
-        next(error);
-    }
-
+    
 };

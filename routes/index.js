@@ -23,6 +23,8 @@ const pagoproveedorController = require('../controllers/pagoproveedor');
 const pagosController = require('../controllers/pagos');
 const proveedorController = require('../controllers/proveedor');
 const nominaController = require('../controllers/nomina');
+const faltaController = require('../controllers/falta');
+const quincenaController = require('../controllers/quincena');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -121,6 +123,7 @@ router.get(
   '/cajas/:id(\\d+)/pagoproveedors',
   '/cajas/:id(\\d+)/pagos',
   '/nominas',
+  '/cajas/:id(\\d+)/quincenas',
   '/login'
   ],
   saveBack);
@@ -154,7 +157,7 @@ router.param('admgastoId', admgastoController.load);
 router.param('pagoproveedorId', pagoproveedorController.load);
 router.param('proveedorId', proveedorController.load);
 router.param('nominaId', nominaController.load);
-
+router.param('quincenaId', quincenaController.load);
 
 
 // Routes for the resource /users
@@ -571,6 +574,12 @@ router.get('/cajas/:cajaId(\\d+)/pagos',
   cajaController.AuthorRequired,
   pagosController.index);
 
+//Quincena
+router.get('/cajas/:cajaId(\\d+)/quincenas/:quincenaId(\\d+)',
+  sessionController.loginRequired,
+  sessionController.AuthorRequired,
+  quincenaController.index);
+
 //Routes for the resource Nomina
 router.get('/nominas',
   sessionController.loginRequired,
@@ -584,10 +593,16 @@ router.post('/nominas',
   sessionController.loginRequired,
   sessionController.adminRequired,
   nominaController.create);
+router.post('/nominas/:nominaId(\\d+)/faltas',
+  sessionController.loginRequired,
+  sessionController.adminRequired,
+  faltaController.create);
 router.delete('/nominas/:nominaId(\\d+)',
   sessionController.loginRequired,
   sessionController.adminRequired,     
   nominaController.destroy);
+
+
 
 
 module.exports = router;

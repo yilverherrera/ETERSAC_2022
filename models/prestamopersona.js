@@ -1,12 +1,12 @@
 const {Model} = require('sequelize');
 
-// Definition of the Prestamoperson model:
+// Definition of the Prestamopersona model:
 
 module.exports = (sequelize, DataTypes) => {
 
-    class Prestamoperson extends Model {}
+    class Prestamopersona extends Model {}
 
-    Prestamoperson.init({
+    Prestamopersona.init({
             monto: {
                 type:DataTypes.DOUBLE,
                 validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
@@ -32,5 +32,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    return Prestamoperson;
+    return Prestamopersona;
 };

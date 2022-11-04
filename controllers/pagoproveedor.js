@@ -136,18 +136,7 @@ exports.create = async (req, res, next) => {
     const abonadoTotal = await getAbonado(pago.id);
     abonado += abonadoTotal;
 
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log(abonado);
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    console.log('-----------------------------');
-    
+   
     if (abonado <= monto){
         pagoproveedor = models.Pagoproveedor.build({ efectivo, banco, fueradCaja, observaciones, fecha, estatus, proveedorId, busgastoId, cajaId });
     }
