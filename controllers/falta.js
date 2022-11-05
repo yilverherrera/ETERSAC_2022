@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 const Op = Sequelize.Op;
+const getSalario = require("../data/getSalario");
 
 
 // POST /faltas/create
@@ -56,11 +57,46 @@ exports.create = async (req, res, next) => {
     }
 
 }
-
-    
-   
     
 };
+
+exports.destroy = async (req, res, next)=>{
+    const {nomina} = req.load;
+    const falta = req.body;
+    let diasFaltaDescripcionNew = "";
+    const diasFalta = nomina.diasFalta - 1;
+    const salario = await getSalario(nomina.empleadoId);
+    const diaSalario = salario.diaSalario;
+    const montoFalta = diasFalta * diaSalario;
+
+    let diasFaltaDescripcion = nomina.diasFaltaDescripcion.split('T');
+
+    const diasFaltDescripcion = diasFaltaDescripcion.filter((dias) => dias !== falta.fecha);
+
+    diasFaltDescripcion.forEach((diasFalt) => diasFaltaDescripcionNew = `${diasFaltaDescripcionNew}${diasFalt}T` );
+
+    nomina.diasFaltaDescripcion = diasFaltaDescripcionNew;
+    nomina.diasFalta = diasFalta;
+    nomina.montoFalta = montoFalta;
+try{
+    await nomina.save({
+        fields:[
+        "diasFalta",
+        "montoFalta",
+        "diasFaltaDescripcion",
+        ]
+    });
+    res.json({message: "Falta elimada Exitosamente." , refresh: `quincenas/${nomina.quincenaId}`});
+}catch(error){
+
+     if (error instanceof Sequelize.ValidationError){
+        res.json({message: "Error, no se pudo elimnar la falta"});
+    }else{
+          next(error)
+    }
+}
+
+}
 
 
 

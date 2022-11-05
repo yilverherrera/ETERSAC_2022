@@ -1,16 +1,24 @@
-<h1>
-    Nóminas:
-</h1>
+<div class="toggle2">
+    <span class="fa-solid fa-sack-dollar"></span>
+</div>
+<div class="submenu">
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
+        <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/pagos" title="Pagos"><b><u>Pagos</u></b></a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
+    </div>
 
-
-<% if (locals.loginUser) { %>
-    <a href="/nominas/new" class="crear">Crear Nueva Nómina</a>
-<% } %>
+<input type="hidden" id="cajaId" nombre="cajaId" value="<%= caja.id %>">
+    <i class="fa-regular fa-circle-left backPagos">Back</i>
 
 <div class="row">
 
         <div class="col-1">
-        Salario Diario
+        Salario
         </div>
 
         <div class="col-1">
@@ -33,22 +41,27 @@
         Préstamos Total
         </div>
 
+          <div class="col-1">
+        Pagos
+        </div>
+
         <div class="col-1">
-        Pago Neto
+        Saldo
         </div>
 
         <div class="col-1">
         Quincena
         </div>
 
-        <div class="col-2">
+        <div class="col-1">
         Empleado
         </div>
 
         <div class="col-1">
-        Faltas/Eliminar
+        Pagar/Falta
         </div>
 
+      
         </div>
 
 
@@ -58,7 +71,7 @@
         <div class="row">
 
         <div class="col-1">
-        <%= nomina.diaSalario %>
+        <%= nomina.salario %>
         </div>
 
         <div class="col-1">
@@ -73,7 +86,7 @@
         <% var diasFaltasDesc = nomina.diasFaltaDescripcion.split("T"); %>
         <% for (var n in diasFaltasDesc) { %>
         <% var diasFalta = diasFaltasDesc[n]; %>
-        <%= diasFalta %><br>
+        <%= diasFalta %><% if (diasFalta !== "") {%><span class="fa-regular fa-x delFalta" data-id="<%= nomina.id %>" data-fecha="<%= diasFalta %>"></span><% } %><br>
         <% } %>
         </div>
 
@@ -85,24 +98,31 @@
         <%= nomina.dctoPrestamoTotal %>
         </div>
 
+         <div class="col-1">
+         <%= nomina.pagos %>
+         <span class="fa-regular fa-eye showPagoNomina" data-id="<%= nomina.id %>"></span>
+           </div>
+
         <div class="col-1">
-        <%= nomina.totalPago %>
+        <%= nomina.saldo %>
         </div>
 
         <div class="col-1">
-        <%= nomina.pertQuiNom.desde %> <%= nomina.pertQuiNom.hasta %>
-        </div>
-
-        <div class="col-2">
-        <%= nomina.pertEmpNom.nombres %>
+        <%= nomina.desde %> <%= nomina.hasta %>
         </div>
 
         <div class="col-1">
-        <img class="nuevoPagoNomina" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.empleadoId %>">
+        <%= nomina.nombres %>
+        </div>
+
+        <div class="col-1">
+        <% if (locals.loginUser) { %>
+        <img class="nuevoPagoNomina" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.nombres %>">
         
         <img class="nuevaFalta" src="/assets/img/descalificado.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.empleadoId %>">
+        <% } %>
         </div>
-
+       
         </div>
     
     <% } %>

@@ -25,6 +25,7 @@ const proveedorController = require('../controllers/proveedor');
 const nominaController = require('../controllers/nomina');
 const faltaController = require('../controllers/falta');
 const quincenaController = require('../controllers/quincena');
+const pagonominaController = require('../controllers/pagonomina');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -158,7 +159,7 @@ router.param('pagoproveedorId', pagoproveedorController.load);
 router.param('proveedorId', proveedorController.load);
 router.param('nominaId', nominaController.load);
 router.param('quincenaId', quincenaController.load);
-
+router.param('pagonominaId', pagonominaController.load);
 
 // Routes for the resource /users
 router.get('/users',
@@ -560,7 +561,7 @@ router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:busgastoId(\\d+)/show',
   sessionController.loginRequired,
   pagoproveedorController.show);   
 router.post('/cajas/:cajaId(\\d+)/pagoproveedors',
-  sessionController.loginRequired,
+  sessionController.loginRequiredJson,
   cajaController.AuthorRequired,
   pagoproveedorController.create);
 router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
@@ -574,11 +575,6 @@ router.get('/cajas/:cajaId(\\d+)/pagos',
   cajaController.AuthorRequired,
   pagosController.index);
 
-//Quincena
-router.get('/cajas/:cajaId(\\d+)/quincenas/:quincenaId(\\d+)',
-  sessionController.loginRequired,
-  sessionController.AuthorRequired,
-  quincenaController.index);
 
 //Routes for the resource Nomina
 router.get('/nominas',
@@ -590,19 +586,40 @@ router.get('/nominas/new',
   sessionController.adminRequired,
   nominaController.new);
 router.post('/nominas',
-  sessionController.loginRequired,
+  sessionController.loginRequiredJson,
   sessionController.adminRequired,
   nominaController.create);
-router.post('/nominas/:nominaId(\\d+)/faltas',
-  sessionController.loginRequired,
-  sessionController.adminRequired,
-  faltaController.create);
 router.delete('/nominas/:nominaId(\\d+)',
   sessionController.loginRequired,
   sessionController.adminRequired,     
   nominaController.destroy);
 
+//Faltas
+router.post('/nominas/:nominaId(\\d+)/faltas',
+  sessionController.loginRequiredJson,
+  sessionController.adminRequired,
+  faltaController.create);
+router.delete('/nominas/:nominaId(\\d+)/faltas',
+  sessionController.loginRequiredJson,
+  sessionController.adminRequiredJson,
+  faltaController.destroy);
 
+
+//Quincena
+router.get('/cajas/:cajaId(\\d+)/quincenas/:quincenaId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  quincenaController.index);
+
+//Pagos Nomina
+router.get('/cajas/:cajaId(\\d+)/nominas/:nominaId(\\d+)/pagos/show',
+  sessionController.loginRequiredJson,
+  cajaController.AuthorRequired,
+  pagonominaController.show);
+router.post('/cajas/:cajaId(\\d+)/nominas/:nominaId(\\d+)/pagos',
+  sessionController.loginRequiredJson,
+  cajaController.AuthorRequired,
+  pagonominaController.create);
 
 
 module.exports = router;

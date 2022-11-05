@@ -98,6 +98,15 @@ exports.loginRequired = function (req, res, next) {
     }
 };
 
+exports.loginRequiredJson = function (req, res, next) {
+    if (req.loginUser) {
+        next();
+    } else {
+        res.json({message:'Session Expiró', refresh: '/login'});
+    }
+};
+
+
 
 // MW that allows to pass only if the logged useer in is admin.
 exports.adminRequired = (req, res, next) => {
@@ -111,6 +120,19 @@ exports.adminRequired = (req, res, next) => {
         res.send(403);
     }
 };
+
+exports.adminRequiredJson = (req, res, next) => {
+
+    const isAdmin = !!req.loginUser.isAdmin;
+
+    if (isAdmin) {
+        next();
+    } else {
+        console.log('Prohibited route: the logged in user is not an administrator.');
+        res.json({message: `Prohibited route: the logged in user is not an administrator.`, refresh: '#'});
+    }
+};
+
 
 // MW that allows to pass only if the logged in user is:
 // - admin

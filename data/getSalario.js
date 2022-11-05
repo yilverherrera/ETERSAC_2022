@@ -3,7 +3,7 @@ const {models} = require("../models");
 const Op = Sequelize.Op;
 
 // GET /prestamospersons
-module.exports = getSalario = async (empleadoId, diasQuincena) => {
+module.exports = getSalario = async (empleadoId, diasQuincena = 13) => {
 
     
    
@@ -11,13 +11,15 @@ module.exports = getSalario = async (empleadoId, diasQuincena) => {
         const salario = await models.Empleado.findByPk(empleadoId);
 
         let diaSalario = salario.salarioQuincenal / diasQuincena;
+        let salarioQuincenal = salario.salarioQuincenal;
 
         if (salario.isSalarioSemanal === true) {
-            diaSalario = salario.salarioQuincenal / 7;
+            diaSalario = salario.salarioQuincenal / 6;
+            salarioQuincenal = diaSalario * diasQuincena;
         }
 
         const salarioQuincena = {
-            monto: salario.salarioQuincenal,
+            monto: salarioQuincenal.toFixed(2),
             diaSalario: diaSalario.toFixed(2),
         }
 

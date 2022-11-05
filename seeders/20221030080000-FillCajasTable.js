@@ -4,7 +4,7 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
 
-        let now = new Date();
+        let now = new Date().toISOString().split('T')[0];
         await queryInterface.bulkInsert('Cajas', [
             {
 		 	busInEfe: 0,

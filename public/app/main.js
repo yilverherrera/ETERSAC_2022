@@ -108,6 +108,33 @@ async function postData(url = '', data = {}) {
   .then((data) => printData(data));
 }
 
+async function delData(url = '', data = {}) {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  overlaySpinner.classList.add('opened');
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+  
+  const response = await fetch(url, {
+    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  }).then((res) => res.json())
+  .then((data) => printData(data));
+}
+
 function printData(data) {
   let overlay_content = document.querySelector('.overlay_content');
   let overlaySpinner = document.querySelector('.overlay_spinner');
@@ -127,14 +154,18 @@ function printData(data) {
 //-----------------------------------------------------------------------------
 
 const cancelarOverlayContr = (ev) => {
+  let overlay = document.querySelector('.overlay');
  if (ev.target && ev.target.className.includes('refresh')) {
     refreshContr(ev.target.getAttribute("data-refresh"));
+  }
+  else{
+ overlay.classList.remove('opened');    
   }
 }
 
 const refreshContr = (view) => {
   let overlay = document.querySelector('.overlay');
-  if (document.getElementById("cajaId")){
+  if (document.getElementById("cajaId") && view !== '/login'){
   const cajaId = document.getElementById("cajaId").value;
   window.location.href = `http://localhost:3000/cajas/${cajaId}/${view}`;
 }else{
@@ -172,6 +203,10 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.crearNomina')) crearNominaContr (ev);
   else if (matchEvent(ev, '.nuevaFalta')) nuevaFaltaContr (ev);
   else if (matchEvent(ev, '.guardarFalta')) guardarFaltaContr (ev);
+  else if (matchEvent(ev, '.nuevoPagoNomina')) nuevoPagoNominaContr (ev);
+  else if (matchEvent(ev, '.guardarPagoNomina')) guardarPagoNominaContr (ev);
+  else if (matchEvent(ev, '.showPagoNomina')) showPagoNominaContr (ev);
+  else if (matchEvent(ev, '.delFalta')) delFaltaContr (ev);
 })
 
 document.addEventListener('submit', ev => {

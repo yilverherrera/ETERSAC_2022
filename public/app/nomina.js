@@ -89,6 +89,20 @@ postData(`${serverUrl}nominas/${id}/faltas`,  falta);
 
 }
 
+const delFaltaContr = (ev) => {
+  const id = ev.target.getAttribute("data-id");
+  const fecha = ev.target.getAttribute("data-fecha");
+  
+  const falta = {
+    id: id,
+    fecha: fecha,
+  }
+
+delData(`/nominas/${id}/faltas`,  falta);
+
+}
+
+
 
 //-------------------------------------------------------------------
 
@@ -106,6 +120,125 @@ const searchNomContr = (ev) => {
   
   window.location.href = '/cajas/' + cajaId + '/quincenas/' + quincenaId.value;
 }
+
+
+//-----------------Pagar Nómina---------------------------------------
+const nuevoPagoNominaContr = (ev) =>  {
+
+ let overlay_content = document.querySelector('.overlay_content');
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+    overlaySpinner.classList.add('opened');
+    overlay_content.innerHTML = '';
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+overlaySpinner.classList.remove('opened');
+
+const itemContainer = document.createElement('div');
+  itemContainer.className = 'form_one_over';
+   itemContainer.innerHTML = `
+   <h2>Empleado:${ev.target.getAttribute("data-emp")}</h2>
+   <input type="hidden" id="nominaId" name="nominaId" value="${ev.target.getAttribute("data-id")}">
+   <div class="label">
+   <label>Efectivo:</label>
+   </div>
+   <div>
+   <input type"text" id="pagoEfectNomina" name="pagoEfectNomina" size="30" >
+   </div>
+   
+<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>
+<button class="button_primary guardarPagoNomina" type="button">Guardar</button>`
+
+  overlay_content.append(itemContainer);
+
+}
+
+const guardarPagoNominaContr = (ev) => {
+  const cajaId = document.getElementById("cajaId").value;
+  const id = document.getElementById('nominaId').value;
+  let efectivo = document.getElementById('pagoEfectNomina').value;
+
+if (isNaN(efectivo) || efectivo === "" || efectivo === "0") {
+  return false;
+}
+
+  const pagoNom = {
+    efectivo: efectivo,
+  }
+
+postData(`${serverUrl}cajas/${cajaId}/nominas/${id}/pagos`,  pagoNom);
+
+}
+
+
+//-----------------Show Pagos Nómina----------
+const showPagoNominaContr = (ev) => {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+    overlaySpinner.classList.add('opened');
+    overlay_content.innerHTML = '';
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+  const id = ev.target.getAttribute("data-id");
+  getDataPagosNomina(id);
+}
+
+function getDataPagosNomina(id) {
+  const cajaId = document.getElementById("cajaId").value;
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  fetch(`${serverUrl}cajas/${cajaId}/nominas/${id}/pagos/show`)
+    .then((res) => res.json())
+    .then((data) => printDataPagosNom(data));
+    overlaySpinner.classList.remove('opened');
+}
+
+function printDataPagosNom(data) {
+  let overlay_content = document.querySelector('.overlay_content');
+  overlay_content.innerHTML += `<div class="row">
+  <div class="col-4">
+        Monto:
+    </div>
+    <div class="col-4">
+        Autor:
+    </div>
+    <div class="col-4">
+        Fecha:
+    </div>
+    </div>`;
+
+  data.forEach((item) => {
+    const itemContainer = document.createElement('div');
+    itemContainer.className = 'row';
+    itemContainer.innerHTML += createDomPagos(item);
+    overlay_content.append(itemContainer);
+  });
+   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+}
+
+function createDomPagos(item) {
+  const itemHtml = `
+    <div class="col-4">
+        ${item.monto}
+    </div>
+    <div class="col-4">
+        ${item.author}
+    </div>
+    <div class="col-4">
+        ${item.fecha}
+    </div>
+    `;
+  return itemHtml;
+}
+
+
 
 
 
