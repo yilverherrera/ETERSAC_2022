@@ -207,10 +207,13 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.guardarPagoNomina')) guardarPagoNominaContr (ev);
   else if (matchEvent(ev, '.showPagoNomina')) showPagoNominaContr (ev);
   else if (matchEvent(ev, '.delFalta')) delFaltaContr (ev);
+  else if (matchEvent(ev, '.pagarPrest')) pagarPrestContr (ev);
+  else if (matchEvent(ev, '.guardarPagoPrestamo')) guardarPagoPrestamoContr (ev);
 })
 
 document.addEventListener('submit', ev => {
   if (matchEvent(ev, '.formVenta')) createVentaContr (ev);
+  if (matchEvent(ev, '.formAnticipo')) createAnticipoContr (ev);
 })
 
 
@@ -225,6 +228,7 @@ document.addEventListener('change', ev => {
   else if  (matchEvent(ev, '.cobrarOperVta')) cobrarOperVtaContr (ev);
   else if  (matchEvent(ev, '.searchProv')) searchProContr (ev);
   else if  (matchEvent(ev, '.searchNom')) searchNomContr (ev);
+  else if  (matchEvent(ev, '.searchFinan')) searchFinanContr (ev);
 })
 
 

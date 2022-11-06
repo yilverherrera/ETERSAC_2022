@@ -125,6 +125,15 @@ const Pagoprespersona = sequelize.import(path.join(__dirname,'pagoprespersona'))
 // Import the definition of the Pagonomina Table from pagonomina.js
 const Pagonomina = sequelize.import(path.join(__dirname,'pagonomina'));
 
+// Import the definition of the Financiera Table from financiera.js
+const Financiera = sequelize.import(path.join(__dirname,'financiera'));
+
+// Import the definition of the Prestfinanciero Table from prestfinanciero.js
+const Prestfinanciero = sequelize.import(path.join(__dirname,'prestfinanciero'));
+
+// Import the definition of the Pagoprestfinanciero Table from pagoprestfinanciero.js
+const Pagoprestfinanciero = sequelize.import(path.join(__dirname,'pagoprestfinanciero'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -348,6 +357,18 @@ Pagonomina.belongsTo(Nomina, {as: 'pertNomPan', foreignKey: 'nominaId'});
 // Relation 1-to-N between Nomina and Pagonomina
 Caja.hasMany(Pagonomina, {as: 'pagonominas', foreignKey: 'cajaId'});
 Pagonomina.belongsTo(Caja, {as: 'pertCajPan', foreignKey: 'cajaId'});
+
+// Relation 1-to-N between Financiera and Prestfinanciero
+Financiera.hasMany(Prestfinanciero, {as: 'prestfinancieros', foreignKey: 'financieraId'});
+Prestfinanciero.belongsTo(Financiera, {as: 'pertFinPre', foreignKey: 'financieraId'});
+
+// Relation 1-to-N between Prestfinanciero and Pagoprestfinanciero
+Prestfinanciero.hasMany(Pagoprestfinanciero, {as: 'pagoprestfinancieros', foreignKey: 'prestfinancieroId'});
+Pagoprestfinanciero.belongsTo(Prestfinanciero, {as: 'pertPrePaf', foreignKey: 'prestfinancieroId'});
+
+// Relation 1-to-N between Caja and Pagoprestfinanciero
+Caja.hasMany(Pagoprestfinanciero, {as: 'pagoprestfinancieros', foreignKey: 'cajaId'});
+Pagoprestfinanciero.belongsTo(Caja, {as: 'pertCajPaf', foreignKey: 'cajaId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

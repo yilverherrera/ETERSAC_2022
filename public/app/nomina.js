@@ -217,13 +217,13 @@ function printDataPagosNom(data) {
   data.forEach((item) => {
     const itemContainer = document.createElement('div');
     itemContainer.className = 'row';
-    itemContainer.innerHTML += createDomPagos(item);
+    itemContainer.innerHTML += createDomPagosNomina(item);
     overlay_content.append(itemContainer);
   });
    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
 }
 
-function createDomPagos(item) {
+function createDomPagosNomina(item) {
   const itemHtml = `
     <div class="col-4">
         ${item.monto}

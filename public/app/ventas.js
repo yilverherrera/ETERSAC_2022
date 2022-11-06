@@ -186,14 +186,15 @@ parseFloat(cpc.value) +
 parseFloat(anticipo.innerHTML) +
 parseFloat(dcto);
 monto = parseFloat(monto.value);
-if (monto !== total) {
+const diff = monto - total;
+if (diff > -0.5 && diff < 0.1 ) {
+  return true;
+} else {
   alert(
     "Debes especificar el saldo en una o varias opciones. Ej. El Monto es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)"
     );
   frm.preventDefault();
   return false;
-} else {
-  return true;
 }
 };
 

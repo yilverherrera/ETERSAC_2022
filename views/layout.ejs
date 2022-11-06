@@ -33,7 +33,7 @@
                 <li>
                     <% if (!locals.lcDespacho) { %>
                     <% } else { %>
-                    Despacho:<%= locals.lcDespacho %> <%= locals.lcFecha %>
+                    <a href="#"> Despacho:<%= locals.lcDespacho %> <%= locals.lcFecha %></a>
                     <% } %>
                 </li>
                 <li>
@@ -145,6 +145,7 @@
     <script defer src="/app/ventas.js"></script>
     <script defer src="/app/busgastos.js"></script>
     <script defer src="/app/nomina.js"></script>
+    <script defer src="/app/financiera.js"></script>
     
 </body>
 </html>

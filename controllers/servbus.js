@@ -319,7 +319,7 @@ exports.newServ = async (req, res, next) => {
  const cobrosAll = await models.Cobroservbus.findAll();
  const operadores = await models.Operador.findAll(findOptionsOpe);
  const allCatvuelts = await models.Catvuelt.findAll();
- const hoy = caja.fecha.toISOString().split("T")[0];
+ const hoy = caja.fecha;
 
  let ope = 0;
  let ctapc = 0;
@@ -382,7 +382,7 @@ exports.newServ = async (req, res, next) => {
     };
   });
 
-  findOptions.where.fecha = caja.fecha.toISOString().split("T")[0];
+  findOptions.where.fecha = caja.fecha;
   findOptions.where.unidadId = unidad.id;
   findOptions.include.push({
     model: models.Servbus,

@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const {models} = require("../models");
 const Op = Sequelize.Op;
 const getAbonado = require('../data/getAbonado');
-
+const getSumPagoProvDoll = require('../data/getSumPagoProvDoll');
 
 // Autoload el pagoproveedor asociado a :pagoproveedorId
 exports.load = async (req, res, next, pagoproveedorId) => {
@@ -35,21 +35,29 @@ exports.index = async (req, res, next) => {
         }
     },
     group:['Busgasto.id'], 
-    attributes: [[Sequelize.fn('', Sequelize.col('Busgasto.id')), 'id'],[Sequelize.fn('', Sequelize.col('Busgasto.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Busgasto.abonado')), 'abonado'],[Sequelize.fn('', Sequelize.col('Busgasto.doc')), 'doc'],[Sequelize.fn('', Sequelize.col('Busgasto.fecha')), 'fecha'],[Sequelize.fn('SUM', Sequelize.col('busgastos.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('busgastos.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('busgastos.fueradCaja')), 'fueradCaja']], 
+    attributes: [[Sequelize.fn('', Sequelize.col('Busgasto.id')), 'id'],[Sequelize.fn('', Sequelize.col('Busgasto.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Busgasto.abonado')), 'abonado'],[Sequelize.fn('', Sequelize.col('Busgasto.doc')), 'doc'],[Sequelize.fn('', Sequelize.col('Busgasto.moneda')), 'moneda'],[Sequelize.fn('', Sequelize.col('Busgasto.fecha')), 'fecha'],[Sequelize.fn('SUM', Sequelize.col('busgastos.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('busgastos.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('busgastos.fueradCaja')), 'fueradCaja'],[Sequelize.fn('SUM', Sequelize.col('busgastos.dollar')), 'dollar']], 
     include: [{model: models.Pagoproveedor, as: 'busgastos', attributes:[]}],
     raw: true,
     order: Sequelize.literal('id DESC')
 }).map((bill) => {
-    const abonado = bill.abonado + bill.efectivo + bill.banco + bill.fueradCaja;
+    let abonado = 0;
+    if (bill.moneda === 1){
+     abonado = bill.abonado + bill.efectivo + bill.banco + bill.fueradCaja;
+}
+   if (bill.moneda === 2){
+     abonado = bill.abonado + bill.dollar;
+}
     const saldo = bill.monto - abonado;
     return{
         id: bill.id,
         monto: bill.monto,
         doc: bill.doc,
+        moneda: bill.moneda,
         fecha: bill.fecha,
         efectivo: bill.efectivo,
         banco: bill.banco,
         fueradCaja: bill.fueradCaja,
+        dollar: bill.dollar,
         saldo: saldo,                        
     }
 });
@@ -124,6 +132,8 @@ exports.create = async (req, res, next) => {
     const efectivo = pago.efectivo;
     const banco = pago.banco;
     const fueradCaja = pago.fueradCaja;
+    const moneda = busgasto.moneda;
+    const tasa = pago.tasa;
     const observaciones = pago.observaciones;
     const fecha = caja.fecha;
     const estatus = 0;
@@ -131,14 +141,23 @@ exports.create = async (req, res, next) => {
     const busgastoId = pago.id;
     const cajaId = caja.id;
     const monto = busgasto.monto;
+    let dollar = 0;
     abonado = parseFloat(efectivo) + parseFloat(banco) + parseFloat(fueradCaja);
-
-    const abonadoTotal = await getAbonado(pago.id);
+    if (moneda === 1) {
+     const abonadoTotal = await getAbonado(pago.id);
     abonado += abonadoTotal;
+    }
+
+    if (moneda === 2){
+       dollar = abonado / tasa;
+      const abonadoTotal = await getSumPagoProvDoll(pago.id);
+      abonado = abonadoTotal + dollar;
+    }
+   
 
    
     if (abonado <= monto){
-        pagoproveedor = models.Pagoproveedor.build({ efectivo, banco, fueradCaja, observaciones, fecha, estatus, proveedorId, busgastoId, cajaId });
+        pagoproveedor = models.Pagoproveedor.build({ efectivo, banco, fueradCaja, dollar, tasa, observaciones, fecha, estatus, proveedorId, busgastoId, cajaId });
     }
 
     try {

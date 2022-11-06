@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 validate: {notEmpty: {msg: "Tipo de pago no puede estar vacío"}}
             },
+            moneda: {
+                type: DataTypes.INTEGER,
+                validate: {notEmpty: {msg: "Moneda de pago no puede estar vacío"}}
+            },
             abonado: {
                 type:DataTypes.DOUBLE,
                 validate: {notEmpty: {msg: "Abonado no puede estar vacío"}}

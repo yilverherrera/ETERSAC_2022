@@ -12,7 +12,7 @@
         <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas">Retiros de Cajas</a>
     </div>
     <input type="hidden" id="cajaId" nombre="cajaId" value="<%= caja.id %>">
-    <i class="fa-regular fa-circle-left backPagos">Back</i>
+    <i class="fa-regular fa-circle-left cursorpointer backPagos">Back</i>
 <p>Proveedor:<%= proveedor.nombre %></p>
    
 <div class="container">
@@ -20,11 +20,13 @@
     <div class="row">
         <div class="col-1">Monto</div>
         <div class="col-2">Doc</div>
-        <div class="col-2">Fecha</div>
+        <div class="col-1">Fecha</div>
+        <div class="col-1">Moneda</div>
         <div class="col-1">Abon.Efect.</div>
         <div class="col-1">Abon.Banco</div>
         <div class="col-1">Abon.F'Caja</div>
-        <div class="col-2">Saldo</div>
+        <div class="col-1">Abon. USD</div>
+        <div class="col-1">Saldo</div>
         <div class="col-1">Pagar / Ver Prod.</div>
         <div class="col-1">Ver Pagos</div>
     </div>
@@ -36,17 +38,19 @@
     <div class="row">
         <div class="col-1"><%= billCondition.monto %></div>
         <div class="col-2"><%= billCondition.doc %></div>
-        <div class="col-2"><%= billCondition.fecha %></div>
+        <div class="col-1"><%= billCondition.fecha %></div>
+        <div class="col-1"><%= billCondition.moneda === 1 ? "S/" : "$ USD" %></div>
         <div class="col-1"><%= billCondition.efectivo %></div>
         <div class="col-1"><%= billCondition.banco %></div>
         <div class="col-1"><%= billCondition.fueradCaja %></div>
-        <div class="col-2"><%= billCondition.saldo %></div>
+        <div class="col-1"><%= billCondition.dollar %></div>
+        <div class="col-1"><%= billCondition.saldo %></div>
         <div class="col-1">
-        <img class="pagarDoc" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= billCondition.id %>" data-doc="<%= billCondition.doc %>">
-        <img class="showProductos" src="/assets/img/produccion.png" width="20px" data-id="<%= billCondition.id %>" data-doc="<%= billCondition.doc %>">
+        <img class="cursorpointer pagarDoc" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= billCondition.id %>" data-doc="<%= billCondition.doc %>" data-mon="<%= billCondition.moneda %>" data-descmon="<%= billCondition.moneda === 1 ? "Sol" : "Dollar USD" %>">
+        <img class="cursorpointer showProductos" src="/assets/img/produccion.png" width="20px" data-id="<%= billCondition.id %>" data-doc="<%= billCondition.doc %>">
         </div>
         <div class="col-1">
-         <span class="fa-regular fa-eye showPagos" data-id="<%= billCondition.id %>"></span>
+         <span class="fa-regular fa-eye showPagos cursorpointer" data-id="<%= billCondition.id %>"></span>
            </div>
     </div>
 

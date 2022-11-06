@@ -13,7 +13,7 @@
     </div>
 
 <input type="hidden" id="cajaId" nombre="cajaId" value="<%= caja.id %>">
-    <i class="fa-regular fa-circle-left backPagos">Back</i>
+    <i class="fa-regular fa-circle-left cursorpointer backPagos">Back</i>
 
 <div class="row">
 
@@ -100,7 +100,7 @@
 
          <div class="col-1">
          <%= nomina.pagos %>
-         <span class="fa-regular fa-eye showPagoNomina" data-id="<%= nomina.id %>"></span>
+         <span class="fa-regular fa-eye cursorpointer showPagoNomina" data-id="<%= nomina.id %>"></span>
            </div>
 
         <div class="col-1">
@@ -117,9 +117,9 @@
 
         <div class="col-1">
         <% if (locals.loginUser) { %>
-        <img class="nuevoPagoNomina" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.nombres %>">
+        <img class="cursorpointer nuevoPagoNomina" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.nombres %>">
         
-        <img class="nuevaFalta" src="/assets/img/descalificado.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.empleadoId %>">
+        <img class="cursorpointer nuevaFalta" src="/assets/img/descalificado.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.empleadoId %>">
         <% } %>
         </div>
        

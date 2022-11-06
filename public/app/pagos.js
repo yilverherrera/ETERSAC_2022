@@ -32,7 +32,9 @@ const itemContainer = document.createElement('div');
   itemContainer.className = 'form_one_over';
    itemContainer.innerHTML = `
    <h2>Doc:${ev.target.getAttribute("data-doc")}</h2>
+   <h2>Moneda:${ev.target.getAttribute("data-descmon")}</h2>
    <input type="hidden" id="abonoId" name="abonoId" value="${ev.target.getAttribute("data-id")}">
+   <input type="hidden" id="moneda" name="moneda" value="${ev.target.getAttribute("data-mon")}">
    <div class="label">
    <label>Efectivo:</label>
    </div>
@@ -50,6 +52,12 @@ const itemContainer = document.createElement('div');
    </div>
    <div class="input">
    <input type"text" id="abonoFueradCaja" name="abonoFueradCaja">
+   </div>
+   <div class="label">
+   <label>Tasa:</label>
+   </div>
+   <div class="input">
+   <input type"text" id="tasa" name="tasa">
    </div>
    <div class="label">
    <label>Observaciones:</label>
@@ -72,6 +80,8 @@ const guardarPagoProveedorContr = (ev) => {
   let banco = document.getElementById('abonoBanco').value;
   let fueradCaja = document.getElementById('abonoFueradCaja').value;
 const observaciones = document.getElementById('abonoObservaciones').value;
+const moneda = document.getElementById('moneda').value;
+const tasa = document.getElementById('tasa').value;
 
 if (isNaN(efectivo) || isNaN(banco) || isNaN(fueradCaja)) {
   return false;
@@ -90,6 +100,8 @@ if (sum === 0) { return false; }
     banco: banco,
     fueradCaja: fueradCaja,
     observaciones: observaciones,
+    moneda: moneda,
+    tasa: tasa,
   }
 
 postData(`${serverUrl}cajas/${cajaId}/pagoproveedors`,  pago);

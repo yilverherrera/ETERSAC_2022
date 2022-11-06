@@ -2,7 +2,8 @@
     Nuevo Anticipo:
 </h1>
 
-<form method="post" action="/cajas/<%= anticipo.cajaId %>/anticipos">
+<form method="post" class="formAnticipo" action="/cajas/<%= anticipo.cajaId %>/anticipos">
+<p id="validate"></p>
 
     <% include _form.ejs %>
 

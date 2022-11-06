@@ -40,6 +40,13 @@ exports.index = async (req, res, next) => {
 
         const admgastos = await models.Admgasto.findAll(findOptions);
 
+         const despacho = await models.Despacho.findByPk(caja.despachoId);
+
+    if (despacho) {
+      res.locals.lcDespacho = despacho.name;
+      res.locals.lcFecha = caja.fecha;
+    }
+
         res.render('admgastos/index.ejs', {admgastos, caja});
     } catch (error) {
         next(error);

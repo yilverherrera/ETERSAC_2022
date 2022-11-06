@@ -65,6 +65,13 @@ exports.index = async (req, res, next) => {
 
         const anticipos = await models.Anticipo.findAll(findOptions);
 
+         const despacho = await models.Despacho.findByPk(caja.despachoId);
+
+    if (despacho) {
+      res.locals.lcDespacho = despacho.name;
+      res.locals.lcFecha = caja.fecha;
+    }
+
         res.render('anticipos/index.ejs', {anticipos, caja});
     } catch (error) {
         next(error);
@@ -90,7 +97,7 @@ exports.new = async (req, res, next) => {
     const anticipo =
     {
         efectivo: 0,
-        unidadId: 0,
+        unidadId: "",
         cajaId: caja.id  
     };
 
@@ -134,6 +141,7 @@ exports.create = async (req, res, next) => {
 
 // DELETE /anticipos/:anticipoId
 exports.destroy = async (req, res, next) => {
+    const {caja} = req.load;
 
     try {
         await req.load.anticipo.destroy();

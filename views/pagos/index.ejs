@@ -44,10 +44,11 @@
         </select>
     </div>
      <div class="frmthre_child">
-           <select name="proveedorId3" id="proveedorId3">
-            <% for (var i in proveedors) { %>
-                <% proveedor = proveedors[i]; %>
-            <option value="<%= proveedor.id %>"><%= proveedor.nombre %></option>
+           <select name="financieraId" id="financieraId" class="searchFinan">
+           <option value="0" disabled="true" selected>Seleccione</option>
+            <% for (var i in financieras) { %>
+                <% financiera = financieras[i]; %>
+            <option value="<%= financiera.id %>"><%= financiera.nombre %></option>
             <% } %>
         </select>
     </div>
@@ -55,6 +56,10 @@
     <% } %>
    
 <div class="container">
+ <div class="row">
+        <div class="col-12"><b>Pagos a Proveedores</b></div>
+       
+    </div>
 
     <div class="row">
         <div class="col-2">Efectivo</div>
@@ -67,9 +72,11 @@
     </div>
  
     <% let totalEfec=0; %>
+    <% let totalEfecGral=0; %>
 <% for (var n in pagoproveedors) { %>
     <% var pagoproveedor=pagoproveedors[n]; %>
     <% totalEfec = totalEfec + pagoproveedor.efectivo; %>
+    <% totalEfecGral = totalEfecGral + pagoproveedor.efectivo; %>
     <div class="row">
         <div class="col-2"><%= pagoproveedor.efectivo %></div>
         <div class="col-2"><%= pagoproveedor.banco %></div>
@@ -96,6 +103,41 @@
     
 
 </div>
+<br>
+<div class="container">
+<div class="col-12"><b>Pagos de Nóminas</b></div>
 
-<h2>Total Efectivo Pagos: <%= totalEfec %></h2>
+    <div class="row">
+        <div class="col-2">Efectivo</div>
+        <div class="col-4">Quincena</div>
+        <div class="col-5">Empleado</div>
+        <div class="col-1">Eliminar</div>
+    </div>
+ 
+    <% totalEfec=0; %>
+<% for (var n in pagonominas) { %>
+    <% var pagonomina = pagonominas[n]; %>
+    <% totalEfec = totalEfec + pagonomina.monto; %>
+    <% totalEfecGral = totalEfecGral + pagonomina.monto; %>
+    <div class="row">
+        <div class="col-2"><%= pagonomina.monto %></div>
+        <div class="col-4"><%= pagonomina.pertNomPan.pertQuiNom.desde %> al <%= pagonomina.pertNomPan.pertQuiNom.hasta %></div>
+        <div class="col-5"><%= pagonomina.pertNomPan.pertEmpNom.nombres %></div>
+         <div class="col-1">
+            <a href="/cajas/<%= caja.id %>/pagonominas/<%= pagonomina.id %>?_method=DELETE" onClick="return confirm('Eliminar Pago?: <%= pagonomina.pertNomPan.pertEmpNom.nombres %>');"><i class="fa-regular fa-trash-can"></i></a> 
+           </div>
+    </div>
+
+    <% } %>
+    <div class="row">
+        <div class="col-2"><b><%= totalEfec %></b></div>
+        <div class="col-4"></div>
+        <div class="col-5"></div>
+        <div class="col-1"></div>
+    </div>
+    
+
+</div>
+
+<h2>Total Efectivo Pagos: <%= totalEfecGral %></h2>
                                                                      

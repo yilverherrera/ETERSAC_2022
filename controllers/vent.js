@@ -99,7 +99,7 @@ exports.index = async (req, res, next) => {
 
     if (despacho) {
       res.locals.lcDespacho = despacho.name;
-      res.locals.lcFecha = caja.fecha.toISOString().split("T")[0];
+      res.locals.lcFecha = caja.fecha;
     }
 
     const vntas = await models.Vent.findAll(findOptions);

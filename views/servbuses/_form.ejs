@@ -52,7 +52,7 @@
 </div>
 
     <div class="frmtwo_child">
-  <input type="text" id="fecha" name="fecha" onchange="sumCot(this)" placeholder="Seleccione el/los dia(s)" value="<%= servbus.fecha.toISOString().split("T")[0] %>" autocomplete="off"  readonly />
+  <input type="text" id="fecha" name="fecha" onchange="sumCot(this)" placeholder="Seleccione el/los dia(s)" value="<%= servbus.fecha %>" autocomplete="off"  readonly />
 </div>
 
 <div class="frmtwo_child">
@@ -120,7 +120,7 @@
         id="cpcOper"
         name="cpcOper"
         onchange="cobrarOper(this)"
-        > <input type="text" class="right" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; background-color: rgb(232, 237, 238);" placeholder="Abono"> </label>
+        > <input type="text" class="mini" name ="cobrotxt" id="cobrotxt" style="height: 7px; width: 40px; background-color: rgb(232, 237, 238);" placeholder="Abono"> </label>
         </div>
 
     <div class="frmtwo_child">

@@ -28,6 +28,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 validate: {notEmpty: {msg: "Tipo de pago no puede estar vacío"}}
             },
+            moneda:{
+                type: Sequelize.INTEGER,
+                validate: {notEmpty:{msg: "Moneda no puede estar vacía"}},
+            },
             abonado: {
                 type:Sequelize.DOUBLE,
                 validate: {notEmpty: {msg: "Abonado no puede estar vacío"}}

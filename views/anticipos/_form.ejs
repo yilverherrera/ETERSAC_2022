@@ -3,14 +3,15 @@
         <label for="efectivo">Efectivo:</label>
         </div>
         <div class="input">
-        <input type="text" id="efectivo" name="efectivo" value="<%= anticipo.efectivo %>" placeholder="Monto" autocomplete="off"/>
+        <input type="number" id="efectivo" name="efectivo" value="<%= anticipo.efectivo %>" placeholder="Monto" autocomplete="off" min="1" max="3000" step="0.01" required />
     </div>
     
     <div class="label">
         <label for="unidadId">Unidad:</label>
         </div>
         <div class="input">
-        <select name="unidadId" id="unidadId">
+        <select name="unidadId" id="unidadId" required>
+        <option value="" "" === anticipo.unidadId ? "checked" : "">Seleccione</option>
             <% for (var i in unidads) { %>
                 <% unidad = unidads[i]; %>
             <option value="<%= unidad.id %>" unidad.id === anticipo.unidadId ? "checked" : ""><%= unidad.codigo %>-<%= unidad.placa %></option>

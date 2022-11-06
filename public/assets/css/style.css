@@ -62,7 +62,7 @@ nav a{
 }
 
 nav a:hover{
-  color: var(--black-color);
+  color: var(--success-color);
 }
 
 footer{
@@ -79,7 +79,7 @@ form{
   justify-content: center;
 }
 
-input[type=text],input[type=date],input[type=password],input[type=color]{
+input[type=text],input[type=date],input[type=password],input[type=color],input[type=number]{
   width: 100%;
   height: 30px;
   border: 1px solid var(--corporativo-color);;
@@ -375,6 +375,10 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   font-size: 30px;
   padding: 0px;
   margin: 0px;
+}
+
+.cursorpointer{
+  cursor: pointer;
 }
 
 /*-----------------------*/

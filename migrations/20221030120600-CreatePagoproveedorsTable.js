@@ -24,6 +24,14 @@ module.exports = {
                     type:Sequelize.DOUBLE,
                     defaultValue: 0,
                 },
+                dollar:{
+                    type:Sequelize.DOUBLE,
+                    defaultValue: 0,
+                },
+                tasa:{
+                    type:Sequelize.DOUBLE,
+                    defaultValue: 0,
+                },
                 observaciones: {
                     type:Sequelize.STRING,
                 },

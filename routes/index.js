@@ -26,6 +26,9 @@ const nominaController = require('../controllers/nomina');
 const faltaController = require('../controllers/falta');
 const quincenaController = require('../controllers/quincena');
 const pagonominaController = require('../controllers/pagonomina');
+const pagoprestfinancieroController = require('../controllers/pagoprestfinanciero');
+const financieraController = require('../controllers/financiera');
+const prestfinancieroController = require('../controllers/prestfinanciero');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -122,6 +125,7 @@ router.get(
   '/cajas/:id(\\d+)/busgastos',
   '/cajas/:id(\\d+)/admgastos',
   '/cajas/:id(\\d+)/pagoproveedors',
+  '/cajas/:id(\\d+)/pagoprestfinancieros',
   '/cajas/:id(\\d+)/pagos',
   '/nominas',
   '/cajas/:id(\\d+)/quincenas',
@@ -160,6 +164,9 @@ router.param('proveedorId', proveedorController.load);
 router.param('nominaId', nominaController.load);
 router.param('quincenaId', quincenaController.load);
 router.param('pagonominaId', pagonominaController.load);
+router.param('pagoprestfinancieroId', pagoprestfinancieroController.load);
+router.param('financieraId', financieraController.load);
+router.param('prestfinancieroId', prestfinancieroController.load);
 
 // Routes for the resource /users
 router.get('/users',
@@ -620,6 +627,22 @@ router.post('/cajas/:cajaId(\\d+)/nominas/:nominaId(\\d+)/pagos',
   sessionController.loginRequiredJson,
   cajaController.AuthorRequired,
   pagonominaController.create);
+
+//Routes for the resource Pagoprestfinancieros
+router.get('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:financieraId(\\d+)',
+  sessionController.loginRequired,
+  pagoprestfinancieroController.index);   
+router.get('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:prestfinancieroId(\\d+)/show',
+  sessionController.loginRequired,
+  pagoprestfinancieroController.show);   
+router.post('/cajas/:cajaId(\\d+)/pagoprestfinancieros',
+  sessionController.loginRequiredJson,
+  cajaController.AuthorRequired,
+  pagoprestfinancieroController.create);
+router.delete('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:pagoproveedorId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  pagoprestfinancieroController.destroy);
 
 
 module.exports = router;

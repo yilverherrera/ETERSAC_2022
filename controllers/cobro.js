@@ -77,6 +77,8 @@ findOptions.include.push({
   where: { id: caja.id },
 });
 
+ try {
+
 const cobranzaserv = await models.Cobroservbus.findAll(findOptions);
 
 const cobrosserv = cobranzaserv.map((cobro) => {
@@ -136,9 +138,14 @@ const cobrosserv = cobranzaserv.map((cobro) => {
 
 
   //---------------------------------------------------
+ const despacho = await models.Despacho.findByPk(caja.despachoId);
 
+    if (despacho) {
+      res.locals.lcDespacho = despacho.name;
+      res.locals.lcFecha = caja.fecha;
+    }
 
-  try {
+ 
     res.render("cobros/", { cobrosserv, cobrosvta, caja });
   } catch (error) {
     next(error);

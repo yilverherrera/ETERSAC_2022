@@ -51,6 +51,13 @@ exports.index = async (req, res, next) => {
   });
 
   try {
+     const despacho = await models.Despacho.findByPk(caja.despachoId);
+
+    if (despacho) {
+      res.locals.lcDespacho = despacho.name;
+      res.locals.lcFecha = caja.fecha;
+    }
+    
   const busgastos = await models.Busgasto.findAll(findOptions);
   console.log(JSON.stringify(busgastos));
     res.render("busgastos/", { busgastos, caja });
