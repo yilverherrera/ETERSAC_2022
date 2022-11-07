@@ -1,5 +1,4 @@
 //----------------------ANIMATIONS-----------------
-let toggle = document.querySelector(".toggle span");
 let main = document.querySelector("#mainSection");
 let sidebar = document.querySelector(".sidebar");
 let sidebarItems = document.querySelectorAll(".sidebar_item");
@@ -12,7 +11,7 @@ let animationIn_end_promise;
 /**
  * Con special transforms...
  */
- anime.remove([toggle, sidebar, sidebarItems]);
+ anime.remove([sidebar, sidebarItems]);
  anime.set(sidebar, {
   translateX: "-100%",
 });
@@ -28,21 +27,12 @@ let animationIn_end_promise;
   // move sidebar
   animationIn.add({
     targets: [sidebar],
-    translateX: "0%",
+    translateX: "-10%",
     opacity: 1,
     duration: 650,
   });
 
-  // move toggle
-  animationIn.add(
-  {
-    targets: [toggle],
-    scale: "1.3",
-    duration: 650,
-  },
-  "-=600"
-  );
-
+  
   // stagger elements
   animationIn.add(
   {
@@ -56,6 +46,7 @@ let animationIn_end_promise;
   );
 };
 
+//---------------------------------------------
 let sidebarAnimationOut = function () {
   animationOut = anime.timeline();
   animationIn = null;
@@ -70,17 +61,6 @@ let sidebarAnimationOut = function () {
     delay: anime.stagger(100),
   });
 
-  // move toggle
-  animationOut.add(
-  {
-    targets: [toggle],
-    scale: 1,
-    backgroundColor: "",
-    duration: 650,
-  },
-  "-=600"
-  );
-
   // move sidebar
   animationOut.add(
   {
@@ -93,13 +73,23 @@ let sidebarAnimationOut = function () {
   );
 };
 
-toggle.addEventListener("click", function () {
+//------------------------------------------------------
+
+sidebar.addEventListener("mouseover", function () {
   if (!sidebarOpened) {
     sidebarAnimationIn();
-  } else {
+  }
+});
+
+main.addEventListener("click", function () {
+  if (sidebarOpened) {
     sidebarAnimationOut();
   }
 });
+
+//_______________________________________________________________
+
+
 
 
 if (document.querySelector(".toggle2")) {

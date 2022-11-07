@@ -151,6 +151,56 @@ function printData(data) {
 }
 
 //-----------------------------------------------------------------------------
+function printDataPagos(data) {
+  let overlay_content = document.querySelector('.overlay_content');
+  overlay_content.innerHTML += `<div class="row">
+  <div class="col-2">
+        Efectivo:
+    </div>
+    <div class="col-2">
+        Banco:
+    </div>
+    <div class="col-2">
+        FueradCaja:
+    </div>
+    <div class="col-3">
+        Fecha:
+    </div>
+    <div class="col-3">
+        Observ:
+    </div>
+    </div>`;
+
+  data.forEach((item) => {
+    const itemContainer = document.createElement('div');
+    itemContainer.className = 'row';
+    itemContainer.innerHTML += createDomPagos(item);
+    overlay_content.append(itemContainer);
+  });
+   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+}
+
+function createDomPagos(item) {
+  const itemHtml = `
+    <div class="col-2">
+        ${item.efectivo}
+    </div>
+    <div class="col-2">
+        ${item.banco}
+    </div>
+    <div class="col-2">
+        ${item.fueradCaja}
+    </div>
+    <div class="col-3">
+        ${item.fecha}
+    </div>
+    <div class="col-3">
+        ${item.author} ${item.observaciones}
+    </div>
+    `;
+  return itemHtml;
+}
+
 //-----------------------------------------------------------------------------
 
 const cancelarOverlayContr = (ev) => {
@@ -209,6 +259,7 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.delFalta')) delFaltaContr (ev);
   else if (matchEvent(ev, '.pagarPrest')) pagarPrestContr (ev);
   else if (matchEvent(ev, '.guardarPagoPrestamo')) guardarPagoPrestamoContr (ev);
+  else if (matchEvent(ev, '.showPagosPrest')) showPagosPrestContr (ev);
 })
 
 document.addEventListener('submit', ev => {
@@ -229,6 +280,7 @@ document.addEventListener('change', ev => {
   else if  (matchEvent(ev, '.searchProv')) searchProContr (ev);
   else if  (matchEvent(ev, '.searchNom')) searchNomContr (ev);
   else if  (matchEvent(ev, '.searchFinan')) searchFinanContr (ev);
+  else if  (matchEvent(ev, '.sumRetiro')) sumRetiroContr (ev);
 })
 
 

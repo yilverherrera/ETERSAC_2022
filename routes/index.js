@@ -29,6 +29,7 @@ const pagonominaController = require('../controllers/pagonomina');
 const pagoprestfinancieroController = require('../controllers/pagoprestfinanciero');
 const financieraController = require('../controllers/financiera');
 const prestfinancieroController = require('../controllers/prestfinanciero');
+const retiroController = require('../controllers/retiro');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -127,6 +128,7 @@ router.get(
   '/cajas/:id(\\d+)/pagoproveedors',
   '/cajas/:id(\\d+)/pagoprestfinancieros',
   '/cajas/:id(\\d+)/pagos',
+  '/cajas/:id(\\d+)/retiros',
   '/nominas',
   '/cajas/:id(\\d+)/quincenas',
   '/login'
@@ -167,6 +169,7 @@ router.param('pagonominaId', pagonominaController.load);
 router.param('pagoprestfinancieroId', pagoprestfinancieroController.load);
 router.param('financieraId', financieraController.load);
 router.param('prestfinancieroId', prestfinancieroController.load);
+router.param('retiroId', retiroController.load);
 
 // Routes for the resource /users
 router.get('/users',
@@ -644,5 +647,25 @@ router.delete('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:pagoproveedorId(\\d+)'
   cajaController.AuthorRequired,          
   pagoprestfinancieroController.destroy);
 
+//Routes for the resource Retiros
+router.get('/cajas/:cajaId(\\d+)/retiros',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  retiroController.index);
+router.get('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
+  sessionController.loginRequired,
+  retiroController.show);   
+router.get('/cajas/:cajaId(\\d+)/retiros/new',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  retiroController.new);
+router.post('/cajas/:cajaId(\\d+)/retiros',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,
+  retiroController.create);
+router.delete('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.AuthorRequired,          
+  retiroController.destroy);
 
 module.exports = router;

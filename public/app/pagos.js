@@ -82,13 +82,28 @@ const guardarPagoProveedorContr = (ev) => {
 const observaciones = document.getElementById('abonoObservaciones').value;
 const moneda = document.getElementById('moneda').value;
 const tasa = document.getElementById('tasa').value;
-
-if (isNaN(efectivo) || isNaN(banco) || isNaN(fueradCaja)) {
+if (isNaN(efectivo) || isNaN(banco) || isNaN(fueradCaja) || isNaN(tasa)) {
   return false;
 }
 if (efectivo === "") { efectivo = 0; }
 if (banco === "") { banco = 0; }
 if (fueradCaja === "") { fueradCaja = 0; }
+if (tasa === "") { tasa = 0; }
+
+if (moneda === '2' && isNaN(tasa)){
+  alert('Debes especificar la Tasa de cambio');
+  return false;
+}
+if (moneda === '2' && tasa === '0'){
+  alert('Debes especificar la Tasa de cambio');
+  return false;
+}
+
+if (moneda === '2' && tasa === 0){
+  alert('Debes especificar la Tasa de cambio');
+  return false;
+}
+
 
 const sum = parseFloat(efectivo) + parseFloat(banco) + parseFloat(fueradCaja);
 
@@ -140,55 +155,6 @@ function getDataPagos(id) {
     overlaySpinner.classList.remove('opened');
 }
 
-function printDataPagos(data) {
-  let overlay_content = document.querySelector('.overlay_content');
-  overlay_content.innerHTML += `<div class="row">
-  <div class="col-2">
-        Efectivo:
-    </div>
-    <div class="col-2">
-        Banco:
-    </div>
-    <div class="col-2">
-        FueradCaja:
-    </div>
-    <div class="col-3">
-        Fecha:
-    </div>
-    <div class="col-3">
-        Observ:
-    </div>
-    </div>`;
-
-  data.forEach((item) => {
-    const itemContainer = document.createElement('div');
-    itemContainer.className = 'row';
-    itemContainer.innerHTML += createDomPagos(item);
-    overlay_content.append(itemContainer);
-  });
-   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
-}
-
-function createDomPagos(item) {
-  const itemHtml = `
-    <div class="col-2">
-        ${item.efectivo}
-    </div>
-    <div class="col-2">
-        ${item.banco}
-    </div>
-    <div class="col-2">
-        ${item.fueradCaja}
-    </div>
-    <div class="col-3">
-        ${item.fecha}
-    </div>
-    <div class="col-3">
-        ${item.author} ${item.observaciones}
-    </div>
-    `;
-  return itemHtml;
-}
 
 
 

@@ -95,9 +95,7 @@
     </div>
 
     <div class="main fadeIn" id="mainSection">
-        <div class="toggle">
-                <span class="fa fa-bars"></span>
-            </div> 
+       
         <%- body %>
     </div>
 
@@ -113,7 +111,7 @@
             <div class="sidebar_item"><a href="/propietarios"><span class="fa fa-user"></span> Propietarios</a></div>
             <div class="sidebar_item"><a href="/despachos"><span class="fa fa-ticket"></span> Despachos</a></div>
             <div class="sidebar_item"><a href="/unidads"><span class="fa fa-bus"></span> Unidades</a></div>
-            <div class="sidebar_item"><a href="/confservices"><span class="fa fa-money"></span> Conf Servicio</a></div>
+            <div class="sidebar_item"><a href="/confservices"><i class="fa-regular fa-circle-check"></i> Conf Servicio</a></div>
             <div class="sidebar_item"><a href="/Items/2"><span class="fa fa-barcode"></span> Ventas</a></div>
             <div class="sidebar_item"><a href="/grupos"><span class="fa fa-object-group"></span> Grupos</a></div>
             <% if (locals.loginUser) { %>
@@ -146,6 +144,7 @@
     <script defer src="/app/busgastos.js"></script>
     <script defer src="/app/nomina.js"></script>
     <script defer src="/app/financiera.js"></script>
+    <script defer src="/app/retiros.js"></script>
     
 </body>
 </html>

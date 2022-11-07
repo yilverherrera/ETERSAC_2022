@@ -34,7 +34,7 @@ const LinkedinStrategy = LINKEDIN_API_KEY && LINKEDIN_SECRET_KEY && require('pas
 // then the user's session will be closed.
 // The value is in milliseconds.
 // 10 minutes.
-const maxIdleTime = 10*60*1000;
+const maxIdleTime = 20*60*1000;
 
 
 
@@ -44,7 +44,7 @@ exports.createLoginExpires = (req, res, next) => {
 
     req.session.loginExpires = Date.now() + maxIdleTime;
 
-    res.redirect("/goback");
+    res.redirect("/");
 };
 
 

@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const {models} = require("../models");
 const Op = Sequelize.Op;
 const getAbonadoPrest = require('../data/getAbonadoPrest');
+const getAbonadoPrestDollar = require('../data/getAbonadoPrestDollar');
 
 
 // Autoload el pagoprestfinanciero asociado a :pagoprestfinancieroId
@@ -32,12 +33,18 @@ exports.index = async (req, res, next) => {
         },
     },
     group:['Prestfinanciero.id'], 
-    attributes: [[Sequelize.fn('', Sequelize.col('Prestfinanciero.id')), 'id'],[Sequelize.fn('', Sequelize.col('Prestfinanciero.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Prestfinanciero.moneda')), 'moneda'],[Sequelize.fn('', Sequelize.col('Prestfinanciero.fecha')), 'fecha'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.fueradCaja')), 'fueradCaja']], 
+    attributes: [[Sequelize.fn('', Sequelize.col('Prestfinanciero.id')), 'id'],[Sequelize.fn('', Sequelize.col('Prestfinanciero.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Prestfinanciero.moneda')), 'moneda'],[Sequelize.fn('', Sequelize.col('Prestfinanciero.fecha')), 'fecha'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.efectivo')), 'efectivo'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.banco')), 'banco'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.fueradCaja')), 'fueradCaja'],[Sequelize.fn('SUM', Sequelize.col('pagoprestfinancieros.dollar')), 'dollar']], 
     include: [{model: models.Pagoprestfinanciero, as: 'pagoprestfinancieros', attributes:[]}],
     raw: true,
     order: Sequelize.literal('id DESC')
 }).map((bill) => {
-    const abonado = bill.efectivo + bill.banco + bill.fueradCaja;
+    let abonado = 0;
+    if (bill.moneda === 1){
+    abonado = bill.efectivo + bill.banco + bill.fueradCaja;
+}
+ if (bill.moneda === 2){
+     abonado = bill.dollar;
+}
     const saldo = bill.monto - abonado;
     return{
         id: bill.id,
@@ -47,6 +54,7 @@ exports.index = async (req, res, next) => {
         efectivo: bill.efectivo,
         banco: bill.banco,
         fueradCaja: bill.fueradCaja,
+        dollar: bill.dollar,
         saldo: saldo,                        
     }
 });
@@ -57,19 +65,19 @@ res.render('pagos/pagoprestfinancieros/index.ejs', {billConditions, financiera, 
 }
 }
 
-// GET /pagoproveedors/:busgastoId/show
+// GET /pagoprestfinancieros/:prestfinancieroId/show
 exports.show = async (req, res, next) => {
-    const {busgasto} = req.load;
+    const {prestfinanciero} = req.load;
     
-    const pagos = await models.Pagoproveedor.findAll({
+    const pagos = await models.Pagoprestfinanciero.findAll({
         where:{
-            busgastoId: {
-                [Op.eq]:busgasto.id,
+            prestfinancieroId: {
+                [Op.eq]:prestfinanciero.id,
             }
         },
         include:[{
             model: models.Caja,
-            as: "pertCajPag",
+            as: "pertCajPaf",
             include:[{
                 model: models.User,
                 as: "author",
@@ -82,7 +90,7 @@ exports.show = async (req, res, next) => {
             fueradCaja: pago.fueradCaja,
             fecha: pago.fecha,
             observaciones: pago.observaciones,
-            author: pago.pertCajPag.author.username,
+            author: pago.pertCajPaf.author.username,
         }
     });
     res.json(pagos);
@@ -126,24 +134,31 @@ exports.create = async (req, res, next) => {
     const fecha = caja.fecha;
     const prestfinancieroId = pago.id;
     const cajaId = caja.id;
+    const financieraId = prestfinanciero.financieraId;
     const monto = prestfinanciero.monto;
+    const estatus = 0;
+    let dollar = 0;
     abonado = parseFloat(efectivo) + parseFloat(banco) + parseFloat(fueradCaja);
-    let abonadoMoneda = moneda === 1 ? abonado : abonado/tasa;
-
+    if (moneda === 1) {
     const abonadoTotal = await getAbonadoPrest(pago.id);
-    abonadoMoneda += abonadoTotal;
-
+    abonado += abonadoTotal;
+}
+   if (moneda === 2) {
+    dollar = abonado / tasa;
+    const abonadoTotal = await getAbonadoPrestDollar(pago.id);
+    abonado = abonadoTotal + dollar;
+}
    
-    if (abonadoMoneda <= monto){
-        pagoprestfinanciero = models.Pagoprestfinanciero.build({ efectivo, banco, fueradCaja, observaciones, fecha, estatus, prestfinancieroId, cajaId });
+    if (abonado <= monto){
+        pagoprestfinanciero = models.Pagoprestfinanciero.build({ efectivo, banco, fueradCaja, dollar, tasa, observaciones, fecha, estatus, prestfinancieroId, cajaId });
     }
 
     try {
-        if (abonadoMoneda <= monto){
-            pagoproveedor = await pagoproveedor.save();
-            res.json({ message:'Pago creado Exitosamente.', refresh: `pagoproveedors/${proveedorId}` });
+        if (abonado <= monto){
+            pagoprestfinanciero = await pagoprestfinanciero.save();
+            res.json({ message:'Pago creado Exitosamente.', refresh: `pagoprestfinancieros/${financieraId}` });
         } else {
-            res.json({ message:'Error el saldo es menor al abono.', refresh: `pagoproveedors/${proveedorId}` });
+            res.json({ message:'Error el saldo es menor al abono.', refresh: `pagoprestfinancieros/${financieraId}` });
         }
         
     } catch (error) {

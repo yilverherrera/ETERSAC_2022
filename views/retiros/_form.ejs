@@ -1,0 +1,112 @@
+<div class="form_one">
+    <div class="label">
+        <label for="efectivoBillCien">Billetes de Cien:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoBillCien" name="efectivoBillCien" value="<%= retiro.efectivoBillCien %>" placeholder="Cien" autocomplete="off" min="0" />
+    </div>
+
+    <div class="label">
+        <label for="efectivoBillCincuenta">Billetes de Cincuenta:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoBillCincuenta" name="efectivoBillCincuenta" value="<%= retiro.efectivoBillCincuenta %>" placeholder="Cincuenta" autocomplete="off" min="0" />
+    </div>
+
+<div class="label">
+        <label for="efectivoBillVeinte">Billetes de Veinte:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoBillVeinte" name="efectivoBillVeinte" value="<%= retiro.efectivoBillVeinte %>" placeholder="Veinte" autocomplete="off" min="0" />
+    </div>
+
+<div class="label">
+        <label for="efectivoBillDiez">Billetes de Diez:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoBillDiez" name="efectivoBillDiez" value="<%= retiro.efectivoBillDiez %>" placeholder="Diez" autocomplete="off" min="0" />
+    </div>
+    
+    <div class="label">
+        <label for="efectivoMonCinco">Monedas de Cinco:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoMonCinco" name="efectivoMonCinco" value="<%= retiro.efectivoMonCinco %>" placeholder="Cinco" autocomplete="off" min="0" />
+    </div>
+
+     <div class="label">
+        <label for="efectivoMonDos">Monedas de Dos:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoMonDos" name="efectivoMonDos" value="<%= retiro.efectivoMonDos %>" placeholder="Dos" autocomplete="off" min="0" />
+    </div>
+
+        <div class="label">
+        <label for="efectivoMonUno">Monedas de Un Sol:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoMonUno" name="efectivoMonUno" value="<%= retiro.efectivoMonUno %>" placeholder="Un Sol" autocomplete="off" min="0" />
+    </div>
+
+        <div class="label">
+        <label for="efectivoMonCenCincuenta">Monedas de Cent. Cincuenta:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoMonCenCincuenta" name="efectivoMonCenCincuenta" value="<%= retiro.efectivoMonCenCincuenta %>" placeholder="Cent. Cincuenta" autocomplete="off" min="0" step="0.01" />
+    </div>
+
+    <div class="label">
+        <label for="efectivoMonCenVeinte">Monedas de Cent. Veinte:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoMonCenVeinte" name="efectivoMonCenVeinte" value="<%= retiro.efectivoMonCenVeinte %>" placeholder="Cent. Veinte" autocomplete="off" min="0" step="0.01" />
+    </div>
+
+        <div class="label">
+        <label for="efectivoMonCenDiez">Monedas de Cent. Diez:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="efectivoMonCenDiez" name="efectivoMonCenDiez" value="<%= retiro.efectivoMonCenDiez %>" placeholder="Cent. Diez" autocomplete="off" min="0" step="0.01" />
+          </div>
+
+        <div class="label">
+        <label for="mezclado">Mezclado:</label>
+        </div>
+        <div class="input">
+        <input class="sumRetiro" type="number" id="mezclado" name="mezclado" value="<%= retiro.mezclado %>" placeholder="Mezclado" autocomplete="off" min="0" step="0.01" />
+          </div>
+
+    <div class="label">
+        <label for="destinoId">Destino:</label>
+        </div>
+        <div class="input">
+        <select name="destinoId" id="destinoId" required>
+        <option value="" "" === retiro.destinoId ? "checked" : "">Seleccione</option>
+            <% for (var i in destinos) { %>
+                <% destino = destinos[i]; %>
+            <option value="<%= destino.id %>" destino.id === retiro.destinoId ? "checked" : ""><%= destino.destino %></option>
+            <% } %>
+        </select>
+    </div>
+
+        <div class="label">
+        <label for="empleadoId">Responsable:</label>
+        </div>
+        <div class="input">
+        <select name="empleadoId" id="empleadoId" required>
+        <option value="" "" === retiro.empleadoId ? "checked" : "">Seleccione</option>
+            <% for (var i in empleados) { %>
+                <% empleado = empleados[i]; %>
+            <option value="<%= empleado.id %>" empleado.id === retiro.empleadoId ? "checked" : ""><%= empleado.nombres %></option>
+            <% } %>
+        </select>
+    </div>
+    <div class="label">
+    <label for="total"><h2>Total:</h2></label>
+        <h2><label id="totalRetiro"></label></h2>
+        </div>
+
+    </div>
+   
+    <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
+    <input class="button_primary" type="submit" value="Guardar">

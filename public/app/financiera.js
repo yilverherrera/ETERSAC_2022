@@ -79,7 +79,7 @@ const guardarPagoPrestamoContr = (ev) => {
   let fueradCaja = document.getElementById('abonoFueradCaja').value;
 const observaciones = document.getElementById('abonoObservaciones').value;
 const moneda = document.getElementById('moneda').value;
-const tasa = document.getElementById('tasa').value;
+let tasa = document.getElementById('tasa').value;
 
 if (isNaN(efectivo) || isNaN(banco) || isNaN(fueradCaja) || isNaN(tasa)) {
   return false;
@@ -88,6 +88,20 @@ if (efectivo === "") { efectivo = 0; }
 if (banco === "") { banco = 0; }
 if (fueradCaja === "") { fueradCaja = 0; }
 if (tasa === "") { tasa = 0; }
+
+if (moneda === '2' && isNaN(tasa)){
+  alert('Debes especificar la Tasa de cambio');
+  return false;
+}
+if (moneda === '2' && tasa === '0'){
+  alert('Debes especificar la Tasa de cambio');
+  return false;
+}
+
+if (moneda === '2' && tasa === 0){
+  alert('Debes especificar la Tasa de cambio');
+  return false;
+}
 
 const sum = parseFloat(efectivo) + parseFloat(banco) + parseFloat(fueradCaja);
 
@@ -106,3 +120,30 @@ if (sum === 0) { return false; }
 postData(`${serverUrl}cajas/${cajaId}/pagoprestfinancieros`,  pago);
 
 }
+
+//-----------------Show Pagos Préstamo----------
+const showPagosPrestContr = (ev) => {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+    overlaySpinner.classList.add('opened');
+    overlay_content.innerHTML = '';
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+  const id = ev.target.getAttribute("data-id");
+  getDataPagosPrest(id);
+}
+
+function getDataPagosPrest(id) {
+  const cajaId = document.getElementById("cajaId").value;
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  fetch(`${serverUrl}cajas/${cajaId}/pagoprestfinancieros/${id}/show`)
+    .then((res) => res.json())
+    .then((data) => printDataPagos(data));
+    overlaySpinner.classList.remove('opened');
+}
+

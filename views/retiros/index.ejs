@@ -1,0 +1,61 @@
+<div class="toggle2">
+    <span class="fa-solid fa-sack-dollar"></span>
+</div>
+<div class="submenu">
+        <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
+        <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
+        <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
+        <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
+        <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
+        <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas"><b><u>Retiros de Cajas</u></b></a>
+    </div>
+
+<% if (locals.loginUser) { %>
+    <a href="/cajas/<%= caja.id %>/retiros/new" class="crear">Crear Nueva Retiro</a>
+    <% } %>
+   
+<div class="container">
+
+    <div class="row">
+        <div class="col-1">Bill Cien</div>
+        <div class="col-1">Bill Cincuenta</div>
+        <div class="col-1">Bill Veinte</div>
+        <div class="col-1">Bill Diez</div>
+        <div class="col-1">Mon Cinco</div>
+        <div class="col-1">Mon Dos</div>
+        <div class="col-1">Mon Uno</div>
+        <div class="col-1">Mon Cent. Cincta/Veinte/Diez</div>
+        <div class="col-1">Mezclado</div>
+        <div class="col-2">Destino</div>
+        <div class="col-1">Total</div>
+    </div>
+ 
+    <% let totalEfec=0; %>
+<% for (var n in retiros) { %>
+    <% var retiro=retiros[n]; %>
+    <% totalEfec = totalEfec + retiro.monto; %>
+    <div class="row">
+        <div class="col-1"><%= retiro.efectivoBillCien %></div>
+        <div class="col-1"><%= retiro.efectivoBillCincuenta %></div>
+        <div class="col-1"><%= retiro.efectivoBillVeinte %></div>
+        <div class="col-1"><%= retiro.efectivoBillDiez %></div>
+        <div class="col-1"><%= retiro.efectivoMonCinco %></div>
+        <div class="col-1"><%= retiro.efectivoMonDos %></div>
+        <div class="col-1"><%= retiro.efectivoMonUno %></div>
+        <div class="col-1"><%= retiro.efectivoMonCenCincuenta %>/<%= retiro.efectivoMonCenVeinte %>/<%= retiro.efectivoMonCenDiez %></div>
+        <div class="col-1"><%= retiro.mezclado %></div>
+        <div class="col-2"><%= retiro.pertDesRet.destino %></div>
+        <div class="col-1"><%= retiro.monto.toFixed(2) %>
+            <a href="/cajas/<%= caja.id %>/retiros/<%= retiro.id %>?_method=DELETE" onClick="return confirm('Eliminar?: Monto:<%= retiro.monto %>');"><i class="fa-regular fa-trash-can"></i></a> 
+           </div>
+    </div>
+
+    <% } %>
+       
+
+</div>
+
+<h2>Total Efectivo Retiros: <%= totalEfec.toFixed(2) %></h2>
+                                                                     
