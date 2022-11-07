@@ -1,46 +1,35 @@
-function validarSer() {
-  const unidad = document.getElementById("unidadId").value;
-  const servicio = document.getElementById("serviceId").value;
+const createServbusContr = (frm) => {
   const servuelta = document.getElementById("servuelta");
   let monto = document.getElementById("monto").value;
   const fecha = document.getElementById("fecha").value;
-  let efectivo = document.getElementById("efectivo").value;
-  let banco = document.getElementById("banco").value;
-  let cpc = document.getElementById("cpc").value;
   let anticipo = document.getElementById("anticipo").value;
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+  overlay_content.innerHTML = '';
+  
   let dcto = 0;
+  let total = 0;
 
-  if (unidad == 0) {
-    alert("Seleccione un PD");
+  if (isNaN(anticipo)) {
+    overlay.classList.add('opened');
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    Anticipo no es un número
+    </div>
+    
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    frm.preventDefault();
     return false;
   }
-  if (servicio == 0) {
-    alert("Seleccione un Servicio");
-    return false;
-  }
-  if (isNaN(efectivo) || isNaN(banco) || isNaN(cpc) || isNaN(anticipo)) {
-    alert("No es un número");
-    return false;
-  }
-  if (efectivo === "") {
-    efectivo = 0;
-  }
-  if (banco === "") {
-    banco = 0;
-    document.getElementById("banco").value = 0;
-  }
-  if (cpc === "") {
-    cpc = 0;
-    document.getElementById("cpc").value = 0;
-  }
+  
   if (anticipo === "") {
     anticipo = 0;
     document.getElementById("anticipo").value = 0;
   }
+
   if (servuelta.value === 'true') {
-    let dctoFalla = document.getElementById("dctoFalla").value;
-    let dctoSinietro = document.getElementById("dctoSinietro").value;
-    let dctoAutoridad = document.getElementById("dctoAutoridad").value;
     const operador = document.getElementById("operadorId");
     var cpcOper = document.getElementsByName("cpcOper");
     const cobro = document.getElementById("cobrotxt");
@@ -56,7 +45,16 @@ function validarSer() {
     }
 
     if (!selected2) {
-      alert("Seleccione la(s) Vuelta(s) a Cancelar");
+      overlay.classList.add('opened');
+
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-12">
+      Seleccione la(s) Vuelta(s) a Cancelar
+      </div>
+
+      </div>`;
+      overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+      frm.preventDefault();
       return false;
     }
 
@@ -67,56 +65,65 @@ function validarSer() {
     }
 
     if (!selected) {
-      alert("Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)");
+      overlay.classList.add('opened');
+
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-12">
+      Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)
+      </div>
+
+      </div>`;
+      overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+      frm.preventDefault();
       return false;
     }
 
-    if (operador.value === "0") {
-      alert("Seleccione un Operador");
-      return false;
-    }
+    
     const deuda = operador.value.split("T")[2];
-    if (isNaN(dctoFalla) || isNaN(dctoSinietro) || isNaN(dctoAutoridad)) {
-      alert("No es un número");
-      return false;
-    }
-    if (dctoFalla === "") {
-      dctoFalla = 0;
-    }
-    if (dctoSinietro === "") {
-      dctoSinietro = 0;
-    }
-    if (dctoAutoridad === "") {
-      dctoAutoridad = 0;
-    }
+
     for (var cpcOpe of cpcOper) {
       if (cpcOpe.checked) {
         if (cobro.value === "" || isNaN(cobro.value) || cobro.value === "0") {
           alert("Debes especificar el monto del abono a la deuda del operador");
+          frm.preventDefault();
           return false;
         }
         if (parseFloat(cobro.value) > parseFloat(deuda)) {
           alert("El cobro no puede ser mayor a saldo deudor");
+          frm.preventDefault();
           return false;
         }
       }
     }
-    dcto =
-    parseFloat(dctoFalla) +
-    parseFloat(dctoSinietro) +
-    parseFloat(dctoAutoridad);
   }
-  console.log(dcto);
-  let total =
-  parseFloat(efectivo) +
-  parseFloat(banco) +
-  parseFloat(cpc) +
-  parseFloat(dcto);
+
+  [...document.querySelectorAll("input[type=number]")].forEach(el => {
+
+    el.classList.remove("error");
+
+    if (el.value=="") {
+
+      el.classList.add("error");
+      return false;
+
+    }
+    total += parseFloat(el.value);
+
+  });
+
   monto = parseFloat(monto);
   if (monto !== total) {
-    alert(
-      "Debes especificar el saldo en una o varias opciones. Ej. La cuenta(monto) es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)"
-      );
+
+    overlay.classList.add('opened');
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    Debes especificar el saldo en una o varias opciones. Ej. La cuenta(monto) es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)
+    </div>
+    
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    frm.preventDefault();
     return false;
   } else {
     return true;
@@ -294,7 +301,7 @@ if (document.getElementById("serviceId"))
 }
 
 function sumCot(event) {
-  
+
   const servuelta = document.getElementById("servuelta");
   if (servuelta.value === 'false') { 
 

@@ -7,7 +7,7 @@ const Op = Sequelize.Op;
 exports.load = async (req, res, next, retiroId) => {
 
     try {
-        const retiro = await models.retiro.findByPk(retiroId);
+        const retiro = await models.Retiro.findByPk(retiroId);
         if (retiro) {
             req.load = {...req.load, retiro};
             next();
@@ -54,14 +54,6 @@ exports.index = async (req, res, next) => {
 
 };
 
-// GET /retiros/:retirosId
-exports.show = async (req, res, next) => {
-
-    const {retiro} = req.load;
-    const unidad = await models.Unidad.findByPk(retiro.unidadId);
-
-    res.render('retiros/show', {retiro, unidad});
-};
 
 // GET /retiros/new
 exports.new = async (req, res, next) => {
@@ -149,7 +141,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.retiro.destroy();
-        req.flash('success', 'retiro Eliminada Exitosamente.');
+        req.flash('success', 'Retiro Eliminado Exitosamente.');
         res.redirect("/cajas/" + caja.id + "/retiros");
     } catch (error) {
         next(error);

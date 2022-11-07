@@ -2,13 +2,14 @@
     <span class="fa-solid fa-sack-dollar"></span>
 </div>
 <div class="submenu">
+         <a href="#" class="showCaja" data-id="<%= caja.id %>" title="Resumen Caja"><img align="top" width="20px" height="20px" src="/assets/img/flujo-de-efectivo.png"> Caja</a>
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
         <a href="/cajas/<%= caja.id %>/cobros" title="Cobros">Cobros</a>
         <a href="/cajas/<%= caja.id %>/busgastos" title="Gastos Ope.">Gastos Ope.</a>
         <a href="/cajas/<%= caja.id %>/admgastos" title="Gastos Admón">Gastos Admón</a>
         <a href="/cajas/<%= caja.id %>/pagos" title="Pagos">Pagos</a>
-        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos</a>
+        <a href="/cajas/<%= caja.id %>/anticipos" title="Anticipos">Anticipos D2</a>
         <a href="/cajas/<%= caja.id %>/retiros" title="Retiros de Cajas"><b><u>Retiros de Cajas</u></b></a>
     </div>
 
@@ -48,7 +49,7 @@
         <div class="col-1"><%= retiro.mezclado %></div>
         <div class="col-2"><%= retiro.pertDesRet.destino %></div>
         <div class="col-1"><%= retiro.monto.toFixed(2) %>
-            <a href="/cajas/<%= caja.id %>/retiros/<%= retiro.id %>?_method=DELETE" onClick="return confirm('Eliminar?: Monto:<%= retiro.monto %>');"><i class="fa-regular fa-trash-can"></i></a> 
+            <a href="/cajas/<%= caja.id %>/retiros/<%= retiro.id %>?_method=DELETE" onClick="return confirm('Eliminar?: Monto:<%= retiro.monto.toFixed(2) %>');"><i class="fa-regular fa-trash-can"></i></a> 
            </div>
     </div>
 

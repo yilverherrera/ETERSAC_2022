@@ -13,6 +13,15 @@ const sumRetiroContr = (ev) => {
         }
         total += parseFloat(el.value);
 
+
     })
 	    totalRetiro.innerHTML = total.toFixed(2);
+}
+
+const createRetiroContr = (frm) => {
+    const totalRetiro = document.getElementById('totalRetiro');
+
+    if (totalRetiro.innerHTML === '' || totalRetiro.innerHTML === '0'){
+        frm.preventDefault();
+    }
 }

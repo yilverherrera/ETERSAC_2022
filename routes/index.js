@@ -349,7 +349,9 @@ router.get('/users/:userId(\\d+)/cajas',
   userController.isLocalRequired,
   cajaController.index);
 
-
+router.get('/cajas/:cajaId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.show);
 router.get('/cajas',
   cajaController.index);
 router.get('/cajas/new',
@@ -642,7 +644,7 @@ router.post('/cajas/:cajaId(\\d+)/pagoprestfinancieros',
   sessionController.loginRequiredJson,
   cajaController.AuthorRequired,
   pagoprestfinancieroController.create);
-router.delete('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:pagoproveedorId(\\d+)',
+router.delete('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:pagoprestfinancieroId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   pagoprestfinancieroController.destroy);
@@ -652,9 +654,6 @@ router.get('/cajas/:cajaId(\\d+)/retiros',
   sessionController.loginRequired,
   cajaController.AuthorRequired,
   retiroController.index);
-router.get('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
-  sessionController.loginRequired,
-  retiroController.show);   
 router.get('/cajas/:cajaId(\\d+)/retiros/new',
   sessionController.loginRequired,
   cajaController.AuthorRequired,

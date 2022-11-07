@@ -1,42 +1,45 @@
 <div class="right">
     <form method="get" action="/unidads">
-        <input type="text" name="search" value="<%= locals.search || '' %>" placeholder="Unidad a buscar"
+    <input type="submit" class="crear" value="Buscar">
+        <input type="search" name="search" value="<%= locals.search || '' %>" placeholder="Unidad a buscar"
             autocomplete="off" />
-        <input type="submit" value="Buscar">
     </form>
 </div>
 
 <h1>
     Unidades:
 </h1>
-
-<table>
+<% if (locals.loginUser && locals.loginUser.isAdmin) { %>
+<a href="unidads/new" class="crear">Crear nueva Unidad</a>
+<% } %>
+<div class="container">
     <% for (var i in unidads) { %>
         <% var unidad=unidads[i]; %>
-            <tr>
-                <td>
+           <div class="row">
+                <div class="col-9">
                     Placa: <%= unidad.placa %> Código: <%= unidad.codigo %>
-                </td>
+                </div>
                 <% if (locals.loginUser) { %>
-                <td>
-                    <a href="/unidads/<%= unidad.id %>" class="button">Ver</a>
-                </td>
+                <div class="col-3">
+                    <a href="/unidads/<%= unidad.id %>"><i class="fa-regular fa-eye"></i></a>
+               
                 <% if (locals.loginUser.isAdmin) { %>
-                <td>
-                    <a href="/unidads/<%= unidad.id %>/edit" class="button">Editar</a>
-                </td>
-                <td>
+               
+                    <a href="/unidads/<%= unidad.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
+               
                     <a href="/unidads/<%= unidad.id %>?_method=DELETE"
-                        onClick="return confirm('Borrar: <%= unidad.placa %>');" class="button">Borrar</a>
-                </td>
+                        onClick="return confirm('Borrar: <%= unidad.placa %>');"><i class="fa-regular fa-trash-can"></i></a>
+                
                 <% } %>
+                 </div>
                 <% } %>
-            </tr>
+            </div>
             <% } %>
-</table>
-<% if (locals.loginUser && locals.loginUser.isAdmin) { %>
-<a href="unidads/new" class="button">Crear nueva Unidad</a>
-<% } %>
+ <div class="row">           
+ <div class="col-12">
 <% if (locals.paginate_control) { %>
     <%- paginate_control %>
 <% } %>
+ </div>
+ </div>
+ </div>

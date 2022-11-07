@@ -175,13 +175,13 @@ exports.create = async (req, res, next) => {
 
 
 
-// DELETE /pagoproveedors/:pagoproveedorId
+// DELETE /pagoprestfinancieros/:pagoprestfinancieroId
 exports.destroy = async (req, res, next) => {
- const { pagoproveedor } = req.load;
+ const { pagoprestfinanciero } = req.load;
  const { caja } = req.load;
 
  try {
-    await req.load.pagoproveedor.destroy();
+    await req.load.pagoprestfinanciero.destroy();
     req.flash('success', 'Pago Eliminado Exitosamente.');
     res.redirect("/cajas/" + caja.id + "/pagos");
 } catch (error) {

@@ -8,7 +8,7 @@
     </div>
 
     <div class="frmtwo_child">
-  <select  id="unidadId" name="unidadId">
+  <select  id="unidadId" name="unidadId" required>
 	<option value="0" disabled="disabled" <%= 0 === servbus.unidadId ? "selected" : "" %> >Seleccione</option>
         <% for (var i in unidads) { %>
             <% var unidad=unidads[i]; %>
@@ -20,7 +20,7 @@
 </div>
 
     <div class="frmtwo_child">
-    <select id="serviceId" name="serviceId" onchange="envia(<%= servbus.cajaId %>, this)">
+    <select id="serviceId" name="serviceId" onchange="envia(<%= servbus.cajaId %>, this)" required>
 	<option value="0" disabled="disabled" <%= 0 === servbus.serviceId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in services) { %>
             <% var service=services[i]; %>
@@ -63,13 +63,13 @@
     <label for="banco"><span class="fa-solid fa-university"></span> Banco:</label></div>
 
     <div class="frmtwo_child">
-    <input type="text" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
+    <input type="number" step="0.01" class="itemWide" id="efectivo" name="efectivo" value="<%= servbus.efectivo %>"
         placeholder="Efectivo" autocomplete="off" />
 </div>
 
 
     <div class="frmtwo_child">
-    <input type="text" class="itemWide" id="banco" name="banco" value="<%= servbus.banco %>"
+    <input type="number" step="0.01" class="itemWide" id="banco" name="banco" value="<%= servbus.banco %>"
         placeholder="Depósito, pdv, transferecia" autocomplete="off" />
 </div>
 
@@ -82,7 +82,7 @@
     </div>
 
     <div class="frmtwo_child">
-    <input type="text" class="itemWide" id="cpc" name="cpc" value="<%= servbus.cpc %>" placeholder="Cuenta por Cobrar"
+    <input type="number" step="0.01" class="itemWide" id="cpc" name="cpc" value="<%= servbus.cpc %>" placeholder="Cuenta por Cobrar"
         autocomplete="off" />
 </div>
 
@@ -102,12 +102,12 @@
     </div>
 
     <div class="frmtwo_child">
-    <input type="text" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
+    <input type="number" step="0.01" class="itemWide" id="dctoFalla" name="dctoFalla" value="<%= servbus.dctoFalla %>"
         placeholder="Dcto considerado por Falla Mecánica" autocomplete="off" />
 </div>
 
     <div class="frmtwo_child">
-    <input type="text" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= servbus.dctoSinietro %>"
+    <input ttype="number" step="0.01" class="itemWide" id="dctoSinietro" name="dctoSinietro" value="<%= servbus.dctoSinietro %>"
         placeholder="Dcto considerado por Sinietro" autocomplete="off" />
 </div>
 
@@ -124,12 +124,12 @@
         </div>
 
     <div class="frmtwo_child">
-    <input type="text" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoSinietro %>"
+    <input type="number" step="0.01" class="itemWide" id="dctoAutoridad" name="dctoAutoridad" value="<%= servbus.dctoAutoridad %>"
         placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
 </div>
 
         <div class="frmtwo_child">
-    <select id="operadorId" name="operadorId">
+    <select id="operadorId" name="operadorId" required>
 	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
@@ -216,7 +216,7 @@
 <% } %>
 <a href="/goback"><input type="button" class="button_secundario" value="Cancelar"></a>
 <% if (servbus.serviceId>0) { %>
-<input type="submit" value="Guardar" class="button_primary" onclick="return validarSer()">
+<input type="submit" value="Guardar" class="button_primary">
 <% } %>
 
 

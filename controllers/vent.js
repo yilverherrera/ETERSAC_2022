@@ -220,7 +220,7 @@ exports.new = async (req, res, next) => {
     monto2: 0,
     monto3: 0,
     fecha: caja.fecha,
-    cant: 0,
+    cant: 1,
     efectivo: "0",
     banco: "",
     cpc: "",
@@ -229,9 +229,9 @@ exports.new = async (req, res, next) => {
     dctoSinietro: "",
     dctoAutoridad: "",
     cajaId: caja.id,
-    unidadId: 0,
-    productoId: 0,
-    operadorId: 0,
+    unidadId: "",
+    productoId: "",
+    operadorId: "",
   };
 
   res.render("vents/new.ejs", { vent, productos, unidads });
@@ -488,7 +488,7 @@ let cobrar = {};
     monto2: monto,
     monto3: producto.precioVta2,
     fecha: caja.fecha,
-    cant: 0,
+    cant: 1,
     efectivo: "0",
     banco: "",
     cpc: "",
@@ -499,7 +499,7 @@ let cobrar = {};
     cajaId: caja.id,
     unidadId: unidad.id,
     productoId: producto.id,
-    operadorId: 0,
+    operadorId: "",
     servuelta: servuelta
   };
 

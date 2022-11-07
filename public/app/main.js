@@ -260,11 +260,14 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.pagarPrest')) pagarPrestContr (ev);
   else if (matchEvent(ev, '.guardarPagoPrestamo')) guardarPagoPrestamoContr (ev);
   else if (matchEvent(ev, '.showPagosPrest')) showPagosPrestContr (ev);
+  else if (matchEvent(ev, '.showCaja')) showCajaContr (ev);
 })
 
 document.addEventListener('submit', ev => {
   if (matchEvent(ev, '.formVenta')) createVentaContr (ev);
-  if (matchEvent(ev, '.formAnticipo')) createAnticipoContr (ev);
+  else if (matchEvent(ev, '.formAnticipo')) createAnticipoContr (ev);
+  else if (matchEvent(ev, '.formRetiro')) createRetiroContr (ev);
+  else if (matchEvent(ev, '.formServbus')) createServbusContr (ev);
 })
 
 

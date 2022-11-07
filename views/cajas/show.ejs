@@ -1,0 +1,99 @@
+<h1>
+    Ver Caja:<%= caja.id %>
+</h1>
+<h2>
+    Efectivo:
+</h2>
+<div class="container">
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-6"><b>Ingresos:</b></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Servicios:</div>
+    <div class="col-3"><%= box.servbus %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Ventas:</div>
+    <div class="col-3"><%= box.vent %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Cobros:</div>
+    <div class="col-3"><%= box.cobro %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Anticipos:</div>
+    <div class="col-3"><%= box.anticipo %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Total:</div>
+    <div class="col-3"><b><%= box.totalIng %></b></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-6"><b>Egresos:</b></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Gasto Mant. Buses:</div>
+    <div class="col-3"><%= box.busgasto %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Gastos Administrativos:</div>
+    <div class="col-3"><%= box.admgasto %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Pagos:</div>
+    <div class="col-3"><%= box.pago %></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Total:</div>
+    <div class="col-3"><b><%= box.totalEgr %></b></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-6"><b>Retiros:</b></div>
+    <div class="coll-3"></div>
+</div>  
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Retiros:</div>
+    <div class="col-3"><b><%= box.retiro %></b></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-6"><b>Caja:</b></div>
+    <div class="coll-3"></div>
+</div>  
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3"><b>Efectivo en Caja:</b></div>
+    <div class="col-3"><b><%= box.efectivo %></b></div>
+    <div class="coll-3"></div>
+</div> 
+
+</div>
+
+
+
+<a href="/users/<%= locals.loginUser.id %>/cajas"><i class="fa-regular fa-circle-left cursorpointer">Back</i></a>

@@ -28,13 +28,23 @@ exports.childlessRequired = async (req, res, next) => {
   const servbusId = req.load.servbus.id;
 
   try {
-    const servbus = await models.Tmpcobrobus.findOne({
+    let servbus = await models.Tmpcobrobus.findOne({
       where: {
         servbusId: {
           [Op.eq]: servbusId
         }
       }
     });
+
+    if (!servbus) {
+   servbus = await models.Cobroservbus.findOne({
+      where: {
+        servbusId: {
+          [Op.eq]: servbusId
+        }
+      }
+    });
+    }
     
     if (!servbus) {
       next();

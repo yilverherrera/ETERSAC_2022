@@ -14,10 +14,7 @@
                 <% } %>   
                                
            
-                <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
-                    <a href="/cajas/<%= caja.id %>"><i class="fa-regular fa-eye"></i></a>
-                <% } %>
-                <% if (locals.loginUser.isAdmin) { %>    
+                  <% if (locals.loginUser.isAdmin) { %>    
                     <a href="/cajas/<%= caja.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
                     <a href="/cajas/<%= caja.id %>?_method=DELETE"
                        onClick="return confirm('Seguro? Se eliminarán todos los registros de la Caja <%= caja.id %>');"

@@ -1,53 +1,49 @@
 <h1>Configuración de Servicios:</h1>
 
-<table>
-<tr>
-            <th>
+<div class='row'>
+            <div class="col-2">
                 Monto
-            </th>
-            <th>
+            </div>
+            <div class="col-2">
                 Detalle
-            </th>
-            <th>
+            </div>
+            <div class="col-2">
                 Vuelta
-            </th>
-            <th>
+            </div>
+            <div class="col-2">
                 Servicio
-            </th>
-            <th>
+            </div>
+            <div class="col-2">
                 Grupo
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-        </tr>
+            </div>
+            <div class="col-2">
+            </div>
+          
+        </div>
     <% for (var i in confservices) { %>
         <% var confservice = confservices[i]; %>
-        <tr>
-            <td>
+        <div class='row'>
+            <div class="col-2">
                 <%= confservice.monto %>
-            </td>
-            <td>
+            </div>
+            <div class="col-2">
                 <%= confservice.detalle %>
-            </td>
-            <td>
+            </div>
+            <div class="col-2">
                 <%= confservice.vuelta %>
-            </td>
-            <td>
+            </div>
+            <div class="col-2">
                 <%= confservice.pertSerCser.nombre %>
-            </td>
-            <td>
+            </div>
+            <div class="col-2">
                 <%= confservice.pertGruCser.nombre %>
-            </td>
+            </div>
             <% if (locals.loginUser && locals.loginUser.isAdmin) { %>
-            <td>
-                <a href="/confservices/<%= confservice.id %>/edit" class="button">Editar</a>
-            </td>
-            <td>
-                
-            </td>
+            <div class="col-2">
+                <a href="/confservices/<%= confservice.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
+            </div>
+            
             <% } %>
-        </tr>
+        </div>
     <% } %>
 </table>

@@ -1,85 +1,91 @@
-<div class="form_one">
-    <div class="label">
+<div class="form_two">
+    <div class="frmtwo_child">
         <label for="efectivoBillCien">Billetes de Cien:</label>
         </div>
-        <div class="input">
+         <div class="frmtwo_child">
+        <label for="efectivoBillCincuenta">Billetes de Cincuenta:</label>
+        </div>
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoBillCien" name="efectivoBillCien" value="<%= retiro.efectivoBillCien %>" placeholder="Cien" autocomplete="off" min="0" />
     </div>
 
-    <div class="label">
-        <label for="efectivoBillCincuenta">Billetes de Cincuenta:</label>
-        </div>
-        <div class="input">
+   
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoBillCincuenta" name="efectivoBillCincuenta" value="<%= retiro.efectivoBillCincuenta %>" placeholder="Cincuenta" autocomplete="off" min="0" />
     </div>
 
-<div class="label">
+<div class="frmtwo_child">
         <label for="efectivoBillVeinte">Billetes de Veinte:</label>
         </div>
-        <div class="input">
+        <div class="frmtwo_child">
+        <label for="efectivoBillDiez">Billetes de Diez:</label>
+        </div>
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoBillVeinte" name="efectivoBillVeinte" value="<%= retiro.efectivoBillVeinte %>" placeholder="Veinte" autocomplete="off" min="0" />
     </div>
 
-<div class="label">
-        <label for="efectivoBillDiez">Billetes de Diez:</label>
-        </div>
-        <div class="input">
+
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoBillDiez" name="efectivoBillDiez" value="<%= retiro.efectivoBillDiez %>" placeholder="Diez" autocomplete="off" min="0" />
     </div>
     
-    <div class="label">
+    <div class="frmtwo_child">
         <label for="efectivoMonCinco">Monedas de Cinco:</label>
         </div>
-        <div class="input">
+        <div class="frmtwo_child">
+        <label for="efectivoMonDos">Monedas de Dos:</label>
+        </div>
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoMonCinco" name="efectivoMonCinco" value="<%= retiro.efectivoMonCinco %>" placeholder="Cinco" autocomplete="off" min="0" />
     </div>
 
-     <div class="label">
-        <label for="efectivoMonDos">Monedas de Dos:</label>
-        </div>
-        <div class="input">
+     
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoMonDos" name="efectivoMonDos" value="<%= retiro.efectivoMonDos %>" placeholder="Dos" autocomplete="off" min="0" />
     </div>
 
-        <div class="label">
+        <div class="frmtwo_child">
         <label for="efectivoMonUno">Monedas de Un Sol:</label>
         </div>
-        <div class="input">
+           <div class="frmtwo_child">
+        <label for="efectivoMonCenCincuenta">Monedas de Cent. Cincuenta:</label>
+        </div>
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoMonUno" name="efectivoMonUno" value="<%= retiro.efectivoMonUno %>" placeholder="Un Sol" autocomplete="off" min="0" />
     </div>
 
-        <div class="label">
-        <label for="efectivoMonCenCincuenta">Monedas de Cent. Cincuenta:</label>
-        </div>
-        <div class="input">
+     
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoMonCenCincuenta" name="efectivoMonCenCincuenta" value="<%= retiro.efectivoMonCenCincuenta %>" placeholder="Cent. Cincuenta" autocomplete="off" min="0" step="0.01" />
     </div>
 
-    <div class="label">
+    <div class="frmtwo_child">
         <label for="efectivoMonCenVeinte">Monedas de Cent. Veinte:</label>
         </div>
-        <div class="input">
+         <div class="frmtwo_child">
+        <label for="efectivoMonCenDiez">Monedas de Cent. Diez:</label>
+        </div>
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoMonCenVeinte" name="efectivoMonCenVeinte" value="<%= retiro.efectivoMonCenVeinte %>" placeholder="Cent. Veinte" autocomplete="off" min="0" step="0.01" />
     </div>
 
-        <div class="label">
-        <label for="efectivoMonCenDiez">Monedas de Cent. Diez:</label>
-        </div>
-        <div class="input">
+       
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="efectivoMonCenDiez" name="efectivoMonCenDiez" value="<%= retiro.efectivoMonCenDiez %>" placeholder="Cent. Diez" autocomplete="off" min="0" step="0.01" />
           </div>
 
-        <div class="label">
+        <div class="frmtwo_child">
         <label for="mezclado">Mezclado:</label>
         </div>
-        <div class="input">
+         <div class="frmtwo_child">
+        <label for="destinoId">Destino:</label>
+        </div>
+        <div class="frmtwo_child">
         <input class="sumRetiro" type="number" id="mezclado" name="mezclado" value="<%= retiro.mezclado %>" placeholder="Mezclado" autocomplete="off" min="0" step="0.01" />
           </div>
 
-    <div class="label">
-        <label for="destinoId">Destino:</label>
-        </div>
-        <div class="input">
+   
+        <div class="frmtwo_child">
         <select name="destinoId" id="destinoId" required>
         <option value="" "" === retiro.destinoId ? "checked" : "">Seleccione</option>
             <% for (var i in destinos) { %>
@@ -89,10 +95,13 @@
         </select>
     </div>
 
-        <div class="label">
+        <div class="frmtwo_child">
         <label for="empleadoId">Responsable:</label>
         </div>
-        <div class="input">
+        <div class="frmtwo_child">
+        
+        </div>
+        <div class="frmtwo_child">
         <select name="empleadoId" id="empleadoId" required>
         <option value="" "" === retiro.empleadoId ? "checked" : "">Seleccione</option>
             <% for (var i in empleados) { %>

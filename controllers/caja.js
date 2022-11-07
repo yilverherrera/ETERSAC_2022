@@ -1,7 +1,17 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { models } = require("../models");
-
+const getServbus = require("../data/getServbus");
+const getVent = require("../data/getVent");
+const getCobroservbus = require("../data/getCobroservbus");
+const getCobrovent = require("../data/getCobrovent");
+const getAnticipo = require("../data/getAnticipo");
+const getBusgasto = require("../data/getBusgasto");
+const getAdmgasto = require("../data/getAdmgasto");
+const getPagonomina = require("../data/getPagonomina");
+const getPagoprestfinanciero = require("../data/getPagoprestfinanciero");
+const getPagoproveedor = require("../data/getPagoproveedor");
+const getRetiro = require("../data/getRetiro");
 const moment = require("moment");
 
 const paginate = require("../helpers/paginate").paginate;
@@ -78,6 +88,48 @@ exports.AuthorRequired = (req, res, next) => {
       "Prohibited operation: The logged in user is not the author of the caja, nor an administrator."
     );
     res.send(403);
+  }
+};
+
+// GET /cajas/:cajaId
+exports.show = async (req, res, next) => {
+    const {caja} = req.load;
+    
+ const servbus = await getServbus(caja.id);
+ const vent = await getVent(caja.id);
+ const cobroservbus = await getCobroservbus(caja.id);
+ const cobrovent = await getCobrovent(caja.id);
+ const anticipo = await getAnticipo(caja.id);
+ const busgasto = await getBusgasto(caja.id);
+ const admgasto = await getAdmgasto(caja.id);
+ const pagonomina = await getPagonomina(caja.id);
+ const pagoprestfinanciero = await getPagoprestfinanciero(caja.id);
+ const pagoproveedor = await getPagoproveedor(caja.id);
+ const retiro = await getRetiro(caja.id);
+ const pago = pagonomina + pagoprestfinanciero + pagoproveedor;
+ const cobro = cobroservbus + cobrovent;
+ const totalIng = servbus + vent + cobro + anticipo;
+ const totalEgr = busgasto + admgasto + pago;
+ let efectivo = totalIng - totalEgr;
+ efectivo = efectivo - retiro;
+
+ const box = {
+  servbus: servbus,
+  vent: vent,
+  cobro: cobro,
+  anticipo: anticipo,
+  busgasto: busgasto,
+  admgasto: admgasto,
+  pago: pago,
+  totalIng: totalIng,
+  totalEgr: totalEgr,
+  retiro: retiro,
+  efectivo: efectivo.toFixed(2),
+ }
+ try {
+    res.json(box);
+  } catch (error) {
+    next(error);
   }
 };
 

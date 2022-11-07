@@ -7,20 +7,20 @@
         <% var rout = routs[i]; %>
         <tr>
             <td>
-                Ruta: <%= rout.nombre %>
+                <h2>Ruta: <%= rout.nombre %></h2>
             </td>
             <% if (locals.loginUser) { %>
             <td>
-                <a href="/routs/<%= rout.id %>" class="button">Ver</a>
+                <a href="/routs/<%= rout.id %>"><i class="fa-regular fa-eye"></i></a>
             </td>
             <% if (locals.loginUser.isAdmin) { %>
             <td>
-                <a href="/routs/<%= rout.id %>/edit" class="button">Editar</a>
+                <a href="/routs/<%= rout.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
             </td>
             <td>
                 <a href="/routs/<%= rout.id %>?_method=DELETE"
                    onClick="return confirm('Borrar: <%= rout.nombre %>');"
-                   class="button">Borrar</a>
+                   ><i class="fa-regular fa-trash-can"></i></a>
             </td>
             <% } %>
             <% } %>

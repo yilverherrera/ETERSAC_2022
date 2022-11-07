@@ -9,8 +9,8 @@
     </div>
 
     <div class="frmtwo_child">
-        <select  id="unidadId" name="unidadId">
-	       <option value="0" disabled="disabled" <%= 0 === vent.unidadId ? "selected" : "" %> >Seleccione</option>
+        <select  id="unidadId" name="unidadId" required>
+	       <option value="" disabled="disabled" <%= "" === vent.unidadId ? "selected" : "" %> >Seleccione</option>
                 <% for (var i in unidads) { %>
                     <% var unidad=unidads[i]; %>
                         <option value="<%= unidad.id %>" <%= unidad.id === vent.unidadId ? "selected" : "" %>>
@@ -21,8 +21,8 @@
     </div>
 
     <div class="frmtwo_child">
-        <select id="productoId" name="productoId" onchange="enviavta(<%= vent.cajaId %>, this)">
-	       <option value="0" disabled="disabled" <%= 0 === vent.productoId ? "selected" : "" %>>Seleccione</option>
+        <select id="productoId" name="productoId" onchange="enviavta(<%= vent.cajaId %>, this)" required>
+	       <option value="" disabled="disabled" <%= "" === vent.productoId ? "selected" : "" %>>Seleccione</option>
                 <% for (var i in productos) { %>
                     <% var producto=productos[i]; %>
                         <option value="<%= producto.id %>" <%= producto.id === vent.productoId ? "selected" : "" %>>
@@ -64,12 +64,12 @@
         </div>
 
         <div class="frmtwo_child">
-            <input type="text" class="sumEfec" id="efectivo" name="efectivo" value="<%= vent.efectivo %>"
+            <input type="number" step="0.01" class="sumEfec" id="efectivo" name="efectivo" value="<%= vent.efectivo %>"
             placeholder="Efectivo" autocomplete="off" />
         </div>
 
         <div class="frmtwo_child">
-            <input type="text" class="sumBanco" id="banco" name="banco" value="<%= vent.banco %>"
+            <input type="number" step="0.01" class="sumBanco" id="banco" name="banco" value="<%= vent.banco %>"
             placeholder="Depósito, pdv, transferecia" autocomplete="off" />
         </div>
 
@@ -80,7 +80,7 @@
         <div class="frmtwo_child">Cantidad:</div>
 
         <div class="frmtwo_child">
-            <input type="text" class="sumCpc" id="cpc" name="cpc" value="<%= vent.cpc %>" placeholder="Cuenta por Cobrar"
+            <input type="number" step="0.01" class="sumCpc" id="cpc" name="cpc" value="<%= vent.cpc %>" placeholder="Cuenta por Cobrar"
             autocomplete="off" />
         </div>
 
@@ -103,12 +103,12 @@
             </div>
 
             <div class="frmtwo_child">
-                <input type="text" class="sumSin" id="dctoSinietro" name="dctoSinietro" value="<%= vent.dctoSinietro %>"
+                <input type="number" step="0.01" class="sumSin" id="dctoSinietro" name="dctoSinietro" value="<%= vent.dctoSinietro %>"
                 placeholder="Dcto considerado por Sinietro" autocomplete="off" />
             </div>
 
             <div class="frmtwo_child">
-                <input type="text" class="sumAut" id="dctoAutoridad" name="dctoAutoridad" value="<%= vent.dctoSinietro %>"
+                <input type="number" step="0.01" class="sumAut" id="dctoAutoridad" name="dctoAutoridad" value="<%= vent.dctoAutoridad %>"
                 placeholder="Dcto considerado por Inconv. con la Autoridad (R.V. Vencid, SOAT...)" autocomplete="off" />
             </div>
 
@@ -129,8 +129,8 @@
 
             
             <div class="frmtwo_child">
-                <select id="operadorId" name="operadorId">
-	               <option value="0" <%= 0 === vent.operadorId ? "selected" : "" %>>Seleccione</option>
+                <select id="operadorId" name="operadorId" required>
+	               <option value="" <%= "" === vent.operadorId ? "selected" : "" %>>Seleccione</option>
                     <% for (var i in operadors) { %>
                         <% var operador=operadors[i]; %>
                         <option value="<%= operador.id+'T'+operador.ventId+'T'+operador.cpc %>" <%=  operador.id === vent.operadorId ? "selected" : "" %>>

@@ -1,18 +1,10 @@
 const calcMontoContr = (sel) => {
   let monto = document.getElementById("monto");
   let monto2 = document.getElementById("monto2");
-  var radioscpc = document.getElementsByName("cpcIds[]");
-  var radiosope = document.getElementsByName("cpcOper");
   var chMontos = document.getElementsByName("chMonto"); 
   const cant = document.getElementById("cant");
-  const efectivo = document.getElementById("efectivo");
-  const banco = document.getElementById("banco");
-  const cpc = document.getElementById("cpc");
-  const anticipo = document.getElementById("lbsumaAnt");
-  const dctoFalla = document.getElementById("dctoFalla");
-  const dctoSinietro = document.getElementById("dctoSinietro");
-  const dctoAutoridad = document.getElementById("dctoAutoridad");
   let restamonto = 0;
+  let total = 0;
 
   if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
     alert('Debes especificar la Cantidad');
@@ -23,18 +15,24 @@ const calcMontoContr = (sel) => {
   if (document.getElementById("tmpmonto")) {
     restamonto = document.getElementById("tmpmonto").value;
   }
-
+  
+  if (document.getElementsByName("cpcIds[]")){
+    var radioscpc = document.getElementsByName("cpcIds[]");
   for (var radiocpc of radioscpc) {
     if (radiocpc.type === "checkbox" && radiocpc.checked) {
       radiocpc.checked = false;
     }
   }
-
+}
+  if (document.getElementsByName("cpcOper")){
+    var radiosope = document.getElementsByName("cpcOper");
   for (var radioope of radiosope) {
     if (radioope.type === "checkbox" && radioope.checked) {
       radioope.checked = false;
     }
   }
+  }
+
   for (var chMonto of chMontos) {
     if (chMonto.type === "radio" && chMonto.checked) {
       monto2 = chMonto.value;
@@ -45,34 +43,25 @@ const calcMontoContr = (sel) => {
   monto.value = monto.value - restamonto;
   monto.value = parseFloat(monto.value).toFixed(4);
 
-  if (efectivo.value === "" || isNaN(efectivo.value)) {
-    efectivo.value = 0;
-  }
-  if (banco.value === "" || isNaN(banco.value)) {
-    banco.value = 0;
-  }
-  if (cpc.value === "" || isNaN(cpc.value)) {
-    cpc.value = 0;
-  }
-  if (dctoFalla.value === "" || isNaN(dctoFalla.value)) {
-    dctoFalla.value = 0;
-  }
-  if (dctoSinietro.value === "" || isNaN(dctoSinietro.value)) {
-    dctoSinietro.value = 0;
-  }
-  if (dctoAutoridad.value === "" || isNaN(dctoAutoridad)) {
-    dctoAutoridad.value = 0;
-  }
-  const dcto =
-  parseFloat(dctoFalla.value) +
-  parseFloat(dctoSinietro.value) +
-  parseFloat(dctoAutoridad.value);
-  const total =
-  parseFloat(efectivo.value) +
-  parseFloat(banco.value) +
-  parseFloat(cpc.value) +
-  parseFloat(anticipo.innerHTML) +
-  parseFloat(dcto);
+  
+  [...document.querySelectorAll("input[type=number]")].forEach(el => {
+
+    el.classList.remove("error");
+
+    if (el.value=="") {
+
+      el.classList.add("error");
+      return false;
+
+    }
+    total += parseFloat(el.value);
+
+  });
+  if (document.getElementById("lbsumaAnt")){
+    const anticipo = document.getElementById("lbsumaAnt");
+  total += parseFloat(anticipo.innerHTML);
+}
+
   monto = parseFloat(monto.value);
   monto = monto - total;
   document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
@@ -80,45 +69,13 @@ const calcMontoContr = (sel) => {
 
 
 const createVentaContr = (frm) => {
- const unidad = document.getElementById("unidadId");
- const producto = document.getElementById("productoId");
  const servuelta = document.getElementById("servuelta");
  let monto = document.getElementById("monto");
- let efectivo = document.getElementById("efectivo");
- let banco = document.getElementById("banco");
- let cpc = document.getElementById("cpc");
- let anticipo = document.getElementById("lbsumaAnt");
  let dcto = 0;
+ let total = 0;
 
- if (unidad.value == 0) {
-  alert("Seleccione un PD");
-  frm.preventDefault();
-  return false;
-}
-if (producto.value == 0) {
-  alert("Seleccione un Servicio");
-  frm.preventDefault();
-  return false;
-}
-if (isNaN(efectivo.value) || isNaN(banco.value) || isNaN(cpc.value)) {
-  alert("No es un número");
-  frm.preventDefault();
-  return false;
-}
-if (efectivo.value === "") {
-  efectivo.value = 0;
-}
-if (banco.value === "") {
-  banco.value = 0;
-}
-if (cpc.value === "") {
-  cpc.value = 0;
-}
-
-if (servuelta.value === 'true') {
-  let dctoFalla = document.getElementById("dctoFalla");
-  let dctoSinietro = document.getElementById("dctoSinietro");
-  let dctoAutoridad = document.getElementById("dctoAutoridad");
+ if (servuelta.value === 'true') {
+  const anticipo = document.getElementById("lbsumaAnt");
   const operador = document.getElementById("operadorId");
   var cpcOper = document.getElementsByName("cpcOper");
   const cobro = document.getElementById("cobrotxt");
@@ -137,28 +94,8 @@ if (servuelta.value === 'true') {
     return false;
   }
 
-  if (operador.value === "0") {
-    alert("Seleccione un Operador");
-    frm.preventDefault();
-    return false;
-  }
-
   const deuda = operador.value.split("T")[2];
-  if (isNaN(dctoFalla.value) || isNaN(dctoSinietro.value) || isNaN(dctoAutoridad.value)) {
-    alert("No es un número");
-    frm.preventDefault();
-    return false;
-  }
 
-  if (dctoFalla.value === "") {
-    dctoFalla.value = 0;
-  }
-  if (dctoSinietro.value === "") {
-    dctoSinietro.value = 0;
-  }
-  if (dctoAutoridad.value === "") {
-    dctoAutoridad.value = 0;
-  }
   for (var cpcOpe of cpcOper) {
     if (cpcOpe.checked) {
       if (cobro.value === "" || isNaN(cobro.value) || cobro.value === "0") {
@@ -173,18 +110,24 @@ if (servuelta.value === 'true') {
       }
     }
   }
-  dcto =
-  parseFloat(dctoFalla.value) +
-  parseFloat(dctoSinietro.value) +
-  parseFloat(dctoAutoridad.value);
+  total += parseFloat(anticipo.innerHTML);
 }
 
-let total =
-parseFloat(efectivo.value) +
-parseFloat(banco.value) +
-parseFloat(cpc.value) +
-parseFloat(anticipo.innerHTML) +
-parseFloat(dcto);
+[...document.querySelectorAll("input[type=number]")].forEach(el => {
+
+  el.classList.remove("error");
+
+  if (el.value=="") {
+
+    el.classList.add("error");
+    return false;
+
+  }
+  total += parseFloat(el.value);
+
+});
+
+
 monto = parseFloat(monto.value);
 const diff = monto - total;
 if (diff > -0.5 && diff < 0.1 ) {

@@ -205,6 +205,7 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   justify-content: left;
   box-shadow: var(--box-shadow);
 }
+
 .form_two .frmtwo_child{
   display: flex;
   width: 50%;
@@ -383,7 +384,9 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
 
 /*-----------------------*/
 
-
+.right {
+  float: right;
+}
 
 
 /* ------------------------- */
