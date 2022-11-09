@@ -36,6 +36,15 @@
                     <a href="#"> Despacho:<%= locals.lcDespacho %> <%= locals.lcFecha %></a>
                     <% } %>
                 </li>
+                 <li>
+                 
+            <input type="date" class="fechaMonitor" id="fechaMonitor" required>
+            </li>
+            <li>
+  <% if (locals.loginUser) { %>
+                <a href="#" class="monitor"><img align="top" width="20px" height="20px" src="/assets/img/analista-de-la-red.png"> Monitor</a>
+            <% } %> 
+                </li>
                 <li>
                    <% if (locals.loginUser) { %>
             <a href="/users/<%= locals.loginUser.id %>/cajas"><img align="top" width="20px" height="20px" src="/assets/img/flujo-de-efectivo.png"> Mis Cajas</a>
@@ -146,6 +155,6 @@
     <script defer src="/app/financiera.js"></script>
     <script defer src="/app/retiros.js"></script>
     <script defer src="/app/caja.js"></script>
-    
+    <script defer src="/app/monitor.js"></script>
 </body>
 </html>

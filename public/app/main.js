@@ -261,6 +261,7 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.guardarPagoPrestamo')) guardarPagoPrestamoContr (ev);
   else if (matchEvent(ev, '.showPagosPrest')) showPagosPrestContr (ev);
   else if (matchEvent(ev, '.showCaja')) showCajaContr (ev);
+  else if (matchEvent(ev, '.monitor')) monitorContr (ev);
 })
 
 document.addEventListener('submit', ev => {

@@ -122,6 +122,10 @@ module.exports = (sequelize, DataTypes) => {
             fecha: {
                 type: DataTypes.DATEONLY,
                 allowNull: false
+            },
+            cierre: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false
             }
         }, {
             sequelize

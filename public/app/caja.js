@@ -28,6 +28,17 @@ function printDataCaja(data) {
   overlay_content.innerHTML += `
   <div class="row">
     <div class="coll-3"></div>
+    <div class="col-6"><b>Saldo Inicial:</b></div>
+    <div class="coll-3"></div>
+</div>    
+<div class="row">
+    <div class="coll-3"></div>
+    <div class="col-3">Servicios:</div>
+    <div class="col-3">${data.salIni}</div>
+    <div class="coll-3"></div>
+</div>    
+  <div class="row">
+    <div class="coll-3"></div>
     <div class="col-6"><b>Ingresos:</b></div>
     <div class="coll-3"></div>
 </div>    

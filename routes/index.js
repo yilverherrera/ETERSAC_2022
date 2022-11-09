@@ -30,6 +30,7 @@ const pagoprestfinancieroController = require('../controllers/pagoprestfinancier
 const financieraController = require('../controllers/financiera');
 const prestfinancieroController = require('../controllers/prestfinanciero');
 const retiroController = require('../controllers/retiro');
+const monitorController = require('../controllers/monitor');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -666,5 +667,10 @@ router.delete('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
   sessionController.loginRequired,
   cajaController.AuthorRequired,          
   retiroController.destroy);
+
+//Routes for the resource Monitors
+router.get('/monitors',
+  sessionController.loginRequired,
+  monitorController.index);
 
 module.exports = router;

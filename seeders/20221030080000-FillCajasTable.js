@@ -35,6 +35,7 @@ module.exports = {
             salIni: 0,   
             retEfe: 0,            
             fecha: now,
+            cierre: false,
             createdAt: new Date(), 
             updatedAt: new Date(),
             authorId: 1,

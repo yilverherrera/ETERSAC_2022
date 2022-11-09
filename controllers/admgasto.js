@@ -71,9 +71,9 @@ exports.new = async (req, res, next) => {
 
     const admgasto =
     {
-        monto: 0,
+        efectivo: 0,
         observaciones: "",
-        categadmId: 0,
+        categadmId: "",
         cajaId: caja.id  
     };
 

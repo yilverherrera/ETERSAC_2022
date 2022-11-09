@@ -14,118 +14,122 @@ module.exports = {
                 },
                 busInEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },
                 busInCpc: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },
                 busInBan: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },  
                 busInAnt: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },  
                 vtaInEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },                      
                 vtaInCpc: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },  
                 vtaInCon: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },   
                 vtaInBan: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },    
                 vtaInAnt: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 }, 
                 //EGRESOS 
                 
                 busEgEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },     
                 busEgBan: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },     
                 gasAdmEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },           
                 busCpp: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },           
                 gasPpSal: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },      
                 impIgv: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },           
                 vtaEgCon: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 }, 
                 gasPpCom: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },
                 //NETO
                 neto: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },  
                 //PAGOS
                 pagCppEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 }, 
                 pagSalEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },   
                 cpcPresEfec: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 }, 
                 antTerEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 }, 
                 antVtaEfec: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 }, 
                 devTerEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },  
                 pagPresEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },  
                 retEfe: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },
                 salIni: {
                     type: Sequelize.DOUBLE,
-                    default: 0
+                    defaultValue: 0
                 },          
                 fecha: {
                     type: Sequelize.DATEONLY,
+                    allowNull: false
+                },
+                cierre: {
+                    type: Sequelize.BOOLEAN,
                     allowNull: false
                 },
                 createdAt: {

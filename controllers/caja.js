@@ -72,7 +72,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
   } else {
     console.log(
       "Prohibited operation: The logged in user is not the author of the caja, nor an administrator."
-    );
+      );
     res.send(403+"No eres el Autor");
   }
 };
@@ -86,47 +86,48 @@ exports.AuthorRequired = (req, res, next) => {
   } else {
     console.log(
       "Prohibited operation: The logged in user is not the author of the caja, nor an administrator."
-    );
+      );
     res.send(403);
   }
 };
 
 // GET /cajas/:cajaId
 exports.show = async (req, res, next) => {
-    const {caja} = req.load;
-    
- const servbus = await getServbus(caja.id);
- const vent = await getVent(caja.id);
- const cobroservbus = await getCobroservbus(caja.id);
- const cobrovent = await getCobrovent(caja.id);
- const anticipo = await getAnticipo(caja.id);
- const busgasto = await getBusgasto(caja.id);
- const admgasto = await getAdmgasto(caja.id);
- const pagonomina = await getPagonomina(caja.id);
- const pagoprestfinanciero = await getPagoprestfinanciero(caja.id);
- const pagoproveedor = await getPagoproveedor(caja.id);
- const retiro = await getRetiro(caja.id);
- const pago = pagonomina + pagoprestfinanciero + pagoproveedor;
- const cobro = cobroservbus + cobrovent;
- const totalIng = servbus + vent + cobro + anticipo;
- const totalEgr = busgasto + admgasto + pago;
- let efectivo = totalIng - totalEgr;
- efectivo = efectivo - retiro;
+  const {caja} = req.load;
 
- const box = {
-  servbus: servbus,
-  vent: vent,
-  cobro: cobro,
-  anticipo: anticipo,
-  busgasto: busgasto,
-  admgasto: admgasto,
-  pago: pago,
-  totalIng: totalIng,
-  totalEgr: totalEgr,
-  retiro: retiro,
-  efectivo: efectivo.toFixed(2),
- }
- try {
+  const servbus = await getServbus(caja.id);
+  const vent = await getVent(caja.id);
+  const cobroservbus = await getCobroservbus(caja.id);
+  const cobrovent = await getCobrovent(caja.id);
+  const anticipo = await getAnticipo(caja.id);
+  const busgasto = await getBusgasto(caja.id);
+  const admgasto = await getAdmgasto(caja.id);
+  const pagonomina = await getPagonomina(caja.id);
+  const pagoprestfinanciero = await getPagoprestfinanciero(caja.id);
+  const pagoproveedor = await getPagoproveedor(caja.id);
+  const retiro = await getRetiro(caja.id);
+  const pago = pagonomina + pagoprestfinanciero + pagoproveedor;
+  const cobro = cobroservbus + cobrovent;
+  const totalIng = servbus + vent + cobro + anticipo + caja.salIni;
+  const totalEgr = busgasto + admgasto + pago;
+  let efectivo = totalIng - totalEgr;
+  efectivo = efectivo - retiro;
+
+  const box = {
+    servbus: servbus,
+    vent: vent,
+    cobro: cobro,
+    anticipo: anticipo,
+    busgasto: busgasto,
+    admgasto: admgasto,
+    pago: pago,
+    salIni: caja.salIni,
+    totalIng: totalIng,
+    totalEgr: totalEgr,
+    retiro: retiro,
+    efectivo: efectivo.toFixed(2),
+  }
+  try {
     res.json(box);
   } catch (error) {
     next(error);
@@ -167,7 +168,42 @@ exports.index = async (req, res, next) => {
   });
 
   try {
-    const cajas = await models.Caja.findAll(findOptions);
+    const cajas = await models.Caja.findAll(findOptions).map(async(caja) => {
+      const servbus = await getServbus(caja.id);
+      const vent = await getVent(caja.id);
+      const cobroservbus = await getCobroservbus(caja.id);
+      const cobrovent = await getCobrovent(caja.id);
+      const anticipo = await getAnticipo(caja.id);
+      const busgasto = await getBusgasto(caja.id);
+      const admgasto = await getAdmgasto(caja.id);
+      const pagonomina = await getPagonomina(caja.id);
+      const pagoprestfinanciero = await getPagoprestfinanciero(caja.id);
+      const pagoproveedor = await getPagoproveedor(caja.id);
+      const retiro = await getRetiro(caja.id);
+      const pago = pagonomina + pagoprestfinanciero + pagoproveedor;
+      const cobro = cobroservbus + cobrovent;
+      const totalIng = servbus + vent + cobro + anticipo + caja.salIni;
+      const totalEgr = busgasto + admgasto + pago;
+      let efectivo = totalIng - totalEgr;
+      efectivo = efectivo - retiro;
+
+      return{
+        id: caja.id,
+        fecha: caja.fecha,
+        authorId: caja.authorId,
+        despacho: caja.pertDesCaj.name,
+        author: caja.author.username,
+        salIni: caja.salIni,
+        totalIng: totalIng,
+        totalEgr: totalEgr,
+        retiro: retiro,
+        efectivo: efectivo.toFixed(2),
+        estatus: "",
+      }
+    });
+
+    console.log(cajas);
+
     res.render("cajas/index.ejs", {
       cajas,
       title,
@@ -216,21 +252,38 @@ exports.create = async (req, res, next) => {
   const despachoId = despacho;
   const rout = await models.Despacho.findByPk(despachoId);
   const routId = rout.routId;
+  const cierre = false;
 
-  let caja = models.Caja.build({ fecha, authorId, despachoId, routId });
+  let caja = models.Caja.build({ fecha, cierre, authorId, despachoId, routId });
 
   try {
     // Saves only the fields question and answer into the DDBB
     caja = await caja.save({
-      fields: ["fecha", "authorId", "despachoId", "routId"],
+      fields: ["fecha", "cierre", "authorId", "despachoId", "routId"],
     });
     req.flash("success", "Caja creada Exitosamente.");
     res.redirect("/users/" + authorId + "/cajas");
   } catch (error) {
     if (error instanceof Sequelize.ValidationError) {
+      let findOptions = {
+    where: {},
+    include: [],
+  };
+  findOptions.include.push({
+    model: models.Rout,
+    as: "pertRouDes",
+  });
+  if (req.loginUser) {
+    findOptions.include.push({
+      model: models.User,
+      as: "users",
+      where: { id: req.loginUser.id },
+    });
+  }
+  const despachos = await models.Despacho.findAll(findOptions);
       req.flash("error", "Hay errores en el formulario");
       error.errors.forEach(({ message }) => req.flash("error", message));
-      res.render("cajas/new", { caja });
+      res.render("cajas/new", { caja, despachos });
     } else {
       req.flash("error", "Error creando la nueva Caja: " + error.message);
       next(error);

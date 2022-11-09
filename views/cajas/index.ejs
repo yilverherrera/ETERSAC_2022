@@ -1,31 +1,80 @@
 <h1>
     <%= title || "Cajas" %>:
 </h1>
-
-
-    <% for (var i in cajas) { %>
-        <% var caja = cajas[i]; %>
-        
-           
-
-          
-                <% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
-                    <a href="/cajas/<%= caja.id %>/servbuses" class="resalt">Despacho: <%= caja.pertDesCaj.name %> Autor: <%= caja.author.username %> Fecha: <%= caja.fecha; %></a>
-                <% } %>   
-                               
-           
-                  <% if (locals.loginUser.isAdmin) { %>    
-                    <a href="/cajas/<%= caja.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
-                    <a href="/cajas/<%= caja.id %>?_method=DELETE"
-                       onClick="return confirm('Seguro? Se eliminarán todos los registros de la Caja <%= caja.id %>');"
-                       ><i class="fa-regular fa-trash-can"></i></a>
-                <% } %>
-                <br>
-    
-    <% } %>
-<br>
-<br>
-<br>
 <% if (locals.loginUser) { %>
     <a href="/cajas/new" class="crear">Crear Nueva Caja</a>
 <% } %>
+<div class="container">
+    <div class="row">
+        <div class="col-1">
+            Despacho:
+        </div>
+        <div class="col-1">
+            Autor:
+        </div>
+        <div class="col-1">
+            Fecha:
+        </div>
+        <div class="col-1">
+            Saldo Inicial:
+        </div>
+        <div class="col-2">
+            Ingresos:
+        </div>
+        <div class="col-2">
+            Egresos:
+        </div>
+        <div class="col-2">
+            Retiros:
+        </div>
+        <div class="col-1">
+            Efectivo en Caja(Saldo):
+        </div>
+        <div class="col-1">
+            Estatus:
+        </div>
+    </div>
+
+    <% for (var i in cajas) { %>
+        <% var caja = cajas[i]; %>
+                  
+<% if (locals.loginUser && (locals.loginUser.isAdmin || locals.loginUser.id === caja.authorId)) { %>
+    <div class="row">
+        <div class="col-1">
+            <a href="/cajas/<%= caja.id %>/servbuses" class="resalt"><%= caja.despacho %></a>
+        </div>
+        <div class="col-1">
+            <%= caja.author %>
+        </div>
+        <div class="col-1">
+            <%= caja.fecha %>
+        </div>
+        <div class="col-1">
+            <%= caja.salIni %>
+        </div>
+        <div class="col-2">
+            <%= caja.totalIng %>
+        </div>
+        <div class="col-2">
+            <%= caja.totalEgr %>
+        </div>
+        <div class="col-2">
+            <%= caja.retiro %>
+        </div>
+        <div class="col-1">
+            <%= caja.efectivo %>
+        </div>
+        <div class="col-1">
+            <%= caja.estatus %>
+            <% if (locals.loginUser.isAdmin) { %> 
+                <a href="/cajas/<%= caja.id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="/cajas/<%= caja.id %>?_method=DELETE" onClick="return confirm('Seguro? Se eliminarán todos los registros de la Caja <%= caja.id %>');"><i class="fa-regular fa-trash-can"></i></a>
+            <% } %>   
+        </div>
+    </div>
+<% } %>   
+<% } %>   
+</div>
+
+
+
