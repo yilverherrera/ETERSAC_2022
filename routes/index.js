@@ -670,7 +670,7 @@ router.delete('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
 
 //Routes for the resource Monitors
 router.get('/monitors',
-  sessionController.loginRequired,
+  sessionController.loginRequiredJson,
   monitorController.index);
 
 module.exports = router;

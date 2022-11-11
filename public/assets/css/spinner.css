@@ -26,13 +26,13 @@
 }
 
 .overlay,
+.overlay_max,
 .overlay_spinner {
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 2;
   background-color: rgba(0, 0, 0, 0.8);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -49,7 +49,19 @@
   transition: all 350ms ease;
 }
 
+
+.overlay_max {
+z-index: 2;
+}
+
+.overlay,
+.overlay_spinner {
+z-index: 3;
+}
+
+
 .overlay.opened,
+.overlay_max.opened,
 .overlay_spinner.opened {
   visibility: visible;
   opacity: 1;
@@ -58,6 +70,7 @@
 }
 
 .overlay .spinner,
+.overlay_max .spinner,
 .overlay_spinner .spinner {
   width: 2rem;
   height: 2rem;
@@ -75,6 +88,18 @@
 .overlay_spinner .overlay_content {
   width: 90%;
   max-width: 500px;
+  background-color: #eee;
+  padding: 1.5rem;
+  border-radius: 2px;
+  box-shadow: var(--box-shadow);
+}
+
+.overlay_max .overlay_content_max,
+.overlay_spinner .overlay_content_max {
+  width: 90%;
+  max-width: 900px;
+  max-height: 700px;
+  overflow: scroll;
   background-color: #eee;
   padding: 1.5rem;
   border-radius: 2px;

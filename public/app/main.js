@@ -213,6 +213,13 @@ const cancelarOverlayContr = (ev) => {
   }
 }
 
+const cancelarOverlaymaxContr = (ev) => {
+  let overlay = document.querySelector('.overlay_max');
+ overlay.classList.remove('opened');    
+ 
+}
+
+
 const refreshContr = (view) => {
   let overlay = document.querySelector('.overlay');
   if (document.getElementById("cajaId") && view !== '/login'){
@@ -246,6 +253,7 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.enviarBus')) createBusGastoContr (ev);
   else if (matchEvent(ev, '.pagarDoc')) pagarDocContr (ev);
   else if (matchEvent(ev, '.cancelarOverlay')) cancelarOverlayContr (ev);
+  else if (matchEvent(ev, '.cancelarOverlaymax')) cancelarOverlaymaxContr (ev);
   else if (matchEvent(ev, '.guardarPagoProveedor')) guardarPagoProveedorContr (ev);
   else if (matchEvent(ev, '.backPagos')) backPagosContr (ev);
   else if (matchEvent(ev, '.showPagos')) showPagosContr (ev);
@@ -262,6 +270,7 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.showPagosPrest')) showPagosPrestContr (ev);
   else if (matchEvent(ev, '.showCaja')) showCajaContr (ev);
   else if (matchEvent(ev, '.monitor')) monitorContr (ev);
+  else if (matchEvent(ev, '.showSaldoAnt')) showSaldoAntContr (ev);
 })
 
 document.addEventListener('submit', ev => {
