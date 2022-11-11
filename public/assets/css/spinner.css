@@ -97,7 +97,7 @@ z-index: 3;
 .overlay_max .overlay_content_max,
 .overlay_spinner .overlay_content_max {
   width: 90%;
-  max-width: 900px;
+  max-width: 950px;
   max-height: 700px;
   overflow: scroll;
   background-color: #eee;

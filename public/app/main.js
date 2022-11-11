@@ -215,7 +215,12 @@ const cancelarOverlayContr = (ev) => {
 
 const cancelarOverlaymaxContr = (ev) => {
   let overlay = document.querySelector('.overlay_max');
+ if (ev.target && ev.target.className.includes('refresh')) {
+    refreshContrMax(ev.target.getAttribute("data-refresh"));
+  }
+  else{
  overlay.classList.remove('opened');    
+  }
  
 }
 
@@ -233,6 +238,18 @@ const refreshContr = (view) => {
 
 }
 
+const refreshContrMax = (view) => {
+  let overlay = document.querySelector('.overlay_max');
+  if (document.getElementById("cajaId") && view !== '/login'){
+  const cajaId = document.getElementById("cajaId").value;
+  window.location.href = `http://localhost:3000/cajas/${cajaId}/${view}`;
+}else{
+  window.location.href = `http://localhost:3000${view}`;
+}
+ 
+ overlay.classList.remove('opened'); 
+
+}
 
 
 

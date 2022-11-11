@@ -4,6 +4,7 @@ const { models } = require("../models");
 const getD2UnidadDia = require("../data/getD2UnidadDia");
 const getAntUnidadDia = require("../data/getAntUnidadDia");
 const getUltTanqueo = require("../data/getUltTanqueo");
+const getUltTanqueoVltas = require("../data/getUltTanqueoVltas");
 const moment = require("moment");
 
 const paginate = require("../helpers/paginate").paginate;
@@ -58,10 +59,12 @@ exports.index = async (req, res, next) => {
       const padron = unid.codigo+' '+unid.placa;
       const d2 = await getD2UnidadDia(unid.id, fecha);
       const anticipo = await getAntUnidadDia(unid.id, fecha);
-      const ultTanqueo = await getUltTanqueo(unid.id, fecha);
-      const fechasAnticipos = ultTanqueo !== 0 ? ultTanqueo.fecha : "" ;
-      const saldosAnticipos = ultTanqueo !== 0 ? ultTanqueo.saldo : 0 ;
-      
+      const ultTanqueoAnt = await getUltTanqueo(unid.id, fecha);
+      const fechasAnticipos = ultTanqueoAnt !== 0 ? ultTanqueoAnt.fecha : "" ;
+      const saldosAnticipos = ultTanqueoAnt !== 0 ? ultTanqueoAnt.saldo : 0 ;
+      const ultTanqueoVltas = await getUltTanqueoVltas(unid.id, fecha);
+      const fechasVltas = ultTanqueoVltas !== 0 ? ultTanqueoVltas.fecha : "" ;
+      const VltasAcum = ultTanqueoVltas !== 0 ? ultTanqueoVltas.vueltas : 0 ;
       return{
         id: unid.id,
         padron: padron,
@@ -69,9 +72,18 @@ exports.index = async (req, res, next) => {
         anticipo: anticipo,
         fechasAnticipos: fechasAnticipos,
         saldosAnticipos: saldosAnticipos,
+        fechasVltas: fechasVltas,
+        VltasAcum: VltasAcum,
+
       }
        
-    })
+    });
+
+    const servbus = await models.Servbus.findAll({
+      include:[{
+        
+      }]
+    });
     
     const jsonS = {
       servicios: servicios,

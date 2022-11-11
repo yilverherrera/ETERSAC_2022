@@ -25,7 +25,7 @@ function getDataMonitor(fecha) {
 function printDataMonitor(data) {
   let overlay_content = document.querySelector('.overlay_content_max');
   
-
+  if (data.message === undefined){
   data.groups.forEach((grupo) => {
     let efectivoGrupo = 0;
     let vltasGrupo = 0;
@@ -77,7 +77,7 @@ function printDataMonitor(data) {
     Ant. Acum:
     </div>
     <div class="col-mm">
-    Vltas Acum:
+    Vltas S.Tanq:
     </div>
     </div>`;
     grupo.unidads.forEach((unidad) => {
@@ -122,8 +122,8 @@ function printDataMonitor(data) {
          <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasAnticipos}">
         ${unidadPlaca.saldosAnticipos}
         </div>
-        <div class="col-mm">
-        ${unidadPlaca.saldosAnticipos}
+        <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasVltas}">
+        ${unidadPlaca.VltasAcum}
         </div>
         </div>`;
         overlay_content.innerHTML += row;
@@ -152,10 +152,18 @@ function printDataMonitor(data) {
     </div>
     </div>`;
 });
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
+} else {
 
+  overlay_content.innerHTML = `<h2>${data.message}</h2>`;
+
+  overlay_content.innerHTML += `
+  <button class="button_secundario cancelarOverlay refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+  
+}
 
   
-  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
+  
 }
 
 
