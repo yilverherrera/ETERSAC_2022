@@ -564,6 +564,7 @@ exports.create = async (req, res, next) => {
     return{
     monto: monto,
     fecha: srb,
+    fechaCaja: caja.fecha,
     efectivo: efectivo,
     banco: banco,
     cpc: cpc,

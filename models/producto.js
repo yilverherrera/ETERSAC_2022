@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
             igv: {
                 type: DataTypes.DOUBLE,
                 defaultValue: 0
+            },
+            vuelta:{
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
             }
         }, {
             sequelize

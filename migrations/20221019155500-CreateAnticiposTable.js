@@ -20,6 +20,10 @@ module.exports = {
                     type: Sequelize.DATEONLY,
                     validate: { notEmpty: { msg: "Fecha no debe estar vacío." } }
                 },
+                fechaCaja: {
+                    type: Sequelize.DATEONLY,
+                    validate: { notEmpty: { msg: "Fecha no debe estar vacío." } }
+                },
                saldo: {
                     type: Sequelize.DOUBLE,
                     validate: { notEmpty: { msg: "Saldo no debe estar vacío." } }

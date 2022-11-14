@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             fecha: {
                 type: DataTypes.DATEONLY,
-                defaultValue: 0
+                validate: {notEmpty: {msg:"Fecha no puede estar Vacía"}}
+            },
+            fechaCaja:{
+                type: DataTypes.DATEONLY,
+                validate: {notEmpty: {msg:"Fecha no puede estar Vacía"}}
             },
             efectivo: {
                 type: DataTypes.DOUBLE,

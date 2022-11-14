@@ -114,9 +114,10 @@ exports.create = async (req, res, next) => {
     const fecha = caja.fecha;
     const monto = efectivo;
     const cajaId = caja.id;
+    const fechaCaja = caja.fecha;
     const saldo = efectivo;
     
-    let anticipo = models.Anticipo.build({ monto, fecha, saldo, unidadId, cajaId });
+    let anticipo = models.Anticipo.build({ monto, fecha, fechaCaja, saldo, unidadId, cajaId });
 
     try {
         // Saves only the fields name into the DDBB

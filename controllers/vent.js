@@ -521,6 +521,7 @@ exports.create = async (req, res, next) => {
   const productos = await models.Producto.findAll();
   const { caja } = req.load;
   const cajaId = caja.id;
+  const fechaCaja = caja.fecha;
 
   let vtaId = 0;
   let {
@@ -586,6 +587,7 @@ exports.create = async (req, res, next) => {
   let vent = models.Vent.build({
     precioVta,
     fecha,
+    fechaCaja,
     cant,
     monto,
     efectivo,
@@ -607,6 +609,7 @@ exports.create = async (req, res, next) => {
       fields: [
       "precioVta",
       "fecha",
+      "fechaCaja",
       "cant",
       "monto",
       "efectivo",

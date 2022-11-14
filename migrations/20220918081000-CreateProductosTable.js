@@ -33,6 +33,10 @@ module.exports = {
                     type: Sequelize.DOUBLE,
                     defaultValue: 0
                 },
+                vuelta:{
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                },
                 createdAt: {
                     type: Sequelize.DATE,
                     allowNull: false

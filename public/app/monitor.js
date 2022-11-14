@@ -151,14 +151,240 @@ function printDataMonitor(data) {
     <b></b>
     </div>
     </div>`;
+    overlay_content.innerHTML += `<br>`
 });
+  overlay_content.innerHTML += `<br>`
+
+  //-----------------Servicios No Vueltas
+  data.serviciosNoVltas.forEach((servNoVlt) => {
+    overlay_content.innerHTML += `<div class="row">
+     <div class="col-12">
+    <b>${servNoVlt.nombre}</b>
+    </div>
+    </div>`; 
+     overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    let montoSer = 0;
+    data.cajas.forEach((caja) => {
+        let detalle = '';
+        let monto = 0;
+   
+        const servbCaja = data.servbus.filter((serv) => serv.cajaId === caja.id && serv.serviceId === servNoVlt.id);
+        if (JSON.stringify(servbCaja) !== '[]'){
+            servbCaja.forEach((sevCa) => {
+                monto += sevCa.efectivo;
+                detalle += `${sevCa.pertUniSer.placa}(${sevCa.efectivo})(${sevCa.fecha}), `;
+            });
+            overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    ${caja.author.username}
+    </div>
+    <div class="col-8">
+    ${detalle}
+    </div>
+    <div class="col-2">
+    ${monto}
+    </div>
+    </div>`; 
+    montoSer += monto;
+        }
+    });
+     overlay_content.innerHTML += `<div class="row">
+     
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${montoSer}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+  });
+  //-----------------------------------------------------------------
+
+  //-----------------Ventas No Vueltas
+  data.productosNoVltas.forEach((prodNoVlt) => {
+    overlay_content.innerHTML += `<div class="row">
+     <div class="col-12">
+    <b>${prodNoVlt.nombre}</b>
+    </div>
+    </div>`; 
+     overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    let montoVen = 0;
+    data.cajas.forEach((caja) => {
+        let detalle = '';
+        let monto = 0;
+   
+        const ventCaja = data.vents.filter((vta) => vta.cajaId === caja.id && vta.productoId === prodNoVlt.id);
+        if (JSON.stringify(ventCaja) !== '[]'){
+            ventCaja.forEach((vtaCa) => {
+                monto += vtaCa.efectivo;
+                detalle += `${vtaCa.pertUniVen.placa}(${vtaCa.efectivo})(${vtaCa.fecha}), `;
+            });
+            overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    ${caja.author.username}
+    </div>
+    <div class="col-8">
+    ${detalle}
+    </div>
+    <div class="col-2">
+    ${monto}
+    </div>
+    </div>`; 
+    montoVen += monto;
+        }
+    });
+     overlay_content.innerHTML += `<div class="row">
+     
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${montoVen}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+  });
+  //-----------------------------------------------------------------
+
+  //-----------------Cobros ServBus No Vueltas
+  
+    overlay_content.innerHTML += `<div class="row">
+     <div class="col-12">
+    <b>Cobros de CPC de Servicios</b>
+    </div>
+    </div>`; 
+     overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    let montoCobro = 0;
+    data.cajas.forEach((caja) => {
+        let detalle = '';
+        let monto = 0;
+   
+        const cobroCaja = data.cobrosServbus.filter((cobro) => cobro.cajaId === caja.id);
+        if (JSON.stringify(cobroCaja) !== '[]'){
+            cobroCaja.forEach((cobCa) => {
+                monto += cobCa.monto;
+                detalle += `CPC:${cobCa.pertServCob.pertSerSer.nombre} ${cobCa.pertServCob.pertUniSer.placa} ${cobCa.pertServCob.pertOpeSer.nombre} ${cobCa.pertServCob.pertOpeSer.apellido} ${cobCa.pertServCob.fecha} Abono:(${cobCa.monto}),  `;
+            });
+            overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    ${caja.author.username}
+    </div>
+    <div class="col-8">
+    ${detalle}
+    </div>
+    <div class="col-2">
+    ${monto}
+    </div>
+    </div>`; 
+    montoCobro += monto;
+        }
+    });
+     overlay_content.innerHTML += `<div class="row">
+     
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${montoCobro}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+  
+  //-----------------------------------------------------------------
+
+  //-----------------Cobros Vents No Vueltas
+  
+    overlay_content.innerHTML += `<div class="row">
+     <div class="col-12">
+    <b>Cobros de CPC de Ventas</b>
+    </div>
+    </div>`; 
+     overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    montoCobro = 0;
+    data.cajas.forEach((caja) => {
+        let detalle = '';
+        let monto = 0;
+   
+        const cobroCaja = data.cobrosVents.filter((cobro) => cobro.cajaId === caja.id);
+        if (JSON.stringify(cobroCaja) !== '[]'){
+            cobroCaja.forEach((cobCa) => {
+                monto += cobCa.monto;
+                detalle += `CPC:${cobCa.pertVenCob.pertProVen.nombre} ${cobCa.pertVenCob.pertUniVen.placa} ${cobCa.pertVenCob.pertOpeVen.nombre} ${cobCa.pertVenCob.pertOpeVen.apellido} ${cobCa.pertVenCob.fecha} Abono:(${cobCa.monto}),  `;
+            });
+            overlay_content.innerHTML += `<div class="row">
+     <div class="col-2">
+    ${caja.author.username}
+    </div>
+    <div class="col-8">
+    ${detalle}
+    </div>
+    <div class="col-2">
+    ${monto}
+    </div>
+    </div>`; 
+    montoCobro += monto;
+        }
+    });
+     overlay_content.innerHTML += `<div class="row">
+     
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${montoCobro}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+  
+  //-----------------------------------------------------------------
   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
 } else {
 
   overlay_content.innerHTML = `<h2>${data.message}</h2>`;
 
   overlay_content.innerHTML += `
-  <button class="button_secundario cancelarOverlay refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+  <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
   
 }
 

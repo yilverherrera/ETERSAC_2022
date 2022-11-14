@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             validate: {notEmpty: {msg: "Monto no puede estar vacío"}}
             },
             fecha: {
-                type: DataTypes.DATE,
+                type: DataTypes.DATEONLY,
                 validate: {notEmpty: {msg: "Fecha no puede estar vacío"}}
             }
         }, {

@@ -18,7 +18,11 @@ module.exports = {
                 },
                 fecha: {
                     type: Sequelize.DATEONLY,
-                    defaultValue: 0
+                    validate: {notEmpty: {msg:"Fecha no puede estarVacía"}}
+                },
+                fechaCaja: {
+                    type: Sequelize.DATEONLY,
+                    validate: {notEmpty: {msg:"Fecha no puede estarVacía"}}
                 },
                 efectivo: {
                     type: Sequelize.DOUBLE,

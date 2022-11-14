@@ -17,7 +17,7 @@ module.exports = {
                     validate: { notEmpty: { msg: "Monto no debe estar vacío." } }
                 },
                 fecha: {
-                    type: Sequelize.DATE,
+                    type: Sequelize.DATEONLY,
                     validate: { notEmpty: { msg: "Fecha no debe estar vacío." } }
                 },
                 createdAt: {
