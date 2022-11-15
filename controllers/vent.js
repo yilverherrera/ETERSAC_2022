@@ -413,7 +413,7 @@ let cobrar = {};
       apellido: operar.apellido,
       ventId: ventId,
       fecha: fechapc,
-      cpc: ctapc,
+      cpc: ctapc.toFixed(2),
     };
   });
 

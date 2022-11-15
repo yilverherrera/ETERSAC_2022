@@ -37,11 +37,21 @@ module.exports = getUltTanqueo = async (unidadId, fecha) => {
          }
       },
       group:['Anticipo.id'], 
-      attributes: [[Sequelize.fn('', Sequelize.col('Anticipo.id')), 'id'],[Sequelize.fn('', Sequelize.col('Anticipo.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Anticipo.fecha')), 'fecha'],[Sequelize.fn('sum', Sequelize.col('aplianticipos.monto')), 'aplicado']],
+      attributes: [[Sequelize.fn('', Sequelize.col('Anticipo.id')), 'id'],[Sequelize.fn('', Sequelize.col('Anticipo.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Anticipo.fecha')), 'fecha'],[Sequelize.fn('sum', Sequelize.col('aplianticipos.monto')), 'aplicado'],[Sequelize.fn('', Sequelize.col('pertCajAnt.pertDesCaj.name')), 'despacho']],
       include: [{
          model: models.Aplianticipo,
          as: "aplianticipos",
          attributes:[]
+      },
+      {
+         model: models.Caja,
+         as: "pertCajAnt",
+         attributes:[],
+         include:[{
+            model: models.Despacho,
+            as: "pertDesCaj",
+            attributes: [],
+         }]
       }],
       raw:true,
       order: Sequelize.literal('id DESC')
@@ -54,7 +64,7 @@ module.exports = getUltTanqueo = async (unidadId, fecha) => {
       anticipos.forEach((antic) => {
     const saldo = antic.monto - antic.aplicado;
    saldoTotal += saldo; 
-   fechasAnticipo += `Fecha:${antic.fecha} Anticipo:${saldo}T`;
+   fechasAnticipo += `Fecha:${antic.fecha} Anticipo:${saldo} Despacho:${antic.despacho}T`;
    });
       return anticipoAcum = {
          saldo: saldoTotal,

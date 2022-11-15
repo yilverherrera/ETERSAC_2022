@@ -114,16 +114,16 @@ exports.show = async (req, res, next) => {
   efectivo = efectivo - retiro;
 
   const box = {
-    servbus: servbus,
-    vent: vent,
-    cobro: cobro,
+    servbus: servbus.toFixed(2),
+    vent: vent.toFixed(2),
+    cobro: cobro.toFixed(2),
     anticipo: anticipo,
-    busgasto: busgasto,
-    admgasto: admgasto,
-    pago: pago,
+    busgasto: busgasto.toFixed(2),
+    admgasto: admgasto.toFixed(2),
+    pago: pago.toFixed(2),
     salIni: caja.salIni,
-    totalIng: totalIng,
-    totalEgr: totalEgr,
+    totalIng: totalIng.toFixed(2),
+    totalEgr: totalEgr.toFixed(2),
     retiro: retiro,
     efectivo: efectivo.toFixed(2),
   }

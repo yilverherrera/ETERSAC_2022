@@ -81,7 +81,7 @@ const guardarPagoProveedorContr = (ev) => {
   let fueradCaja = document.getElementById('abonoFueradCaja').value;
 const observaciones = document.getElementById('abonoObservaciones').value;
 const moneda = document.getElementById('moneda').value;
-const tasa = document.getElementById('tasa').value;
+let tasa = document.getElementById('tasa').value;
 if (isNaN(efectivo) || isNaN(banco) || isNaN(fueradCaja) || isNaN(tasa)) {
   return false;
 }

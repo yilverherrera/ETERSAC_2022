@@ -52,11 +52,26 @@ module.exports = getUltTanqueoVltas = async (unidadId, fecha) => {
          }
       },
       group:['Vuelt.id'], 
-      attributes: [[Sequelize.fn('', Sequelize.col('Vuelt.id')), 'id'],[Sequelize.fn('', Sequelize.col('Vuelt.fecha')), 'fecha'],[Sequelize.fn('', Sequelize.col('pertCatvVue.valor')), 'valor']],
+      attributes: [[Sequelize.fn('', Sequelize.col('Vuelt.id')), 'id'],[Sequelize.fn('', Sequelize.col('Vuelt.fecha')), 'fecha'],[Sequelize.fn('', Sequelize.col('pertCatvVue.valor')), 'valor'],[Sequelize.fn('', Sequelize.col('pertSerVue.pertCajSer.pertDesCaj.name')), 'despacho']],
       include: [{
          model: models.Catvuelt,
          as: "pertCatvVue",
          attributes:[]
+      },
+      {
+         model: models.Servbus,
+         as: "pertSerVue",
+         attributes:[],
+         include:[{
+            model: models.Caja,
+            as: "pertCajSer",
+            attributes:[],
+            include: [{
+            model: models.Despacho,
+            as: "pertDesCaj",
+            attributes:[]
+            }]
+         }]
       }],
       raw:true,
       order: Sequelize.literal('id DESC')
@@ -66,17 +81,18 @@ module.exports = getUltTanqueoVltas = async (unidadId, fecha) => {
       if (JSON.stringify(vueltas) !== '[]'){
          let vltasTotal = 0;
          let fechasVltas = '';
+         let vltasT = 0;
          vueltas.forEach((vlta) => {
             if (fechaTanq === vlta.fecha && vltasTanq > 0){
-               vltasTanq = vltasTanq - vlta.valor;
-               if (vltasTanq < 0){
-               const vltaRest = vltasTanq * (-1);
-               vltasTotal += vltaRest; 
-               fechasVltas += `Fecha:${vlta.fecha} Vueltas:${vltaRest}T`;   
+               vltasT = (vltasT + vltasTanq) - vlta.valor;
+               if (vltasT < 0){
+               vltasT = vltasT * (-1);
+               vltasTotal += vltasT; 
+               fechasVltas += `Fecha:${vlta.fecha} Vueltas:${vltasT} Despacho:${vlta.despacho}T`;   
                }
             }  else {    
                vltasTotal += vlta.valor; 
-               fechasVltas += `Fecha:${vlta.fecha} Vueltas:${vlta.valor}T`;
+               fechasVltas += `Fecha:${vlta.fecha} Vueltas:${vlta.valor} Despacho:${vlta.despacho}T`;
             }
          });
 

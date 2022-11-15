@@ -26,61 +26,61 @@ function printDataMonitor(data) {
   let overlay_content = document.querySelector('.overlay_content_max');
   
   if (data.message === undefined){
-  data.groups.forEach((grupo) => {
-    let efectivoGrupo = 0;
-    let vltasGrupo = 0;
-    let d2Grupo = 0;
-    let anticipoGrupo = 0;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="col-11">
-    <b>${grupo.nombre}</b>
-    </div>
-    <div class="col-1">
-<span class="buttonDelete cursorpointer cancelarOverlaymax">Cerrar</span>
-</div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="col-1">
-    PD:
-    </div>
-    <div class="col-1">
-    0.5 Vlta:
-    </div>
-    <div class="col-1">
-    1 Vlta:
-    </div>
-    <div class="col-1">
-    1.5 Vltas:
-    </div>
-    <div class="col-1">
-    2 Vltas:
-    </div>
-    <div class="col-1">
-    2.5 Vltas:
-    </div>
-    <div class="col-1">
-    3 Vltas:
-    </div>
-    <div class="col-1">
-    Total Liq:
-    </div>
-    <div class="col-1">
-    Total Vltas:
-    </div>
-    <div class="col-1">
-    D2:
-    </div>
-    <div class="col-mm">
-    Ant:
-    </div>
-    <div class="col-mm">
-    Ant. Acum:
-    </div>
-    <div class="col-mm">
-    Vltas S.Tanq:
-    </div>
-    </div>`;
-    grupo.unidads.forEach((unidad) => {
+    data.groups.forEach((grupo) => {
+      let efectivoGrupo = 0;
+      let vltasGrupo = 0;
+      let d2Grupo = 0;
+      let anticipoGrupo = 0;
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-11">
+      <b>${grupo.nombre}</b>
+      </div>
+      <div class="col-1">
+      <span class="buttonDelete cursorpointer cancelarOverlaymax">Cerrar</span>
+      </div>
+      </div>`;
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-1">
+      PD:
+      </div>
+      <div class="col-1">
+      0.5 Vlta:
+      </div>
+      <div class="col-1">
+      1 Vlta:
+      </div>
+      <div class="col-1">
+      1.5 Vltas:
+      </div>
+      <div class="col-1">
+      2 Vltas:
+      </div>
+      <div class="col-1">
+      2.5 Vltas:
+      </div>
+      <div class="col-1">
+      3 Vltas:
+      </div>
+      <div class="col-1">
+      Total Liq:
+      </div>
+      <div class="col-1">
+      Total Vltas:
+      </div>
+      <div class="col-1">
+      D2:
+      </div>
+      <div class="col-mm">
+      Ant:
+      </div>
+      <div class="col-mm">
+      Ant. Acum:
+      </div>
+      <div class="col-mm">
+      Vltas S.Tanq:
+      </div>
+      </div>`;
+      grupo.unidads.forEach((unidad) => {
         const unidadPlaca = data.unidadsPlaca.find(unid => unid.id === unidad);
         let row = '';
         row += `<div class="row">
@@ -90,19 +90,19 @@ function printDataMonitor(data) {
         let liq = 0;
         let vltas = 0;
         data.catVlta.forEach((item) => {
-            const vlta = data.servicios.filter((dat) => dat.unidadId === unidad).find( dato => dato.vuelta === item.valor );
-            if (vlta){
-                vltas += item.valor;
-                liq += vlta.efectivo;
-                row += `<div class="col-1">
-                ${vlta.efectivo}
-                </div>`;
-            } else {
-              row += `<div class="col-1">
-              
-              </div>`;
+          const vlta = data.servicios.filter((dat) => dat.unidadId === unidad).find( dato => dato.vuelta === item.valor );
+          if (vlta){
+            vltas += item.valor;
+            liq += vlta.efectivo;
+            row += `<div class="col-1 cursorpointer showDetalle" style=" background-color:${vlta.color};" data-autor="${vlta.autor}" data-banco="${vlta.banco}" data-cpc="${vlta.cpc}" data-falla="${vlta.falla}" data-siniestro="${vlta.siniestro}" data-autoridad="${vlta.autoridad}" data-operador="${vlta.nombre} ${vlta.apellido}">
+            ${vlta.efectivo}
+            </div>`;
+          } else {
+            row += `<div class="col-1">
+
+            </div>`;
           }
-      })
+        })
         efectivoGrupo += liq;
         vltasGrupo += vltas;
         d2Grupo += unidadPlaca.d2;
@@ -119,7 +119,7 @@ function printDataMonitor(data) {
         <div class="col-mm">
         ${unidadPlaca.anticipo}
         </div>
-         <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasAnticipos}">
+        <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasAnticipos}">
         ${unidadPlaca.saldosAnticipos}
         </div>
         <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasVltas}">
@@ -127,155 +127,155 @@ function printDataMonitor(data) {
         </div>
         </div>`;
         overlay_content.innerHTML += row;
-    }) 
-    overlay_content.innerHTML += `<div class="row">
-    <div class="col-7">
+      }) 
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-7">
 
-    </div>
-    <div class="col-1">
-    <b>${efectivoGrupo}</b>
-    </div>
-<div class="col-1">
-    <b>${vltasGrupo}</b>
-    </div>
-    <div class="col-1">
-    <b>${d2Grupo}</b>
-    </div>
-<div class="col-mm">
-    <b>${anticipoGrupo}</b>
-    </div>
-    <div class="col-mm">
-    <b></b>
-    </div>
-    <div class="col-mm">
-    <b></b>
-    </div>
-    </div>`;
+      </div>
+      <div class="col-1">
+      <b>${efectivoGrupo}</b>
+      </div>
+      <div class="col-1">
+      <b>${vltasGrupo}</b>
+      </div>
+      <div class="col-1">
+      <b>${d2Grupo}</b>
+      </div>
+      <div class="col-mm">
+      <b>${anticipoGrupo}</b>
+      </div>
+      <div class="col-mm">
+      <b></b>
+      </div>
+      <div class="col-mm">
+      <b></b>
+      </div>
+      </div>`;
+      overlay_content.innerHTML += `<br>`
+    });
     overlay_content.innerHTML += `<br>`
-});
-  overlay_content.innerHTML += `<br>`
 
   //-----------------Servicios No Vueltas
-  data.serviciosNoVltas.forEach((servNoVlt) => {
-    overlay_content.innerHTML += `<div class="row">
-     <div class="col-12">
-    <b>${servNoVlt.nombre}</b>
-    </div>
-    </div>`; 
-     overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
-    Autor
-    </div>
-    <div class="col-8">
-    Detalle
-    </div>
-    <div class="col-2">
-    Monto
-    </div>
-    </div>`;
-    let montoSer = 0;
-    data.cajas.forEach((caja) => {
+    data.serviciosNoVltas.forEach((servNoVlt) => {
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-12">
+      <b>${servNoVlt.nombre}</b>
+      </div>
+      </div>`; 
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-2">
+      Autor
+      </div>
+      <div class="col-8">
+      Detalle
+      </div>
+      <div class="col-2">
+      Monto
+      </div>
+      </div>`;
+      let montoSer = 0;
+      data.cajas.forEach((caja) => {
         let detalle = '';
         let monto = 0;
-   
+
         const servbCaja = data.servbus.filter((serv) => serv.cajaId === caja.id && serv.serviceId === servNoVlt.id);
         if (JSON.stringify(servbCaja) !== '[]'){
-            servbCaja.forEach((sevCa) => {
-                monto += sevCa.efectivo;
-                detalle += `${sevCa.pertUniSer.placa}(${sevCa.efectivo})(${sevCa.fecha}), `;
-            });
-            overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
-    ${caja.author.username}
-    </div>
-    <div class="col-8">
-    ${detalle}
-    </div>
-    <div class="col-2">
-    ${monto}
-    </div>
-    </div>`; 
-    montoSer += monto;
+          servbCaja.forEach((sevCa) => {
+            monto += sevCa.efectivo;
+            detalle += `${sevCa.pertUniSer.placa}(${sevCa.efectivo})(${sevCa.fecha}), `;
+          });
+          overlay_content.innerHTML += `<div class="row">
+          <div class="col-2">
+          ${caja.author.username}
+          </div>
+          <div class="col-8">
+          ${detalle}
+          </div>
+          <div class="col-2">
+          ${monto}
+          </div>
+          </div>`; 
+          montoSer += monto;
         }
+      });
+      overlay_content.innerHTML += `<div class="row">
+
+      <div class="col-10">
+
+      </div>
+      <div class="col-2">
+      ${montoSer}
+      </div>
+      </div>`; 
+      overlay_content.innerHTML += `<br>`
     });
-     overlay_content.innerHTML += `<div class="row">
-     
-    <div class="col-10">
-    
-    </div>
-    <div class="col-2">
-    ${montoSer}
-    </div>
-    </div>`; 
-    overlay_content.innerHTML += `<br>`
-  });
   //-----------------------------------------------------------------
 
   //-----------------Ventas No Vueltas
-  data.productosNoVltas.forEach((prodNoVlt) => {
-    overlay_content.innerHTML += `<div class="row">
-     <div class="col-12">
-    <b>${prodNoVlt.nombre}</b>
-    </div>
-    </div>`; 
-     overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
-    Autor
-    </div>
-    <div class="col-8">
-    Detalle
-    </div>
-    <div class="col-2">
-    Monto
-    </div>
-    </div>`;
-    let montoVen = 0;
-    data.cajas.forEach((caja) => {
+    data.productosNoVltas.forEach((prodNoVlt) => {
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-12">
+      <b>${prodNoVlt.nombre}</b>
+      </div>
+      </div>`; 
+      overlay_content.innerHTML += `<div class="row">
+      <div class="col-2">
+      Autor
+      </div>
+      <div class="col-8">
+      Detalle
+      </div>
+      <div class="col-2">
+      Monto
+      </div>
+      </div>`;
+      let montoVen = 0;
+      data.cajas.forEach((caja) => {
         let detalle = '';
         let monto = 0;
-   
+
         const ventCaja = data.vents.filter((vta) => vta.cajaId === caja.id && vta.productoId === prodNoVlt.id);
         if (JSON.stringify(ventCaja) !== '[]'){
-            ventCaja.forEach((vtaCa) => {
-                monto += vtaCa.efectivo;
-                detalle += `${vtaCa.pertUniVen.placa}(${vtaCa.efectivo})(${vtaCa.fecha}), `;
-            });
-            overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
-    ${caja.author.username}
-    </div>
-    <div class="col-8">
-    ${detalle}
-    </div>
-    <div class="col-2">
-    ${monto}
-    </div>
-    </div>`; 
-    montoVen += monto;
+          ventCaja.forEach((vtaCa) => {
+            monto += vtaCa.efectivo;
+            detalle += `${vtaCa.pertUniVen.placa}(${vtaCa.efectivo})(${vtaCa.fecha}), `;
+          });
+          overlay_content.innerHTML += `<div class="row">
+          <div class="col-2">
+          ${caja.author.username}
+          </div>
+          <div class="col-8">
+          ${detalle}
+          </div>
+          <div class="col-2">
+          ${monto}
+          </div>
+          </div>`; 
+          montoVen += monto;
         }
+      });
+      overlay_content.innerHTML += `<div class="row">
+
+      <div class="col-10">
+
+      </div>
+      <div class="col-2">
+      ${montoVen}
+      </div>
+      </div>`; 
+      overlay_content.innerHTML += `<br>`
     });
-     overlay_content.innerHTML += `<div class="row">
-     
-    <div class="col-10">
-    
-    </div>
-    <div class="col-2">
-    ${montoVen}
-    </div>
-    </div>`; 
-    overlay_content.innerHTML += `<br>`
-  });
   //-----------------------------------------------------------------
 
   //-----------------Cobros ServBus No Vueltas
-  
+
     overlay_content.innerHTML += `<div class="row">
-     <div class="col-12">
+    <div class="col-12">
     <b>Cobros de CPC de Servicios</b>
     </div>
     </div>`; 
-     overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
     Autor
     </div>
     <div class="col-8">
@@ -287,31 +287,31 @@ function printDataMonitor(data) {
     </div>`;
     let montoCobro = 0;
     data.cajas.forEach((caja) => {
-        let detalle = '';
-        let monto = 0;
-   
-        const cobroCaja = data.cobrosServbus.filter((cobro) => cobro.cajaId === caja.id);
-        if (JSON.stringify(cobroCaja) !== '[]'){
-            cobroCaja.forEach((cobCa) => {
-                monto += cobCa.monto;
-                detalle += `CPC:${cobCa.pertServCob.pertSerSer.nombre} ${cobCa.pertServCob.pertUniSer.placa} ${cobCa.pertServCob.pertOpeSer.nombre} ${cobCa.pertServCob.pertOpeSer.apellido} ${cobCa.pertServCob.fecha} Abono:(${cobCa.monto}),  `;
-            });
-            overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
-    ${caja.author.username}
-    </div>
-    <div class="col-8">
-    ${detalle}
-    </div>
-    <div class="col-2">
-    ${monto}
-    </div>
-    </div>`; 
-    montoCobro += monto;
-        }
+      let detalle = '';
+      let monto = 0;
+
+      const cobroCaja = data.cobrosServbus.filter((cobro) => cobro.cajaId === caja.id);
+      if (JSON.stringify(cobroCaja) !== '[]'){
+        cobroCaja.forEach((cobCa) => {
+          monto += cobCa.monto;
+          detalle += `CPC:${cobCa.pertServCob.pertSerSer.nombre} ${cobCa.pertServCob.pertUniSer.placa} ${cobCa.pertServCob.pertOpeSer.nombre} ${cobCa.pertServCob.pertOpeSer.apellido} ${cobCa.pertServCob.fecha} Abono:(${cobCa.monto}),  `;
+        });
+        overlay_content.innerHTML += `<div class="row">
+        <div class="col-2">
+        ${caja.author.username}
+        </div>
+        <div class="col-8">
+        ${detalle}
+        </div>
+        <div class="col-2">
+        ${monto}
+        </div>
+        </div>`; 
+        montoCobro += monto;
+      }
     });
-     overlay_content.innerHTML += `<div class="row">
-     
+    overlay_content.innerHTML += `<div class="row">
+
     <div class="col-10">
     
     </div>
@@ -320,18 +320,18 @@ function printDataMonitor(data) {
     </div>
     </div>`; 
     overlay_content.innerHTML += `<br>`
-  
+
   //-----------------------------------------------------------------
 
   //-----------------Cobros Vents No Vueltas
-  
+
     overlay_content.innerHTML += `<div class="row">
-     <div class="col-12">
+    <div class="col-12">
     <b>Cobros de CPC de Ventas</b>
     </div>
     </div>`; 
-     overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
     Autor
     </div>
     <div class="col-8">
@@ -343,31 +343,31 @@ function printDataMonitor(data) {
     </div>`;
     montoCobro = 0;
     data.cajas.forEach((caja) => {
-        let detalle = '';
-        let monto = 0;
-   
-        const cobroCaja = data.cobrosVents.filter((cobro) => cobro.cajaId === caja.id);
-        if (JSON.stringify(cobroCaja) !== '[]'){
-            cobroCaja.forEach((cobCa) => {
-                monto += cobCa.monto;
-                detalle += `CPC:${cobCa.pertVenCob.pertProVen.nombre} ${cobCa.pertVenCob.pertUniVen.placa} ${cobCa.pertVenCob.pertOpeVen.nombre} ${cobCa.pertVenCob.pertOpeVen.apellido} ${cobCa.pertVenCob.fecha} Abono:(${cobCa.monto}),  `;
-            });
-            overlay_content.innerHTML += `<div class="row">
-     <div class="col-2">
-    ${caja.author.username}
-    </div>
-    <div class="col-8">
-    ${detalle}
-    </div>
-    <div class="col-2">
-    ${monto}
-    </div>
-    </div>`; 
-    montoCobro += monto;
-        }
+      let detalle = '';
+      let monto = 0;
+
+      const cobroCaja = data.cobrosVents.filter((cobro) => cobro.cajaId === caja.id);
+      if (JSON.stringify(cobroCaja) !== '[]'){
+        cobroCaja.forEach((cobCa) => {
+          monto += cobCa.monto;
+          detalle += `CPC:${cobCa.pertVenCob.pertProVen.nombre} ${cobCa.pertVenCob.pertUniVen.placa} ${cobCa.pertVenCob.pertOpeVen.nombre} ${cobCa.pertVenCob.pertOpeVen.apellido} ${cobCa.pertVenCob.fecha} Abono:(${cobCa.monto}),  `;
+        });
+        overlay_content.innerHTML += `<div class="row">
+        <div class="col-2">
+        ${caja.author.username}
+        </div>
+        <div class="col-8">
+        ${detalle}
+        </div>
+        <div class="col-2">
+        ${monto}
+        </div>
+        </div>`; 
+        montoCobro += monto;
+      }
     });
-     overlay_content.innerHTML += `<div class="row">
-     
+    overlay_content.innerHTML += `<div class="row">
+
     <div class="col-10">
     
     </div>
@@ -376,17 +376,154 @@ function printDataMonitor(data) {
     </div>
     </div>`; 
     overlay_content.innerHTML += `<br>`
-  
+
   //-----------------------------------------------------------------
-  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
-} else {
 
-  overlay_content.innerHTML = `<h2>${data.message}</h2>`;
+ //-----------------Bus Gastos No Vueltas
 
-  overlay_content.innerHTML += `
-  <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
-  
-}
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    <b>Gastos Operativos de Mant. de Buses</b>
+    </div>
+    </div>`; 
+    
+
+    data.groups.forEach((group) => {
+     montoBusgastos = 0;
+     overlay_content.innerHTML += `<div class="row">
+     <div class="col-12">
+     ${group.nombre}
+     </div>
+
+     </div>`;      
+     overlay_content.innerHTML += `<div class="row">
+     <div class="col-1">
+     Doc
+     </div>
+     <div class="col-1">
+     Tipo de Pago
+     </div>
+     <div class="col-8">
+     Detalle
+     </div>
+     <div class="col-1">
+     Total
+     </div>
+     <div class="col-1">
+     Abonado
+     </div>
+     </div>`;
+     data.busgastos.forEach((busgasto) => {
+      const busgastosDetalle = busgasto.detbusgastos.filter((bus) => group.unidads.includes(bus.unidadId));
+      if (JSON.stringify(busgastosDetalle) !== '[]'){
+        let detalle = '';
+        let total = 0;
+        busgastosDetalle.forEach((busCa) => {   
+          detalle += `Pd:${busCa.pertUniDbg.codigo}-${busCa.pertUniDbg.placa} ${busCa.pertProDbg.nombre} Cant:${busCa.cant} Costo Uni:${busCa.costoUni}, `;
+          total += busCa.total;
+        })
+
+        overlay_content.innerHTML += `<div class="row">
+        <div class="col-1">
+        ${busgasto.doc}
+        </div>
+        <div class="col-1">
+        ${busgasto.tipoPago}
+        </div>
+        <div class="col-8">
+        ${detalle} Autor:${busgasto.pertCajBug.author.username}
+        </div>
+        <div class="col-1">
+        ${total}
+        </div>
+        <div class="col-1">
+        ${busgasto.abonado}
+        </div>
+        </div>`; 
+        montoBusgastos += busgasto.abonado;
+      }
+    })
+     overlay_content.innerHTML += `<div class="row">
+     
+     <div class="col-11">
+
+     </div>
+     <div class="col-1">
+     ${montoBusgastos}
+     </div>
+     </div>`; 
+     overlay_content.innerHTML += `<br>`
+
+
+   });
+
+  //-----------------------------------------------------------------    
+
+ //-----------------Gastos Adm No Vueltas
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    <b>Gastos Administrativos</b>
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    montoAdm = 0;
+    data.cajas.forEach((caja) => {
+      let detalle = '';
+      let monto = 0;
+
+      const admCaja = data.admgastos.filter((adm) => adm.cajaId === caja.id);
+      if (JSON.stringify(admCaja) !== '[]'){
+        admCaja.forEach((admCa) => {
+          monto += admCa.monto;
+          detalle += `${admCa.pertCatAdm.nombre} Monto:(${admCa.monto}),  `;
+        });
+        overlay_content.innerHTML += `<div class="row">
+        <div class="col-2">
+        ${caja.author.username}
+        </div>
+        <div class="col-8">
+        ${detalle}
+        </div>
+        <div class="col-2">
+        ${monto}
+        </div>
+        </div>`; 
+        montoAdm += monto;
+      }
+    });
+    overlay_content.innerHTML += `<div class="row">
+
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${montoAdm}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+
+  //-----------------------------------------------------------------
+
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
+  } else {
+
+    overlay_content.innerHTML = `<h2>${data.message}</h2>`;
+
+    overlay_content.innerHTML += `
+    <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+
+  }
 
   
   
@@ -397,8 +534,8 @@ const showSaldoAntContr = (ev) => {
   let overlaySpinner = document.querySelector('.overlay_spinner');
   let overlay = document.querySelector('.overlay');
   let overlay_content = document.querySelector('.overlay_content');
-    overlaySpinner.classList.add('opened');
-    overlay_content.innerHTML = '';
+  overlaySpinner.classList.add('opened');
+  overlay_content.innerHTML = '';
 
 
   window.setTimeout(() => {
@@ -421,8 +558,121 @@ const showSaldoAntContr = (ev) => {
     </div>
     </div>`;
   });
-   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
   overlaySpinner.classList.remove('opened');
 }
 
+
+const showDetalleContr = (ev) => {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+  overlaySpinner.classList.add('opened');
+  overlay_content.innerHTML = '';
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+  const efectivo = ev.target.innerHTML;
+  const autor = ev.target.getAttribute("data-autor");
+  const banco = ev.target.getAttribute("data-banco");
+  const cpc = ev.target.getAttribute("data-cpc");
+  const falla = ev.target.getAttribute("data-falla");
+  const siniestro = ev.target.getAttribute("data-siniestro");
+  const autoridad = ev.target.getAttribute("data-autoridad");
+  const operador = ev.target.getAttribute("data-operador");
+   
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Autor: <b>${autor}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Efectivo: <b>${efectivo}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+ overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Banco: <b>${banco !== 'undefined' ? banco : 0}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Cuenta por Cobrar (CPC): <b>${cpc !== 'undefined' ? cpc : 0}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Dcto por Falla Mecánica: <b>${falla !== 'undefined' ? falla : 0}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Dcto por Siniestro: <b>${siniestro !== 'undefined' ? siniestro : 0}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Dcto por Inconv. con la Autoridad: <b>${autoridad !== 'undefined' ? autoridad : 0}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+    overlay_content.innerHTML += `<div class="row">
+    <div class="coll-3">
+
+    </div>
+    <div class="col-6">
+    Operador: <b>${operador}</b>
+    </div>
+    <div class="coll-3">
+
+    </div>
+    </div>`;
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+  overlaySpinner.classList.remove('opened');
+}
 

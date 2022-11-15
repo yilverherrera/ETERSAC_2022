@@ -288,6 +288,7 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.showCaja')) showCajaContr (ev);
   else if (matchEvent(ev, '.monitor')) monitorContr (ev);
   else if (matchEvent(ev, '.showSaldoAnt')) showSaldoAntContr (ev);
+  else if (matchEvent(ev, '.showDetalle')) showDetalleContr (ev);
 })
 
 document.addEventListener('submit', ev => {
