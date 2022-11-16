@@ -1,159 +1,40 @@
 //-----------------Show Monitor----------
 const monitorContr = (ev) => {
-  let overlaySpinner = document.querySelector('.overlay_spinner');
-  let overlay = document.querySelector('.overlay_max');
-  let overlay_content = document.querySelector('.overlay_content_max');
   const fecha = document.querySelector('.fechaMonitor');
   if (fecha.value === "") { return false; }
-  overlaySpinner.classList.add('opened');
-  overlay_content.innerHTML = '';
-
-  overlay.classList.add('opened');
-
-
+  
   getDataMonitor(fecha.value);
 }
 
 function getDataMonitor(fecha) {
   let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay_max');  
+  overlaySpinner.classList.add('opened');
+
+
   fetch(`${serverUrl}monitors?fecha=${fecha}`)
   .then((res) => res.json())
-  .then((data) => printDataMonitor(data));
-  overlaySpinner.classList.remove('opened');
+  .then((data) => {
+    printDataMonitor(data);
+    overlay.classList.add('opened');
+    overlaySpinner.classList.remove('opened');
+  });
+  
 }
 
 function printDataMonitor(data) {
   let overlay_content = document.querySelector('.overlay_content_max');
-  
+  overlay_content.innerHTML = '';
   if (data.message === undefined){
     data.groups.forEach((grupo) => {
-      let efectivoGrupo = 0;
-      let vltasGrupo = 0;
-      let d2Grupo = 0;
-      let anticipoGrupo = 0;
-      overlay_content.innerHTML += `<div class="row">
-      <div class="col-11">
-      <b>${grupo.nombre}</b>
-      </div>
-      <div class="col-1">
-      <span class="buttonDelete cursorpointer cancelarOverlaymax">Cerrar</span>
-      </div>
-      </div>`;
-      overlay_content.innerHTML += `<div class="row">
-      <div class="col-1">
-      PD:
-      </div>
-      <div class="col-1">
-      0.5 Vlta:
-      </div>
-      <div class="col-1">
-      1 Vlta:
-      </div>
-      <div class="col-1">
-      1.5 Vltas:
-      </div>
-      <div class="col-1">
-      2 Vltas:
-      </div>
-      <div class="col-1">
-      2.5 Vltas:
-      </div>
-      <div class="col-1">
-      3 Vltas:
-      </div>
-      <div class="col-1">
-      Total Liq:
-      </div>
-      <div class="col-1">
-      Total Vltas:
-      </div>
-      <div class="col-1">
-      D2:
-      </div>
-      <div class="col-mm">
-      Ant:
-      </div>
-      <div class="col-mm">
-      Ant. Acum:
-      </div>
-      <div class="col-mm">
-      Vltas S.Tanq:
-      </div>
-      </div>`;
-      grupo.unidads.forEach((unidad) => {
-        const unidadPlaca = data.unidadsPlaca.find(unid => unid.id === unidad);
-        let row = '';
-        row += `<div class="row">
-        <div class="col-1">
-        ${unidadPlaca.padron}
-        </div>`;
-        let liq = 0;
-        let vltas = 0;
-        data.catVlta.forEach((item) => {
-          const vlta = data.servicios.filter((dat) => dat.unidadId === unidad).find( dato => dato.vuelta === item.valor );
-          if (vlta){
-            vltas += item.valor;
-            liq += vlta.efectivo;
-            row += `<div class="col-1 cursorpointer showDetalle" style=" background-color:${vlta.color};" data-autor="${vlta.autor}" data-banco="${vlta.banco}" data-cpc="${vlta.cpc}" data-falla="${vlta.falla}" data-siniestro="${vlta.siniestro}" data-autoridad="${vlta.autoridad}" data-operador="${vlta.nombre} ${vlta.apellido}">
-            ${vlta.efectivo}
-            </div>`;
-          } else {
-            row += `<div class="col-1">
 
-            </div>`;
-          }
-        })
-        efectivoGrupo += liq;
-        vltasGrupo += vltas;
-        d2Grupo += unidadPlaca.d2;
-        anticipoGrupo += unidadPlaca.anticipo;
-        row +=     `<div class="col-1">
-        <b>${liq}</b>
-        </div>
-        <div class="col-1">
-        <b>${vltas}</b>
-        </div>
-        <div class="col-1">
-        ${unidadPlaca.d2}
-        </div>
-        <div class="col-mm">
-        ${unidadPlaca.anticipo}
-        </div>
-        <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasAnticipos}">
-        ${unidadPlaca.saldosAnticipos}
-        </div>
-        <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasVltas}">
-        ${unidadPlaca.VltasAcum}
-        </div>
-        </div>`;
-        overlay_content.innerHTML += row;
-      }) 
-      overlay_content.innerHTML += `<div class="row">
-      <div class="col-7">
 
-      </div>
-      <div class="col-1">
-      <b>${efectivoGrupo}</b>
-      </div>
-      <div class="col-1">
-      <b>${vltasGrupo}</b>
-      </div>
-      <div class="col-1">
-      <b>${d2Grupo}</b>
-      </div>
-      <div class="col-mm">
-      <b>${anticipoGrupo}</b>
-      </div>
-      <div class="col-mm">
-      <b></b>
-      </div>
-      <div class="col-mm">
-      <b></b>
-      </div>
-      </div>`;
-      overlay_content.innerHTML += `<br>`
-    });
-    overlay_content.innerHTML += `<br>`
+const itemContainer = document.createElement('div');
+  itemContainer.className = 'item';
+
+  itemContainer.innerHTML += createDomGroup(data, grupo);
+  overlay_content.append(itemContainer);
+   });  
 
   //-----------------Servicios No Vueltas
     data.serviciosNoVltas.forEach((servNoVlt) => {
@@ -515,17 +396,319 @@ function printDataMonitor(data) {
 
   //-----------------------------------------------------------------
 
+    //-----------------Pagos a Proveedores No Vueltas
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    <b>Pagos a Proveedores</b>
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    let pagosProveedores = 0;
+    data.cajas.forEach((caja) => {
+      let detalle = '';
+      let monto = 0;
+      let abono = 0;
+      const pagoCaja = data.pagosProveedors.filter((pago) => pago.cajaId === caja.id);
+      if (JSON.stringify(pagoCaja) !== '[]'){
+        pagoCaja.forEach((pagCa) => {
+         monto += pagCa.efectivo;
+         abono += pagCa.efectivo + pagCa.banco + pagCa.fueradCaja;
+         pagCa.pertBusPag.detbusgastos.forEach((det) => {
+          detalle += `PD:${det.pertUniDbg.placa} Prod:${det.pertProDbg.nombre} Cant:${det.cant} CostoUni:${det.costoUni} Total:${det.total} ,  `;
+        });
+         detalle += `Abono:(${abono})`;
+         overlay_content.innerHTML += `<div class="row">
+         <div class="col-2">
+         ${caja.author.username}
+         </div>
+         <div class="col-8">
+         ${detalle}
+         </div>
+         <div class="col-2">
+         ${monto}
+         </div>
+         </div>`; 
+         pagosProveedores += monto;
+       });
+      }
+    });
+    overlay_content.innerHTML += `<div class="row">
+
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${pagosProveedores}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+
+  //-----------------------------------------------------------------
+
+
+    //-----------------Pagos de Nóminas No Vueltas
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    <b>Pagos de Nómina</b>
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    let pagosNom = 0;
+    data.cajas.forEach((caja) => {
+      let detalle = '';
+      let monto = 0;
+      let abono = 0;
+      const pagoCaja = data.pagosNominas.filter((pago) => pago.cajaId === caja.id);
+      if (JSON.stringify(pagoCaja) !== '[]'){
+        pagoCaja.forEach((pagCa) => {
+         monto += pagCa.monto;
+         detalle += `Empleado:${pagCa.pertNomPan.pertEmpNom.nombres} Quin:${pagCa.pertNomPan.pertQuiNom.desde}->${pagCa.pertNomPan.pertQuiNom.hasta} Monto:${pagCa.monto},  `;
+        });
+         overlay_content.innerHTML += `<div class="row">
+         <div class="col-2">
+         ${caja.author.username}
+         </div>
+         <div class="col-8">
+         ${detalle}
+         </div>
+         <div class="col-2">
+         ${monto}
+         </div>
+         </div>`; 
+         pagosNom += monto;
+      }
+    });
+    overlay_content.innerHTML += `<div class="row">
+
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${pagosNom}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+
+  //-----------------------------------------------------------------
+
+ //-----------------Pagos de Préstamos Financieros No Vueltas
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    <b>Pagos de Préstamos Financieros</b>
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    let pagosPrest = 0;
+    data.cajas.forEach((caja) => {
+      let detalle = '';
+      let monto = 0;
+      const pagoCaja = data.pagosPrest.filter((pago) => pago.cajaId === caja.id);
+      if (JSON.stringify(pagoCaja) !== '[]'){
+        pagoCaja.forEach((pagCa) => {
+         monto += pagCa.efectivo;
+         detalle += `Financiera:${pagCa.pertPrePaf.pertFinPre.nombre} Monto:${pagCa.efectivo},  `;
+        });
+         overlay_content.innerHTML += `<div class="row">
+         <div class="col-2">
+         ${caja.author.username}
+         </div>
+         <div class="col-8">
+         ${detalle}
+         </div>
+         <div class="col-2">
+         ${monto}
+         </div>
+         </div>`; 
+         pagosPrest += monto;
+      }
+    });
+    overlay_content.innerHTML += `<div class="row">
+
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${pagosPrest}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+
+  //-----------------------------------------------------------------
+
     overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
   } else {
 
     overlay_content.innerHTML = `<h2>${data.message}</h2>`;
 
     overlay_content.innerHTML += `
-    <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+    <button class="button_secundario cancelarOverlay refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
 
   }
 
   
+  
+}
+
+const createDomGroup = (data, grupo) => {
+   let efectivoGrupo = 0;
+      let vltasGrupo = 0;
+      let d2Grupo = 0;
+      let anticipoGrupo = 0;
+      let itemHtml = '';
+      itemHtml += `
+      <span class="buttonDelete cursorpointer cerrarDiv">Cerrar</span>
+      <div class="row">
+      <div class="col-12">
+      <b>${grupo.nombre}</b>
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-1">
+      PD:
+      </div>
+      <div class="col-1">
+      0.5 Vlta:
+      </div>
+      <div class="col-1">
+      1 Vlta:
+      </div>
+      <div class="col-1">
+      1.5 Vltas:
+      </div>
+      <div class="col-1">
+      2 Vltas:
+      </div>
+      <div class="col-1">
+      2.5 Vltas:
+      </div>
+      <div class="col-1">
+      3 Vltas:
+      </div>
+      <div class="col-1">
+      Total Liq:
+      </div>
+      <div class="col-1">
+      Total Vltas:
+      </div>
+      <div class="col-1">
+      D2:
+      </div>
+      <div class="col-mm">
+      Ant:
+      </div>
+      <div class="col-mm">
+      Ant. Acum:
+      </div>
+      <div class="col-mm">
+      Vltas S.Tanq:
+      </div>
+      </div>`
+      grupo.unidads.forEach((unidad) => {
+        const unidadPlaca = data.unidadsPlaca.find(unid => unid.id === unidad);
+        let row = '';
+        row += `<div class="row">
+        <div class="col-1">
+        ${unidadPlaca.padron}
+        </div>`;
+        let liq = 0;
+        let vltas = 0;
+        data.catVlta.forEach((item) => {
+          const vlta = data.servicios.filter((dat) => dat.unidadId === unidad).find( dato => dato.vuelta === item.valor );
+          if (vlta){
+            vltas += item.valor;
+            liq += vlta.efectivo;
+            row += `<div class="col-1 cursorpointer showDetalle" style=" background-color:${vlta.color};" data-autor="${vlta.autor}" data-banco="${vlta.banco}" data-cpc="${vlta.cpc}" data-falla="${vlta.falla}" data-siniestro="${vlta.siniestro}" data-autoridad="${vlta.autoridad}" data-operador="${vlta.nombre} ${vlta.apellido}">
+            ${vlta.efectivo}
+            </div>`
+          } else {
+            row += `<div class="col-1">
+
+            </div>`
+          }
+        })
+        efectivoGrupo += liq;
+        vltasGrupo += vltas;
+        d2Grupo += unidadPlaca.d2;
+        anticipoGrupo += unidadPlaca.anticipo;
+        row +=     `<div class="col-1">
+        <b>${liq}</b>
+        </div>
+        <div class="col-1">
+        <b>${vltas}</b>
+        </div>
+        <div class="col-1">
+        ${unidadPlaca.d2}
+        </div>
+        <div class="col-mm">
+        ${unidadPlaca.anticipo}
+        </div>
+        <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasAnticipos}">
+        ${unidadPlaca.saldosAnticipos}
+        </div>
+        <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasVltas}">
+        ${unidadPlaca.VltasAcum}
+        </div>
+        </div>`
+        itemHtml += row;
+      }) 
+      itemHtml += `<div class="row">
+      <div class="col-7">
+
+      </div>
+      <div class="col-1">
+      <b>${efectivoGrupo}</b>
+      </div>
+      <div class="col-1">
+      <b>${vltasGrupo}</b>
+      </div>
+      <div class="col-1">
+      <b>${d2Grupo}</b>
+      </div>
+      <div class="col-mm">
+      <b>${anticipoGrupo}</b>
+      </div>
+      <div class="col-mm">
+      <b></b>
+      </div>
+      <div class="col-mm">
+      <b></b>
+      </div>
+      </div>`;
+
+       return itemHtml;
   
 }
 
@@ -583,96 +766,101 @@ const showDetalleContr = (ev) => {
   const siniestro = ev.target.getAttribute("data-siniestro");
   const autoridad = ev.target.getAttribute("data-autoridad");
   const operador = ev.target.getAttribute("data-operador");
-   
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Autor: <b>${autor}</b>
-    </div>
-    <div class="coll-3">
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Autor: <b>${autor}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Efectivo: <b>${efectivo}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
- overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Efectivo: <b>${efectivo}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Banco: <b>${banco !== 'undefined' ? banco : 0}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Banco: <b>${banco !== 'undefined' ? banco : 0}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Cuenta por Cobrar (CPC): <b>${cpc !== 'undefined' ? cpc : 0}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Cuenta por Cobrar (CPC): <b>${cpc !== 'undefined' ? cpc : 0}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Dcto por Falla Mecánica: <b>${falla !== 'undefined' ? falla : 0}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Dcto por Falla Mecánica: <b>${falla !== 'undefined' ? falla : 0}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Dcto por Siniestro: <b>${siniestro !== 'undefined' ? siniestro : 0}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Dcto por Siniestro: <b>${siniestro !== 'undefined' ? siniestro : 0}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Dcto por Inconv. con la Autoridad: <b>${autoridad !== 'undefined' ? autoridad : 0}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
-    overlay_content.innerHTML += `<div class="row">
-    <div class="coll-3">
+  </div>
+  <div class="col-6">
+  Dcto por Inconv. con la Autoridad: <b>${autoridad !== 'undefined' ? autoridad : 0}</b>
+  </div>
+  <div class="coll-3">
 
-    </div>
-    <div class="col-6">
-    Operador: <b>${operador}</b>
-    </div>
-    <div class="coll-3">
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
 
-    </div>
-    </div>`;
+  </div>
+  <div class="col-6">
+  Operador: <b>${operador}</b>
+  </div>
+  <div class="coll-3">
+
+  </div>
+  </div>`;
   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
   overlaySpinner.classList.remove('opened');
+}
+
+function cerrarDivContr(event) {
+const buttonClicked = event.target;
+  buttonClicked.closest('.item').innerHTML ='borrado';
 }
 

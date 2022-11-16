@@ -340,6 +340,56 @@ exports.index = async (req, res, next) => {
 
 //-----------------------------------------------------------
 
+//Pagos Nómina No Vueltas----------------------------------------------------
+      const pagosNominas = await models.Pagonomina.findAll({
+        where:{
+          fecha:{
+            [Op.eq]: fecha
+          }
+        },
+        include:[
+        {
+          model: models.Nomina,
+          as: "pertNomPan",
+          include:[{
+            model: models.Quincena,
+            as: "pertQuiNom",
+          },
+          {
+            model: models.Empleado,
+            as: "pertEmpNom"
+          }
+          ],
+        },
+        ]
+      });
+
+
+//-----------------------------------------------------------
+
+//Pagos Nómina No Vueltas----------------------------------------------------
+      const pagosPrest = await models.Pagoprestfinanciero.findAll({
+        where:{
+          fecha:{
+            [Op.eq]: fecha
+          }
+        },
+        include:[
+        {
+          model: models.Prestfinanciero,
+          as: "pertPrePaf",
+          include:[{
+            model: models.Financiera,
+            as: "pertFinPre",
+          },
+          ],
+        },
+        ]
+      });
+
+
+//-----------------------------------------------------------
+
 
       console.log(JSON.stringify(servbus));    
 
@@ -357,6 +407,8 @@ exports.index = async (req, res, next) => {
         busgastos: busgastos,
         admgastos: admgastos,
         pagosProveedors: pagosProveedors,
+        pagosNominas: pagosNominas,
+        pagosPrest: pagosPrest,
         cajas: cajas,
       }
 
