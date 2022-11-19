@@ -3,11 +3,25 @@ const calcMontoContr = (sel) => {
   let monto2 = document.getElementById("monto2");
   var chMontos = document.getElementsByName("chMonto"); 
   const cant = document.getElementById("cant");
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+  overlay_content.innerHTML = '';
   let restamonto = 0;
   let total = 0;
 
   if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
-    alert('Debes especificar la Cantidad');
+     overlay.classList.add('opened');
+
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
+    <div class="col-12">
+    Debes especificar la Cantidad
+    </div>
+    
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    return false;
     cant.value = 1;
     sel = 1;
   }
@@ -71,8 +85,29 @@ const calcMontoContr = (sel) => {
 const createVentaContr = (frm) => {
  const servuelta = document.getElementById("servuelta");
  let monto = document.getElementById("monto");
+ const cant = document.getElementById("cant");
+ let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+  overlay_content.innerHTML = '';
  let dcto = 0;
  let total = 0;
+
+ if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
+     overlay.classList.add('opened');
+
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
+    <div class="col-12">
+    Debes especificar la Cantidad
+    </div>
+    
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    frm.preventDefault();
+    return false;
+    cant.value = 1;
+  }
 
  if (servuelta.value === 'true') {
   const anticipo = document.getElementById("lbsumaAnt");
@@ -89,9 +124,19 @@ const createVentaContr = (frm) => {
   }
 
   if (!selected) {
-    alert("Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)");
-    frm.preventDefault();
-    return false;
+    overlay.classList.add('opened');
+
+      overlay_content.innerHTML += `
+      <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+      <div class="row">
+      <div class="col-12">
+      Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)
+      </div>
+
+      </div>`;
+      overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+      frm.preventDefault();
+      return false;
   }
 
   const deuda = operador.value.split("T")[2];
@@ -130,14 +175,22 @@ const createVentaContr = (frm) => {
 
 monto = parseFloat(monto.value);
 const diff = monto - total;
-if (diff > -0.5 && diff < 0.1 ) {
+if (diff > -0.5 && diff < 0.2 ) {
   return true;
 } else {
-  alert(
-    "Debes especificar el saldo en una o varias opciones. Ej. El Monto es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)"
-    );
-  frm.preventDefault();
-  return false;
+   overlay.classList.add('opened');
+
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
+    <div class="col-12">
+    Debes especificar el saldo en una o varias opciones. Ej. La venta(monto) es 170, y paga 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)
+    </div>
+    
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    frm.preventDefault();
+    return false;
 }
 };
 
@@ -156,9 +209,23 @@ const sumAntContr = (sel) => {
   const anticSel = document.getElementById("anticSel");
   const lbselAnt = document.getElementById("lbselAnt");
   const indexAnticip = document.getElementById("indexAnticip");
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+  overlay_content.innerHTML = '';
 
   if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
-    alert('Debes especificar la Cantidad');
+     overlay.classList.add('opened');
+
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
+    <div class="col-12">
+    Debes especificar la Cantidad
+    </div>
+    
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    return false;
   } else {
 
     let select = false;

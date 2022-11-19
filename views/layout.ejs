@@ -41,13 +41,18 @@
             <input type="date" class="fechaMonitor" id="fechaMonitor" required>
             </li>
             <li>
+            <% if (locals.loginUser) { %>
+            <a href="#" class="cajas" data-id="<%= locals.loginUser.id %>"><img align="top" width="20px" height="20px" src="/assets/img/caja-de-carton.png"> Cajas</a>
+            <% } %> 
+                </li>
+            <li>
   <% if (locals.loginUser) { %>
                 <a href="#" class="monitor"><img align="top" width="20px" height="20px" src="/assets/img/analista-de-la-red.png"> Monitor</a>
             <% } %> 
                 </li>
                 <li>
                    <% if (locals.loginUser) { %>
-            <a href="/users/<%= locals.loginUser.id %>/cajas"><img align="top" width="20px" height="20px" src="/assets/img/flujo-de-efectivo.png"> Mis Cajas</a>
+            <a href="#" class="misCajas" data-id="<%= locals.loginUser.id %>"><img align="top" width="20px" height="20px" src="/assets/img/flujo-de-efectivo.png"> Mis Cajas</a>
             <% } %> 
                 </li>
                 <li>

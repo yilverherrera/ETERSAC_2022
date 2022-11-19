@@ -50,6 +50,7 @@ exports.index = async (req, res, next) => {
       }).map((vlt)=>{
         return{
           vuelta: cat.valor,
+          vlta: vlt.vltCanceladas,
           unidadId: vlt.unidadId,
           efectivo: vlt.pertSerVue.efectivo,
           banco: vlt.pertSerVue.banco,
@@ -390,6 +391,29 @@ exports.index = async (req, res, next) => {
 
 //-----------------------------------------------------------
 
+//Retiros No Vueltas----------------------------------------------------
+      const retiros = await models.Retiro.findAll({
+        where:{
+          fecha:{
+            [Op.eq]: fecha
+          }
+        },
+        include:[
+        {
+          model: models.Destino,
+          as: "pertDesRet",
+        },
+        {
+          model: models.Empleado,
+          as: "pertEmpRet"
+        }
+        ]
+      });
+
+
+//-----------------------------------------------------------
+
+
 
       console.log(JSON.stringify(servbus));    
 
@@ -409,6 +433,7 @@ exports.index = async (req, res, next) => {
         pagosProveedors: pagosProveedors,
         pagosNominas: pagosNominas,
         pagosPrest: pagosPrest,
+        retiros: retiros,
         cajas: cajas,
       }
 

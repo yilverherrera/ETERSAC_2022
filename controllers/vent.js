@@ -2,6 +2,7 @@ const { and } = require("sequelize");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { models } = require("../models");
+const getUltTanqueoDet = require('../data/getUltTanqueoDet');
 
 //----------------SERVICIOS-----------
 
@@ -314,44 +315,11 @@ exports.newVen = async (req, res, next) => {
  const cobrosAll = await models.Cobrovent.findAll();
  const operadores = await models.Operador.findAll(findOptionsOpe);
 
- findOptionsAnt.where.unidadId = unidad.id;
- findOptionsAnt.include.push({
-   model: models.Aplianticipo,
-   as: "aplianticipos"
- });
- findOptionsAnt.include.push({
-   model: models.Caja,
-   as: "pertCajAnt",
-   include:[{
-    model: models.Despacho,
-    as: "pertDesCaj"
-  }]
-});
- const anticiposs = await models.Anticipo.findAll(findOptionsAnt);
+ //-----------Anticipos
+ const anticipos = await getUltTanqueoDet(unidad.id, caja.fecha);
 
-  //map de anticipos, se ordena y se filtra el elemento anticipo donde exista saldo. La más antigua (Id ASC)
-  const anticipos = anticiposs.map((anticip) => {
-    let saldo = anticip.saldo;
-    const apliantic = anticip.aplianticipos;
-    
-
-    if (apliantic.length > 0) {
-
-      const sumapAnt = apliantic.reduce((a, b) => ({ monto: a.monto + b.monto }));
-      saldo = saldo - sumapAnt.monto;
-    }
-    return {
-      id: anticip.id,
-      monto: anticip.monto,
-      fecha: anticip.fecha,
-      saldo: saldo,
-      despacho: anticip.pertCajAnt.pertDesCaj.name      
-    };
-  });
-
+ console.log(anticipos);
 //--------------------------------------------------------------------
-
-
 
 const allCatvuelts = await models.Catvuelt.findAll();
 const hoy = caja.fecha;

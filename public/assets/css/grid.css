@@ -75,10 +75,14 @@
 	 box-shadow: var(--box-shadow);
 }
 
-.col-mm,.col-m,.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12,.coll-3{
+.col-mm,.col-m,.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12,.coll-3,.coll-8{
 	padding: 10px;
 }
 
 .coll-3{
 	width: 24.999999999%;
+}
+
+.coll-8{
+	width: 66.666666664%;
 }

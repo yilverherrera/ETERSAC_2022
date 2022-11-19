@@ -130,7 +130,7 @@
 
         <div class="frmtwo_child">
     <select id="operadorId" name="operadorId" required>
-	<option value="0" <%= 0 === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
+	<option value="" <%= "" === servbus.operadorId ? "selected" : "" %>>Seleccione</option>
         <% for (var i in operadors) { %>
             <% var operador=operadors[i]; %>
                 <option value="<%= operador.id+'T'+operador.servbId+'T'+operador.cpc %>" <%= operador.id === servbus.operadorId ? "selected" : "" %>>

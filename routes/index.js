@@ -375,6 +375,16 @@ router.delete('/cajas/:cajaId(\\d+)',
   sessionController.adminRequired,
   cajaController.destroy);
 
+router.get('/cajas/:cajaId(\\d+)/cierre',
+  sessionController.loginRequired,
+  cajaController.adminOrAuthorRequired, 
+  cajaController.cierre);
+router.get('/cajas/:cajaId(\\d+)/abrir',
+  sessionController.loginRequired,
+  cajaController.adminOrAuthorRequired, 
+  cajaController.abrir);
+
+
 // Routes for the resource Servbuses
 router.get('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
@@ -384,32 +394,38 @@ router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
   servbusController.show);     
 router.get('/cajas/:cajaId(\\d+)/servbuses/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,
+  cajaController.notIsCierre,
   servbusController.new);
 router.get('/cajas/:cajaId(\\d+)/buses/:unidadId(\\d+)/:serviceId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
-  servbusController.asocGroupRequired,                      
+  cajaController.adminOrAuthorRequired,
+  servbusController.asocGroupRequired,   
+  cajaController.notIsCierre,                 
   servbusController.newServ);
 router.post('/cajas/:cajaId(\\d+)/servbuses',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,
+  cajaController.notIsCierre,
   servbusController.create);
 router.get('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)/edit',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,
+  cajaController.notIsCierre,
   servbusController.edit);  
 router.put('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,           
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   servbusController.update); 
 router.delete('/cajas/:cajaId(\\d+)/servbuses/:servbusId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired, 
+  cajaController.adminOrAuthorRequired, 
   servbusController.childlessRequired,             
+  cajaController.notIsCierre,
   servbusController.destroy);
 
-// Routes for the resource DespachoS
+// Routes for the resource Despachos
 router.get('/despachos',
   despachoController.index);
 router.get('/despachos/new',
@@ -438,9 +454,11 @@ router.get('/confservices',
   confserviceController.index);
 router.get('/confservices/new',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   confserviceController.new);
 router.post('/confservices',
   sessionController.loginRequired,
+  sessionController.adminRequired,
   confserviceController.create);
 router.get('/confservices/:confserviceId(\\d+)/edit',
   sessionController.loginRequired,
@@ -460,46 +478,59 @@ router.get('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
   ventController.show);     
 router.get('/cajas/:cajaId(\\d+)/vents/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   ventController.new);
 router.get('/cajas/:cajaId(\\d+)/sale/:unidadId(\\d+)/:productoId(\\d+)/newven',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   ventController.newVen);
 router.post('/cajas/:cajaId(\\d+)/vents',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   ventController.create);
 router.delete('/cajas/:cajaId(\\d+)/vents/:ventId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   ventController.destroy);
 
 // Routes for the resource Anticipos
 router.get('/cajas/:cajaId(\\d+)/anticipos',
   sessionController.loginRequired,
   anticipoController.index);   
-router.get('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
-  sessionController.loginRequired,
+router.get('/anticipos/:unidadId(\\d+)',
+  sessionController.loginRequiredJson,
   anticipoController.show);     
 router.get('/cajas/:cajaId(\\d+)/anticipos/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   anticipoController.new);
 router.post('/cajas/:cajaId(\\d+)/anticipos',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   anticipoController.create);
 router.delete('/cajas/:cajaId(\\d+)/anticipos/:anticipoId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired, 
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   anticipoController.childlessRequired,                      
   anticipoController.destroy);
+
+router.get('/anticipos/:anticipoId(\\d+)/mod',
+  sessionController.loginRequiredJson,
+  anticipoController.mod);     
+router.get('/anticipos/:anticipoId(\\d+)/rest',
+  sessionController.loginRequiredJson,
+  anticipoController.rest);     
 
 // Routes for the resource Cobros
 router.get('/cajas/:cajaId(\\d+)/cobros',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
   cobroController.index);
 router.get('/cajas/:cajaId(\\d+)/cobros/:cobroId(\\d+)',
   sessionController.loginRequired,
@@ -509,61 +540,69 @@ router.get('/cajas/:cajaId(\\d+)/cobros/v/:cobrovId(\\d+)',
   cobroController.showv);     
 router.get('/cajas/:cajaId(\\d+)/cobros/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   cobroController.new);
 router.post('/cajas/:cajaId(\\d+)/cobros',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   cobroController.create);
 router.delete('/cajas/:cajaId(\\d+)/cobros/:cobroId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   cobroController.destroy);
 router.delete('/cajas/:cajaId(\\d+)/cobros/v/:cobrovId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   cobroController.destroyv);
 
 //Routes for the resource Busgastos
 router.get('/cajas/:cajaId(\\d+)/busgastos',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
   busgastoController.index);
 router.get('/cajas/:cajaId(\\d+)/busgastos/:busgastoId(\\d+)',
   sessionController.loginRequired,
   busgastoController.show);   
 router.get('/cajas/:cajaId(\\d+)/busgastos/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   busgastoController.new);
 router.post('/cajas/:cajaId(\\d+)/busgastos',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   busgastoController.create);
 router.delete('/cajas/:cajaId(\\d+)/busgastos/:busgastoId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   busgastoController.destroy);
 
 //Routes for the resource Admgastos
 router.get('/cajas/:cajaId(\\d+)/admgastos',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
   admgastoController.index);
 router.get('/cajas/:cajaId(\\d+)/admgastos/:admgastoId(\\d+)',
   sessionController.loginRequired,
   admgastoController.show);   
 router.get('/cajas/:cajaId(\\d+)/admgastos/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   admgastoController.new);
 router.post('/cajas/:cajaId(\\d+)/admgastos',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   admgastoController.create);
 router.delete('/cajas/:cajaId(\\d+)/admgastos/:admgastoId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   admgastoController.destroy);
 
 //Routes for the resource Pagoproveedors
@@ -575,17 +614,20 @@ router.get('/cajas/:cajaId(\\d+)/pagoproveedors/:busgastoId(\\d+)/show',
   pagoproveedorController.show);   
 router.post('/cajas/:cajaId(\\d+)/pagoproveedors',
   sessionController.loginRequiredJson,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierreJson,
   pagoproveedorController.create);
 router.delete('/cajas/:cajaId(\\d+)/pagoproveedors/:pagoproveedorId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierreJson,
   pagoproveedorController.destroy);
 
 //Routes for the resource Pagos
 router.get('/cajas/:cajaId(\\d+)/pagos',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierreJson,
   pagosController.index);
 
 
@@ -610,7 +652,7 @@ router.delete('/nominas/:nominaId(\\d+)',
 //Faltas
 router.post('/nominas/:nominaId(\\d+)/faltas',
   sessionController.loginRequiredJson,
-  sessionController.adminRequired,
+  sessionController.adminRequiredJson,
   faltaController.create);
 router.delete('/nominas/:nominaId(\\d+)/faltas',
   sessionController.loginRequiredJson,
@@ -621,17 +663,15 @@ router.delete('/nominas/:nominaId(\\d+)/faltas',
 //Quincena
 router.get('/cajas/:cajaId(\\d+)/quincenas/:quincenaId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
   quincenaController.index);
 
 //Pagos Nomina
 router.get('/cajas/:cajaId(\\d+)/nominas/:nominaId(\\d+)/pagos/show',
   sessionController.loginRequiredJson,
-  cajaController.AuthorRequired,
   pagonominaController.show);
 router.post('/cajas/:cajaId(\\d+)/nominas/:nominaId(\\d+)/pagos',
   sessionController.loginRequiredJson,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,
   pagonominaController.create);
 
 //Routes for the resource Pagoprestfinancieros
@@ -643,29 +683,31 @@ router.get('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:prestfinancieroId(\\d+)/s
   pagoprestfinancieroController.show);   
 router.post('/cajas/:cajaId(\\d+)/pagoprestfinancieros',
   sessionController.loginRequiredJson,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,
   pagoprestfinancieroController.create);
 router.delete('/cajas/:cajaId(\\d+)/pagoprestfinancieros/:pagoprestfinancieroId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,          
   pagoprestfinancieroController.destroy);
 
 //Routes for the resource Retiros
 router.get('/cajas/:cajaId(\\d+)/retiros',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
   retiroController.index);
 router.get('/cajas/:cajaId(\\d+)/retiros/new',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   retiroController.new);
 router.post('/cajas/:cajaId(\\d+)/retiros',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   retiroController.create);
 router.delete('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
   sessionController.loginRequired,
-  cajaController.AuthorRequired,          
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
   retiroController.destroy);
 
 //Routes for the resource Monitors

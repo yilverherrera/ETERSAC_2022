@@ -31,6 +31,35 @@ exports.load = async (req, res, next, cajaId) => {
   }
 };
 
+// MW - procede si la caja no está cerrada
+exports.notIsCierre = async (req, res, next) => {
+  const {caja} = req.load;
+  try {
+    if (caja.cierre === false) {
+      next();
+    } else {
+       req.flash("error", `La caja se encuentra en estatus CERRADA`);
+       res.redirect("/goback");
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// MW - procede si la caja no está cerrada
+exports.notIsCierreJson = async (req, res, next) => {
+  const {caja} = req.load;
+  try {
+    if (caja.cierre === false) {
+      next();
+    } else {
+       res.json({message: "error, La caja se encuentra en estatus CERRADA", refresh:""});
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 // MW - Un usuario sólo puede crear 1 caja al dia.
 exports.limitPerDay = async (req, res, next) => {
   const { despacho, fecha } = req.body;
@@ -114,6 +143,7 @@ exports.show = async (req, res, next) => {
   efectivo = efectivo - retiro;
 
   const box = {
+    id: caja.id,
     servbus: servbus.toFixed(2),
     vent: vent.toFixed(2),
     cobro: cobro.toFixed(2),
@@ -136,10 +166,38 @@ exports.show = async (req, res, next) => {
 
 // GET /cajas
 exports.index = async (req, res, next) => {
+
+  const {fecha = '', all = 0} = req.query;
+
+  let findOptionsCount = {
+    where: {}
+  };
+
+  if (all === '0'){
+  findOptionsCount.where.authorId = req.load.user.id;
+  }
+
+  if (fecha !== '') { findOptionsCount.where.fecha = fecha; }
+
+  const count = await models.Caja.count(findOptionsCount);
+
+        // Pagination:
+
+        const items_per_page = 10;
+
+        // The page to show is given in the query
+        const pageno = parseInt(req.query.pageno) || 1;
+
+        // Create a String with the HTMl used to render the pagination buttons.
+        // This String is added to a local variable of res, which is used into the application layout file.
+        res.locals.paginate_control = paginate(count, items_per_page, pageno, req.url);
+
   let findOptions = {
     where: {},
     include: [],
     order: [['id', 'DESC']],
+    offset: items_per_page * (pageno - 1),
+    limit: items_per_page
   };
 
   let title = "Cajas";
@@ -148,13 +206,13 @@ exports.index = async (req, res, next) => {
 
   // If there exists "req.load.user", then only the cajas of that user are shown
   if (req.load && req.load.user) {
+    if (all === '0'){
     findOptions.where.authorId = req.load.user.id;
-
-    if (req.loginUser && req.loginUser.id === req.load.user.id) {
-      title = "Mis Cajas";
-    } else {
-      title = "Cajas de " + req.load.user.username;
     }
+    if (fecha !== '') { findOptions.where.fecha = fecha; }
+
+      title = "Cajas";
+
   }
 
   findOptions.include.push({
@@ -168,6 +226,8 @@ exports.index = async (req, res, next) => {
   });
 
   try {
+     
+
     const cajas = await models.Caja.findAll(findOptions).map(async(caja) => {
       const servbus = await getServbus(caja.id);
       const vent = await getVent(caja.id);
@@ -198,7 +258,7 @@ exports.index = async (req, res, next) => {
         totalEgr: totalEgr,
         retiro: retiro,
         efectivo: efectivo.toFixed(2),
-        estatus: "",
+        estatus: caja.cierre,
       }
     });
 
@@ -262,7 +322,7 @@ exports.create = async (req, res, next) => {
       fields: ["fecha", "cierre", "authorId", "despachoId", "routId"],
     });
     req.flash("success", "Caja creada Exitosamente.");
-    res.redirect("/users/" + authorId + "/cajas");
+    res.redirect("/users/" + authorId + "/cajas?fecha=&all=0");
   } catch (error) {
     if (error instanceof Sequelize.ValidationError) {
       let findOptions = {
@@ -334,6 +394,46 @@ exports.update = async (req, res, next) => {
       res.render("cajas/edit", { caja });
     } else {
       req.flash("error", "Error editando la caja: " + error.message);
+      next(error);
+    }
+  }
+};
+
+// PUT /cajas/:cajaId
+exports.cierre = async (req, res, next) => {
+  const { caja } = req.load;
+
+  caja.cierre = true;
+
+  try {
+    await caja.save({ fields: ["cierre"] });
+    res.json({message: "Caja Cerrada Exitosamente."});
+  } catch (error) {
+    if (error instanceof Sequelize.ValidationError) {
+      res.json({message: "Hay un error en el formulario:"});
+      
+    } else {
+      res.json({message: error.message});
+      next(error);
+    }
+  }
+};
+
+// PUT /cajas/:cajaId
+exports.abrir = async (req, res, next) => {
+  const { caja } = req.load;
+
+  caja.cierre = false;
+
+  try {
+    await caja.save({ fields: ["cierre"] });
+    res.json({message: "Caja Abierta Exitosamente."});
+  } catch (error) {
+    if (error instanceof Sequelize.ValidationError) {
+      res.json({message: "Hay un error en el formulario:"});
+      
+    } else {
+      res.json({message: error.message});
       next(error);
     }
   }

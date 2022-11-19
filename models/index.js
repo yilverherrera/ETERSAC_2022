@@ -384,6 +384,10 @@ Retiro.belongsTo(Destino, {as: 'pertDesRet', foreignKey: 'destinoId'});
 Caja.hasMany(Retiro, {as: 'retiros', foreignKey: 'cajaId'});
 Retiro.belongsTo(Caja, {as: 'pertCajRet', foreignKey: 'cajaId'});
 
+// Relation 1-to-N between Empleado and Retiro
+Empleado.hasMany(Retiro, {as: 'retiros', foreignKey: 'empleadoId'});
+Retiro.belongsTo(Empleado, {as: 'pertEmpRet', foreignKey: 'empleadoId'});
+
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {
     as: 'grupos',

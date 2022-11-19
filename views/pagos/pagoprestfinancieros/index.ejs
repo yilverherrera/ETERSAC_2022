@@ -44,7 +44,9 @@
         <div class="col-1"><%= billCondition.dollar %></div>
         <div class="col-1"><%= billCondition.saldo %></div>
         <div class="col-1">
+        <% if (caja.cierre === false) { %>    
         <img class="cursorpointer pagarPrest" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= billCondition.id %>" data-mon="<%= billCondition.moneda %>" data-descmon="<%=  billCondition.moneda === 1 ? "Sol" : "DOLLAR USD" %>">
+        <% } %>
           </div>
          <div class="col-1">
          <span class="fa-regular fa-eye showPagosPrest cursorpointer" data-id="<%= billCondition.id %>"></span>

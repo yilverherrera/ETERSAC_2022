@@ -5,6 +5,7 @@
 </h1>
 
 <form class="formVenta" method="post" action="/cajas/<%= vent.cajaId %>/vents">
+<input id="cajaId" type="hidden" value="<%= vent.cajaId %>">
 
     <% include _form.ejs %>
 

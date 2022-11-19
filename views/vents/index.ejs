@@ -1,6 +1,4 @@
-<div class="toggle2">
-    <span class="fa-solid fa-sack-dollar"></span>
-</div>
+
 <div class="submenu">
          <a href="#" class="showCaja" data-id="<%= caja.id %>" title="Resumen Caja"><img align="top" width="20px" height="20px" src="/assets/img/flujo-de-efectivo.png"> Caja</a>
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
@@ -60,7 +58,9 @@
         <div class="col-1"><%= vta.dctoAutoridad %></div>
         <div class="col-1">
          <a href="vents/<%= vta.id %>"><i class="fa-regular fa-eye"></i></a>
+        <% if (caja.cierre === false) { %>      
             <a href="/cajas/<%= caja.id %>/vents/<%= vta.id %>?_method=DELETE" onClick="return confirm('Eliminar?: <%= producto.nombre %> Placa:<%= vta.placa %> Efectivo:<%= vta.efectivo %>');"><i class="fa-regular fa-trash-can"></i></a> 
+        <% } %>
            </div>
     </div>
 
@@ -86,4 +86,4 @@
 
 <h2>Total Efectivo Ventas: <%= totalGral.toFixed(2) %></h2>
 
-<% include _main.ejs %>                                                                      
+                                                                   

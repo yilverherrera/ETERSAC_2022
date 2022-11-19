@@ -1,3 +1,13 @@
+const misCajasContr = (ev) => {
+    const userId = ev.target.getAttribute('data-id');
+    const fecha = document.querySelector('.fechaMonitor');
+    window.location.href = `/users/${userId}/cajas?fecha=${fecha.value}&all=0`;
+}
+const cajasContr = (ev) => {
+    const fecha = document.querySelector('.fechaMonitor');
+    const userId = ev.target.getAttribute('data-id');
+    window.location.href = `/users/${userId}/cajas?fecha=${fecha.value}&all=1`;
+}
 //-----------------Show Detalle-Productos----------
 const showCajaContr = (ev) => {
   let overlaySpinner = document.querySelector('.overlay_spinner');
@@ -19,8 +29,11 @@ function getDataCaja(id) {
   let overlaySpinner = document.querySelector('.overlay_spinner');
   fetch(`${serverUrl}cajas/${id}`)
     .then((res) => res.json())
-    .then((data) => printDataCaja(data));
-    overlaySpinner.classList.remove('opened');
+    .then((data) => {
+        printDataCaja(data);
+        overlaySpinner.classList.remove('opened');
+});
+    
 }
 
 function printDataCaja(data) {
@@ -125,6 +138,48 @@ function printDataCaja(data) {
 </div> 
     `;
 
-   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>
+   <button class="button_primary cerrarCaja" data-id="${data.id}" type="button">Cerrar Caja</button>`;
 }
 
+const cerrarCajaContr = (ev) => {
+    const id = ev.target.getAttribute('data-id');
+    fetch(`${serverUrl}cajas/${id}/cierre`)
+    .then((res) => res.json())
+    .then((data) => printDataCierre(data));
+    ev.target.disabled = true; 
+}
+
+const printDataCierre = (data) => {
+    let overlay_content = document.querySelector('.overlay_content');
+    overlay_content.innerHTML = '';
+  overlay_content.innerHTML += `<h2>${data.message}</h2>`;
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+
+}
+
+const abrirCajaContr = (ev) => {
+    const id = ev.target.getAttribute('data-id');
+    fetch(`${serverUrl}cajas/${id}/abrir`)
+    .then((res) => res.json())
+    .then((data) => printDataAbrir(data));
+}
+
+const printDataAbrir = (data) => {
+    let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  let overlay_content = document.querySelector('.overlay_content');
+    overlaySpinner.classList.add('opened');
+    overlay_content.innerHTML = '';
+
+
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+    
+    
+  overlay_content.innerHTML += `<h2>${data.message}</h2>`;
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+ overlaySpinner.classList.remove('opened');
+}

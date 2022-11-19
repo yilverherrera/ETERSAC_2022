@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 const Op = Sequelize.Op;
-
+const getAnticiposUnidad = require('../data/getAnticiposUnidad');
 
 // Autoload el anticipo asociado a :anticipoId
 exports.load = async (req, res, next, anticipoId) => {
@@ -79,14 +79,55 @@ exports.index = async (req, res, next) => {
 
 };
 
-// GET /anticipos/:anticiposId
+// GET /anticipos/:unidadId
 exports.show = async (req, res, next) => {
 
-    const {anticipo} = req.load;
-    const unidad = await models.Unidad.findByPk(anticipo.unidadId);
+    const {unidad} = req.load;
+  const anticipos = await getAnticiposUnidad(unidad.id);
 
-    res.render('anticipos/show', {anticipo, unidad});
+    res.json(anticipos);
 };
+
+// GET /anticipos/:anticiposId
+exports.mod = async (req, res, next) => {
+    const {cajaId} = req.query;
+    const {anticipo} = req.load;
+
+    const caja = await models.Caja.findByPk(cajaId);
+
+    const fecha = caja.fecha;
+
+  anticipo.fecha = fecha;
+
+try{
+  await anticipo.save({ fields: ["fecha"] });
+  res.json({ message: 'Fecha a aplicar cambiada Exitosamente', refresh: 'vents' });
+}catch (error) {
+
+   res.json({message: 'Error'});
+}
+};
+
+// GET /anticipos/:anticiposId
+exports.rest = async (req, res, next) => {
+    
+    const {anticipo} = req.load;
+
+    
+
+    const fecha = anticipo.fechaCaja;
+
+  anticipo.fecha = fecha;
+
+try{
+  await anticipo.save({ fields: ["fecha"] });
+  res.json({ message: 'Fecha a aplicar restaurada Exitosamente', refresh: 'vents' });
+}catch (error) {
+
+   res.json({message: 'Error'});
+}
+};
+
 
 // GET /anticipos/new
 exports.new = async (req, res, next) => {

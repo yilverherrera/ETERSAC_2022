@@ -231,7 +231,7 @@ const refreshContr = (view) => {
   const cajaId = document.getElementById("cajaId").value;
   window.location.href = `http://localhost:3000/cajas/${cajaId}/${view}`;
 }else{
-  window.location.href = `http://localhost:3000/${view}`;
+  window.location.href = `http://localhost:3000${view}`;
 }
  
  overlay.classList.remove('opened'); 
@@ -290,6 +290,13 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.showSaldoAnt')) showSaldoAntContr (ev);
   else if (matchEvent(ev, '.showDetalle')) showDetalleContr (ev);
   else if (matchEvent(ev, '.cerrarDiv')) cerrarDivContr (ev);
+  else if (matchEvent(ev, '.cerrarCaja')) cerrarCajaContr (ev);
+  else if (matchEvent(ev, '.abrirCaja')) abrirCajaContr (ev);
+  else if (matchEvent(ev, '.misCajas')) misCajasContr (ev);
+  else if (matchEvent(ev, '.cajas')) cajasContr (ev);
+  else if (matchEvent(ev, '.plusAnt')) plusAntContr (ev);
+  else if (matchEvent(ev, '.modFecha')) modFechaContr (ev);
+  else if (matchEvent(ev, '.restFecha')) restFechaContr (ev);
 })
 
 document.addEventListener('submit', ev => {

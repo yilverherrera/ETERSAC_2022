@@ -1,4 +1,6 @@
 //-----------------Show Monitor----------
+let montoTotalIng = 0;
+let montoTotalEgr = 0;
 const monitorContr = (ev) => {
   const fecha = document.querySelector('.fechaMonitor');
   if (fecha.value === "") { return false; }
@@ -15,23 +17,27 @@ function getDataMonitor(fecha) {
   fetch(`${serverUrl}monitors?fecha=${fecha}`)
   .then((res) => res.json())
   .then((data) => {
-    printDataMonitor(data);
+    printDataMonitor(data, fecha);
     overlay.classList.add('opened');
     overlaySpinner.classList.remove('opened');
   });
   
 }
 
-function printDataMonitor(data) {
+function printDataMonitor(data, fecha) {
   let overlay_content = document.querySelector('.overlay_content_max');
   overlay_content.innerHTML = '';
   if (data.message === undefined){
+   overlay_content.innerHTML += `
+   <span class="buttonDelete Close cancelarOverlaymax cursorpointer">X</span>
+      <span><b>Fecha:${fecha}</b></span>
+      `;     
     data.groups.forEach((grupo) => {
 
 
 const itemContainer = document.createElement('div');
   itemContainer.className = 'item';
-
+  itemContainer.setAttribute('data-id' , grupo.nombre); 
   itemContainer.innerHTML += createDomGroup(data, grupo);
   overlay_content.append(itemContainer);
    });  
@@ -79,6 +85,7 @@ const itemContainer = document.createElement('div');
           montoSer += monto;
         }
       });
+      montoTotalIng += montoSer;
       overlay_content.innerHTML += `<div class="row">
 
       <div class="col-10">
@@ -135,6 +142,7 @@ const itemContainer = document.createElement('div');
           montoVen += monto;
         }
       });
+      montoTotalIng += montoVen;
       overlay_content.innerHTML += `<div class="row">
 
       <div class="col-10">
@@ -191,6 +199,7 @@ const itemContainer = document.createElement('div');
         montoCobro += monto;
       }
     });
+    montoTotalIng += montoCobro;
     overlay_content.innerHTML += `<div class="row">
 
     <div class="col-10">
@@ -247,6 +256,7 @@ const itemContainer = document.createElement('div');
         montoCobro += monto;
       }
     });
+    montoTotalIng += montoCobro;
     overlay_content.innerHTML += `<div class="row">
 
     <div class="col-10">
@@ -324,6 +334,7 @@ const itemContainer = document.createElement('div');
         montoBusgastos += busgasto.abonado;
       }
     })
+     montoTotalEgr += montoBusgastos;
      overlay_content.innerHTML += `<div class="row">
      
      <div class="col-11">
@@ -383,6 +394,7 @@ const itemContainer = document.createElement('div');
         montoAdm += monto;
       }
     });
+    montoTotalEgr += montoAdm;
     overlay_content.innerHTML += `<div class="row">
 
     <div class="col-10">
@@ -443,6 +455,7 @@ const itemContainer = document.createElement('div');
        });
       }
     });
+    montoTotalEgr += pagosProveedores;
     overlay_content.innerHTML += `<div class="row">
 
     <div class="col-10">
@@ -500,6 +513,7 @@ const itemContainer = document.createElement('div');
          pagosNom += monto;
       }
     });
+    montoTotalEgr += pagosNom;
     overlay_content.innerHTML += `<div class="row">
 
     <div class="col-10">
@@ -555,6 +569,7 @@ const itemContainer = document.createElement('div');
          pagosPrest += monto;
       }
     });
+    montoTotalEgr += pagosPrest;
     overlay_content.innerHTML += `<div class="row">
 
     <div class="col-10">
@@ -567,6 +582,139 @@ const itemContainer = document.createElement('div');
     overlay_content.innerHTML += `<br>`
 
   //-----------------------------------------------------------------
+
+    //-----------------Retiros No Vueltas
+
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-12">
+    <b>Retiros de Caja</b>
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<div class="row">
+    <div class="col-2">
+    Autor
+    </div>
+    <div class="col-8">
+    Detalle
+    </div>
+    <div class="col-2">
+    Monto
+    </div>
+    </div>`;
+    montoRet = 0;
+    data.cajas.forEach((caja) => {
+      let detalle = '';
+      let monto = 0;
+
+      const retCaja = data.retiros.filter((ret) => ret.cajaId === caja.id);
+      if (JSON.stringify(retCaja) !== '[]'){
+        retCaja.forEach((retCa) => {
+          monto += retCa.monto;
+          detalle += `Entregado a:${retCa.pertEmpRet.nombres} Destino:${retCa.pertDesRet.destino} Monto:(${retCa.monto}),  `;
+        });
+        overlay_content.innerHTML += `<div class="row">
+        <div class="col-2">
+        ${caja.author.username}
+        </div>
+        <div class="col-8">
+        ${detalle}
+        </div>
+        <div class="col-2">
+        ${monto}
+        </div>
+        </div>`; 
+        montoRet += monto;
+      }
+    });
+    overlay_content.innerHTML += `<div class="row">
+
+    <div class="col-10">
+    
+    </div>
+    <div class="col-2">
+    ${montoRet}
+    </div>
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+
+  //-----------------------------------------------------------------
+    const neto = montoTotalIng - montoTotalEgr;
+    const saldo = neto - montoRet;
+ overlay_content.innerHTML += `<div class="row">
+
+    <div class="coll-8">
+    
+    </div>
+    <div class="col-2">
+   <h2>Ingresos:</h2> 
+    </div>
+    <div class="col-2">
+   <h2>${montoTotalIng.toFixed(2)}</h2>
+    </div>
+    
+    </div>
+    <div class="row">
+
+    <div class="coll-8">
+    
+    </div>
+
+    <div class="col-2">
+   <h2>Egresos:</h2> 
+    </div>
+    <div class="col-2">
+   <h2>${montoTotalEgr.toFixed(2)}</h2>
+    </div>
+    
+    </div>
+    <div class="row">
+
+    <div class="coll-8">
+    
+    </div>
+
+    <div class="col-2">
+   <h2>Neto:</h2> 
+    </div>
+    <div class="col-2">
+   <h2>${neto.toFixed(2)}</h2>
+    </div>
+    
+    </div>
+    <br>
+     <div class="row">
+
+    <div class="coll-8">
+    
+    </div>
+
+    <div class="col-2">
+   <h2>Retiros:</h2> 
+    </div>
+    <div class="col-2">
+   <h2>${montoRet.toFixed(2)}</h2>
+    </div>
+    
+    </div>
+    </div>
+    <br>
+     <div class="row">
+
+    <div class="coll-8">
+    
+    </div>
+
+    <div class="col-2">
+   <h2>Saldo:</h2> 
+    </div>
+    <div class="col-2">
+   <h2>${saldo.toFixed(2)}</h2>
+    </div>
+    
+    </div>`; 
+    overlay_content.innerHTML += `<br>`
+
+
 
     overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
   } else {
@@ -589,7 +737,7 @@ const createDomGroup = (data, grupo) => {
       let anticipoGrupo = 0;
       let itemHtml = '';
       itemHtml += `
-      <span class="buttonDelete cursorpointer cerrarDiv">Cerrar</span>
+      <span class="buttonDelete cursorpointer cerrarDiv">Resumir</span>
       <div class="row">
       <div class="col-12">
       <b>${grupo.nombre}</b>
@@ -639,16 +787,16 @@ const createDomGroup = (data, grupo) => {
       grupo.unidads.forEach((unidad) => {
         const unidadPlaca = data.unidadsPlaca.find(unid => unid.id === unidad);
         let row = '';
-        row += `<div class="row">
+        row += `<div class="row datos">
         <div class="col-1">
-        ${unidadPlaca.padron}
+        <span class="pd">${unidadPlaca.padron}</span>
         </div>`;
         let liq = 0;
         let vltas = 0;
         data.catVlta.forEach((item) => {
           const vlta = data.servicios.filter((dat) => dat.unidadId === unidad).find( dato => dato.vuelta === item.valor );
           if (vlta){
-            vltas += item.valor;
+            vltas += vlta.vlta;
             liq += vlta.efectivo;
             row += `<div class="col-1 cursorpointer showDetalle" style=" background-color:${vlta.color};" data-autor="${vlta.autor}" data-banco="${vlta.banco}" data-cpc="${vlta.cpc}" data-falla="${vlta.falla}" data-siniestro="${vlta.siniestro}" data-autoridad="${vlta.autoridad}" data-operador="${vlta.nombre} ${vlta.apellido}">
             ${vlta.efectivo}
@@ -664,16 +812,16 @@ const createDomGroup = (data, grupo) => {
         d2Grupo += unidadPlaca.d2;
         anticipoGrupo += unidadPlaca.anticipo;
         row +=     `<div class="col-1">
-        <b>${liq}</b>
+        <b><span class="liq">${liq}</span></b>
         </div>
         <div class="col-1">
         <b>${vltas}</b>
         </div>
         <div class="col-1">
-        ${unidadPlaca.d2}
+        <span class="diesel">${unidadPlaca.d2.toFixed(2)}</span>
         </div>
         <div class="col-mm">
-        ${unidadPlaca.anticipo}
+        <span class="anticipo">${unidadPlaca.anticipo}</span>
         </div>
         <div class="col-mm cursorpointer showSaldoAnt" data-ant="${unidadPlaca.fechasAnticipos}">
         ${unidadPlaca.saldosAnticipos}
@@ -684,6 +832,7 @@ const createDomGroup = (data, grupo) => {
         </div>`
         itemHtml += row;
       }) 
+      montoTotalIng += efectivoGrupo + d2Grupo + anticipoGrupo;
       itemHtml += `<div class="row">
       <div class="col-7">
 
@@ -695,7 +844,7 @@ const createDomGroup = (data, grupo) => {
       <b>${vltasGrupo}</b>
       </div>
       <div class="col-1">
-      <b>${d2Grupo}</b>
+      <b>${d2Grupo.toFixed(2)}</b>
       </div>
       <div class="col-mm">
       <b>${anticipoGrupo}</b>
@@ -861,6 +1010,64 @@ const showDetalleContr = (ev) => {
 
 function cerrarDivContr(event) {
 const buttonClicked = event.target;
-  buttonClicked.closest('.item').innerHTML ='borrado';
+  const Node = buttonClicked.closest('.item');
+  const grupo = Node.getAttribute('data-id');
+  const Items = Node.querySelectorAll('.datos');
+  let detalle = '';
+  let monto = 0;
+  Items.forEach((Item) => {
+  
+   
+  const pdElement = Item.querySelector('.pd');
+  const pd = pdElement.textContent
+    
+ const liqElement = Item.querySelector('.liq');
+  const liq = Number(
+    liqElement.textContent
+    );
+ 
+ const dieselElement = Item.querySelector('.diesel');
+  const diesel = Number(
+    dieselElement.textContent
+    );
+  const anticipoElement = Item.querySelector('.anticipo');
+  const anticipo = Number(
+    anticipoElement.textContent
+    );
+
+  if (diesel > 0 || liq > 0 || anticipo >0){
+   detalle += `Placa:${pd} Liq:${liq} Comb:${diesel} Anticipo:${anticipo}, `; 
+   monto += liq + diesel + anticipo;
+  }
+  
+  });
+
+  buttonClicked.closest('.item').innerHTML = `
+  <br>
+<div class="row">
+  <div class="col-12">
+  <b>${grupo}</b>
+  </div>
+</div>  
+
+<div class="row">
+  <div class="col-10">
+  Detalle
+  </div>
+  <div class="col-2">
+  Monto
+  </div>
+</div>  
+<div class="row">
+  <div class="col-10">
+  ${detalle}
+  </div>
+  <div class="col-2">
+  ${monto.toFixed(2)}
+  </div>
+</div>
+<br>
+  `;
+  
 }
 

@@ -1,6 +1,4 @@
-<div class="toggle2">
-    <span class="fa-solid fa-sack-dollar"></span>
-</div>
+
 <div class="submenu">
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
@@ -116,7 +114,7 @@
         </div>
 
         <div class="col-1">
-        <% if (locals.loginUser) { %>
+        <% if (caja.cierre === false) { %>    
         <img class="cursorpointer nuevoPagoNomina" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.nombres %>">
         
         <img class="cursorpointer nuevaFalta" src="/assets/img/descalificado.png" width="20px" data-id="<%= nomina.id %>" data-emp="<%= nomina.empleadoId %>">

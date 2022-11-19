@@ -1,6 +1,4 @@
-<div class="toggle2">
-    <span class="fa-solid fa-sack-dollar"></span>
-</div>
+
 <div class="submenu">
         <a href="/cajas/<%= caja.id %>/servbuses" title="Servicios" class="in">Servicios</a>
         <a href="/cajas/<%= caja.id %>/vents" title="Ventas">Ventas</a>
@@ -46,7 +44,9 @@
         <div class="col-1"><%= billCondition.dollar %></div>
         <div class="col-1"><%= billCondition.saldo %></div>
         <div class="col-1">
+        <% if (caja.cierre === false) { %>    
         <img class="cursorpointer pagarDoc" src="/assets/img/pago-en-efectivo.png" width="20px" data-id="<%= billCondition.id %>" data-doc="<%= billCondition.doc %>" data-mon="<%= billCondition.moneda %>" data-descmon="<%= billCondition.moneda === 1 ? "Sol" : "Dollar USD" %>">
+        <% } %>
         <img class="cursorpointer showProductos" src="/assets/img/produccion.png" width="20px" data-id="<%= billCondition.id %>" data-doc="<%= billCondition.doc %>">
         </div>
         <div class="col-1">

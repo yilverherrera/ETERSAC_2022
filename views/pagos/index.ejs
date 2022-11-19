@@ -88,7 +88,9 @@
          <img class="showProductos" src="/assets/img/produccion.png" width="20px" data-id="<%= pagoproveedor.pertBusPag.id %>" data-doc="<%= pagoproveedor.pertBusPag.doc %>">
          </div>
          <div class="col-1">
+         <% if (caja.cierre === false) { %>    
             <a href="/cajas/<%= caja.id %>/pagoproveedors/<%= pagoproveedor.id %>?_method=DELETE" onClick="return confirm('Eliminar Pago?: <%= pagoproveedor.pertBusPag.doc %>');"><i class="fa-regular fa-trash-can"></i></a> 
+            <% } %>
            </div>
     </div>
 
@@ -132,7 +134,9 @@
         <div class="col-2"><%= pagoprestfinanciero.pertPrePaf.pertFinPre.nombre %></div>
         <div class="col-2"><%= pagoprestfinanciero.pertPrePaf.id %></div>
         <div class="col-2">
+        <% if (caja.cierre === false) { %>    
             <a href="/cajas/<%= caja.id %>/pagoprestfinancieros/<%= pagoprestfinanciero.id %>?_method=DELETE" onClick="return confirm('Eliminar Pago?: <%= pagoprestfinanciero.pertPrePaf.pertFinPre.nombre %>');"><i class="fa-regular fa-trash-can"></i></a> 
+            <% } %>
            </div>
     </div>
 
@@ -169,7 +173,9 @@
         <div class="col-4"><%= pagonomina.pertNomPan.pertQuiNom.desde %> al <%= pagonomina.pertNomPan.pertQuiNom.hasta %></div>
         <div class="col-5"><%= pagonomina.pertNomPan.pertEmpNom.nombres %></div>
          <div class="col-1">
+         <% if (caja.cierre === false) { %>    
             <a href="/cajas/<%= caja.id %>/pagonominas/<%= pagonomina.id %>?_method=DELETE" onClick="return confirm('Eliminar Pago?: <%= pagonomina.pertNomPan.pertEmpNom.nombres %>');"><i class="fa-regular fa-trash-can"></i></a> 
+            <% } %>
            </div>
     </div>
 

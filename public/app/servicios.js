@@ -13,7 +13,9 @@ const createServbusContr = (frm) => {
   if (isNaN(anticipo)) {
     overlay.classList.add('opened');
 
-    overlay_content.innerHTML += `<div class="row">
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
     <div class="col-12">
     Anticipo no es un número
     </div>
@@ -47,7 +49,9 @@ const createServbusContr = (frm) => {
     if (!selected2) {
       overlay.classList.add('opened');
 
-      overlay_content.innerHTML += `<div class="row">
+      overlay_content.innerHTML += `
+      <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+      <div class="row">
       <div class="col-12">
       Seleccione la(s) Vuelta(s) a Cancelar
       </div>
@@ -67,7 +71,9 @@ const createServbusContr = (frm) => {
     if (!selected) {
       overlay.classList.add('opened');
 
-      overlay_content.innerHTML += `<div class="row">
+      overlay_content.innerHTML += `
+      <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+      <div class="row">
       <div class="col-12">
       Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)
       </div>
@@ -116,7 +122,9 @@ const createServbusContr = (frm) => {
 
     overlay.classList.add('opened');
 
-    overlay_content.innerHTML += `<div class="row">
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
     <div class="col-12">
     Debes especificar el saldo en una o varias opciones. Ej. La cuenta(monto) es 170, y deja 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)
     </div>

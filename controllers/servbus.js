@@ -251,7 +251,7 @@ exports.new = async (req, res, next) => {
     cajaId: caja.id,
     unidadId: 0,
     serviceId: 0,
-    operadorId: 0,
+    operadorId: "",
   };
 
   res.render("servbuses/new.ejs", { servbus, services, unidads });
@@ -478,7 +478,7 @@ exports.newServ = async (req, res, next) => {
     cajaId: caja.id,
     unidadId: unidad.id,
     serviceId: service.id,
-    operadorId: 0,
+    operadorId: "",
     servuelta: servuelta
   };
 
