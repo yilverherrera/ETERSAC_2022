@@ -8,11 +8,11 @@
     </div>
 
     <div class="frmtwo_child">
-  <select  id="unidadId" name="unidadId" required>
+  <select  id="unidadId" name="unidadId[]" <%= servbus.serPdMultiple === true ? multiple='multiple' : "" %> required>
 	<option value="0" disabled="disabled" <%= 0 === servbus.unidadId ? "selected" : "" %> >Seleccione</option>
         <% for (var i in unidads) { %>
             <% var unidad=unidads[i]; %>
-                <option value="<%= unidad.id %>" <%= unidad.id === servbus.unidadId ? "selected" : "" %>>
+                <option class="pdMult" value="<%= unidad.id %>" <%= unidad.id === servbus.unidadId ? "selected" : "" %>>
                     <%= unidad.codigo %>-<%= unidad.placa %>
                 </option>
                 <% } %>
@@ -30,6 +30,8 @@
                 <% } %>
     </select>
 </div>
+<input type="hidden" name="serPdMultiple" id="serPdMultiple" value="<%= servbus.serPdMultiple %>">
+<input type="hidden" name="servuelta" id="servuelta" value="<%= servbus.servuelta %>">
 <% if (servbus.unidadId>0) { %>
 <div class="frmtwo_child">
     <label for="monto"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr>
@@ -90,7 +92,7 @@
     <input type="text" class="itemWide" id="anticipo" name="anticipo" value="<%= servbus.anticipo %>"
         placeholder="Aplicar Combustible"  autocomplete="off" <%= servbus.serviceId === 1  ? "" : "readonly" %> />
 </div>
-<input type="hidden" name="servuelta" id="servuelta" value="<%= servbus.servuelta %>">
+
 <% if (servbus.servuelta === true) { %>
 
 <div class="frmtwo_child">

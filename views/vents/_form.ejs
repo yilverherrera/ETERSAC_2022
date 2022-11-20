@@ -9,7 +9,7 @@
     </div>
 
     <div class="frmtwo_child">
-        <select  id="unidadId" name="unidadId" required>
+        <select  id="unidadId" name="unidadId[]" required>
 	       <option value="" disabled="disabled" <%= "" === vent.unidadId ? "selected" : "" %> >Seleccione</option>
                 <% for (var i in unidads) { %>
                     <% var unidad=unidads[i]; %>

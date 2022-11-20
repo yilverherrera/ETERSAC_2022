@@ -182,10 +182,15 @@ if (document.getElementById("monto")) {
     var radios = document.getElementsByName("catvueltId2");
     var radioscpc = document.getElementsByName("cpcIds[]");
     var radiosope = document.getElementsByName("cpcOper");
+    const servuelta = document.getElementById("servuelta");
+    const serPdMultiple = document.getElementById('serPdMultiple');
+    const fecha = document.getElementById('fecha');
+    const unidades = document.getElementById('unidadId');
     const cuenta = cta.split("T")[0];
     const restamonto = cta.split("T")[1];
 
-    if (cuenta>0) {
+
+    if (cuenta>0 && servuelta.value === 'true') {
      for (var radio of radios) {
       if (radio.type === "radio" && radio.checked) {
         radio.checked = false;
@@ -204,6 +209,21 @@ if (document.getElementById("monto")) {
     }
 
     monto.value = cuenta - restamonto;
+  } else if (cuenta>0 && servuelta.value === 'false' && serPdMultiple.value === 'false') {
+    let dias = fecha.value.split(',');
+    dias = dias.length;
+    monto.value = cuenta * dias;
+  } else if (cuenta>0 && servuelta.value === 'false' && serPdMultiple.value === 'true') {
+let countUnidades =0;
+  
+    for (var i = 0; i < unidades.length; i++) 
+    {
+     var opt = unidades[i];
+     if (opt.selected) {
+      countUnidades ++;
+    }
+  }
+   monto.value = cuenta * countUnidades;
   }
 }
 
@@ -311,7 +331,8 @@ if (document.getElementById("serviceId"))
 function sumCot(event) {
 
   const servuelta = document.getElementById("servuelta");
-  if (servuelta.value === 'false') { 
+  const serPdMultiple = document.getElementById('serPdMultiple');
+  if (servuelta.value === 'false' && serPdMultiple.value === 'false') { 
 
     let monto = document.getElementById("monto");
     var chMontos = document.getElementsByName("chMonto"); 
@@ -329,4 +350,68 @@ function sumCot(event) {
 
 }
 
+const pdMultContr = (ev) => {
+  const serPdMultiple = document.getElementById('serPdMultiple');
+  const servuelta = document.getElementById("servuelta");
+  if (servuelta.value === 'false' && serPdMultiple.value === 'true'){
+    const unidades = document.getElementById('unidadId');
+    var chMontos = document.getElementsByName("chMonto"); 
+    let monto2 = 1;
+    let countUnidades =0;
+  
+    for (var i = 0; i < unidades.length; i++) 
+    {
+     var opt = unidades[i];
+     if (opt.selected) {
+      countUnidades ++;
+    }
+  }
+    let monto = document.getElementById('monto');
 
+    for (var chMonto of chMontos) {
+      if (chMonto.type === "radio" && chMonto.checked) {
+        monto2 = chMonto.value.split('T')[0];
+      }
+    }
+
+    monto.value = monto2 * countUnidades;
+  }
+}
+
+
+if (document.getElementById('unidadId')){
+const selectUp = document.getElementById('unidadId');
+const serPdMultiple = document.getElementById('serPdMultiple');
+const servuelta = document.getElementById("servuelta");
+if (servuelta.value === 'false' && serPdMultiple.value === 'true'){  
+selectUp.style.height = '200px'; 
+selectUp.addEventListener('keyup', logKey);
+}
+}
+
+function logKey(e) {
+  
+  if (e.code === 'ArrowDown' ||e.code === 'ArrowUp') {
+  const unidades = document.getElementById('unidadId');
+    var chMontos = document.getElementsByName("chMonto"); 
+    let monto2 = 1;
+    let countUnidades =0;
+  
+    for (var i = 0; i < unidades.length; i++) 
+    {
+     var opt = unidades[i];
+     if (opt.selected) {
+      countUnidades ++;
+    }
+  }
+    let monto = document.getElementById('monto');
+
+    for (var chMonto of chMontos) {
+      if (chMonto.type === "radio" && chMonto.checked) {
+        monto2 = chMonto.value.split('T')[0];
+      }
+    }
+
+    monto.value = monto2 * countUnidades;
+  }
+}

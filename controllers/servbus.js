@@ -252,6 +252,8 @@ exports.new = async (req, res, next) => {
     unidadId: 0,
     serviceId: 0,
     operadorId: "",
+    serPdMultiple: false,
+    servuelta: false,
   };
 
   res.render("servbuses/new.ejs", { servbus, services, unidads });
@@ -270,12 +272,17 @@ exports.newServ = async (req, res, next) => {
     where: {},
     include: [],
   };
+  let findOptionsUnid = {
+    where: {},
+    include: [],
+  };
 
   const { caja } = req.load;
   const { unidad } = req.load;
   const { service } = req.load;
   let monto = service.monto;
   let servuelta = false;
+  let serPdMultiple = false;
   
   //------Se incluye en la búsqueda de los operadores sus cpc mayores a cero
   findOptionsOpe.include.push({
@@ -313,18 +320,17 @@ exports.newServ = async (req, res, next) => {
    if (confservice) {
      monto = confservice.monto;
      servuelta = confservice.vuelta;
+     serPdMultiple = confservice.detalle;
    }
  }
  //-----------------------------------------------------------
 
+if (serPdMultiple === false) {
+findOptionsUnid.where.id = unidad.id;
+}
+ const unidads = await models.Unidad.findAll(findOptionsUnid);
 
- const unidads = await models.Unidad.findAll({
-  where: {
-    id: {
-      [Op.eq]: unidad.id,
-    },
-  },
-});
+ //-------------------------------------------------------
  const services = await models.Service.findAll();
  const cobrosAll = await models.Cobroservbus.findAll();
  const operadores = await models.Operador.findAll(findOptionsOpe);
@@ -479,7 +485,8 @@ exports.newServ = async (req, res, next) => {
     unidadId: unidad.id,
     serviceId: service.id,
     operadorId: "",
-    servuelta: servuelta
+    servuelta: servuelta,
+    serPdMultiple: serPdMultiple,
   };
 
   res.render("servbuses/new.ejs", {
@@ -511,7 +518,7 @@ exports.create = async (req, res, next) => {
     dctoFalla = 0,
     dctoSinietro = 0,
     dctoAutoridad = 0,
-    unidadId,
+    unidadId = [],
     serviceId,
     operadorId = 1,
     catvueltId = 0,
@@ -520,7 +527,8 @@ exports.create = async (req, res, next) => {
     cpcIds = [],
     catvueltId2 = 0,
     chMonto = 0,
-    servuelta = false
+    servuelta = 'false',
+    serPdMultiple = 'false',
   } = req.body;
 
   
@@ -559,8 +567,20 @@ exports.create = async (req, res, next) => {
     dctoSinietro = 0;
     dctoAutoridad = 0;
   }
+if (unidadId.length > 1) {
+    monto = monto / unidadId.length;
+    efectivo = monto;
+    cpc = 0;
+    anticipo = 0;
+    dctoFalla = 0;
+    dctoSinietro = 0;
+    dctoAutoridad = 0;
+  }
+
+  let servbus;
   
-  let servbus = srbus.map((srb) => {
+  if (serPdMultiple === 'false'){
+  servbus = srbus.map((srb) => {
     return{
     monto: monto,
     fecha: srb,
@@ -578,6 +598,26 @@ exports.create = async (req, res, next) => {
     operadorId: operadorId,
   }
   });
+} else if (serPdMultiple === 'true'){
+  servbus = unidadId.map((unidad) => {
+    return{
+    monto: monto,
+    fecha: fecha,
+    fechaCaja: caja.fecha,
+    efectivo: efectivo,
+    banco: banco,
+    cpc: cpc,
+    anticipo: anticipo,
+    dctoFalla: dctoFalla,
+    dctoSinietro: dctoSinietro,
+    dctoAutoridad: dctoAutoridad,
+    cajaId: cajaId,
+    unidadId: unidad,
+    serviceId: serviceId,
+    operadorId: operadorId,
+  }
+  });
+}
 
   try {
 

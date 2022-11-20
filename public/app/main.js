@@ -4,12 +4,15 @@ const serverUrl = 'http://localhost:3000/';
 
 //--Carga se select2 jquery---------------------------------------
 if (document.getElementById("unidadId")) {
+  const serPdMultiple = document.getElementById('serPdMultiple');
+  if (serPdMultiple.value === 'false'){
   $(document).ready(function () {
     $("#unidadId").select2(
     {
       height: '60px'
     });
   });
+}
 }
 if (document.getElementById("operadorId")) {
   $(document).ready(function () {
@@ -35,7 +38,8 @@ $(document).on("select2:open", () => {
 //--Carga de Datepicker-------------------------------------------------
 if (document.getElementById("servuelta")) {
   const servuelta = document.getElementById("servuelta");
-  if (servuelta.value === 'true') { 
+  const serPdMultiple = document.getElementById('serPdMultiple');
+  if (servuelta.value === 'true' || serPdMultiple.value === 'true') { 
     $('#fecha').datepicker({
       multidate: false,
       format: 'yyyy-mm-dd',
@@ -49,7 +53,7 @@ if (document.getElementById("servuelta")) {
     todayHighlight: true
   }); 
  }
-}
+ }
 
 //-------------------------------------------------------------------------
 //----------------------------------------------------------------
@@ -297,6 +301,7 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.plusAnt')) plusAntContr (ev);
   else if (matchEvent(ev, '.modFecha')) modFechaContr (ev);
   else if (matchEvent(ev, '.restFecha')) restFechaContr (ev);
+  else if  (matchEvent(ev, '.pdMult')) pdMultContr (ev);
 })
 
 document.addEventListener('submit', ev => {
@@ -321,6 +326,5 @@ document.addEventListener('change', ev => {
   else if  (matchEvent(ev, '.searchFinan')) searchFinanContr (ev);
   else if  (matchEvent(ev, '.sumRetiro')) sumRetiroContr (ev);
 })
-
 
 

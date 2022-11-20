@@ -137,9 +137,13 @@ function printDataCaja(data) {
     <div class="coll-3"></div>
 </div> 
     `;
+if (data.cierre === false){
+    overlay_content.innerHTML += `<b><button class="button_primary cerrarCaja" data-id="${data.id}" type="button">Cerrar Caja</button>`
+} else {
+  overlay_content.innerHTML += `<b>CERRADA</b>`
+}    
+ overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
 
-   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>
-   <button class="button_primary cerrarCaja" data-id="${data.id}" type="button">Cerrar Caja</button>`;
 }
 
 const cerrarCajaContr = (ev) => {

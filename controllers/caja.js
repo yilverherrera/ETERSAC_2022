@@ -156,6 +156,7 @@ exports.show = async (req, res, next) => {
     totalEgr: totalEgr.toFixed(2),
     retiro: retiro,
     efectivo: efectivo.toFixed(2),
+    cierre: caja.cierre,
   }
   try {
     res.json(box);
