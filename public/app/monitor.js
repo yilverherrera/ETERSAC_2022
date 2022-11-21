@@ -30,6 +30,7 @@ function printDataMonitor(data, fecha) {
   if (data.message === undefined){
    overlay_content.innerHTML += `
    <span class="buttonDelete Close cancelarOverlaymax cursorpointer">X</span>
+   <br>
       <span><b>Fecha:${fecha}</b></span>
       `;     
     data.groups.forEach((grupo) => {
@@ -722,7 +723,7 @@ const itemContainer = document.createElement('div');
     overlay_content.innerHTML = `<h2>${data.message}</h2>`;
 
     overlay_content.innerHTML += `
-    <button class="button_secundario cancelarOverlay refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+    <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
 
   }
 

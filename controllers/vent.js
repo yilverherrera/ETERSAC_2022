@@ -233,6 +233,8 @@ exports.new = async (req, res, next) => {
     unidadId: "",
     productoId: "",
     operadorId: "",
+    serPdMultiple: false,
+    servuelta: false,
   };
 
   res.render("vents/new.ejs", { vent, productos, unidads });
@@ -468,7 +470,8 @@ let cobrar = {};
     unidadId: unidad.id,
     productoId: producto.id,
     operadorId: "",
-    servuelta: servuelta
+    servuelta: servuelta,
+    serPdMultiple: false,
   };
 
   res.render("vents/new.ejs", {

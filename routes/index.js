@@ -31,6 +31,8 @@ const financieraController = require('../controllers/financiera');
 const prestfinancieroController = require('../controllers/prestfinanciero');
 const retiroController = require('../controllers/retiro');
 const monitorController = require('../controllers/monitor');
+const reporteController = require('../controllers/reporte');
+const reporteCotizacionesController = require('../controllers/reportecotizacion');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -714,5 +716,17 @@ router.delete('/cajas/:cajaId(\\d+)/retiros/:retiroId(\\d+)',
 router.get('/monitors',
   sessionController.loginRequiredJson,
   monitorController.index);
+
+router.get('/reportes/new',
+  sessionController.loginRequired,
+  reporteController.new);
+
+router.get('/reportes/cotizaciones',
+  sessionController.loginRequiredJson,
+  reporteCotizacionesController.index);
+router.get('/reportes/cotizaciones/downloadExcel',
+  sessionController.loginRequired,
+  reporteCotizacionesController.downloadExcel);
+
 
 module.exports = router;

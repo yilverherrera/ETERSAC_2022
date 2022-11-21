@@ -31,7 +31,8 @@
                 <% } %>
         </select>
     </div>
-
+<input type="hidden" name="servuelta" id="servuelta" value="<%= vent.servuelta %>">
+<input type="hidden" name="serPdMultiple" id="serPdMultiple" value="<%= vent.serPdMultiple %>">
     <% if (vent.unidadId>0) { %>
         <div class="frmtwo_child">
             <label for="monto"><span class="fa-solid fa-money-bill-1-wave"></span> Monto:<abbr title="required" aria-label="required">*</abbr>
@@ -89,7 +90,7 @@
                 <input type="text" id="cant" name="cant" class="calcMonto" value="<%= vent.cant %>">
             </div>
 
-        <input type="hidden" name="servuelta" id="servuelta" value="<%= vent.servuelta %>">
+        
         <% if (vent.servuelta === true) { %>
 
           

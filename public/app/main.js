@@ -4,6 +4,7 @@ const serverUrl = 'http://localhost:3000/';
 
 //--Carga se select2 jquery---------------------------------------
 if (document.getElementById("unidadId")) {
+  if (document.getElementById('serPdMultiple')){
   const serPdMultiple = document.getElementById('serPdMultiple');
   if (serPdMultiple.value === 'false'){
   $(document).ready(function () {
@@ -12,6 +13,14 @@ if (document.getElementById("unidadId")) {
       height: '60px'
     });
   });
+}
+} else {
+ $(document).ready(function () {
+    $("#unidadId").select2(
+    {
+      height: '60px'
+    });
+  }); 
 }
 }
 if (document.getElementById("operadorId")) {
@@ -39,7 +48,9 @@ $(document).on("select2:open", () => {
 if (document.getElementById("servuelta")) {
   const servuelta = document.getElementById("servuelta");
   const serPdMultiple = document.getElementById('serPdMultiple');
-  if (servuelta.value === 'true' || serPdMultiple.value === 'true') { 
+  let producto = false;
+  if (document.getElementById('productoId')){ producto = true; }
+  if (servuelta.value === 'true' || serPdMultiple.value === 'true' || producto === true) { 
     $('#fecha').datepicker({
       multidate: false,
       format: 'yyyy-mm-dd',
@@ -53,6 +64,15 @@ if (document.getElementById("servuelta")) {
     todayHighlight: true
   }); 
  }
+ }
+
+ if (document.getElementById('mes')){
+  $('#mes').datepicker({
+     format: "yyyy-mm",
+    startView: "months", 
+    minViewMode: "months",
+    autoclose: true
+    });
  }
 
 //-------------------------------------------------------------------------
@@ -302,6 +322,8 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.modFecha')) modFechaContr (ev);
   else if (matchEvent(ev, '.restFecha')) restFechaContr (ev);
   else if  (matchEvent(ev, '.pdMult')) pdMultContr (ev);
+  else if  (matchEvent(ev, '.reporteCotizacion')) reporteCotizacionContr (ev);
+  else if  (matchEvent(ev, '.descargarService')) descargarServiceContr (ev);
 })
 
 document.addEventListener('submit', ev => {

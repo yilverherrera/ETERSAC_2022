@@ -380,12 +380,14 @@ const pdMultContr = (ev) => {
 
 
 if (document.getElementById('unidadId')){
+  if (document.getElementById("servuelta")){
 const selectUp = document.getElementById('unidadId');
 const serPdMultiple = document.getElementById('serPdMultiple');
 const servuelta = document.getElementById("servuelta");
 if (servuelta.value === 'false' && serPdMultiple.value === 'true'){  
 selectUp.style.height = '200px'; 
 selectUp.addEventListener('keyup', logKey);
+}
 }
 }
 
