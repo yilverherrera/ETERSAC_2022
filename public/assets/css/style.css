@@ -382,10 +382,14 @@ display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
   cursor: pointer;
 }
 
-/*-----------------------*/
-
 .right {
   float: right;
+}
+
+.containerSubMenu{
+  max-width: 70%;
+  margin: auto;
+  background-color: var(--white-color);
 }
 
 

@@ -14,6 +14,6 @@ exports.new = async (req, res, next) => {
         unidadId: "",
     };
 
-    res.render('reportes/new', { reporte, unidads});
+    res.render('reportes/servicios/new', { reporte, unidads});
 
 };

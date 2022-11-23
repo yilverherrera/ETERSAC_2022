@@ -322,7 +322,8 @@ document.addEventListener('click', ev => {
   else if (matchEvent(ev, '.modFecha')) modFechaContr (ev);
   else if (matchEvent(ev, '.restFecha')) restFechaContr (ev);
   else if  (matchEvent(ev, '.pdMult')) pdMultContr (ev);
-  else if  (matchEvent(ev, '.reporteCotizacion')) reporteCotizacionContr (ev);
+  else if  (matchEvent(ev, '.reporteServicios')) reporteServiciosContr (ev);
+  else if  (matchEvent(ev, '.reporteVentas')) reporteVentasContr (ev);
   else if  (matchEvent(ev, '.descargarService')) descargarServiceContr (ev);
 })
 

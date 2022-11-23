@@ -532,6 +532,7 @@ exports.create = async (req, res, next) => {
 
   }
 
+  
   const precioVta = chMonto;
 
   let vltCanceladas = catvueltId;

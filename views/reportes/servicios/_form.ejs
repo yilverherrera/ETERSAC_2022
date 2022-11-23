@@ -1,0 +1,33 @@
+<div class="containerSubMenu">
+<div class="submenu">
+        <a href="/reportes/servicios/new" title="Servicios" class="in"><b><u>Servicios</u></b></a>
+        <a href="/reportes/ventas/new" title="Ventas">Ventas</a>
+    </div>
+<div class="form_one">
+    <div class="label">
+        <label for="fecha">Mes:</label>
+        </div>
+        <div class="input">
+        <input type="text" class="mes" id="mes" name="mes" value="<%= reporte.mes %>" placeholder="Mes" autocomplete="off" readonly  required />
+    </div>
+    
+    <div class="label">
+        <label for="unidadId">Unidad:</label>
+        </div>
+        <div class="input">
+        <select name="unidadId" id="unidadId">
+        <option value="" "" === reporte.unidadId ? "checked" : ""></option>
+            <% for (var i in unidads) { %>
+                <% unidad = unidads[i]; %>
+            <option value="<%= unidad.id %>" unidad.id === reporte.unidadId ? "checked" : ""><%= unidad.codigo %>-<%= unidad.placa %></option>
+            <% } %>
+        </select>
+    </div>
+   
+    <input class="button_secundario reporteServicios" data-id="1" data-vlta="1" type="button" value="Liquidaciones">
+    <input class="button_secundario reporteServicios" data-id="2" data-vlta="0" type="button" value="Cocheras">
+    <input class="button_secundario reporteServicios" data-id="3" data-vlta="0" type="button" value="Cotizaciones">
+    <input class="button_secundario reporteServicios" data-id="4" data-vlta="0" type="button" value="Salidas">
+    <input class="button_secundario reporteServicios" data-id="5" data-vlta="0" type="button" value="SOAT">
+</div>
+</div>

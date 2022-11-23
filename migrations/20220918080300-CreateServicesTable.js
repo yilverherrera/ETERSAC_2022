@@ -45,6 +45,14 @@ module.exports = {
                     type: Sequelize.BOOLEAN,
                     allowNull: false
                 },
+                asocProducto: {
+                    type: Sequelize.INTEGER,
+                    defaultValue: 0,
+                },
+                isUtil: {
+                    type: Sequelize.BOOLEAN,
+                    defaultValue: true,
+                },
                 createdAt: {
                     type: Sequelize.DATE,
                     allowNull: false

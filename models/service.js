@@ -39,6 +39,14 @@ module.exports = (sequelize, DataTypes) => {
         vuelta: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
+        },
+        asocProducto: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+        },
+        isUtil: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
         }
     }, {
         sequelize

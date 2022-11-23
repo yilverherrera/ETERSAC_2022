@@ -32,7 +32,8 @@ const prestfinancieroController = require('../controllers/prestfinanciero');
 const retiroController = require('../controllers/retiro');
 const monitorController = require('../controllers/monitor');
 const reporteController = require('../controllers/reporte');
-const reporteCotizacionesController = require('../controllers/reportecotizacion');
+const reporteservicioController = require('../controllers/reporteservicio');
+const reporteventaController = require('../controllers/reporteventa');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -717,16 +718,24 @@ router.get('/monitors',
   sessionController.loginRequiredJson,
   monitorController.index);
 
-router.get('/reportes/new',
+router.get('/reportes/servicios/new',
   sessionController.loginRequired,
-  reporteController.new);
-
-router.get('/reportes/cotizaciones',
+  reporteservicioController.new);
+router.get('/reportes/servicios',
   sessionController.loginRequiredJson,
-  reporteCotizacionesController.index);
-router.get('/reportes/cotizaciones/downloadExcel',
+  reporteservicioController.index);
+router.get('/reportes/servicios/downloadExcel',
   sessionController.loginRequired,
-  reporteCotizacionesController.downloadExcel);
+  reporteservicioController.downloadExcel);
 
+router.get('/reportes/ventas/new',
+  sessionController.loginRequired,
+  reporteventaController.new);
+router.get('/reportes/ventas',
+  sessionController.loginRequiredJson,
+  reporteventaController.index);
+router.get('/reportes/ventas/downloadExcel',
+  sessionController.loginRequired,
+  reporteventaController.downloadExcel);
 
 module.exports = router;

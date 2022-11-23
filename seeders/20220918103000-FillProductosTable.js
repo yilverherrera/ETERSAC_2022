@@ -24,9 +24,9 @@ module.exports = {
             },
             {
                 nombre: 'Tarjetas',
-                precioUltComp: 3,
-                precioVta1: 5,
-                precioVta2: 5,
+                precioUltComp: 1,
+                precioVta1: 1,
+                precioVta2: 1,
                 igv: 0,
                 vuelta: false,
                 createdAt: new Date(), updatedAt: new Date()
@@ -35,7 +35,7 @@ module.exports = {
                 nombre: 'Camisas',
                 precioUltComp: 20,
                 precioVta1: 25,
-                precioVta2: 25,
+                precioVta2: 35,
                 igv: 0,
                 vuelta: false,
                 createdAt: new Date(), updatedAt: new Date()
@@ -44,7 +44,7 @@ module.exports = {
                 nombre: 'Casacas',
                 precioUltComp: 40,
                 precioVta1: 50,
-                precioVta2: 50,
+                precioVta2: 60,
                 igv: 0,
                 vuelta: false,
                 createdAt: new Date(), updatedAt: new Date()

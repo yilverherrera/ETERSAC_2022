@@ -71,7 +71,14 @@ exports.index = async (req, res, next) => {
     })).then(async() => {
 
 
-      const groups = await models.Grupo.findAll().map(async(group) => {
+      const groups = await models.Grupo.findAll(
+        { 
+          where:{ 
+            showCaja: {
+              [Op.eq]: true,
+            }
+          }
+        }).map(async(group) => {
         const unidads = await group.getUnidads().map(unidad => unidad.id);
         return{
           id: group.id,
@@ -412,10 +419,7 @@ exports.index = async (req, res, next) => {
 
 
 //-----------------------------------------------------------
-
-
-
-      console.log(JSON.stringify(servbus));    
+ 
 
       const jsonS = {
         servicios: servicios,

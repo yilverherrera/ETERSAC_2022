@@ -531,12 +531,20 @@ exports.create = async (req, res, next) => {
     serPdMultiple = 'false',
   } = req.body;
 
-  
+  const serviceConf = await models.Service.findByPk(serviceId);
 
+  const asocProducto = serviceConf.asocProducto;
+
+  const producto = await models.Producto.findByPk(asocProducto);
+  let isAscProd = false;
 
 
   let vltCanceladas = catvueltId2;
   const montoUnitario = chMonto.split("T")[0];
+
+  if (asocProducto > 0) {
+    isAscProd = parseInt(montoUnitario) === serviceConf.monto2 ? true : false;
+  }
 
   if (servuelta === 'true') {
 
@@ -575,9 +583,14 @@ if (unidadId.length > 1) {
     dctoFalla = 0;
     dctoSinietro = 0;
     dctoAutoridad = 0;
+    if (isAscProd === true) {
+    monto = monto - producto.precioVta1;
+    efectivo = efectivo - producto.precioVta1;
+  }
   }
 
   let servbus;
+  let vent;
   
   if (serPdMultiple === 'false'){
   servbus = srbus.map((srb) => {
@@ -617,11 +630,42 @@ if (unidadId.length > 1) {
     operadorId: operadorId,
   }
   });
+
+   if (isAscProd === true) {
+    monto = monto - producto.precioVta1;
+    efectivo = efectivo - producto.precioVta1;
+
+  vent = unidadId.map((unidad) => {
+    return{
+    precioVta: producto.precioVta1,
+    fecha: fecha,
+    fechaCaja: caja.fecha,
+    cant: 1,
+    monto: producto.precioVta1,
+    efectivo: producto.precioVta1,
+    banco: 0,
+    cpc: 0,
+    anticipo: 0,
+    dctoFalla: 0,
+    dctoSinietro: 0,
+    dctoAutoridad: 0,
+    unidadId: unidad,
+    productoId: producto.id,
+    cajaId: cajaId,
+    operadorId: operadorId,
+  }
+  });
+}
+
 }
 
   try {
 
     servbus = await models.Servbus.bulkCreate(servbus);
+
+    if (isAscProd === true) {
+    vent= await models.Vent.bulkCreate(vent) ;
+    }
 
     if (servuelta === 'true') {
 

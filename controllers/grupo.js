@@ -92,8 +92,10 @@ exports.create = async (req, res, next) => {
         // Saves only the fields nombre, descripcion, isEmpresa, showCaja, showAutAdm, allRuta, empresaId, routId into the DDBB
         grupo = await grupo.save({ fields: ["nombre", "descripcion", "isEmpresa", "showCaja", "showAutAdm", "allRuta", "empresaId", "routId"] });
         const confServices = services.map((service) => {
+            const detalle = service.asocProducto > 0 ? true : false;
             return {
                 monto: service.monto,
+                detalle: detalle,
                 serviceId: service.id,
                 grupoId: grupo.id
             }
