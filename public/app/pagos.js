@@ -38,7 +38,7 @@ const itemContainer = document.createElement('div');
    <div class="label">
    <label>Efectivo:</label>
    </div>
-   <div>
+   <div class="input">
    <input type"text" id="abonoEfect" name="abonoEfect">
    </div>
    <div class="label">

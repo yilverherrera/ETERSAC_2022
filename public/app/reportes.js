@@ -9,13 +9,6 @@ const reporteServiciosContr = (ev) => {
   getDataReportServicios(fecha.value, unidadId.value, serviceId, servicio, vlta);
 }
 
-const descargarServiceContr = (ev) => {
-const fecha = document.querySelector('.mes');
-  const unidadId = document.getElementById('unidadId');
-  const serviceId = ev.target.getAttribute('data-id');
-
-  window.location.href = `${serverUrl}reportes/servicios/downloadExcel?serviceId=${serviceId}&fecha=${fecha}&unidadId=${unidadId}`;
-}
 
 function getDataReportServicios(fecha, unidadId, serviceId, servicio, vlta) {
   let overlaySpinner = document.querySelector('.overlay_spinner');
@@ -58,13 +51,13 @@ function printReportServicios(data, fecha) {
     <div class="row">
       <div class="col-2"> Autor:</div>
 
-      <div class="col-1"> Placa:</div>
+      <div class="col-2"> Placa:</div>
     
       <div class="col-3"> Fecha Caja:</div>
    
       <div class="col-3"> Fecha a Aplicar:</div>
    
-      <div class="col-3"> Monto:</div>
+      <div class="col-2"> Monto:</div>
     </div>
     `;     
 
@@ -94,10 +87,10 @@ const createDomRepSer = (data) => {
       itemHtml += `
        <div class="row">
        <div class="col-2"> ${item.pertCajSer.author.username}</div>
-      <div class="col-1"> ${item.pertUniSer.codigo}-${item.pertUniSer.placa}</div>
+      <div class="col-2"> ${item.pertUniSer.codigo}-${item.pertUniSer.placa}</div>
       <div class="col-3"> ${item.fechaCaja}</div>
-      <div class="col-3"> ${item.fecha}</div>
-      <div class="col-3"> ${item.monto}</div>
+      <div class="col-3 modFechaRep cursorpointer" data-id="${item.id}"> ${item.fecha}</div>
+      <div class="col-2"> ${item.monto}</div>
     </div>
     `;
     montoTotal += item.monto;
@@ -107,7 +100,8 @@ const createDomRepSer = (data) => {
       <div class="coll-3"> </div>
       <div class="coll-3"> </div>
       <div class="coll-3"> </div>
-      <div class="col-3"> ${montoTotal}</div>
+      <div class="coll-1"> </div>
+      <div class="col-2"> ${montoTotal.toFixed(2)}</div>
     </div>
     `;
 
@@ -274,13 +268,13 @@ function printReportVentas(data, fecha) {
     <div class="row">
       <div class="col-2"> Autor:</div>
 
-      <div class="col-1"> Placa:</div>
+      <div class="col-2"> Placa:</div>
     
       <div class="col-3"> Fecha Caja:</div>
    
       <div class="col-3"> Fecha a Aplicar:</div>
    
-      <div class="col-3"> Monto:</div>
+      <div class="col-2"> Monto:</div>
     </div>
     `;     
 
@@ -310,10 +304,10 @@ const createDomRepVen = (data) => {
       itemHtml += `
        <div class="row">
        <div class="col-2"> ${item.pertCajVen.author.username}</div>
-      <div class="col-1"> ${item.pertUniVen.codigo}-${item.pertUniVen.placa}</div>
+      <div class="col-2"> ${item.pertUniVen.codigo}-${item.pertUniVen.placa}</div>
       <div class="col-3"> ${item.fechaCaja}</div>
       <div class="col-3"> ${item.fecha}</div>
-      <div class="col-3"> ${item.monto}</div>
+      <div class="col-2"> ${item.monto}</div>
     </div>
     `;
     montoTotal += item.monto;
@@ -323,7 +317,8 @@ const createDomRepVen = (data) => {
       <div class="coll-3"> </div>
       <div class="coll-3"> </div>
       <div class="coll-3"> </div>
-      <div class="col-3"> ${montoTotal}</div>
+      <div class="coll-1"> </div>
+      <div class="col-2"> ${montoTotal.toFixed(2)}</div>
     </div>
     `;
 
@@ -383,10 +378,12 @@ const createDomRepVenVta = (data) => {
       <div class="col-1">
       3 Vltas:
       </div>
-      <div class="col-3">
+      <div class="col-2">
       Total:
       </div>
-      
+      <div class="col-1">
+      Anticipo:
+      </div>
       </div>`;
       data.forEach((vta) => {
         itemHtml += `
@@ -399,16 +396,18 @@ const createDomRepVenVta = (data) => {
       vta.vlta.forEach( (item) => {
       itemHtml += `
       <div class="col-1" style=" background-color:${vta.color[nc]};">
-      ${item}
+      <abbr title="${vta.detalleMonto[nc]}">${item}</abbr>
       </div>
       `;
       nc++;
     });
       itemHtml += `
-      <div class="col-3">
+      <div class="col-2">
       ${vta.total}
       </div>
-      
+      <div class="col-1" data-aplicado="${vta.aplicado}">
+      <abbr title="${vta.aplicado}">${vta.anticipo}</abbr>
+      </div>
       </div>`;
       liqTotal += vta.total;
       });
@@ -434,4 +433,151 @@ const createDomRepVenVta = (data) => {
 
        return itemHtml;
   
+}
+
+//---------------------------------------------------------------
+
+const reporteBusgastosContr = (ev) => {
+ const fecha = document.querySelector('.mes');
+  const unidadId = document.getElementById('unidadId');
+  const tipoPago = ev.target.getAttribute('data-id');
+  if (fecha.value === "") { return false; }
+  
+  getDataReportBusgastos(fecha.value, unidadId.value, tipoPago);
+}
+
+
+function getDataReportBusgastos(fecha, unidadId, tipoPago) {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay_max');  
+   let overlay_content = document.querySelector('.overlay_content_max');
+ 
+  overlay_content.innerHTML = '';
+  overlaySpinner.classList.add('opened');
+  overlay_content.innerHTML += `
+      <a href="${serverUrl}reportes/busgastos/downloadExcel?tipoPago=${tipoPago}&fecha=${fecha}&unidadId=${unidadId}"><img src="/assets/img/xlsx.png" width="50"></a>`;
+
+ overlay_content.innerHTML += `
+    <div class="row">
+      <div class="col-12"><b>${tipoPago} ${fecha}</b></div>
+    </div>
+    `;     
+
+  fetch(`${serverUrl}reportes/busgastos?tipoPago=${tipoPago}&fecha=${fecha}&unidadId=${unidadId}`)
+  .then((res) => res.json())
+  .then((data) => {   
+    printReportBusgastos(data, fecha);
+    overlay.classList.add('opened');
+    overlaySpinner.classList.remove('opened');
+  });
+  
+}
+
+function printReportBusgastos(data, fecha) {
+  let overlay_content = document.querySelector('.overlay_content_max');
+  if (data.message === undefined){
+   overlay_content.innerHTML += `
+
+    <div class="row">
+      <div class="col-2"> Autor:</div>
+    
+      <div class="col-2"> Doc:</div>
+   
+      <div class="col-5"> Detalle:</div>
+   
+      <div class="col-3"> Monto:</div>
+    </div>
+    `;     
+
+const itemContainer = document.createElement('div');
+  itemContainer.className = 'item';
+  itemContainer.innerHTML += createDomBus(data);
+  overlay_content.append(itemContainer);
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
+} else {
+
+    overlay_content.innerHTML = `<h2>${data.message}</h2>`;
+
+    overlay_content.innerHTML += `
+    <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+
+  }
+ 
+
+}
+
+
+const createDomBus = (data) => {
+   let montoTotal = 0;
+      let itemHtml = '';
+        data.forEach((item) => {
+          let detalle = '';
+          item.detbusgastos.forEach( (det) => {
+            detalle += `Placa: ${det.pertUniDbg.codigo}-${det.pertUniDbg.placa} Producto:${det.pertProDbg.nombre} Cant:${det.cant} CostoUni:${det.costoUni} Total:${det.total}, `;
+          });
+      itemHtml += `
+       <div class="row">
+       <div class="col-2"> ${item.pertCajBug.author.username}</div>
+      <div class="col-2"> ${item.doc}</div>
+      <div class="col-5"> ${detalle}</div>
+      <div class="col-3"> ${item.monto}</div>
+    </div>
+    `;
+    montoTotal += item.monto;
+        });
+         itemHtml += `
+<div class="row">
+      <div class="coll-3"> </div>
+      <div class="coll-3"> </div>
+      <div class="coll-3"> </div>
+      <div class="col-3"> ${montoTotal}</div>
+    </div>
+    `;
+
+       return itemHtml;
+  
+}
+
+const modFechaRepContr = (ev) => {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  const id = ev.target.getAttribute('data-id');
+  overlaySpinner.classList.add('opened');
+  
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+
+    printDataFechaRep(id);
+  overlaySpinner.classList.remove('opened');
+
+}
+
+const  printDataFechaRep = (id) => {
+  let overlay_content = document.querySelector('.overlay_content');
+   overlay_content.innerHTML = '';
+  overlay_content.innerHTML += `
+
+  <div class="label">
+   <label>Fecha:</label>
+   </div>
+   <div class="input">
+   <input type="date" id="dateMod" class="dateMod">
+   </div>
+
+   <button class="button_secundario cancelarOverlay" type="button">Cerrar</button>
+   <button class="button_primary guardarUpdFecha" data-id="${id}" type="button">Modificar</button>`;
+}
+
+const guardarUpdFechaContr = (ev) => {
+  
+  const id = ev.target.getAttribute('data-id');
+  const date = document.querySelector('.dateMod');
+  const fechaMod = {
+    id: id,
+    fecha: date.value,
+  }
+
+postData(`${serverUrl}reportes/fecha`,  fechaMod);
+
 }

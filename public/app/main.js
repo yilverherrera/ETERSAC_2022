@@ -324,7 +324,11 @@ document.addEventListener('click', ev => {
   else if  (matchEvent(ev, '.pdMult')) pdMultContr (ev);
   else if  (matchEvent(ev, '.reporteServicios')) reporteServiciosContr (ev);
   else if  (matchEvent(ev, '.reporteVentas')) reporteVentasContr (ev);
-  else if  (matchEvent(ev, '.descargarService')) descargarServiceContr (ev);
+  else if  (matchEvent(ev, '.reporteBusgastos')) reporteBusgastosContr (ev);
+  else if  (matchEvent(ev, '.modOperador')) modOperadorContr (ev);
+  else if  (matchEvent(ev, '.guardarUpdOperador')) guardarUpdOperadorContr (ev);
+  else if  (matchEvent(ev, '.modFechaRep')) modFechaRepContr (ev);
+  else if  (matchEvent(ev, '.guardarUpdFecha')) guardarUpdFechaContr (ev);
 })
 
 document.addEventListener('submit', ev => {

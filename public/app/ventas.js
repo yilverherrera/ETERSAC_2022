@@ -10,75 +10,75 @@ const calcMontoContr = (sel) => {
   let total = 0;
 
   if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
-     overlay.classList.add('opened');
+   overlay.classList.add('opened');
 
-    overlay_content.innerHTML += `
-    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
-    <div class="row">
-    <div class="col-12">
-    Debes especificar la Cantidad
-    </div>
-    
-    </div>`;
-    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
-    return false;
-    cant.value = 1;
-    sel = 1;
-  }
+   overlay_content.innerHTML += `
+   <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+   <div class="row">
+   <div class="col-12">
+   Debes especificar la Cantidad
+   </div>
 
-  if (document.getElementById("tmpmonto")) {
-    restamonto = document.getElementById("tmpmonto").value;
-  }
-  
-  if (document.getElementsByName("cpcIds[]")){
-    var radioscpc = document.getElementsByName("cpcIds[]");
+   </div>`;
+   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+   return false;
+   cant.value = 1;
+   sel = 1;
+ }
+
+ if (document.getElementById("tmpmonto")) {
+  restamonto = document.getElementById("tmpmonto").value;
+}
+
+if (document.getElementsByName("cpcIds[]")){
+  var radioscpc = document.getElementsByName("cpcIds[]");
   for (var radiocpc of radioscpc) {
     if (radiocpc.type === "checkbox" && radiocpc.checked) {
       radiocpc.checked = false;
     }
   }
 }
-  if (document.getElementsByName("cpcOper")){
-    var radiosope = document.getElementsByName("cpcOper");
+if (document.getElementsByName("cpcOper")){
+  var radiosope = document.getElementsByName("cpcOper");
   for (var radioope of radiosope) {
     if (radioope.type === "checkbox" && radioope.checked) {
       radioope.checked = false;
     }
   }
+}
+
+for (var chMonto of chMontos) {
+  if (chMonto.type === "radio" && chMonto.checked) {
+    monto2 = chMonto.value;
   }
+}
 
-  for (var chMonto of chMontos) {
-    if (chMonto.type === "radio" && chMonto.checked) {
-      monto2 = chMonto.value;
-    }
+monto.value = monto2 * sel;
+monto.value = monto.value - restamonto;
+monto.value = parseFloat(monto.value).toFixed(4);
+
+
+[...document.querySelectorAll("input[type=number]")].forEach(el => {
+
+  el.classList.remove("error");
+
+  if (el.value=="") {
+
+    el.classList.add("error");
+    return false;
+
   }
+  total += parseFloat(el.value);
 
-  monto.value = monto2 * sel;
-  monto.value = monto.value - restamonto;
-  monto.value = parseFloat(monto.value).toFixed(4);
-
-  
-  [...document.querySelectorAll("input[type=number]")].forEach(el => {
-
-    el.classList.remove("error");
-
-    if (el.value=="") {
-
-      el.classList.add("error");
-      return false;
-
-    }
-    total += parseFloat(el.value);
-
-  });
-  if (document.getElementById("lbsumaAnt")){
-    const anticipo = document.getElementById("lbsumaAnt");
+});
+if (document.getElementById("lbsumaAnt")){
+  const anticipo = document.getElementById("lbsumaAnt");
   total += parseFloat(anticipo.innerHTML);
 }
 
-  monto = parseFloat(monto.value);
-  monto = monto - total;
-  document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
+monto = parseFloat(monto.value);
+monto = monto - total;
+document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
 }
 
 
@@ -87,27 +87,27 @@ const createVentaContr = (frm) => {
  let monto = document.getElementById("monto");
  const cant = document.getElementById("cant");
  let overlay = document.querySelector('.overlay');
-  let overlay_content = document.querySelector('.overlay_content');
-  overlay_content.innerHTML = '';
+ let overlay_content = document.querySelector('.overlay_content');
+ overlay_content.innerHTML = '';
  let dcto = 0;
  let total = 0;
 
  if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
-     overlay.classList.add('opened');
+   overlay.classList.add('opened');
 
-    overlay_content.innerHTML += `
-    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
-    <div class="row">
-    <div class="col-12">
-    Debes especificar la Cantidad
-    </div>
-    
-    </div>`;
-    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
-    frm.preventDefault();
-    return false;
-    cant.value = 1;
-  }
+   overlay_content.innerHTML += `
+   <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+   <div class="row">
+   <div class="col-12">
+   Debes especificar la Cantidad
+   </div>
+
+   </div>`;
+   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+   frm.preventDefault();
+   return false;
+   cant.value = 1;
+ }
 
  if (servuelta.value === 'true') {
   const anticipo = document.getElementById("lbsumaAnt");
@@ -126,17 +126,17 @@ const createVentaContr = (frm) => {
   if (!selected) {
     overlay.classList.add('opened');
 
-      overlay_content.innerHTML += `
-      <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
-      <div class="row">
-      <div class="col-12">
-      Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)
-      </div>
+    overlay_content.innerHTML += `
+    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+    <div class="row">
+    <div class="col-12">
+    Seleccione la(s) Vuelta(s) Recorridas por la Unidad (PD)
+    </div>
 
-      </div>`;
-      overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
-      frm.preventDefault();
-      return false;
+    </div>`;
+    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+    frm.preventDefault();
+    return false;
   }
 
   const deuda = operador.value.split("T")[2];
@@ -178,19 +178,19 @@ const diff = monto - total;
 if (diff > -0.5 && diff < 0.2 ) {
   return true;
 } else {
-   overlay.classList.add('opened');
+ overlay.classList.add('opened');
 
-    overlay_content.innerHTML += `
-    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
-    <div class="row">
-    <div class="col-12">
-    Debes especificar el saldo en una o varias opciones. Ej. La venta(monto) es 170, y paga 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)
-    </div>
-    
-    </div>`;
-    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
-    frm.preventDefault();
-    return false;
+ overlay_content.innerHTML += `
+ <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+ <div class="row">
+ <div class="col-12">
+ Debes especificar el saldo en una o varias opciones. Ej. La venta(monto) es 170, y paga 150 en efectivo el saldo 20 S/ debes especificarlos en una ó varias de las opciones (cpc, dcto....)
+ </div>
+
+ </div>`;
+ overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+ frm.preventDefault();
+ return false;
 }
 };
 
@@ -214,81 +214,81 @@ const sumAntContr = (sel) => {
   overlay_content.innerHTML = '';
 
   if (cant.value === "" || cant.value === "0" || isNaN(cant.value)) {
-     overlay.classList.add('opened');
+   overlay.classList.add('opened');
 
-    overlay_content.innerHTML += `
-    <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
-    <div class="row">
-    <div class="col-12">
-    Debes especificar la Cantidad
-    </div>
-    
-    </div>`;
-    overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
-    return false;
-  } else {
+   overlay_content.innerHTML += `
+   <img align="top" width="20px" height="20px" src="/assets/img/eleccion.png">
+   <div class="row">
+   <div class="col-12">
+   Debes especificar la Cantidad
+   </div>
 
-    let select = false;
-    let max = 0;
-    let index = 0;
+   </div>`;
+   overlay_content.innerHTML += `<button class="button_secundario cancelarOverlay" type="button">Cerrar</button>`;
+   return false;
+ } else {
 
-    let sumaAnt = 0;
-    for (var i = 0; i < selectAnt.length; i++) 
-    {
-     var opt = selectAnt[i];
-     if (opt.selected) {
-      sumaAnt = sumaAnt + parseFloat(opt.value.split('T')[1]);
-      if (opt.value.split('T')[0] == sel.split('T')[0]) {
-        max = opt.getAttribute("data-my-id");
-        select = true;  
-        index = i;     
-      }
+  let select = false;
+  let max = 0;
+  let index = 0;
+
+  let sumaAnt = 0;
+  for (var i = 0; i < selectAnt.length; i++) 
+  {
+   var opt = selectAnt[i];
+   if (opt.selected) {
+    sumaAnt = sumaAnt + parseFloat(opt.value.split('T')[1]);
+    if (opt.value.split('T')[0] == sel.split('T')[0]) {
+      max = opt.getAttribute("data-my-id");
+      select = true;  
+      index = i;     
     }
   }
+}
 
-  if (select === true) {
-    max = sumaAnt - max;
-    anticSel.value = selectAnt[index].value.split('T')[1];
-    lbselAnt.innerHTML = selectAnt[index].text;
-    indexAnticip.value = selectAnt[index].index;
-  }
+if (select === true) {
+  max = sumaAnt - max;
+  anticSel.value = selectAnt[index].value.split('T')[1];
+  lbselAnt.innerHTML = selectAnt[index].text;
+  indexAnticip.value = selectAnt[index].index;
+}
 
-  if (max < monto.value) {
-    document.getElementById('lbsumaAnt').innerHTML = sumaAnt.toFixed(2);
-    if (efectivo.value === "" || isNaN(efectivo.value)) {
-      efectivo.value = 0;
-    }
-    if (banco.value === "" || isNaN(banco.value)) {
-      banco.value = 0;
-    }
-    if (cpc.value === "" || isNaN(cpc.value)) {
-      cpc.value = 0;
-    }
-    if (dctoFalla.value === "" || isNaN(dctoFalla.value)) {
-      dctoFalla.value = 0;
-    }
-    if (dctoSinietro.value === "" || isNaN(dctoSinietro.value)) {
-      dctoSinietro.value = 0;
-    }
-    if (dctoAutoridad.value === "" || isNaN(dctoAutoridad)) {
-      dctoAutoridad.value = 0;
-    }
-    const dcto =
-    parseFloat(dctoFalla.value) +
-    parseFloat(dctoSinietro.value) +
-    parseFloat(dctoAutoridad.value);
-    const total =
-    parseFloat(efectivo.value) +
-    parseFloat(banco.value) +
-    parseFloat(cpc.value) +
-    parseFloat(sumaAnt) +
-    parseFloat(dcto);
-    monto = parseFloat(monto.value);
-    monto = monto - total;
-    document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
-  } else {
-    selectAnt[indexAnticip.value].selected = false;
+if (max < monto.value) {
+  document.getElementById('lbsumaAnt').innerHTML = sumaAnt.toFixed(2);
+  if (efectivo.value === "" || isNaN(efectivo.value)) {
+    efectivo.value = 0;
   }
+  if (banco.value === "" || isNaN(banco.value)) {
+    banco.value = 0;
+  }
+  if (cpc.value === "" || isNaN(cpc.value)) {
+    cpc.value = 0;
+  }
+  if (dctoFalla.value === "" || isNaN(dctoFalla.value)) {
+    dctoFalla.value = 0;
+  }
+  if (dctoSinietro.value === "" || isNaN(dctoSinietro.value)) {
+    dctoSinietro.value = 0;
+  }
+  if (dctoAutoridad.value === "" || isNaN(dctoAutoridad)) {
+    dctoAutoridad.value = 0;
+  }
+  const dcto =
+  parseFloat(dctoFalla.value) +
+  parseFloat(dctoSinietro.value) +
+  parseFloat(dctoAutoridad.value);
+  const total =
+  parseFloat(efectivo.value) +
+  parseFloat(banco.value) +
+  parseFloat(cpc.value) +
+  parseFloat(sumaAnt) +
+  parseFloat(dcto);
+  monto = parseFloat(monto.value);
+  monto = monto - total;
+  document.getElementById('restaVta').innerHTML = '<br><b>Resta:'+monto.toFixed(2)+'</b>';
+} else {
+  selectAnt[indexAnticip.value].selected = false;
+}
 } 
 };
 
@@ -645,7 +645,7 @@ if (max < monto.value) {
   selectAnt[index].selected = false;
 }
 }*/
-}
+  }
 };
 
 const cobrarOperVtaContr = (check) => {
@@ -687,4 +687,66 @@ const cobrarOperVtaContr = (check) => {
   }
 }
 
+const modOperadorContr = (ev) => {
+  
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay');
+  const id = ev.target.getAttribute('data-id');
+  overlaySpinner.classList.add('opened');
+  
+  window.setTimeout(() => {
+    overlay.classList.add('opened');
+  }, 500);
+  
+  fetch(`${serverUrl}operadors`)
+  .then((res) => res.json())
+  .then((data) => {
+    printDataOperadores(data, id);
+  overlaySpinner.classList.remove('opened');
+  });
+}
 
+const  printDataOperadores = (data, id) => {
+  let overlay_content = document.querySelector('.overlay_content');
+   overlay_content.innerHTML = '';
+  overlay_content.innerHTML += `
+
+  <div class="label">
+   <label>Operador:</label>
+   </div>
+
+   
+   `;
+const itemContainer = document.createElement('select');
+itemContainer.className = 'operadorUpd';
+  data.forEach((item) => {
+    itemContainer.innerHTML += createDomOption(item);
+    overlay_content.append(itemContainer);
+  });
+   overlay_content.innerHTML += `
+  
+   <button class="button_secundario cancelarOverlay" type="button">Cerrar</button>
+   <button class="button_primary guardarUpdOperador" data-id="${id}" type="button">Modificar</button>`;
+}
+
+function createDomOption(item) {
+  const itemHtml = `
+    <option value="${item.id}">
+        ${item.nombre.toUpperCase()} ${item.apellido.toUpperCase()}
+    </option>
+    `;
+  return itemHtml;
+}
+
+const guardarUpdOperadorContr = (ev) => {
+  
+  const id = ev.target.getAttribute('data-id');
+  const operadorId = document.querySelector('.operadorUpd');
+  const operador = {
+    id: id,
+    operadorId: operadorId.value,
+  }
+
+postData(`${serverUrl}operadors`,  operador);
+
+}
