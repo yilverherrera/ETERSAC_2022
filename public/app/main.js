@@ -329,6 +329,7 @@ document.addEventListener('click', ev => {
   else if  (matchEvent(ev, '.guardarUpdOperador')) guardarUpdOperadorContr (ev);
   else if  (matchEvent(ev, '.modFechaRep')) modFechaRepContr (ev);
   else if  (matchEvent(ev, '.guardarUpdFecha')) guardarUpdFechaContr (ev);
+  else if  (matchEvent(ev, '.reporteAdmgastos')) reporteAdmgastosContr (ev);
 })
 
 document.addEventListener('submit', ev => {

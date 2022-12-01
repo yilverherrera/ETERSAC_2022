@@ -11,8 +11,8 @@ module.exports = {
                     model: "Cajas",
                     key: "id"
                 },
-                onUpdate: 'CASCADE',
-                onDelete: 'SET NULL'
+                onUpdate: 'NO ACTION',
+                onDelete: 'NO ACTION'
             }
         );
     },

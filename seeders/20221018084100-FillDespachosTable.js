@@ -14,7 +14,21 @@ module.exports = {
             },
             {
                 name: "Profam", 
-                color: " #4dc62f ",
+                color: "#4dc62f ",
+                routId: 1,
+                createdAt: now,
+                updatedAt: now
+            },
+            {
+                name: "Surquillo", 
+                color: "#CD9C9C",
+                routId: 2,
+                createdAt: now,
+                updatedAt: now
+            },
+            {
+                name: "Paradero 2", 
+                color: "#CEFFFF",
                 routId: 1,
                 createdAt: now,
                 updatedAt: now

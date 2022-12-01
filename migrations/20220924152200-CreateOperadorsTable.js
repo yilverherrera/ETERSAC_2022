@@ -14,7 +14,6 @@ module.exports = {
                 },
                 dni: {
                     type: Sequelize.STRING,
-                    unique: true,
                     validate: { notEmpty: { msg: "DNI no debe estar vacío." } }
                 },
                 nombre: {

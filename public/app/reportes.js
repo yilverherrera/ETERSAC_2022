@@ -538,6 +538,7 @@ const createDomBus = (data) => {
   
 }
 
+//-------------------------------------------------------------------------------
 const modFechaRepContr = (ev) => {
   let overlaySpinner = document.querySelector('.overlay_spinner');
   let overlay = document.querySelector('.overlay');
@@ -580,4 +581,101 @@ const guardarUpdFechaContr = (ev) => {
 
 postData(`${serverUrl}reportes/fecha`,  fechaMod);
 
+}
+
+//-------------------------------------------------------------------------------------
+const reporteAdmgastosContr = (ev) => {
+ const fecha = document.querySelector('.mes');
+  if (fecha.value === "") { return false; }
+  
+  getDataReportAdmgastos(fecha.value);
+}
+
+
+function getDataReportAdmgastos(fecha) {
+  let overlaySpinner = document.querySelector('.overlay_spinner');
+  let overlay = document.querySelector('.overlay_max');  
+   let overlay_content = document.querySelector('.overlay_content_max');
+ 
+  overlay_content.innerHTML = '';
+  overlaySpinner.classList.add('opened');
+  overlay_content.innerHTML += `
+      <a href="${serverUrl}reportes/admgastos/downloadExcel?fecha=${fecha}"><img src="/assets/img/xlsx.png" width="50"></a>`;
+
+ overlay_content.innerHTML += `
+    <div class="row">
+      <div class="col-12"><b>${fecha}</b></div>
+    </div>
+    `;     
+
+  fetch(`${serverUrl}reportes/admgastos?fecha=${fecha}`)
+  .then((res) => res.json())
+  .then((data) => {   
+    printReportAdmgastos(data);
+    overlay.classList.add('opened');
+    overlaySpinner.classList.remove('opened');
+  });
+  
+}
+
+function printReportAdmgastos(data) {
+  let overlay_content = document.querySelector('.overlay_content_max');
+  if (data.message === undefined){
+   overlay_content.innerHTML += `
+
+    <div class="row">
+      <div class="col-2"> Autor:</div>
+   
+      <div class="col-3"> Detalle:</div>
+
+      <div class="col-5"> Observaciones:</div>
+   
+      <div class="col-2"> Monto:</div>
+    </div>
+    `;     
+
+const itemContainer = document.createElement('div');
+  itemContainer.className = 'item';
+  itemContainer.innerHTML += createDomAdm(data);
+  overlay_content.append(itemContainer);
+  overlay_content.innerHTML += `<button class="button_secundario cancelarOverlaymax" type="button">Cerrar</button>`;
+} else {
+
+    overlay_content.innerHTML = `<h2>${data.message}</h2>`;
+
+    overlay_content.innerHTML += `
+    <button class="button_secundario cancelarOverlaymax refresh" data-refresh="${data.refresh}" type="button">Cerrar</button>`;
+
+  }
+ 
+
+}
+
+
+const createDomAdm = (data) => {
+   let montoTotal = 0;
+      let itemHtml = '';
+        data.forEach((item) => {
+        itemHtml += `
+       <div class="row">
+       <div class="col-2"> ${item.pertCajAdm.author.username}</div>
+      <div class="col-3"> ${item.pertCatAdm.nombre}</div>
+      <div class="col-5"> ${item.observaciones}</div>
+      <div class="col-2"> ${item.monto}</div>
+    </div>
+    `;
+    montoTotal += item.monto;
+        });
+         itemHtml += `
+<div class="row">
+      <div class="coll-3"> </div>
+      <div class="coll-3"> </div>
+      <div class="coll-3"> </div>
+      <div class="coll-1"> </div>
+      <div class="col-2"> ${montoTotal}</div>
+    </div>
+    `;
+
+       return itemHtml;
+  
 }

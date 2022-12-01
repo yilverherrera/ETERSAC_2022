@@ -746,6 +746,13 @@ module.exports = {
             telefono: "", 
             createdAt: new Date(), 
             updatedAt: new Date(),
+        },
+         {
+            id: 108,
+            nombre: "AMMECY GRAPH E.I.R.L BOLETOS",
+            telefono: "", 
+            createdAt: new Date(), 
+            updatedAt: new Date(),
         }
         ]);
 
@@ -757,3 +764,4 @@ down: async (queryInterface, Sequelize) => {
 
 }
 };
+

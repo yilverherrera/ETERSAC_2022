@@ -37,6 +37,7 @@ const reporteventaController = require('../controllers/reporteventa');
 const reportebusgastoController = require('../controllers/reportebusgasto');
 const operadorController = require('../controllers/operador');
 const reportefechaController = require('../controllers/reportefecha');
+const reporteadmgastoController = require('../controllers/reporteadmgasto');
 //-----------------------------------------------------------
 
 // Routes for the resource /login
@@ -762,5 +763,16 @@ router.get('/operadors',
 router.post('/operadors',
   sessionController.loginRequiredJson,
   operadorController.update);
+
+router.get('/reportes/admgastos/new',
+  sessionController.loginRequired,
+  reporteadmgastoController.new);
+router.get('/reportes/admgastos',
+  sessionController.loginRequiredJson,
+  reporteadmgastoController.index);
+router.get('/reportes/admgastos/downloadExcel',
+  sessionController.loginRequired,
+  reporteadmgastoController.downloadExcel);
+
 
 module.exports = router;

@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
             banco: {
                 type: DataTypes.DOUBLE,
                 defaultValue: 0
+            }, 
+            dollar: {
+                type: DataTypes.DOUBLE,
+                defaultValue: 0
             },  
             cpc: {
                 type: DataTypes.DOUBLE,

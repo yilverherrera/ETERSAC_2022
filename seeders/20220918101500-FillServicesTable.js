@@ -5,7 +5,7 @@ module.exports = {
 
         return queryInterface.bulkInsert('Services', [
         {
-            nombre: 'Liquidaciones',
+            
             monto: 170,
             descMont: 'std',
             monto2: 160,
@@ -15,10 +15,11 @@ module.exports = {
             vuelta: true,
             asocProducto: 0,
             isUtil: true,
+            nombre: 'Liquidaciones',
             createdAt: new Date(), updatedAt: new Date()
         },
         {
-            nombre: 'Cocheras',
+           
             monto: 5,
             descMont: 'P1',
             monto2: 6,
@@ -28,10 +29,11 @@ module.exports = {
             vuelta: false,
             asocProducto: 0,
             isUtil: true,
+             nombre: 'Cocheras',
             createdAt: new Date(), updatedAt: new Date()
         },
         {
-            nombre: 'Cotizaciones',
+           
             monto: 50,
             descMont: 'Día',
             monto2: 25,
@@ -41,10 +43,11 @@ module.exports = {
             vuelta: false,
             asocProducto: 0,
             isUtil: true,
+             nombre: 'Cotizaciones',
             createdAt: new Date(), updatedAt: new Date()
         },
         {
-            nombre: 'Salidas',
+            
             monto: 5,
             descMont: 'Salida',
             monto2: 6,
@@ -54,10 +57,11 @@ module.exports = {
             vuelta: false,
             asocProducto: 3,
             isUtil: true,
+            nombre: 'Salidas',
             createdAt: new Date(), updatedAt: new Date()
         },
          {
-            nombre: 'SOAT',
+            
             monto: 267,
             descMont: 'SOAT',
             monto2: 60,
@@ -67,6 +71,21 @@ module.exports = {
             vuelta: false,
             asocProducto: 0,
             isUtil: false,
+            nombre: 'SOAT',
+            createdAt: new Date(), updatedAt: new Date()
+        },
+         {
+            
+            monto: 100,
+            descMont: 'OTROS',
+            monto2: 60,
+            descMont2: 'OTROS',
+            monto3: 0,
+            descMont3: '',
+            vuelta: false,
+            asocProducto: 0,
+            isUtil: false,
+            nombre: 'OTROS',
             createdAt: new Date(), updatedAt: new Date()
         }
         ]);

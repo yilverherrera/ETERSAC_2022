@@ -591,6 +591,7 @@ if (unidadId.length > 1) {
 
   let servbus;
   let vent;
+  const dollar = 0;
   
   if (serPdMultiple === 'false'){
   servbus = srbus.map((srb) => {
@@ -600,6 +601,7 @@ if (unidadId.length > 1) {
     fechaCaja: caja.fecha,
     efectivo: efectivo,
     banco: banco,
+    dollar: dollar,
     cpc: cpc,
     anticipo: anticipo,
     dctoFalla: dctoFalla,
@@ -619,6 +621,7 @@ if (unidadId.length > 1) {
     fechaCaja: caja.fecha,
     efectivo: efectivo,
     banco: banco,
+    dollar: dollar,
     cpc: cpc,
     anticipo: anticipo,
     dctoFalla: dctoFalla,

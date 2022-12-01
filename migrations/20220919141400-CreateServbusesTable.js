@@ -10,7 +10,6 @@ module.exports = {
                     allowNull: false,
                     primaryKey: true,
                     autoIncrement: true,
-                    unique: true
                 },
                 monto: {
                     type: Sequelize.DOUBLE,
@@ -29,6 +28,10 @@ module.exports = {
                     defaultValue: 0
                 },  
                 banco: {
+                    type: Sequelize.DOUBLE,
+                    defaultValue: 0
+                },
+                dollar: {
                     type: Sequelize.DOUBLE,
                     defaultValue: 0
                 },  

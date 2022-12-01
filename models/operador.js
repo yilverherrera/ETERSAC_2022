@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     Operador.init({
             dni: {
                 type: DataTypes.STRING,
-                unique: true,
                 validate: {notEmpty: {msg: "DNI no puede estar vacío"}}
             },
             nombre: {
