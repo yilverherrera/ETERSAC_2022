@@ -167,6 +167,7 @@ router.param('productoId', productoController.load);
 router.param('anticipoId', anticipoController.load);
 router.param('cobroId', cobroController.load);
 router.param('cobrovId', cobroController.loadv);
+router.param('cobrocId', cobroController.loadc);
 router.param('busgastoId', busgastoController.load);
 router.param('admgastoId', admgastoController.load);
 router.param('pagoproveedorId', pagoproveedorController.load);
@@ -565,6 +566,12 @@ router.delete('/cajas/:cajaId(\\d+)/cobros/v/:cobrovId(\\d+)',
   cajaController.adminOrAuthorRequired,           
   cajaController.notIsCierre,
   cobroController.destroyv);
+router.delete('/cajas/:cajaId(\\d+)/cobros/c/:cobrocId(\\d+)',
+  sessionController.loginRequired,
+  cajaController.adminOrAuthorRequired,           
+  cajaController.notIsCierre,
+  cobroController.destroyc);
+
 
 //Routes for the resource Busgastos
 router.get('/cajas/:cajaId(\\d+)/busgastos',

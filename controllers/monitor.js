@@ -53,6 +53,7 @@ exports.index = async (req, res, next) => {
           vlta: vlt.vltCanceladas,
           unidadId: vlt.unidadId,
           efectivo: vlt.pertSerVue.efectivo,
+          fechaCaja: vlt.pertSerVue.fechaCaja,
           banco: vlt.pertSerVue.banco,
           cpc: vlt.pertSerVue.cpc,
           falla: vlt.pertSerVue.dctoFalla,
@@ -79,7 +80,7 @@ exports.index = async (req, res, next) => {
             }
           }
         }).map(async(group) => {
-        const unidads = await group.getUnidads().map(unidad => unidad.id);
+        const unidads = await group.getUnidads({order: [['codigo', 'ASC']]}).map(unidad => unidad.id);
         return{
           id: group.id,
           nombre: group.nombre,

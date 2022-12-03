@@ -40,6 +40,11 @@ module.exports = {
                 createdAt: now,
                 updatedAt: now
             },
+            {
+                nombre: "Admón", 
+                createdAt: now,
+                updatedAt: now
+            },
         ]);
 
 },

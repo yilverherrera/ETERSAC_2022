@@ -21,7 +21,7 @@ exports.load = async (req, res, next, cobroId) => {
   }
 };
 
-// Autoload el cobro asociado a :cobroId
+// Autoload el cobro asociado a :cobrovId
 exports.loadv = async (req, res, next, cobrovId) => {
   try {
     const cobro = await models.Cobrovent.findByPk(cobrovId);
@@ -36,6 +36,20 @@ exports.loadv = async (req, res, next, cobrovId) => {
   }
 };
 
+// Autoload el cobro asociado a :cobrocId
+exports.loadc = async (req, res, next, cobrocId) => {
+  try {
+    const cobro = await models.Cobrocpc.findByPk(cobrocId);
+    if (cobro) {
+      req.load = { ...req.load, cobro };
+      next();
+    } else {
+      throw new Error("There is no cobro with id=" + cobrocId);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 // GET /cajas/:cajaId/cobros
 exports.index = async (req, res, next) => {
@@ -45,6 +59,10 @@ exports.index = async (req, res, next) => {
   };
 
   let findOptionsVta = {
+    where: {},
+    include: [],
+  };
+  let findOptionsCpc = {
     where: {},
     include: [],
   };
@@ -138,6 +156,39 @@ const cobrosserv = cobranzaserv.map((cobro) => {
 
 
   //---------------------------------------------------
+ //Cpcs--------------------------------------- 
+ findOptionsCpc.include.push({
+  model: models.Cpc,
+  as: "pertCpcCob",
+  include: [
+  {
+    model: models.Operador,
+    as: "pertOpeCpc",
+  },
+  ]
+});
+
+ findOptionsCpc.include.push({
+  model: models.Caja,
+  as: "pertCajCobc",
+  where: { id: caja.id },
+});
+
+ const cobranzacpc = await models.Cobrocpc.findAll(findOptionsCpc);
+
+ const cobroscpc = cobranzacpc.map((cobro) => {
+  return {
+    id: cobro.id,
+    monto: cobro.monto,
+    observaciones: cobro.pertCpcCob.observaciones,
+    nombre: cobro.pertCpcCob.pertOpeCpc.nombre,
+    apellido: cobro.pertCpcCob.pertOpeCpc.apellido,
+    fecha: cobro.pertCpcCob.fecha
+  };
+});
+
+
+  //---------------------------------------------------
  const despacho = await models.Despacho.findByPk(caja.despachoId);
 
     if (despacho) {
@@ -146,7 +197,7 @@ const cobrosserv = cobranzaserv.map((cobro) => {
     }
 
  
-    res.render("cobros/", { cobrosserv, cobrosvta, caja });
+    res.render("cobros/", { cobrosserv, cobrosvta, cobroscpc, caja });
   } catch (error) {
     next(error);
   }
@@ -181,6 +232,14 @@ exports.new = async (req, res, next) => {
     order: Sequelize.literal('total DESC')
   }).filter((cprc) => cprc.cpc > cprc.total );
 
+const cpcc = await models.Cpc.findAll({
+    group:['Cpc.id'], 
+    attributes: [[Sequelize.fn('', Sequelize.col('Cpc.id')), 'id'],[Sequelize.fn('', Sequelize.col('Cpc.monto')), 'monto'],[Sequelize.fn('', Sequelize.col('Cpc.fecha')), 'fecha'],[Sequelize.fn('', Sequelize.col('Cpc.observaciones')), 'observaciones'],[Sequelize.fn('', Sequelize.col('pertOpeCpc.nombre')), 'nombre'],[Sequelize.fn('', Sequelize.col('pertOpeCpc.apellido')), 'apellido'],[Sequelize.fn('SUM', Sequelize.col('cobrocpc.monto')), 'total']], 
+    include: [{model: models.Cobrocpc, as: 'cobrocpc', attributes:[]}, {model: models.Operador, as: 'pertOpeCpc', attributes:[]}],
+    raw: true,
+    order: Sequelize.literal('total DESC')
+  }).filter((cprc) => cprc.monto > cprc.total );
+
   const {caja} = req.load;
 
   const cobro =
@@ -190,7 +249,7 @@ exports.new = async (req, res, next) => {
     cajaId: caja.id  
   };
 
-  res.render('cobros/new', { cobro, cpcs, cpcv });
+  res.render('cobros/new', { cobro, cpcs, cpcv, cpcc });
 
 };
 
@@ -209,9 +268,12 @@ exports.create = async (req, res, next) => {
 
   if (cobro === '1') {
   cpc = models.Cobroservbus.build({ monto, fecha, servbusId, cajaId });
-} else {
+} else if (cobro === '2') {
   const ventId = servbusId;
   cpc = models.Cobrovent.build({ monto, fecha, ventId, cajaId });
+} else if (cobro === '3') {
+  const cpcId = servbusId;
+  cpc = models.Cobrocpc.build({ monto, fecha, cpcId, cajaId });
 }
 
   try {
@@ -263,7 +325,7 @@ exports.destroy = async (req, res, next) => {
 
     try {
         await req.load.cobro.destroy();
-        req.flash('success', 'Cobro Eliminada Exitosamente.');
+        req.flash('success', 'Cobro Eliminado Exitosamente.');
         res.redirect("/cajas/" + caja.id + "/cobros");
     } catch (error) {
         next(error);
@@ -276,7 +338,20 @@ exports.destroyv = async (req, res, next) => {
 
     try {
         await req.load.cobro.destroy();
-        req.flash('success', 'Cobro Eliminada Exitosamente.');
+        req.flash('success', 'Cobro Eliminado Exitosamente.');
+        res.redirect("/cajas/" + caja.id + "/cobros");
+    } catch (error) {
+        next(error);
+    }
+  }
+
+  // DELETE /cobros/c/:cobrocId
+exports.destroyc = async (req, res, next) => {
+   const { caja } = req.load;
+
+    try {
+        await req.load.cobro.destroy();
+        req.flash('success', 'Cobro Eliminado Exitosamente.');
         res.redirect("/cajas/" + caja.id + "/cobros");
     } catch (error) {
         next(error);

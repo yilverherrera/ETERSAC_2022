@@ -19,6 +19,10 @@
                 <% cpc = cpcv[i]; %>
             <option value="<%= cpc.id+'T'+2 %>" cpc.id === cobro.cpcId ? "checked" : ""><%= cpc.codigo %>-<%= cpc.placa %> <%= cpc.nombre.toUpperCase() %> <%= cpc.apellido.toUpperCase() %> FECHA:<%= cpc.fecha %> <%= cpc.producto %> CPC:<%= cpc.cpc %> ABONADO:<%= cpc.total %></option>
             <% } %>
+             <% for (var i in cpcc) { %>
+                <% cpc = cpcc[i]; %>
+            <option value="<%= cpc.id+'T'+3 %>" cpc.id === cobro.cpcId ? "checked" : ""><%= cpc.nombre %> <%= cpc.apellido %> FECHA:<%= cpc.fecha %> <%= cpc.observaciones %> CPC:<%= cpc.monto %> ABONADO:<%= cpc.total %></option>
+            <% } %>
         </select>
     </div>
    

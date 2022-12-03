@@ -140,6 +140,12 @@ const Retiro = sequelize.import(path.join(__dirname,'retiro'));
 // Import the definition of the Destino Table from destino.js
 const Destino = sequelize.import(path.join(__dirname,'destino'));
 
+// Import the definition of the Destino Table from destino.js
+const Cpc = sequelize.import(path.join(__dirname,'cpc'));
+
+// Import the definition of the Destino Table from destino.js
+const Cobrocpc = sequelize.import(path.join(__dirname,'cobrocpc'));
+
 // Relation 1-to-N between Empresa and Rout:
 Empresa.hasMany(Rout, {as: 'routs', foreignKey: 'empresaId'});
 Rout.belongsTo(Empresa, {as: 'pertEmpRou', foreignKey: 'empresaId'});
@@ -387,6 +393,18 @@ Retiro.belongsTo(Caja, {as: 'pertCajRet', foreignKey: 'cajaId'});
 // Relation 1-to-N between Empleado and Retiro
 Empleado.hasMany(Retiro, {as: 'retiros', foreignKey: 'empleadoId'});
 Retiro.belongsTo(Empleado, {as: 'pertEmpRet', foreignKey: 'empleadoId'});
+
+// Relation 1-to-N between Empleado and Retiro
+Operador.hasMany(Cpc, {as: 'operadors', foreignKey: 'operadorId'});
+Cpc.belongsTo(Operador, {as: 'pertOpeCpc', foreignKey: 'operadorId'});
+
+// Relation 1-to-N between Empleado and Retiro
+Cpc.hasMany(Cobrocpc, {as: 'cobrocpc', foreignKey: 'cpcId'});
+Cobrocpc.belongsTo(Cpc, {as: 'pertCpcCob', foreignKey: 'cpcId'});
+
+// Relation 1-to-N between Empleado and Retiro
+Caja.hasMany(Cobrocpc, {as: 'cajascpc', foreignKey: 'cajaId'});
+Cobrocpc.belongsTo(Caja, {as: 'pertCajCobc', foreignKey: 'cajaId'});
 
 // Relation N-to-N between Unidad and Grupo:
 Unidad.belongsToMany(Grupo, {

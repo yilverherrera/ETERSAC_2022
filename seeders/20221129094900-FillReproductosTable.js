@@ -5452,6 +5452,13 @@ module.exports = {
     
 },
 {
+    "id": "779",
+    "nombre": "OTRO",
+    "unidad": "",
+    createdAt: now, updatedAt: now,
+    
+},
+{
     "id": "1112",
     "nombre": "BOCINA AUTOMOTRICES 10X",
     "unidad": "UNIDAD",

@@ -799,7 +799,7 @@ const createDomGroup = (data, grupo) => {
           if (vlta){
             vltas += vlta.vlta;
             liq += vlta.efectivo;
-            row += `<div class="col-1 cursorpointer showDetalle" style=" background-color:${vlta.color};" data-autor="${vlta.autor}" data-banco="${vlta.banco}" data-cpc="${vlta.cpc}" data-falla="${vlta.falla}" data-siniestro="${vlta.siniestro}" data-autoridad="${vlta.autoridad}" data-operador="${vlta.nombre} ${vlta.apellido}">
+            row += `<div class="col-1 cursorpointer showDetalle" style=" background-color:${vlta.color};" data-autor="${vlta.autor}" data-banco="${vlta.banco}" data-cpc="${vlta.cpc}" data-falla="${vlta.falla}" data-siniestro="${vlta.siniestro}" data-autoridad="${vlta.autoridad}" data-operador="${vlta.nombre} ${vlta.apellido}" data-fecha="${vlta.fechaCaja}">
             ${vlta.efectivo}
             </div>`
           } else {
@@ -848,7 +848,7 @@ const createDomGroup = (data, grupo) => {
       <b>${d2Grupo.toFixed(2)}</b>
       </div>
       <div class="col-mm">
-      <b>${anticipoGrupo}</b>
+      <b>${anticipoGrupo.toFixed(2)}</b>
       </div>
       <div class="col-mm">
       <b></b>
@@ -916,6 +916,7 @@ const showDetalleContr = (ev) => {
   const siniestro = ev.target.getAttribute("data-siniestro");
   const autoridad = ev.target.getAttribute("data-autoridad");
   const operador = ev.target.getAttribute("data-operador");
+  const fecha = ev.target.getAttribute("data-fecha");
 
   overlay_content.innerHTML += `<div class="row">
   <div class="coll-3">
@@ -1000,6 +1001,17 @@ const showDetalleContr = (ev) => {
   </div>
   <div class="col-6">
   Operador: <b>${operador}</b>
+  </div>
+  <div class="coll-3">
+
+  </div>
+  </div>`;
+  overlay_content.innerHTML += `<div class="row">
+  <div class="coll-3">
+
+  </div>
+  <div class="col-6">
+  Fecha de Caja: <b>${fecha}</b>
   </div>
   <div class="coll-3">
 

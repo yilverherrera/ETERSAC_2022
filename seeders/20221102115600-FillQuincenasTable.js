@@ -929,6 +929,30 @@ module.exports = {
             createdAt: new Date(), 
             updatedAt: new Date(),
             isCreate: true,
+        },
+        {
+            id: 78,
+            desde: "2022-11-01",
+            hasta: "2022-11-15",
+            year: "2022",
+            semana: "2",
+            nSem: 2,
+            nDias: 13,
+            createdAt: new Date(), 
+            updatedAt: new Date(),
+            isCreate: true,
+        },
+        {
+            id: 79,
+            desde: "2022-11-16",
+            hasta: "2022-11-30",
+            year: "2022",
+            semana: "2",
+            nSem: 2,
+            nDias: 13,
+            createdAt: new Date(), 
+            updatedAt: new Date(),
+            isCreate: true,
         }
         ]);
 
